@@ -3,4 +3,5 @@ ParameterizedFunctions
 OrdinaryDiffEq
 StochasticDiffEq
 FiniteElementDiffEq
+AlgebraicDiffEq
 JLD
