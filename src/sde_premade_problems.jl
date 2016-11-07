@@ -2,15 +2,15 @@
 
 f = (t,u) -> 1.01*u
 σ = (t,u) -> 0.87*u
-analytic = (t,u₀,W) -> u₀.*exp.(0.63155*t+0.87*W)
+analytic = (t,u0,W) -> u0.*exp.(0.63155*t+0.87*W)
 """
 ```math
 du_t = βudt + αudW_t
 ```
-where β=1.01, α=0.87, and initial condtion u₀=1/2, with solution
+where β=1.01, α=0.87, and initial condtion u0=1/2, with solution
 
 ```math
-u(t,u₀,W_t)=u₀\\exp((α-\\frac{β^2}{2})t+βW_t)
+u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 
 """
@@ -32,10 +32,10 @@ end
 ```math
 du_t = βudt + αudW_t
 ```
-where β=1.01, α=0.87, and initial condtion u₀=1/2 with solution
+where β=1.01, α=0.87, and initial condtion u0=1/2 with solution
 
 ```math
-u(t,u₀,W_t)=u₀\\exp((α-\\frac{β^2}{2})t+βW_t)
+u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 """
 prob_sde_2Dlinear = SDEProblem(f,σ,ones(4,2)/2,analytic=analytic)
@@ -43,32 +43,32 @@ prob_sde_2Dlinear = SDEProblem(f,σ,ones(4,2)/2,analytic=analytic)
 
 f = (t,u) -> -.25*u*(1-u^2)
 σ = (t,u) -> .5*(1-u^2)
-analytic = (t,u₀,W) -> ((1+u₀).*exp.(W)+u₀-1)./((1+u₀).*exp.(W)+1-u₀)
+analytic = (t,u0,W) -> ((1+u0).*exp.(W)+u0-1)./((1+u0).*exp.(W)+1-u0)
 """
 ```math
 du_t = \\frac{1}{4}u(1-u^2)dt + \\frac{1}{2}(1-u^2)dW_t
 ```
 
-and initial condtion u₀=1/2, with solution
+and initial condtion u0=1/2, with solution
 
 ```math
-u(t,u₀,W_t)=\\frac{(1+u₀)\\exp(W_t)+u₀-1}{(1+u₀)\\exp(W_t)+1-u₀}
+u(t,u0,W_t)=\\frac{(1+u0)\\exp(W_t)+u0-1}{(1+u0)\\exp(W_t)+1-u0}
 ```
 """
 prob_sde_cubic = SDEProblem(f,σ,1/2,analytic=analytic)
 
 f = (t,u) -> -0.01*sin.(u).*cos.(u).^3
 σ = (t,u) -> 0.1*cos.(u).^2
-analytic = (t,u₀,W) -> atan.(0.1*W + tan.(u₀))
+analytic = (t,u0,W) -> atan.(0.1*W + tan.(u0))
 """
 ```math
 du_t = -\\frac{1}{100}\sin(u)\cos^3(u)dt + \\frac{1}{10}\cos^{2}(u_t) dW_t
 ```
 
-and initial condition `u₀=1.0` with solution
+and initial condition `u0=1.0` with solution
 
 ```math
-u(t,u₀,W_t)=\\arctan(\\frac{W_t}{10} + \\tan(u₀))
+u(t,u0,W_t)=\\arctan(\\frac{W_t}{10} + \\tan(u0))
 ```
 """
 prob_sde_wave = SDEProblem(f,σ,1.,analytic=analytic)
@@ -77,7 +77,7 @@ const sde_wave_α = 0.1
 const sde_wave_β = 0.05
 f = (t,u) -> sde_wave_β./sqrt.(1+t) - u./(2*(1+t))
 σ = (t,u) -> sde_wave_α*sde_wave_β./sqrt.(1+t)
-analytic = (t,u₀,W) -> u₀./sqrt.(1+t) + sde_wave_β*(t+sde_wave_α*W)./sqrt.(1+t)
+analytic = (t,u0,W) -> u0./sqrt.(1+t) + sde_wave_β*(t+sde_wave_α*W)./sqrt.(1+t)
 
 """
 Additive noise problem
@@ -86,10 +86,10 @@ Additive noise problem
 u_t = (\\frac{β}{\\sqrt{1+t}}-\\frac{1}{2(1+t)}u_t)dt + \\frac{αβ}{\\sqrt{1+t}}dW_t
 ```
 
-and initial condition u₀=1.0 with α=0.1 and β=0.05, with solution
+and initial condition u0=1.0 with α=0.1 and β=0.05, with solution
 
 ```math
-u(t,u₀,W_t)=\\frac{u₀}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
+u(t,u0,W_t)=\\frac{u0}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
 ```
 """
 prob_sde_additive = SDEProblem(f,σ,1.,analytic=analytic)
@@ -107,7 +107,7 @@ end
     du[i] = sde_wave_αvec[i]*sde_wave_βvec[i]/sqrt(1+t)
   end
 end
-analytic = (t,u₀,W) -> u₀./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
+analytic = (t,u0,W) -> u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
 
 """
 A multiple dimension extension of `additiveSDEExample`
@@ -133,7 +133,7 @@ dz &= (x*y - β*z)dt + αdW_t \\\\
 \\end{align}
 ```
 
-with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u₀=[1;1;1]``.
+with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u0=[1;1;1]``.
 """
 prob_sde_lorenz = SDEProblem(f,σ,ones(3))
 
@@ -278,10 +278,10 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
     σ = σ2
   end
 
-  u₀ = [0.128483;1.256853;0.0030203;0.0027977;0.0101511;0.0422942;0.2391346;0.0008014;0.0001464;2.67e-05;4.8e-6;9e-7;0.0619917;1.2444292;0.0486676;199.9383546;137.4267984;1.5180203;1.5180203] #Fig 9B
+  u0 = [0.128483;1.256853;0.0030203;0.0027977;0.0101511;0.0422942;0.2391346;0.0008014;0.0001464;2.67e-05;4.8e-6;9e-7;0.0619917;1.2444292;0.0486676;199.9383546;137.4267984;1.5180203;1.5180203] #Fig 9B
   if useBigs
-    u₀ = big(u₀)
+    u0 = big(u0)
   end
-  #u₀ =  [0.1701;1.6758;0.0027;0.0025;0.0141;0.0811;0.1642;0.0009;0.0001;0.0000;0.0000;0.0000;0.0697;1.2586;0.0478;194.2496;140.0758;1.5407;1.5407] #Fig 9A
-  return(SDEProblem(f,σ,u₀))
+  #u0 =  [0.1701;1.6758;0.0027;0.0025;0.0141;0.0811;0.1642;0.0009;0.0001;0.0000;0.0000;0.0000;0.0697;1.2586;0.0478;194.2496;140.0758;1.5407;1.5407] #Fig 9A
+  return(SDEProblem(f,σ,u0))
 end

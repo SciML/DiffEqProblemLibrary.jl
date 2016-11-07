@@ -4,7 +4,7 @@ srand(100)
 
 # Linear ODE
 linear = (t,u) -> (1.01*u)
-analytic_linear = (t,u₀) -> u₀*exp(1.01*t)
+analytic_linear = (t,u0) -> u0*exp(1.01*t)
 """
 Linear ODE
 
@@ -12,10 +12,10 @@ Linear ODE
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u₀=1/2``, ``α=1.01``, and solution
+with initial condition ``u0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u₀e^{αt}
+u(t) = u0e^{αt}
 ```
 
 with Float64s
@@ -24,7 +24,7 @@ prob_ode_linear = ODEProblem(linear,1/2,analytic=analytic_linear)
 
 const linear_bigα = parse(BigFloat,"1.01")
 f_linearbig = (t,u) -> (linear_bigα*u)
-analytic_linearbig = (t,u₀) -> u₀*exp(linear_bigα*t)
+analytic_linearbig = (t,u0) -> u0*exp(linear_bigα*t)
 """
 Linear ODE
 
@@ -32,10 +32,10 @@ Linear ODE
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u₀=1/2``, ``α=1.01``, and solution
+with initial condition ``u0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u₀e^{αt}
+u(t) = u0e^{αt}
 ```
 
 with BigFloats
@@ -47,7 +47,7 @@ f_2dlinear = (t,u,du) -> begin
     du[i] = 1.01*u[i]
   end
 end
-analytic_2dlinear = (t,u₀) -> u₀*exp.(1.01*t)
+analytic_2dlinear = (t,u0) -> u0*exp.(1.01*t)
 """
 4x2 version of the Linear ODE
 
@@ -55,10 +55,10 @@ analytic_2dlinear = (t,u₀) -> u₀*exp.(1.01*t)
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u₀=1/2``, ``α=1.01``, and solution
+with initial condition ``u0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u₀e^{αt}
+u(t) = u0e^{αt}
 ```
 
 with Float64s
@@ -72,10 +72,10 @@ prob_ode_2Dlinear = ODEProblem(f_2dlinear,rand(4,2),analytic=analytic_2dlinear)
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u₀=1/2``, ``α=1.01``, and solution
+with initial condition ``u0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u₀e^{αt}
+u(t) = u0e^{αt}
 ```
 
 with Float64s
@@ -94,10 +94,10 @@ end
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u₀=1/2``, ``α=1.01``, and solution
+with initial condition ``u0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u₀e^{αt}
+u(t) = u0e^{αt}
 ```
 
 with BigFloats
@@ -111,10 +111,10 @@ f_2dlinear_notinplace = (t,u) -> 1.01*u
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u₀=1/2``, ``α=1.01``, and solution
+with initial condition ``u0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u₀e^{αt}
+u(t) = u0e^{αt}
 ```
 
 on Float64. Purposefully not in-place as a test.
@@ -175,7 +175,7 @@ Van der Pol Equations
 \\end{align}
 ```
 
-with ``μ=1.0`` and ``u₀=[0,\\sqrt{3}]``
+with ``μ=1.0`` and ``u0=[0,\\sqrt{3}]``
 
 Non-stiff parameters.
 """
@@ -191,7 +191,7 @@ van_stiff = VanDerPol(μ=1e6)
 \\end{align}
 ```
 
-with ``μ=10^6`` and ``u₀=[0,\\sqrt{3}]``
+with ``μ=10^6`` and ``u0=[0,\\sqrt{3}]``
 
 Stiff parameters.
 """
@@ -222,7 +222,7 @@ Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff Proble
 
 Usually solved on `[0,1e11]`
 """
-prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0])
+prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0],[0,1e11])
 
 # Three Body
 const threebody_μ = parse(BigFloat,"0.012277471"); const threebody_μ′ = 1 - threebody_μ
@@ -258,7 +258,7 @@ From Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff P
 Usually solved on `t₀ = 0.0`; `T = parse(BigFloat,"17.0652165601579625588917206249")`
 Periodic with that setup.
 """
-prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, parse(BigFloat,"-2.00158510637908252240537862224")])
+prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, parse(BigFloat,"-2.00158510637908252240537862224")],[0.0;parse(BigFloat,"17.0652165601579625588917206249")])
 
 # Rigid Body Equations
 
@@ -289,7 +289,7 @@ or Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff Pro
 
 Usually solved from 0 to 20.
 """
-prob_ode_rigidbody = ODEProblem(rigid,[1.0,0.0,0.9])
+prob_ode_rigidbody = ODEProblem(rigid,[1.0,0.0,0.9],[0;20])
 
 # Pleiades Problem
 
@@ -363,4 +363,4 @@ From Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff P
 
 Usually solved from 0 to 3.
 """
-prob_ode_pleides = ODEProblem(pleides,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0,2.0,0,0,-4.0,4.0,0,0,0,0,0,1.75,-1.5,0,0,0,-1.25,1,0,0])
+prob_ode_pleides = ODEProblem(pleides,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0,2.0,0,0,-4.0,4.0,0,0,0,0,0,1.75,-1.5,0,0,0,-1.25,1,0,0],[0;3])
