@@ -20,7 +20,7 @@ u(t) = u0e^{αt}
 
 with Float64s
 """
-prob_ode_linear = ODEProblem(linear,1/2,analytic=analytic_linear)
+prob_ode_linear = ODETestProblem(linear,1/2,analytic_linear)
 
 const linear_bigα = parse(BigFloat,"1.01")
 f_linearbig = (t,u) -> (linear_bigα*u)
@@ -40,7 +40,7 @@ u(t) = u0e^{αt}
 
 with BigFloats
 """
-prob_ode_bigfloatlinear = ODEProblem(f_linearbig,parse(BigFloat,"0.5"),analytic=analytic_linearbig)
+prob_ode_bigfloatlinear = ODETestProblem(f_linearbig,parse(BigFloat,"0.5"),analytic_linearbig)
 
 f_2dlinear = (t,u,du) -> begin
   for i in 1:length(u)
@@ -63,7 +63,7 @@ u(t) = u0e^{αt}
 
 with Float64s
 """
-prob_ode_2Dlinear = ODEProblem(f_2dlinear,rand(4,2),analytic=analytic_2dlinear)
+prob_ode_2Dlinear = ODETestProblem(f_2dlinear,rand(4,2),analytic_2dlinear)
 
 """
 100x100 version of the Linear ODE
@@ -80,7 +80,7 @@ u(t) = u0e^{αt}
 
 with Float64s
 """
-prob_ode_large2Dlinear = ODEProblem(f_2dlinear,rand(100,100),analytic=analytic_2dlinear)
+prob_ode_large2Dlinear = ODETestProblem(f_2dlinear,rand(100,100),analytic_2dlinear)
 
 f_2dlinearbig = (t,u,du) -> begin
   for i in 1:length(u)
@@ -102,7 +102,7 @@ u(t) = u0e^{αt}
 
 with BigFloats
 """
-prob_ode_bigfloat2Dlinear = ODEProblem(f_2dlinearbig,map(BigFloat,rand(4,2)).*ones(4,2)/2,analytic=analytic_2dlinear)
+prob_ode_bigfloat2Dlinear = ODETestProblem(f_2dlinearbig,map(BigFloat,rand(4,2)).*ones(4,2)/2,analytic_2dlinear)
 f_2dlinear_notinplace = (t,u) -> 1.01*u
 """
 4x2 version of the Linear ODE
@@ -119,7 +119,7 @@ u(t) = u0e^{αt}
 
 on Float64. Purposefully not in-place as a test.
 """
-prob_ode_2Dlinear_notinplace = ODEProblem(f_2dlinear_notinplace,rand(4,2),analytic=analytic_2dlinear)
+prob_ode_2Dlinear_notinplace = ODETestProblem(f_2dlinear_notinplace,rand(4,2),analytic_2dlinear)
 
 ## Lotka-Volterra
 
@@ -139,7 +139,7 @@ Lotka-Voltera Equations
 
 with initial condition ``x=y=1``
 """
-prb_ode_lotkavoltera = ODEProblem(lotka,[1;1])
+prb_ode_lotkavoltera = ODEProblem(lotka,[1;1],[0;1.0])
 
 ## Fitzhugh-Nagumo
 
@@ -157,7 +157,7 @@ Fitzhugh-Nagumo
 
 with initial condition ``v=w=1``
 """
-prob_ode_fitzhughnagumo = ODEProblem(fitz,[1;1])
+prob_ode_fitzhughnagumo = ODEProblem(fitz,[1;1],[0;1.0])
 
 #Van der Pol Equations
 van = @ode_def_noinvhes VanDerPol begin
@@ -179,7 +179,7 @@ with ``μ=1.0`` and ``u0=[0,\\sqrt{3}]``
 
 Non-stiff parameters.
 """
-prob_ode_vanderpol = ODEProblem(van,[0;sqrt(3)])
+prob_ode_vanderpol = ODEProblem(van,[0;sqrt(3)],[0;1.0])
 
 van_stiff = VanDerPol(μ=1e6)
 """Van der Pol Equations
@@ -195,7 +195,7 @@ with ``μ=10^6`` and ``u0=[0,\\sqrt{3}]``
 
 Stiff parameters.
 """
-prob_ode_vanderpol_stiff = ODEProblem(van_stiff,[0;sqrt(3)])
+prob_ode_vanderpol_stiff = ODEProblem(van_stiff,[0;sqrt(3)],[0;1.0])
 
 # ROBER
 

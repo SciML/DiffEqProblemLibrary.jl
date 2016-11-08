@@ -1,6 +1,6 @@
 julia 0.5
 ParameterizedFunctions 0.2.0
-OrdinaryDiffEq
+DiffEqBase
 StochasticDiffEq
 FiniteElementDiffEq
 AlgebraicDiffEq

@@ -1,8 +1,8 @@
 module DiffEqProblemLibrary
 
-using OrdinaryDiffEq, StochasticDiffEq, ParameterizedFunctions,
+using DiffEqBase, StochasticDiffEq, ParameterizedFunctions,
       FiniteElementDiffEq, AlgebraicDiffEq, JLD
-      
+
 include("ode_premade_problems.jl")
 include("dae_premade_problems.jl")
 include("sde_premade_problems.jl")
