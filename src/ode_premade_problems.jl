@@ -139,7 +139,7 @@ Lotka-Voltera Equations
 
 with initial condition ``x=y=1``
 """
-prb_ode_lotkavoltera = ODEProblem(lotka,[1;1],[0;1.0])
+prb_ode_lotkavoltera = ODEProblem(lotka,[1;1],(0.0,1.0))
 
 ## Fitzhugh-Nagumo
 
@@ -157,7 +157,7 @@ Fitzhugh-Nagumo
 
 with initial condition ``v=w=1``
 """
-prob_ode_fitzhughnagumo = ODEProblem(fitz,[1;1],[0;1.0])
+prob_ode_fitzhughnagumo = ODEProblem(fitz,[1;1],(0.0,1.0))
 
 #Van der Pol Equations
 van = @ode_def_noinvhes VanDerPol begin
@@ -179,7 +179,7 @@ with ``μ=1.0`` and ``u0=[0,\\sqrt{3}]``
 
 Non-stiff parameters.
 """
-prob_ode_vanderpol = ODEProblem(van,[0;sqrt(3)],[0;1.0])
+prob_ode_vanderpol = ODEProblem(van,[0;sqrt(3)],(0.0,1.0))
 
 van_stiff = VanDerPol(μ=1e6)
 """Van der Pol Equations
@@ -195,7 +195,7 @@ with ``μ=10^6`` and ``u0=[0,\\sqrt{3}]``
 
 Stiff parameters.
 """
-prob_ode_vanderpol_stiff = ODEProblem(van_stiff,[0;sqrt(3)],[0;1.0])
+prob_ode_vanderpol_stiff = ODEProblem(van_stiff,[0;sqrt(3)],(0.0,1.0))
 
 # ROBER
 
@@ -222,7 +222,7 @@ Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff Proble
 
 Usually solved on `[0,1e11]`
 """
-prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0],[0,1e11])
+prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0],(0.0,1e11))
 
 # Three Body
 const threebody_μ = parse(BigFloat,"0.012277471"); const threebody_μ′ = 1 - threebody_μ
@@ -258,7 +258,7 @@ From Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff P
 Usually solved on `t₀ = 0.0`; `T = parse(BigFloat,"17.0652165601579625588917206249")`
 Periodic with that setup.
 """
-prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, parse(BigFloat,"-2.00158510637908252240537862224")],[0.0;parse(BigFloat,"17.0652165601579625588917206249")])
+prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, parse(BigFloat,"-2.00158510637908252240537862224")],(parse(BigFloat,"0.0"),parse(BigFloat,"17.0652165601579625588917206249")))
 
 # Rigid Body Equations
 
@@ -289,7 +289,7 @@ or Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff Pro
 
 Usually solved from 0 to 20.
 """
-prob_ode_rigidbody = ODEProblem(rigid,[1.0,0.0,0.9],[0;20])
+prob_ode_rigidbody = ODEProblem(rigid,[1.0,0.0,0.9],(0.0,20.0))
 
 # Pleiades Problem
 
@@ -363,4 +363,4 @@ From Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff P
 
 Usually solved from 0 to 3.
 """
-prob_ode_pleides = ODEProblem(pleides,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0,2.0,0,0,-4.0,4.0,0,0,0,0,0,1.75,-1.5,0,0,0,-1.25,1,0,0],[0;3])
+prob_ode_pleides = ODEProblem(pleides,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0,2.0,0,0,-4.0,4.0,0,0,0,0,0,1.75,-1.5,0,0,0,-1.25,1,0,0],(0.0,3.0))
