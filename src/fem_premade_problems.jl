@@ -34,43 +34,43 @@ prob_femheat_diffuse = HeatProblem(analytic_diffuse,Du,f)
 
 
 f = (t,x)  -> zeros(size(x,1))
-u₀ = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0,1)^2
+u0 = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0,1)^2
 """
 Example problem which starts with a Dirac δ cenetered at (0.5,0.5) and solves with ``f=gD=0``.
 This gives the Green's function solution.
 """
-prob_femheat_pure = HeatProblem(u₀,f)
+prob_femheat_pure = HeatProblem(u0,f)
 
 
 f = (t,x,u) -> ones(size(x,1)) - .5u
-u₀ = (x) -> zeros(size(x,1))
+u0 = (x) -> zeros(size(x,1))
 """
 Homogenous reaction-diffusion problem which starts with 0 and solves with ``f(u)=1-u/2``
 """
-prob_femheat_birthdeath = HeatProblem(u₀,f)
+prob_femheat_birthdeath = HeatProblem(u0,f)
 
 
 f = (t,x,u)  -> [ones(size(x,1))-.5u[:,1]   ones(size(x,1))-u[:,2]]
-u₀ = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
+u0 = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
 """
 Homogenous reaction-diffusion which starts at 1/2 and solves the system ``f(u)=1-u/2`` and ``f(v)=1-v``
 """
-prob_femheat_birthdeathsystem = HeatProblem(u₀,f)
+prob_femheat_birthdeathsystem = HeatProblem(u0,f)
 
 f = (t,x,u)  -> [zeros(size(x,1))    zeros(size(x,1))]
-u₀ = (x) -> [float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6))]  # size (x,2), 2 meaning 2 variables
+u0 = (x) -> [float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6))]  # size (x,2), 2 meaning 2 variables
 """
 Example problem which solves the homogeneous Heat equation with all mass starting at (1/2,1/2) with two different diffusion constants,
 ``D₁=0.01`` and ``D₂=0.001``. Good animation test.
 """
-prob_femheat_diffusionconstants = HeatProblem(u₀,f,D=[.01 .001])
+prob_femheat_diffusionconstants = HeatProblem(u0,f,D=[.01 .001])
 
 f  = (t,x,u)  -> [ones(size(x,1))-.5u[:,1]     .5u[:,1]-u[:,2]]
-u₀ = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
+u0 = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
 """
 Homogenous reaction-diffusion which starts with 1/2 and solves the system ``f(u)=1-u/2`` and ``f(v)=.5u-v``
 """
-prob_femheat_birthdeathinteractingsystem = HeatProblem(u₀,f)
+prob_femheat_birthdeathinteractingsystem = HeatProblem(u0,f)
 
 """
 `heatProblemExample_grayscott(;ρ=.03,k=.062,D=[1e-3 .5e-3])`
@@ -89,9 +89,9 @@ function heatProblemExample_grayscott(;ρ=.03,k=.062,D=[1e-3 .5e-3])
   f₁(t,x,u)  = u[:,1].*u[:,2].*u[:,2] + ρ*(1-u[:,2])
   f₂(t,x,u)  = u[:,1].*u[:,2].*u[:,2] -(ρ+k).*u[:,2]
   f(t,x,u) = [f₁(t,x,u) f₂(t,x,u)]
-  u₀(x) = [ones(size(x,1))+rand(size(x,1)) .25.*float(((.2.<x[:,1].<.6) &
+  u0(x) = [ones(size(x,1))+rand(size(x,1)) .25.*float(((.2.<x[:,1].<.6) &
           (.2.<x[:,2].<.6)) | ((.85.<x[:,1]) & (.85.<x[:,2])))] # size (x,2), 2 meaning 2 variables
-  return(HeatProblem(u₀,f,D=D))
+  return(HeatProblem(u0,f,D=D))
 end
 
 """
@@ -124,18 +124,18 @@ function heatProblemExample_gierermeinhardt(;a=1,α=1,D=[0.01 1.0],ubar=1,vbar=0
   f(t,x,u) = [f₁(t,x,u) f₂(t,x,u)]
   uss = (ubar +β)/α
   vss = (α/β)*uss.^2
-  u₀(x) = [uss*ones(size(x,1))+startNoise*rand(size(x,1)) vss*ones(size(x,1))] # size (x,2), 2 meaning 2 variables
-  return(HeatProblem(u₀,f,D=D))
+  u0(x) = [uss*ones(size(x,1))+startNoise*rand(size(x,1)) vss*ones(size(x,1))] # size (x,2), 2 meaning 2 variables
+  return(HeatProblem(u0,f,D=D))
 end
 
 f = (t,x,u)  -> ones(size(x,1)) - .5u
-u₀ = (x) -> zeros(size(x,1))
+u0 = (x) -> zeros(size(x,1))
 σ = (t,x,u) -> 1u.^2
 """
 Homogenous stochastic reaction-diffusion problem which starts with 0
 and solves with ``f(u)=1-u/2`` with noise ``σ(u)=10u^2``
 """
-prob_femheat_stochasticbirthdeath = HeatProblem(u₀,f,σ=σ)
+prob_femheat_stochasticbirthdeath = HeatProblem(u0,f,σ=σ)
 
 ## Poisson
 
@@ -163,21 +163,21 @@ with the same ``f``.
 prob_poisson_birthdeath = PoissonProblem(f,numvars=1)
 
 f  = (x,u) -> [ones(size(x,1))-.5u[:,1]     ones(size(x,1))-u[:,2]]
-u₀ = (x) -> .5*ones(size(x,1),2) # size (x,2), 2 meaning 2 variables
+u0 = (x) -> .5*ones(size(x,1),2) # size (x,2), 2 meaning 2 variables
 
 """
 Nonlinear Poisson equation with ``f(u)=1-u/2`` and ``f(v)=1-v`` and initial
 condition homogenous 1/2. Corresponds to the steady state of a humogenous
 reaction-diffusion equation with the same ``f``.
 """
-prob_poisson_birthdeathsystem = PoissonProblem(f,u₀=u₀)
+prob_poisson_birthdeathsystem = PoissonProblem(f,u0=u0)
 
 f  = (x,u) -> [ones(size(x,1))-.5u[:,1]     .5u[:,1]-u[:,2]]
-u₀ = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
+u0 = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
 
 """
 Nonlinear Poisson equation with ``f(u)=1-u/2`` and ``f(v)=.5u-v`` and initial
 condition homogenous 1/2. Corresponds to the steady state of a humogenous
 reaction-diffusion equation with the same ``f``.
 """
-prob_poisson_birthdeathinteractingsystem = PoissonProblem(f,u₀=u₀)
+prob_poisson_birthdeathinteractingsystem = PoissonProblem(f,u0=u0)

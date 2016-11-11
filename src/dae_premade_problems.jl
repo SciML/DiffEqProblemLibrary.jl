@@ -6,7 +6,7 @@ f = function (tres, y, yp, r)
     r[1] -=  yp[1]
     r[3]  =  y[1] + y[2] + y[3] - 1.0
 end
-u₀ = [1.0, 0, 0]
-du₀ = [-0.04, 0.04, 0.0]
+u0 = [1.0, 0, 0]
+du0 = [-0.04, 0.04, 0.0]
 "DAE residual form for the Robertson model"
-prob_dae_resrob = DAEProblem(f,u₀,du₀)
+prob_dae_resrob = DAEProblem(f,u0,du0)
