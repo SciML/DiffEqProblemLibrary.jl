@@ -14,7 +14,7 @@ u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 
 """
-prob_sde_linear = SDEProblem(f,σ,1/2,analytic=analytic)
+prob_sde_linear = SDETestProblem(f,σ,1/2,analytic)
 
 f = (t,u,du) -> begin
   for i = 1:length(u)
@@ -38,7 +38,7 @@ where β=1.01, α=0.87, and initial condtion u0=1/2 with solution
 u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 """
-prob_sde_2Dlinear = SDEProblem(f,σ,ones(4,2)/2,analytic=analytic)
+prob_sde_2Dlinear = SDETestProblem(f,σ,ones(4,2)/2,analytic)
 
 
 f = (t,u) -> -.25*u*(1-u^2)
@@ -55,7 +55,7 @@ and initial condtion u0=1/2, with solution
 u(t,u0,W_t)=\\frac{(1+u0)\\exp(W_t)+u0-1}{(1+u0)\\exp(W_t)+1-u0}
 ```
 """
-prob_sde_cubic = SDEProblem(f,σ,1/2,analytic=analytic)
+prob_sde_cubic = SDETestProblem(f,σ,1/2,analytic)
 
 f = (t,u) -> -0.01*sin.(u).*cos.(u).^3
 σ = (t,u) -> 0.1*cos.(u).^2
@@ -71,7 +71,7 @@ and initial condition `u0=1.0` with solution
 u(t,u0,W_t)=\\arctan(\\frac{W_t}{10} + \\tan(u0))
 ```
 """
-prob_sde_wave = SDEProblem(f,σ,1.,analytic=analytic)
+prob_sde_wave = SDETestProblem(f,σ,1.,analytic)
 
 const sde_wave_α = 0.1
 const sde_wave_β = 0.05
@@ -92,7 +92,7 @@ and initial condition u0=1.0 with α=0.1 and β=0.05, with solution
 u(t,u0,W_t)=\\frac{u0}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
 ```
 """
-prob_sde_additive = SDEProblem(f,σ,1.,analytic=analytic)
+prob_sde_additive = SDETestProblem(f,σ,1.,analytic)
 
 const sde_wave_αvec = [0.1;0.1;0.1;0.1]
 const sde_wave_βvec = [0.5;0.25;0.125;0.1115]
@@ -113,7 +113,7 @@ analytic = (t,u0,W) -> u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sq
 A multiple dimension extension of `additiveSDEExample`
 
 """
-prob_sde_additivesystem = SDEProblem(f,σ,[1.;1.;1.;1.],analytic=analytic)
+prob_sde_additivesystem = SDETestProblem(f,σ,[1.;1.;1.;1.],analytic)
 
 f = @ode_def_nohes LorenzSDE begin
   dx = σ*(y-x)
@@ -135,7 +135,7 @@ dz &= (x*y - β*z)dt + αdW_t \\\\
 
 with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u0=[1;1;1]``.
 """
-prob_sde_lorenz = SDEProblem(f,σ,ones(3))
+prob_sde_lorenz = SDEProblem(f,σ,ones(3),(0.0,10.0))
 
 function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
   #Parameters
@@ -283,5 +283,5 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
     u0 = big(u0)
   end
   #u0 =  [0.1701;1.6758;0.0027;0.0025;0.0141;0.0811;0.1642;0.0009;0.0001;0.0000;0.0000;0.0000;0.0697;1.2586;0.0478;194.2496;140.0758;1.5407;1.5407] #Fig 9A
-  return(SDEProblem(f,σ,u0))
+  return(SDEProblem(f,σ,u0,(0.0,500.0)))
 end
