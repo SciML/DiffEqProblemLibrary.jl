@@ -121,7 +121,11 @@ f = @ode_def_nohes LorenzSDE begin
   dz = x*y - β*z
 end σ=>10. ρ=>28. β=>2.66
 
-σ = (t,u) -> 3.0 #Additive
+σ = (t,u,du) -> begin
+  for i in 1:3
+    du[i] = 3.0 #Additive
+  end
+end
 """
 Lorenz Attractor with additive noise
 
@@ -217,7 +221,7 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
   nSO=2.
   nzo=2.
   GE = 1.
-  function f(t,y,dy)
+  f = function (t,y,dy)
     # y(1) = snailt
     # y(2) = SNAIL
     # y(3) = miR34t
@@ -257,15 +261,14 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
     dy[17]=k_ncad0+k_ncad1*(((y[2]/J_ncad1))^2)/(((y[2]/J_ncad1))^2+1)+k_ncad2*(((y[6]/J_ncad2))^2)/(((y[6]/J_ncad2)^2+1)*(1+y[19]/J_ncad3))-kd_ncad*y[17]
     dy[18]=k0O+kO/(1+((y[6]/J_O))^nzo)-kdO*y[18]
     dy[19]=kOp*y[18]-kd_Op*y[19]
-    return(dy)
   end
 
-  function σ1(t,y,dσ)
+  σ1 = function (t,y,dσ)
     dσ[1] = noiseLevel*1.5y[1]
     dσ[18]= noiseLevel*6y[18]
   end
 
-  function σ2(t,y,dσ)
+  σ2 = function (t,y,dσ)
     dσ[1] = 0.02y[1]
     dσ[16]= 0.02y[16]
     dσ[18]= 0.2y[18]
@@ -283,5 +286,5 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
     u0 = big(u0)
   end
   #u0 =  [0.1701;1.6758;0.0027;0.0025;0.0141;0.0811;0.1642;0.0009;0.0001;0.0000;0.0000;0.0000;0.0697;1.2586;0.0478;194.2496;140.0758;1.5407;1.5407] #Fig 9A
-  return(SDEProblem(f,σ,u0,(0.0,500.0)))
+  SDEProblem(f,σ,u0,(0.0,500.0))
 end
