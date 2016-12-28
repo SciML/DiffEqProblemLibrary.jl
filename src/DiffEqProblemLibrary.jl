@@ -2,7 +2,7 @@ __precompile__(false)
 
 module DiffEqProblemLibrary
 
-using DiffEqBase, ParameterizedFunctions,
+using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase,
       FiniteElementDiffEq, AlgebraicDiffEq, JLD
 
 include("ode_premade_problems.jl")
@@ -31,7 +31,11 @@ export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
          prob_stokes_homogenous, prob_stokes_dirichletzero, prob_poisson_birthdeathsystem,
          prob_poisson_birthdeathinteractingsystem, prob_femheat_birthdeathinteractingsystem,
          prob_femheat_birthdeathsystem, prob_femheat_diffusionconstants,
-         heatProblemExample_grayscott,heatProblemExample_gierermeinhardt
+         heatProblemExample_grayscott,heatProblemExample_gierermeinhardt,
+         prob_femheat_stochasticbirthdeath_fast,prob_femheat_pure11,prob_femheat_moving7
+
+
+export   cs_fempoisson_wave,cs_femheat_moving_dt,cs_femheat_moving_dx, cs_femheat_moving_faster_dt
 
  #Example Meshes
  export  meshExample_bunny, meshExample_flowpastcylindermesh, meshExample_lakemesh,

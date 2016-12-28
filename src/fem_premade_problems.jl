@@ -6,6 +6,10 @@ f = (t,x) -> (-5).*exp.((-25).*((3/2)+6.*t.^2+x[:,1]+x[:,1].^2+x[:,2]+x[:,2].^2+
   x[:,2]))).*((-20)+(-100).*t.^2+(-49).*x[:,1]+(-50).*x[:,1].^2+(-49).*x[:,2]+(-50).*
   x[:,2].^2+2.*t.*(47+50.*x[:,1]+50.*x[:,2])+exp.(25.*(1+(-2).*t).^2).*(22+
   100.*t.^2+49.*x[:,1]+50.*x[:,1].^2+49.*x[:,2]+50.*x[:,2].^2+(-2).*t.*(49+50.*x[:,1]+50.*x[:,2])))
+T = 2
+dx = 1//2^(3)
+dt = 1//2^(9)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
 """
 Example problem defined by the solution:
 ```math
@@ -14,13 +18,45 @@ u(x,y,t)=\\frac{1}{10}(1-\\exp(-100(t-\\frac{1}{2})^2))\\exp(-25((x-t+0.5)^2 + (
 
 This will have a mound which moves across the screen. Good animation test.
 """
-prob_femheat_moving = HeatProblem(analytic_moving,Du,f)
+prob_femheat_moving = HeatProblem(analytic_moving,Du,f,fem_mesh)
 
+N = 2 #Number of different dt to solve at, 2 for test speed
+topdt = 6 # 1//2^(topdt-1) is the max dt. Small for test speed
+dts = 1.//2.^(topdt-1:-1:N)
+dxs = 1//2^(5) * ones(dts) #Run at 2^-7 for best plot
+probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],1,:dirichlet)) for i in eachindex(dts)]
+cs_femheat_moving_dt = ConvergenceSetup(probs,dts)
+dxs = 1//2^(4) * ones(dts) #Run at 2^-7 for best plot
+probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],1,:dirichlet)) for i in eachindex(dts)]
+cs_femheat_moving_faster_dt = ConvergenceSetup(probs,dts)
 
+#Not good plots, but quick for unit tests
+dxs = 1.//2.^(2:-1:1)
+dts = 1//2^(6) * ones(dxs) #Run at 2^-7 for best plot
+probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],1,:dirichlet)) for i in eachindex(dts)]
+cs_femheat_moving_dx = ConvergenceSetup(probs,dxs)
+
+T = 1
+dx = 1//2^(3)
+dt = 1//2^(7)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
+"""
+Example problem defined by the solution:
+```math
+u(x,y,t)=\\frac{1}{10}(1-\\exp(-100(t-\\frac{1}{2})^2))\\exp(-25((x-t+0.5)^2 + (y-t+0.5)^2))
+```
+
+This will have a mound which moves across the screen. Good animation test.
+"""
+prob_femheat_moving7 = HeatProblem(analytic_moving,Du,f,fem_mesh)
 
 analytic_diffuse(t,x) = exp.(-10((x[:,1]-.5).^2 + (x[:,2]-.5).^2 )-t)
 f = (t,x) -> exp.(-t-5*(1-2x[:,1]+2x[:,1].^2 - 2x[:,2] +2x[:,2].^2)).*(-161 + 400*(x[:,1] - x[:,1].^2 + x[:,2] - x[:,2].^2))
 Du = (t,x) -> -20[analytic_diffuse(t,x).*(x[:,1]-.5) analytic_diffuse(t,x).*(x[:,2]-.5)]
+T = 1
+dx = 1//2^(3)
+dt = 1//2^(7)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
 """
 Example problem defined by the solution:
 
@@ -30,48 +66,75 @@ u(x,y,t)=\\exp(-10((x-\\frac{1}{2})^2 + (y-\\frac{1}{2})^2 )-t)
 
 This is a Gaussian centered at ``(\\frac{1}{2},\\frac{1}{2})`` which diffuses over time.
 """
-prob_femheat_diffuse = HeatProblem(analytic_diffuse,Du,f)
+prob_femheat_diffuse = HeatProblem(analytic_diffuse,Du,f,fem_mesh)
 
 
 f = (t,x)  -> zeros(size(x,1))
 u0 = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0,1)^2
+T = 1//2^(5)
+dx = 1//2^(3)
+dt = 1//2^(9)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
 """
 Example problem which starts with a Dirac δ cenetered at (0.5,0.5) and solves with ``f=gD=0``.
 This gives the Green's function solution.
 """
-prob_femheat_pure = HeatProblem(u0,f)
+prob_femheat_pure = HeatProblem(u0,f,fem_mesh)
 
+T = 1//2^(5)
+dt = 1//2^(11)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
+"""
+Example problem which starts with a Dirac δ cenetered at (0.5,0.5) and solves with ``f=gD=0``.
+This gives the Green's function solution.
+"""
+prob_femheat_pure11 = HeatProblem(u0,f,fem_mesh)
 
 f = (t,x,u) -> ones(size(x,1)) - .5u
 u0 = (x) -> zeros(size(x,1))
+T = 1
+dx = 1//2^(3)
+dt = 1//2^(7)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
 """
 Homogenous reaction-diffusion problem which starts with 0 and solves with ``f(u)=1-u/2``
 """
-prob_femheat_birthdeath = HeatProblem(u0,f)
+prob_femheat_birthdeath = HeatProblem(u0,f,fem_mesh)
 
 
 f = (t,x,u)  -> [ones(size(x,1))-.5u[:,1]   ones(size(x,1))-u[:,2]]
 u0 = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
+T = 5
+dx = 1/2^(1)
+dt = 1/2^(7)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
 """
 Homogenous reaction-diffusion which starts at 1/2 and solves the system ``f(u)=1-u/2`` and ``f(v)=1-v``
 """
-prob_femheat_birthdeathsystem = HeatProblem(u0,f)
+prob_femheat_birthdeathsystem = HeatProblem(u0,f,fem_mesh)
 
+f  = (t,x,u)  -> [ones(size(x,1))-.5u[:,1]     .5u[:,1]-u[:,2]]
+u0 = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
+T = 5
+dx = 1/2^(1)
+dt = 1/2^(7)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
+"""
+Homogenous reaction-diffusion which starts with 1/2 and solves the system ``f(u)=1-u/2`` and ``f(v)=.5u-v``
+"""
+prob_femheat_birthdeathinteractingsystem = HeatProblem(u0,f,fem_mesh)
+
+#=
 f = (t,x,u)  -> [zeros(size(x,1))    zeros(size(x,1))]
 u0 = (x) -> [float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6))]  # size (x,2), 2 meaning 2 variables
 """
 Example problem which solves the homogeneous Heat equation with all mass starting at (1/2,1/2) with two different diffusion constants,
 ``D₁=0.01`` and ``D₂=0.001``. Good animation test.
 """
-prob_femheat_diffusionconstants = HeatProblem(u0,f,D=[.01 .001])
+prob_femheat_diffusionconstants = HeatProblem(u0,f,fem_mesh,D=[.01 .001])
+=#
 
-f  = (t,x,u)  -> [ones(size(x,1))-.5u[:,1]     .5u[:,1]-u[:,2]]
-u0 = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
-"""
-Homogenous reaction-diffusion which starts with 1/2 and solves the system ``f(u)=1-u/2`` and ``f(v)=.5u-v``
-"""
-prob_femheat_birthdeathinteractingsystem = HeatProblem(u0,f)
-
+#=
 """
 `heatProblemExample_grayscott(;ρ=.03,k=.062,D=[1e-3 .5e-3])`
 
@@ -127,57 +190,79 @@ function heatProblemExample_gierermeinhardt(;a=1,α=1,D=[0.01 1.0],ubar=1,vbar=0
   u0(x) = [uss*ones(size(x,1))+startNoise*rand(size(x,1)) vss*ones(size(x,1))] # size (x,2), 2 meaning 2 variables
   return(HeatProblem(u0,f,D=D))
 end
+=#
 
 f = (t,x,u)  -> ones(size(x,1)) - .5u
 u0 = (x) -> zeros(size(x,1))
 σ = (t,x,u) -> 1u.^2
+T = 5
+dx = 1//2^(3)
+dt = 1//2^(5)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
 """
 Homogenous stochastic reaction-diffusion problem which starts with 0
 and solves with ``f(u)=1-u/2`` with noise ``σ(u)=10u^2``
 """
-prob_femheat_stochasticbirthdeath = HeatProblem(u0,f,σ=σ)
+prob_femheat_stochasticbirthdeath = HeatProblem(u0,f,fem_mesh,σ=σ)
+
+dx = 1//2^(1)
+dt = 1//2^(1)
+fem_mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
+prob_femheat_stochasticbirthdeath_fast = HeatProblem(u0,f,fem_mesh,σ=σ)
 
 ## Poisson
 
 f = (x) -> sin.(2π.*x[:,1]).*cos.(2π.*x[:,2])
 analytic = (x) -> sin.(2π.*x[:,1]).*cos.(2π.*x[:,2])/(8π*π)
 Du = (x) -> [cos.(2*pi.*x[:,1]).*cos.(2*pi.*x[:,2])./(4*pi) -sin.(2π.*x[:,1]).*sin.(2π.*x[:,2])./(4π)]
+dx = 1//2^(5)
+fem_mesh = notime_squaremesh([0 1 0 1],dx,:dirichlet)
 """
 Problem defined by the solution: ``u(x,y)= \\sin(2πx)\\cos(2πy)/(8π^2)``
 """
-prob_poisson_wave = PoissonProblem(f,analytic,Du)
+prob_poisson_wave = PoissonProblem(f,analytic,Du,fem_mesh)
+
+dxs = 1.//2.^(4:-1:2) # 4 for testing, use 7 for good graph
+probs = [PoissonProblem(f,analytic,Du,notime_squaremesh([0 1 0 1],dx,:dirichlet)) for dx in dxs]
+cs_fempoisson_wave = ConvergenceSetup(probs,dts)
 
 σ = (x) -> 5 #Additive noise
+dx = 1//2^(5)
+fem_mesh = notime_squaremesh([0 1 0 1],dx,:dirichlet)
 """
 Problem with deterministic solution: ``u(x,y)= \\sin(2πx)\\cos(2πy)/(8π^2)``
 and additive noise ``σ(x,y)=5``
 """
-prob_poisson_noisywave = PoissonProblem(f,analytic,Du,σ=σ)
+prob_poisson_noisywave = PoissonProblem(f,analytic,Du,fem_mesh,σ=σ)
 
 f = (x,u) -> ones(size(x,1)) - .5u
+dx = 1//2^(3)
+fem_mesh = notime_squaremesh([0 1 0 1],dx,:neumann)
 """
 Nonlinear Poisson equation with ``f(u)=1-u/2``.
 Corresponds to the steady state of a humogenous reaction-diffusion equation
 with the same ``f``.
 """
-prob_poisson_birthdeath = PoissonProblem(f,numvars=1)
+prob_poisson_birthdeath = PoissonProblem(f,fem_mesh,numvars=1)
 
 f  = (x,u) -> [ones(size(x,1))-.5u[:,1]     ones(size(x,1))-u[:,2]]
 u0 = (x) -> .5*ones(size(x,1),2) # size (x,2), 2 meaning 2 variables
-
+dx = 1//2^(1)
+fem_mesh = notime_squaremesh([0 1 0 1],dx,:neumann)
 """
 Nonlinear Poisson equation with ``f(u)=1-u/2`` and ``f(v)=1-v`` and initial
 condition homogenous 1/2. Corresponds to the steady state of a humogenous
 reaction-diffusion equation with the same ``f``.
 """
-prob_poisson_birthdeathsystem = PoissonProblem(f,u0=u0)
+prob_poisson_birthdeathsystem = PoissonProblem(f,fem_mesh,u0=u0)
 
 f  = (x,u) -> [ones(size(x,1))-.5u[:,1]     .5u[:,1]-u[:,2]]
 u0 = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
-
+dx = 1//2^(1)
+fem_mesh = notime_squaremesh([0 1 0 1],dx,:neumann)
 """
 Nonlinear Poisson equation with ``f(u)=1-u/2`` and ``f(v)=.5u-v`` and initial
 condition homogenous 1/2. Corresponds to the steady state of a humogenous
 reaction-diffusion equation with the same ``f``.
 """
-prob_poisson_birthdeathinteractingsystem = PoissonProblem(f,u0=u0)
+prob_poisson_birthdeathinteractingsystem = PoissonProblem(f,fem_mesh,u0=u0)
