@@ -6,10 +6,10 @@ f = (t,x) -> (-5).*exp.((-25).*((3/2)+6.*t.^2+x[:,1]+x[:,1].^2+x[:,2]+x[:,2].^2+
   x[:,2]))).*((-20)+(-100).*t.^2+(-49).*x[:,1]+(-50).*x[:,1].^2+(-49).*x[:,2]+(-50).*
   x[:,2].^2+2.*t.*(47+50.*x[:,1]+50.*x[:,2])+exp.(25.*(1+(-2).*t).^2).*(22+
   100.*t.^2+49.*x[:,1]+50.*x[:,1].^2+49.*x[:,2]+50.*x[:,2].^2+(-2).*t.*(49+50.*x[:,1]+50.*x[:,2])))
-T = 2
+tspan = (0.0,2.0)
 dx = 1//2^(3)
 dt = 1//2^(9)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:dirichlet)
 """
 Example problem defined by the solution:
 ```math
@@ -24,22 +24,22 @@ N = 2 #Number of different dt to solve at, 2 for test speed
 topdt = 6 # 1//2^(topdt-1) is the max dt. Small for test speed
 dts = 1.//2.^(topdt-1:-1:N)
 dxs = 1//2^(5) * ones(dts) #Run at 2^-7 for best plot
-probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],1,:dirichlet)) for i in eachindex(dts)]
+probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],(0.0,1.0),:dirichlet)) for i in eachindex(dts)]
 cs_femheat_moving_dt = ConvergenceSetup(probs,dts)
 dxs = 1//2^(4) * ones(dts) #Run at 2^-7 for best plot
-probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],1,:dirichlet)) for i in eachindex(dts)]
+probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],(0.0,1.0),:dirichlet)) for i in eachindex(dts)]
 cs_femheat_moving_faster_dt = ConvergenceSetup(probs,dts)
 
 #Not good plots, but quick for unit tests
 dxs = 1.//2.^(2:-1:1)
 dts = 1//2^(6) * ones(dxs) #Run at 2^-7 for best plot
-probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],1,:dirichlet)) for i in eachindex(dts)]
+probs = [HeatProblem(analytic_moving,Du,f,parabolic_squaremesh([0 1 0 1],dxs[i],dts[i],(0.0,1.0),:dirichlet)) for i in eachindex(dts)]
 cs_femheat_moving_dx = ConvergenceSetup(probs,dxs)
 
-T = 1
+tspan = (0.0,1.0)
 dx = 1//2^(3)
 dt = 1//2^(7)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:dirichlet)
 """
 Example problem defined by the solution:
 ```math
@@ -53,10 +53,10 @@ prob_femheat_moving7 = HeatProblem(analytic_moving,Du,f,mesh)
 analytic_diffuse(t,x) = exp.(-10((x[:,1]-.5).^2 + (x[:,2]-.5).^2 )-t)
 f = (t,x) -> exp.(-t-5*(1-2x[:,1]+2x[:,1].^2 - 2x[:,2] +2x[:,2].^2)).*(-161 + 400*(x[:,1] - x[:,1].^2 + x[:,2] - x[:,2].^2))
 Du = (t,x) -> -20[analytic_diffuse(t,x).*(x[:,1]-.5) analytic_diffuse(t,x).*(x[:,2]-.5)]
-T = 1
+tspan = (0.0,1.0)
 dx = 1//2^(3)
 dt = 1//2^(7)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:dirichlet)
 """
 Example problem defined by the solution:
 
@@ -70,11 +70,11 @@ prob_femheat_diffuse = HeatProblem(analytic_diffuse,Du,f,mesh)
 
 
 f = (t,x)  -> zeros(size(x,1))
-u0_func = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0,1)^2
-T = 1//2^(5)
+u0_func = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0.0,1.0)^2
+tspan = (0.0,1/2^(5))
 dx = 1//2^(3)
 dt = 1//2^(9)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:dirichlet)
 u0 = u0_func(mesh.node)
 """
 Example problem which starts with a Dirac δ cenetered at (0.5,0.5) and solves with ``f=gD=0``.
@@ -82,9 +82,9 @@ This gives the Green's function solution.
 """
 prob_femheat_pure = HeatProblem(u0,f,mesh)
 
-T = 1//2^(5)
+tspan =  (0.0,1/2^(5))
 dt = 1//2^(11)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:dirichlet)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:dirichlet)
 u0 = u0_func(mesh.node)
 """
 Example problem which starts with a Dirac δ cenetered at (0.5,0.5) and solves with ``f=gD=0``.
@@ -94,10 +94,10 @@ prob_femheat_pure11 = HeatProblem(u0,f,mesh)
 
 f = (t,x,u) -> ones(size(x,1)) - .5u
 u0_func = (x) -> zeros(size(x,1))
-T = 1
+tspan = (0.0,1.0)
 dx = 1//2^(3)
 dt = 1//2^(7)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:neumann)
 u0 = u0_func(mesh.node)
 """
 Homogenous reaction-diffusion problem which starts with 0 and solves with ``f(u)=1-u/2``
@@ -107,10 +107,10 @@ prob_femheat_birthdeath = HeatProblem(u0,f,mesh)
 
 f = (t,x,u)  -> [ones(size(x,1))-.5u[:,1]   ones(size(x,1))-u[:,2]]
 u0_func = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
-T = 5
+tspan = (0.0,5.0)
 dx = 1/2^(1)
 dt = 1/2^(7)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:neumann)
 u0 = u0_func(mesh.node)
 """
 Homogenous reaction-diffusion which starts at 1/2 and solves the system ``f(u)=1-u/2`` and ``f(v)=1-v``
@@ -119,10 +119,10 @@ prob_femheat_birthdeathsystem = HeatProblem(u0,f,mesh)
 
 f  = (t,x,u)  -> [ones(size(x,1))-.5u[:,1]     .5u[:,1]-u[:,2]]
 u0_func = (x) -> ones(size(x,1),2).*[.5 .5] # size (x,2), 2 meaning 2 variables
-T = 5
+tspan = (0.0,5.0)
 dx = 1/2^(1)
 dt = 1/2^(7)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:neumann)
 u0 = u0_func(mesh.node)
 """
 Homogenous reaction-diffusion which starts with 1/2 and solves the system ``f(u)=1-u/2`` and ``f(v)=.5u-v``
@@ -200,10 +200,10 @@ end
 f = (t,x,u)  -> ones(size(x,1)) - .5u
 u0_func = (x) -> zeros(size(x,1))
 σ = (t,x,u) -> 1u.^2
-T = 5
+tspan =  (0.0,5.0)
 dx = 1//2^(3)
 dt = 1//2^(5)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:neumann)
 u0 = u0_func(mesh.node)
 """
 Homogenous stochastic reaction-diffusion problem which starts with 0
@@ -213,7 +213,7 @@ prob_femheat_stochasticbirthdeath = HeatProblem(u0,f,mesh,σ=σ)
 
 dx = 1//2^(1)
 dt = 1//2^(1)
-mesh = parabolic_squaremesh([0 1 0 1],dx,dt,T,:neumann)
+mesh = parabolic_squaremesh([0 1 0 1],dx,dt,tspan,:neumann)
 u0 = u0_func(mesh.node)
 prob_femheat_stochasticbirthdeath_fast = HeatProblem(u0,f,mesh,σ=σ)
 
