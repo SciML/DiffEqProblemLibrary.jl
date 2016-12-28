@@ -2,8 +2,7 @@ __precompile__(false)
 
 module DiffEqProblemLibrary
 
-using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase,
-      FiniteElementDiffEq, AlgebraicDiffEq, JLD
+using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase, JLD
 
 include("ode_premade_problems.jl")
 include("dae_premade_problems.jl")
