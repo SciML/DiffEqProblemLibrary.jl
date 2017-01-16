@@ -157,7 +157,7 @@ Fitzhugh-Nagumo
 
 with initial condition ``v=w=1``
 """
-prob_ode_fitzhughnagumo = ODEProblem(fitz,[1;1],(0.0,1.0))
+prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0))
 
 #Van der Pol Equations
 van = @ode_def_noinvhes VanDerPol begin
