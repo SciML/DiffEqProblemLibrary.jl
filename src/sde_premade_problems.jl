@@ -1,8 +1,8 @@
 ### SDE Examples
 
-f = (t,u) -> 1.01*u
-σ = (t,u) -> 0.87*u
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(0.63155*t+0.87*W)
+f = (t,u) -> 1.01u
+σ = (t,u) -> 0.87u
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(0.63155t+0.87W)
 """
 ```math
 du_t = βudt + αudW_t
@@ -15,6 +15,11 @@ u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 
 """
 prob_sde_linear = SDEProblem(f,σ,1/2,(0.0,1.0))
+
+f = (t,u) -> 1.01u
+σ = (t,u) -> 0.87u
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(1.01t+0.87W)
+prob_sde_linear_stratonovich = SDEProblem(f,σ,1/2,(0.0,1.0))
 
 f = (t,u,du) -> begin
   for i = 1:length(u)
@@ -41,6 +46,18 @@ u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 """
 prob_sde_2Dlinear = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
 
+f = (t,u,du) -> begin
+  for i = 1:length(u)
+    du[i] = 1.01*u[i]
+  end
+end
+σ = (t,u,du) -> begin
+  for i in 1:length(u)
+    du[i] = .87*u[i]
+  end
+end
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(1.01*t+0.87*W)
+prob_sde_2Dlinear_stratonovich = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
 
 f = (t,u) -> -.25*u*(1-u^2)
 σ = (t,u) -> .5*(1-u^2)
@@ -141,6 +158,16 @@ dz &= (x*y - β*z)dt + αdW_t \\\\
 with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u0=[1;1;1]``.
 """
 prob_sde_lorenz = SDEProblem(f,σ,ones(3),(0.0,10.0))
+
+
+f = (t,u) -> (1/3)*u^(1/3) + 6*u^(2/3)
+σ = (t,u) -> u^(2/3)
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = (2t + 1 + W/3)^3
+"""
+Runge–Kutta methods for numerical solution of stochastic differential equations
+Tocino and Ardanuy
+"""
+prob_sde_nltest = SDEProblem(f,σ,1.0,(0.0,10.0))
 
 function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
   #Parameters
