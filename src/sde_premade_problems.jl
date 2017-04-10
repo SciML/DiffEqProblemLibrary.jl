@@ -2,7 +2,7 @@
 
 f = (t,u) -> 1.01*u
 σ = (t,u) -> 0.87*u
-analytic = (t,u0,W) -> u0.*exp.(0.63155*t+0.87*W)
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(0.63155*t+0.87*W)
 """
 ```math
 du_t = βudt + αudW_t
@@ -14,7 +14,7 @@ u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 
 """
-prob_sde_linear = SDETestProblem(f,σ,1/2,analytic)
+prob_sde_linear = SDEProblem(f,σ,1/2,(0.0,1.0))
 
 f = (t,u,du) -> begin
   for i = 1:length(u)
@@ -26,6 +26,7 @@ end
     du[i] = .87*u[i]
   end
 end
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(0.63155*t+0.87*W)
 """
 8 linear SDEs (as a 4x2 matrix):
 
@@ -38,12 +39,12 @@ where β=1.01, α=0.87, and initial condtion u0=1/2 with solution
 u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 """
-prob_sde_2Dlinear = SDETestProblem(f,σ,ones(4,2)/2,analytic)
+prob_sde_2Dlinear = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
 
 
 f = (t,u) -> -.25*u*(1-u^2)
 σ = (t,u) -> .5*(1-u^2)
-analytic = (t,u0,W) -> ((1+u0).*exp.(W)+u0-1)./((1+u0).*exp.(W)+1-u0)
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = ((1+u0).*exp.(W)+u0-1)./((1+u0).*exp.(W)+1-u0)
 """
 ```math
 du_t = \\frac{1}{4}u(1-u^2)dt + \\frac{1}{2}(1-u^2)dW_t
@@ -55,11 +56,11 @@ and initial condtion u0=1/2, with solution
 u(t,u0,W_t)=\\frac{(1+u0)\\exp(W_t)+u0-1}{(1+u0)\\exp(W_t)+1-u0}
 ```
 """
-prob_sde_cubic = SDETestProblem(f,σ,1/2,analytic)
+prob_sde_cubic = SDEProblem(f,σ,1/2,(0.0,1.0))
 
 f = (t,u) -> -0.01*sin.(u).*cos.(u).^3
 σ = (t,u) -> 0.1*cos.(u).^2
-analytic = (t,u0,W) -> atan.(0.1*W + tan.(u0))
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = atan.(0.1*W + tan.(u0))
 """
 ```math
 du_t = -\\frac{1}{100}\sin(u)\cos^3(u)dt + \\frac{1}{10}\cos^{2}(u_t) dW_t
@@ -71,13 +72,13 @@ and initial condition `u0=1.0` with solution
 u(t,u0,W_t)=\\arctan(\\frac{W_t}{10} + \\tan(u0))
 ```
 """
-prob_sde_wave = SDETestProblem(f,σ,1.,analytic)
+prob_sde_wave = SDEProblem(f,σ,1.,(0.0,1.0))
 
 const sde_wave_α = 0.1
 const sde_wave_β = 0.05
 f = (t,u) -> sde_wave_β./sqrt.(1+t) - u./(2*(1+t))
 σ = (t,u) -> sde_wave_α*sde_wave_β./sqrt.(1+t)
-analytic = (t,u0,W) -> u0./sqrt.(1+t) + sde_wave_β*(t+sde_wave_α*W)./sqrt.(1+t)
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0./sqrt.(1+t) + sde_wave_β*(t+sde_wave_α*W)./sqrt.(1+t)
 
 """
 Additive noise problem
@@ -92,7 +93,7 @@ and initial condition u0=1.0 with α=0.1 and β=0.05, with solution
 u(t,u0,W_t)=\\frac{u0}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
 ```
 """
-prob_sde_additive = SDETestProblem(f,σ,1.,analytic)
+prob_sde_additive = SDEProblem(f,σ,1.,(0.0,1.0))
 
 const sde_wave_αvec = [0.1;0.1;0.1;0.1]
 const sde_wave_βvec = [0.5;0.25;0.125;0.1115]
@@ -107,13 +108,13 @@ end
     du[i] = sde_wave_αvec[i]*sde_wave_βvec[i]/sqrt(1+t)
   end
 end
-analytic = (t,u0,W) -> u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
+(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
 
 """
 A multiple dimension extension of `additiveSDEExample`
 
 """
-prob_sde_additivesystem = SDETestProblem(f,σ,[1.;1.;1.;1.],analytic)
+prob_sde_additivesystem = SDEProblem(f,σ,[1.;1.;1.;1.],(0.0,1.0))
 
 f = @ode_def_nohes LorenzSDE begin
   dx = σ*(y-x)

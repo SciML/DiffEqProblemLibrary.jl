@@ -4,7 +4,7 @@ srand(100)
 
 # Linear ODE
 linear = (t,u) -> (1.01*u)
-analytic_linear = (t,u0) -> u0*exp(1.01*t)
+(f::typeof(linear))(::Type{Val{:analytic}},t,u0) = u0*exp(1.01*t)
 """
 Linear ODE
 
@@ -20,11 +20,11 @@ u(t) = u0e^{αt}
 
 with Float64s
 """
-prob_ode_linear = ODETestProblem(linear,1/2,analytic_linear)
+prob_ode_linear = ODEProblem(linear,1/2,(0.0,1.0))
 
 const linear_bigα = parse(BigFloat,"1.01")
 f_linearbig = (t,u) -> (linear_bigα*u)
-analytic_linearbig = (t,u0) -> u0*exp(linear_bigα*t)
+(f::typeof(f_linearbig))(::Type{Val{:analytic}},t,u0) = u0*exp(linear_bigα*t)
 """
 Linear ODE
 
@@ -40,14 +40,14 @@ u(t) = u0e^{αt}
 
 with BigFloats
 """
-prob_ode_bigfloatlinear = ODETestProblem(f_linearbig,parse(BigFloat,"0.5"),analytic_linearbig)
+prob_ode_bigfloatlinear = ODEProblem(f_linearbig,parse(BigFloat,"0.5"),(0.0,1.0))
 
 f_2dlinear = (t,u,du) -> begin
   for i in 1:length(u)
     du[i] = 1.01*u[i]
   end
 end
-analytic_2dlinear = (t,u0) -> u0*exp.(1.01*t)
+(f::typeof(f_2dlinear))(::Type{Val{:analytic}},t,u0) = u0*exp.(1.01*t)
 """
 4x2 version of the Linear ODE
 
@@ -63,7 +63,7 @@ u(t) = u0e^{αt}
 
 with Float64s
 """
-prob_ode_2Dlinear = ODETestProblem(f_2dlinear,rand(4,2),analytic_2dlinear)
+prob_ode_2Dlinear = ODEProblem(f_2dlinear,rand(4,2),(0.0,1.0))
 
 """
 100x100 version of the Linear ODE
@@ -80,13 +80,14 @@ u(t) = u0e^{αt}
 
 with Float64s
 """
-prob_ode_large2Dlinear = ODETestProblem(f_2dlinear,rand(100,100),analytic_2dlinear)
+prob_ode_large2Dlinear = ODEProblem(f_2dlinear,rand(100,100),(0.0,1.0))
 
 f_2dlinearbig = (t,u,du) -> begin
   for i in 1:length(u)
     du[i] = linear_bigα*u[i]
   end
 end
+(f::typeof(f_2dlinearbig))(::Type{Val{:analytic}},t,u0) = u0*exp.(1.01*t)
 """
 4x2 version of the Linear ODE
 
@@ -102,8 +103,9 @@ u(t) = u0e^{αt}
 
 with BigFloats
 """
-prob_ode_bigfloat2Dlinear = ODETestProblem(f_2dlinearbig,map(BigFloat,rand(4,2)).*ones(4,2)/2,analytic_2dlinear)
+prob_ode_bigfloat2Dlinear = ODEProblem(f_2dlinearbig,map(BigFloat,rand(4,2)).*ones(4,2)/2,(0.0,1.0))
 f_2dlinear_notinplace = (t,u) -> 1.01*u
+(f::typeof(f_2dlinear_notinplace))(::Type{Val{:analytic}},t,u0) = u0*exp.(1.01*t)
 """
 4x2 version of the Linear ODE
 
@@ -119,7 +121,7 @@ u(t) = u0e^{αt}
 
 on Float64. Purposefully not in-place as a test.
 """
-prob_ode_2Dlinear_notinplace = ODETestProblem(f_2dlinear_notinplace,rand(4,2),analytic_2dlinear)
+prob_ode_2Dlinear_notinplace = ODEProblem(f_2dlinear_notinplace,rand(4,2),(0.0,1.0))
 
 ## Lotka-Volterra
 
