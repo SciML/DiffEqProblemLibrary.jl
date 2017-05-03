@@ -70,7 +70,11 @@ prob_femheat_diffuse = HeatProblem(analytic_diffuse,Du,f,mesh)
 
 
 f = (t,x)  -> zeros(size(x,1))
-u0_func = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0.0,1.0)^2
+if VERSION < v"0.6-"
+  u0_func = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0.0,1.0)^2
+else
+  u0_func = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) .& (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0.0,1.0)^2
+end
 tspan = (0.0,1/2^(5))
 dx = 1//2^(3)
 dt = 1//2^(9)
@@ -131,7 +135,7 @@ prob_femheat_birthdeathinteractingsystem = HeatProblem(u0,f,mesh)
 
 #=
 f = (t,x,u)  -> [zeros(size(x,1))    zeros(size(x,1))]
-u0 = (x) -> [float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6))]  # size (x,2), 2 meaning 2 variables
+u0 = (x) -> [float((abs.(x[:,1]-.5) .< 1e-6) .& (abs.(x[:,2]-.5) .< 1e-6)) float((abs.(x[:,1]-.5) .< 1e-6) .& (abs.(x[:,2]-.5) .< 1e-6))]  # size (x,2), 2 meaning 2 variables
 """
 Example problem which solves the homogeneous Heat equation with all mass starting at (1/2,1/2) with two different diffusion constants,
 ``D₁=0.01`` and ``D₂=0.001``. Good animation test.
@@ -157,8 +161,8 @@ function heatProblemExample_grayscott(;ρ=.03,k=.062,D=[1e-3 .5e-3])
   f₁(t,x,u)  = u[:,1].*u[:,2].*u[:,2] + ρ*(1-u[:,2])
   f₂(t,x,u)  = u[:,1].*u[:,2].*u[:,2] -(ρ+k).*u[:,2]
   f(t,x,u) = [f₁(t,x,u) f₂(t,x,u)]
-  u0(x) = [ones(size(x,1))+rand(size(x,1)) .25.*float(((.2.<x[:,1].<.6) &
-          (.2.<x[:,2].<.6)) | ((.85.<x[:,1]) & (.85.<x[:,2])))] # size (x,2), 2 meaning 2 variables
+  u0(x) = [ones(size(x,1))+rand(size(x,1)) .25.*float(((.2.<x[:,1].<.6) .&
+          (.2.<x[:,2].<.6)) | ((.85.<x[:,1]) .& (.85.<x[:,2])))] # size (x,2), 2 meaning 2 variables
   return(HeatProblem(u0,f,D=D))
 end
 
