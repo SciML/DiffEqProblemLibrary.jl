@@ -70,7 +70,7 @@ prob_femheat_diffuse = HeatProblem(analytic_diffuse,Du,f,mesh)
 
 
 f = (t,x)  -> zeros(size(x,1))
-if VERSION < v"0.6-"
+if VERSION < v"0.6.0-dev.1820"
   u0_func = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) & (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0.0,1.0)^2
 else
   u0_func = (x) -> float((abs.(x[:,1]-.5) .< 1e-6) .& (abs.(x[:,2]-.5) .< 1e-6)) #Only mass at middle of (0.0,1.0)^2
