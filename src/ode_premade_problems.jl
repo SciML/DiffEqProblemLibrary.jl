@@ -366,3 +366,13 @@ From Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff P
 Usually solved from 0 to 3.
 """
 prob_ode_pleides = ODEProblem(pleides,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0,2.0,0,0,-4.0,4.0,0,0,0,0,0,1.75,-1.5,0,0,0,-1.25,1,0,0],(0.0,3.0))
+
+
+srand(100)
+const mm_A = rand(4,4)
+mm_linear = function (t,u,du)
+  A_mul_B!(du,mm_A,u)
+end
+const MM_linear =full(Diagonal(0.5ones(4)))
+(::typeof(mm_linear))(::Type{Val{:analytic}},t,u0) = expm(inv(MM_linear)*mm_A*t)*u0
+prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linear)
