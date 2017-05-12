@@ -141,7 +141,7 @@ Lotka-Voltera Equations
 
 with initial condition ``x=y=1``
 """
-prb_ode_lotkavoltera = ODEProblem(lotka,[1;1],(0.0,1.0))
+prob_ode_lotkavoltera = ODEProblem(lotka,[1;1],(0.0,1.0))
 
 ## Fitzhugh-Nagumo
 
