@@ -220,7 +220,7 @@ The Robertson biochemical reactions:
 
 where ``k₁=0.04``, ``k₂=3\\times10^7``, ``k₃=10^4``. For details, see:
 
-Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff Problems Page 129
+Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 
 Usually solved on `[0,1e11]`
 """
@@ -255,7 +255,7 @@ D₂ &= ((y₁-μ′)^2+y₂^2)^{3/2} \\\\
 \\end{align}
 ```
 
-From Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff Problems Page 129
+From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 
 Usually solved on `t₀ = 0.0`; `T = parse(BigFloat,"17.0652165601579625588917206249")`
 Periodic with that setup.
@@ -287,7 +287,7 @@ The initial condition is ``y=[1.0;0.0;0.9]``.
 
 From Solving Differential Equations in R by Karline Soetaert
 
-or Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff Problems Page 244
+or Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 244
 
 Usually solved from 0 to 20.
 """
@@ -329,7 +329,7 @@ where
 rᵢⱼ = ((xᵢ-xⱼ)^2 + (yᵢ-yⱼ)^2)^{3/2}
 ```
 
-and inital condtions are
+and initial conditions are
 
 ```math
 \\begin{align}
@@ -361,7 +361,7 @@ y₅′(0)&=1
 \\end{align}
 ```
 
-From Hairer Norsett Wanner Solving Ordinary Differential Euations I - Nonstiff Problems Page 244
+From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 244
 
 Usually solved from 0 to 3.
 """
