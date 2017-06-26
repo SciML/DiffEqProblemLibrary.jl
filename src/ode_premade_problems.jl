@@ -295,7 +295,7 @@ prob_ode_rigidbody = ODEProblem(rigid,[1.0,0.0,0.9],(0.0,20.0))
 
 # Pleiades Problem
 
-pleides = (t,u,du) -> begin
+pleiades = (t,u,du) -> begin
   x = view(u,1:7)   # x
   y = view(u,8:14)  # y
   v = view(u,15:21) # x′
@@ -314,7 +314,7 @@ pleides = (t,u,du) -> begin
   end
 end
 """
-Pleides Problem
+Pleiades Problem
 
 ```math
 \\begin{align}
@@ -365,7 +365,7 @@ From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff 
 
 Usually solved from 0 to 3.
 """
-prob_ode_pleides = ODEProblem(pleides,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0,2.0,0,0,-4.0,4.0,0,0,0,0,0,1.75,-1.5,0,0,0,-1.25,1,0,0],(0.0,3.0))
+prob_ode_pleiades = ODEProblem(pleiades,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0,2.0,0,0,-4.0,4.0,0,0,0,0,0,1.75,-1.5,0,0,0,-1.25,1,0,0],(0.0,3.0))
 
 
 srand(100)
