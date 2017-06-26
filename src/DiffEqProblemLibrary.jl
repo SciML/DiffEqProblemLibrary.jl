@@ -14,7 +14,7 @@ include("premade_meshes.jl")
 export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
        prob_ode_large2Dlinear, prob_ode_bigfloat2Dlinear, prob_ode_rigidbody,
        prob_ode_2Dlinear_notinplace, prob_ode_vanderpol, prob_ode_vanderpol_stiff,
-       prob_ode_lorenz, prob_ode_rober, prob_ode_threebody, prob_ode_mm_linear
+       prob_ode_lorenz, prob_ode_rober, prob_ode_threebody, prob_ode_mm_linear, prob_ode_pleiades
 
  #SDE Example Problems
  export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear, prob_sde_lorenz,
