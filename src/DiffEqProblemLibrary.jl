@@ -6,6 +6,7 @@ using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase, JLD
 
 include("ode_premade_problems.jl")
 include("dae_premade_problems.jl")
+include("dde_premade_problems.jl")
 include("sde_premade_problems.jl")
 include("fem_premade_problems.jl")
 include("premade_meshes.jl")
@@ -25,6 +26,13 @@ export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
 
  #DAE Example Problems
  export prob_dae_resrob
+
+#DDE Example Problems
+export prob_dde_1delay, prob_dde_1delay_notinplace, prob_dde_1delay_scalar_notinplace,
+       prob_dde_2delays, prob_dde_2delays_notinplace, prob_dde_2delays_scalar_notinplace,
+       prob_dde_1delay_long, prob_dde_1delay_long_notinplace,
+       prob_dde_1delay_long_scalar_notinplace, prob_dde_2delays_long,
+       prob_dde_2delays_long_notinplace, prob_dde_2delays_long_scalar_notinplace
 
  #FEM Example Problems
  export  prob_femheat_moving, prob_femheat_pure, prob_femheat_diffuse,
