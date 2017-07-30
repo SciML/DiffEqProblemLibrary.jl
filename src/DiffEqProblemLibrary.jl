@@ -2,14 +2,13 @@ __precompile__()
 
 module DiffEqProblemLibrary
 
-using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase, JLD
+using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase
 
 include("ode_premade_problems.jl")
 include("dae_premade_problems.jl")
 include("dde_premade_problems.jl")
 include("sde_premade_problems.jl")
 include("fem_premade_problems.jl")
-include("premade_meshes.jl")
 
 #ODE Example Problems
 export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
@@ -46,10 +45,5 @@ export prob_dde_1delay, prob_dde_1delay_notinplace, prob_dde_1delay_scalar_notin
 
 
 export   cs_fempoisson_wave,cs_femheat_moving_dt,cs_femheat_moving_dx, cs_femheat_moving_faster_dt
-
- #Example Meshes
- export  meshExample_bunny, meshExample_flowpastcylindermesh, meshExample_lakemesh,
-         meshExample_Lshapemesh, meshExample_Lshapeunstructure, meshExample_oilpump,
-         meshExample_wavymesh, meshExample_wavyperturbmesh
 
 end # module
