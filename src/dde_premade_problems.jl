@@ -63,7 +63,7 @@ for ``t \\leq 0``. Hence the problem is discontinuous at ``t = 0`` for all ``u�
 
 An analytical solution of this problem is provided for ``t \\in (-\\infty,10]``.
 """
-prob_dde_1delay(u₀) = ConstantLagDDEProblem(f_1delay, t->[0.0], [u₀], [1], (0.0, 10.0))
+prob_dde_1delay(u₀) = DDEProblem(f_1delay, t->[0.0], [u₀], (0.0, 10.0), [1])
 
 ### Not in-place function
 
@@ -83,7 +83,7 @@ Same as [`prob_dde_1delay`](@ref), but purposefully implemented with a not in-pl
 function.
 """
 prob_dde_1delay_notinplace(u₀) =
-    ConstantLagDDEProblem(f_1delay_notinplace, t->[0.0], [u₀], [1], (0.0, 10.0))
+    DDEProblem(f_1delay_notinplace, t->[0.0], [u₀], (0.0, 10.0), [1])
 
 #### Scalar history function
 
@@ -94,7 +94,7 @@ Same as [`prob_dde_1delay_notinplace`](@ref), but purposefully implemented with 
 history function.
 """
 prob_dde_1delay_scalar_notinplace(u₀) =
-    ConstantLagDDEProblem(f_1delay_notinplace, t->0.0, u₀, [1], (0.0, 10.0))
+    DDEProblem(f_1delay_notinplace, t->0.0, u₀, (0.0, 10.0), [1])
 
 ## Two constant delays
 
@@ -157,7 +157,7 @@ for ``t \\leq 0``. Hence the problem is discontinuous at ``t = 0`` for all ``u�
 
 An analytical solution of this problem is provided for ``t \\in (-\\infty,1]``.
 """
-prob_dde_2delays(u₀) = ConstantLagDDEProblem(f_2delays, t->[0.0], [u₀], [1//3, 1//5],(0.0, 1.0))
+prob_dde_2delays(u₀) = DDEProblem(f_2delays, t->[0.0], [u₀], (0.0, 1.0), [1//3, 1//5])
 
 ### Not in-place function
 
@@ -177,7 +177,7 @@ Same as [`prob_dde_2delays`](@ref), but purposefully implemented with a not in-p
 function.
 """
 prob_dde_2delays_notinplace(u₀) =
-    ConstantLagDDEProblem(f_2delays_notinplace, t->[0.0], [u₀], [1//3, 1//5], (0.0, 1.0))
+    DDEProblem(f_2delays_notinplace, t->[0.0], [u₀], (0.0, 1.0), [1//3, 1//5])
 
 #### Scalar history function
 
@@ -188,7 +188,7 @@ Same as [`prob_dde_2delays_notinplace`](@ref), but purposefully implemented with
 history function.
 """
 prob_dde_2delays_scalar_notinplace(u₀) =
-    ConstantLagDDEProblem(f_2delays_notinplace, t->0.0, u₀, [1//3, 1//5], (0.0, 1.0))
+    DDEProblem(f_2delays_notinplace, t->0.0, u₀, (0.0, 1.0), [1//3, 1//5])
 
 # DDE examples without analytical solution
 
@@ -219,8 +219,8 @@ u(t) = \\begin{cases}
 
 for ``t \\leq 0``. Hence the problem is discontinuous at ``t = 0``.
 """
-prob_dde_1delay_long = ConstantLagDDEProblem(f_1delay_long, t->[0.0], [1.0], [0.2],
-                                             (0.0, 100.0))
+prob_dde_1delay_long = DDEProblem(f_1delay_long, t->[0.0], [1.0],
+                                             (0.0, 100.0),[0.2])
 
 ### Not in-place function
 
@@ -233,14 +233,14 @@ Same as [`prob_dde_1delay_long`](@ref), but purposefully implemented with a not 
 function.
 """
 prob_dde_1delay_long_notinplace =
-    ConstantLagDDEProblem(f_1delay_long_notinplace, t->[0.0], [1.0], [0.2], (0.0, 100.0))
+    DDEProblem(f_1delay_long_notinplace, t->[0.0], [1.0], (0.0, 100.0), [0.2])
 
 """
 Same as [`prob_dde_1delay_long_notinplace`](@ref), but purposefully implemented with a
 scalar history function.
 """
 prob_dde_1delay_long_scalar_notinplace =
-    ConstantLagDDEProblem(f_1delay_long_notinplace, t->0.0, 1.0, [0.2], (0.0, 100.0))
+    DDEProblem(f_1delay_long_notinplace, t->0.0, 1.0, (0.0, 100.0), [0.2])
 
 ## Two constant delays
 
@@ -269,8 +269,8 @@ u(t) = \\begin{cases}
 
 for ``t < 0``. Hence the problem is discontinuous at ``t = 0``.
 """
-prob_dde_2delays_long = ConstantLagDDEProblem(f_2delays_long, t->[0.0], [1.0], [1//3, 1//5],
-                                              (0.0, 100.0))
+prob_dde_2delays_long = DDEProblem(f_2delays_long, t->[0.0], [1.0],
+                                              (0.0, 100.0), [1//3, 1//5])
 
 ### Not in-place function
 
@@ -285,8 +285,8 @@ Same as [`prob_dde_2delays_long`](@ref), but purposefully implemented with a not
 function.
 """
 prob_dde_2delays_long_notinplace =
-    ConstantLagDDEProblem(f_2delays_long_notinplace, t->[0.0], [1.0], [1//3, 1//5],
-                          (0.0, 100.0))
+    DDEProblem(f_2delays_long_notinplace, t->[0.0], [1.0],
+                          (0.0, 100.0), [1//3, 1//5])
 
 #### Scalar history function
 
@@ -295,5 +295,5 @@ Same as [`prob_dde_2delays_long_notinplace`](@ref), but purposefully implemented
 history function.
 """
 prob_dde_2delays_long_scalar_notinplace =
-    ConstantLagDDEProblem(f_2delays_long_notinplace, t->0.0, 1.0, [1//3, 1//5],
-                          (0.0, 100.0))
+    DDEProblem(f_2delays_long_notinplace, t->0.0, 1.0,
+                          (0.0, 100.0), [1//3, 1//5])
