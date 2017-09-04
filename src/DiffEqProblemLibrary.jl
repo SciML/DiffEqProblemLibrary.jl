@@ -26,12 +26,20 @@ export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
  #DAE Example Problems
  export prob_dae_resrob
 
-#DDE Example Problems
+# DDE Example Problems
+# examples with constant delays
 export prob_dde_1delay, prob_dde_1delay_notinplace, prob_dde_1delay_scalar_notinplace,
        prob_dde_2delays, prob_dde_2delays_notinplace, prob_dde_2delays_scalar_notinplace,
        prob_dde_1delay_long, prob_dde_1delay_long_notinplace,
        prob_dde_1delay_long_scalar_notinplace, prob_dde_2delays_long,
-       prob_dde_2delays_long_notinplace, prob_dde_2delays_long_scalar_notinplace
+       prob_dde_2delays_long_notinplace, prob_dde_2delays_long_scalar_notinplace,
+       prob_dde_mackey, prob_dde_wheldon, prob_dde_qs,
+# examples with vanishing time dependent delays
+       prob_ddde_neves1, prob_dde_neves_thompson,
+# examples with state dependent delays
+       prob_dde_paul1, prob_dde_paul2, prob_dde_mahaffy1, prob_dde_mahaffy2,
+# examples with vanishing state dependent delays
+       prob_neves2, prob_dde_gatica
 
  #FEM Example Problems
  export  prob_femheat_moving, prob_femheat_pure, prob_femheat_diffuse,
