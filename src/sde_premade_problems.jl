@@ -316,3 +316,73 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
   #u0 =  [0.1701;1.6758;0.0027;0.0025;0.0141;0.0811;0.1642;0.0009;0.0001;0.0000;0.0000;0.0000;0.0697;1.2586;0.0478;194.2496;140.0758;1.5407;1.5407] #Fig 9A
   SDEProblem(f,σ,u0,(0.0,500.0))
 end
+
+
+"""
+The composite Euler method for stiff stochastic
+differential equations
+
+Kevin Burrage, Tianhai Tian
+
+And
+
+S-ROCK: CHEBYSHEV METHODS FOR STIFF STOCHASTIC
+DIFFERENTIAL EQUATIONS
+
+ASSYR ABDULLE AND STEPHANE CIRILLI
+
+Stiffness of Euler is determined by α+β²<1
+Higher α or β is stiff, with α being deterministic stiffness and
+β being noise stiffness (and grows by square).
+"""
+function generate_stiff_quad(α,β;ito=true)
+    if ito
+        f = function (t,u)
+            -(α+(β^2)*u)*(1-u^2)
+        end
+    else
+        f = function (t,u)
+            -α*(1-u^2)
+        end
+    end
+
+    function g(t,u)
+        β*(1-u^2)
+    end
+
+    function (::typeof(f))(::Type{Val{:analytic}},t,u0,W)
+        exp_tmp = exp(-2*α*t+2*β*W)
+        tmp = 1 + u0
+        (tmp*exp_tmp + u0 - 1)/(tmp*exp_tmp - u0 + 1)
+    end
+
+    SDEProblem(f,g,0.5,(0.0,3.0))
+end
+
+"""
+Stochastic Heat Equation with scalar multiplicative noise
+
+S-ROCK: CHEBYSHEV METHODS FOR STIFF STOCHASTIC
+DIFFERENTIAL EQUATIONS
+
+ASSYR ABDULLE AND STEPHANE CIRILLI
+
+Raising D or k increases stiffness
+"""
+function generate_stiff_stoch_heat(D=1,k=1;N = 100)
+    A = full(Tridiagonal([1.0 for i in 1:N-1],[-2.0 for i in 1:N],[1.0 for i in 1:N-1]))
+    dx = 1/N
+    A = D/(dx^2) * A
+    function f(t,u,du)
+        A_mul_B!(du,A,u)
+    end
+    #=
+    function f(::Type{Val{:analytic}},t,u0,W)
+        expm(A*t+W*I)*u0
+    end
+    =#
+    function g(t,u,du)
+        @. du = k*u
+    end
+    SDEProblem(f,g,ones(N),(0.0,3.0),noise=WienerProcess(0.0,0.0,0.0,rswm=RSWM(adaptivealg=:RSwM3)))
+end
