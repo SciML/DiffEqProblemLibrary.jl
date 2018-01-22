@@ -8,7 +8,6 @@ include("ode_premade_problems.jl")
 include("dae_premade_problems.jl")
 include("dde_premade_problems.jl")
 include("sde_premade_problems.jl")
-include("fem_premade_problems.jl")
 
 #ODE Example Problems
 export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
@@ -40,18 +39,5 @@ export prob_dde_1delay, prob_dde_1delay_notinplace, prob_dde_1delay_scalar_notin
        prob_dde_paul1, prob_dde_paul2, prob_dde_mahaffy1, prob_dde_mahaffy2,
 # examples with vanishing state dependent delays
        prob_neves2, prob_dde_gatica
-
- #FEM Example Problems
- export  prob_femheat_moving, prob_femheat_pure, prob_femheat_diffuse,
-         prob_poisson_wave, prob_poisson_noisywave, prob_femheat_birthdeath,
-         prob_poisson_birthdeath, prob_femheat_stochasticbirthdeath,
-         prob_stokes_homogenous, prob_stokes_dirichletzero, prob_poisson_birthdeathsystem,
-         prob_poisson_birthdeathinteractingsystem, prob_femheat_birthdeathinteractingsystem,
-         prob_femheat_birthdeathsystem, prob_femheat_diffusionconstants,
-         heatProblemExample_grayscott,heatProblemExample_gierermeinhardt,
-         prob_femheat_stochasticbirthdeath_fast,prob_femheat_pure11,prob_femheat_moving7
-
-
-export   cs_fempoisson_wave,cs_femheat_moving_dt,cs_femheat_moving_dx, cs_femheat_moving_faster_dt
 
 end # module

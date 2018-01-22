@@ -1,6 +1,6 @@
 ### DAE Problems
 
-f = function (tres, y, yp, r)
+f = function (r, yp, y, p, tres)
     r[1]  = -0.04*y[1] + 1.0e4*y[2]*y[3]
     r[2]  = -r[1] - 3.0e7*y[2]*y[2] - yp[2]
     r[1] -=  yp[1]

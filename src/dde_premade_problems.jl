@@ -4,11 +4,11 @@
 
 ### In-place function
 
-function f_1delay(t, u, h, du)
+function f_1delay(du, u, h, p, t)
     du[1] = - h(t - oneunit(t))[1] / oneunit(t)
 end
 
-function f_1delay(::Type{Val{:analytic}}, t, u₀)
+function f_1delay(::Type{Val{:analytic}}, u₀, p, t)
     z = t/oneunit(t)
 
     if z < 0
@@ -77,7 +77,7 @@ prob_dde_1delay = build_prob_dde_1delay(1.0)
 
 ### Not in-place function
 
-function f_1delay_notinplace(t, u, h)
+function f_1delay_notinplace(u, h, p, t)
     - h(t - oneunit(t)) ./ oneunit(t)
 end
 
@@ -113,11 +113,11 @@ prob_dde_1delay_scalar_notinplace = build_prob_dde_1delay_scalar_notinplace(1.0)
 
 ### In-place function
 
-function f_2delays(t::T, u, h, du) where {T<:Number}
+function f_2delays(du::T, u, h, p, t) where T
     du[1] = (- h(t - T(1//3))[1] - h(t - T(1//5))[1]) / oneunit(t)
 end
 
-function f_2delays(::Type{Val{:analytic}}, t, u₀)
+function f_2delays(::Type{Val{:analytic}}, u₀, p, t)
     z = t/oneunit(t)
 
     if z < 0
@@ -184,7 +184,7 @@ prob_dde_2delays = build_prob_dde_2delays(1.0)
 
 ### Not in-place function
 
-function f_2delays_notinplace(t::T, u, h) where {T}
+function f_2delays_notinplace(u::T, h, p, t) where T
     (- h(t - T(1//3)) .- h(t - T(1//5))) ./ oneunit(t)
 end
 
@@ -225,7 +225,7 @@ prob_dde_2delays_scalar_notinplace = build_prob_dde_2delays_scalar_notinplace(1.
 
 ### In-place function
 
-function f_1delay_long(t::T, u, h, du) where {T}
+function f_1delay_long(du::T, u, h, p, t) where T
     du[1] = (- h(t - T(1//5))[1] + u[1]) / oneunit(t)
 end
 
@@ -258,7 +258,7 @@ prob_dde_1delay_long = build_prob_dde_1delay_long(1.0)
 
 ### Not in-place function
 
-function f_1delay_long_notinplace(t::T, u, h) where {T}
+function f_1delay_long_notinplace(u::T, h, p, t) where T
     (- h(t - T(1//5)) .+ u ) ./ oneunit(t)
 end
 
@@ -289,7 +289,7 @@ prob_dde_1delay_long_scalar_notinplace = build_prob_dde_1delay_long_scalar_notin
 
 ### In-place function
 
-function f_2delays_long(t::T, u, h, du) where {T}
+function f_2delays_long(du::T, u, h, p, t) where T
     du[1] = (- h(t - T(1//3))[1] - h(t - T(1//5))[1]) / oneunit(t)
 end
 
@@ -322,7 +322,7 @@ prob_dde_2delays_long = build_prob_dde_2delays_long(1.0)
 
 ### Not in-place function
 
-function f_2delays_long_notinplace(t::T, u, h) where {T}
+function f_2delays_long_notinplace(u::T, h, p, t) where T
     (- h(t - T(1//3)) .- h(t - T(1//5))) ./ oneunit(t)
 end
 
@@ -360,7 +360,7 @@ W.H. Enright and H. Hayashi, The evaluation of numerical software for delay
 differential equations.
 =#
 
-function f_dde_mackey(t, u, h, du)
+function f_dde_mackey(du, u, h, p, t)
     du[1] = 0.2*h(t-14)[1]/(1 + h(t-14)[1]^10) - 0.1*u[1]
 end
 
@@ -372,7 +372,7 @@ chaos in physiological control systems, 1977).
 """
 prob_dde_mackey = DDEProblem(f_dde_mackey, t -> [0.5], [0.5], (0.0, 500.0), [14])
 
-function f_dde_wheldon(t, u, h, du)
+function f_dde_wheldon(du, u, h, p, t)
     du[1] = 1.1/(1 + sqrt(10)*(h(t-20)[1])^(5/4)) - 10*u[1]/(1 + 40*u[2])
     du[2] = 100*u[1]/(1 + 40*u[2]) - 2.43*u[2]
 end
@@ -386,11 +386,11 @@ H. Finlay, Cyclical granulopoiesis in chronic granulocytic leukemia: A simulatio
 """
 prob_dde_wheldon = DDEProblem(f_dde_wheldon, t -> u0_wheldon, u0_wheldon, (0., 100.), [20])
 
-function f_dde_neves1(t, u, h, du)
+function f_dde_neves1(du, u, h, p, t)
     du[1] = 1 - h(exp(1-1/t))[1]
 end
 # only valid for specific history function
-function f_dde_neves1(::Type{Val{:analytic}}, t, u₀)
+function f_dde_neves1(::Type{Val{:analytic}}, u₀, p, t )
     0 < t ≤ 10 && u₀ == [log(0.1)] && return [log(t)]
     error("This analytical solution is only valid on (0, 10] and for history function ϕ(t) = ln(t) for 0 < t ≤ 0.1")
 end
@@ -404,7 +404,7 @@ of functional differential equations: An approach, 1975).
 prob_dde_neves_1 = DDEProblem(f_dde_neves1, t -> [log(t)], [log(0.1)], (0.1, 10.), [],
                               [(t, u) -> t - exp(1 - 1/t)])
 
-function f_dde_neves_thompson(t, u, h, du)
+function f_dde_neves_thompson(du, u, h, p, t)
     if h(t/2)[1] < 0
         du[1] = 1 - u[1]
     else
@@ -412,7 +412,7 @@ function f_dde_neves_thompson(t, u, h, du)
     end
 end
 # only valid for specific history function
-function f_dde_neves_thompson(::Type{Val{:analytic}}, t, u₀)
+function f_dde_neves_thompson(::Type{Val{:analytic}}, u₀, p, t )
     if u₀ == [1]
         if 0 ≤ t ≤ 2*log(2)
             return [2*exp(-t) - 1]
@@ -449,7 +449,7 @@ for ``t \\leq 0``.
 prob_dde_neves_thompson = DDEProblem(f_dde_neves_thompson, t -> [1.], [1.], (0., 2*log(66)),
                                      [], [(t, u) -> t/2])
 
-function f_dde_paul1(t, u, h, du)
+function f_dde_paul1(du, u, h, p, t)
     du[1] = - 2*h(t - 1 - abs(u[1]))[1]*(1 - u[1]^2)
 end
 
@@ -474,7 +474,7 @@ for ``t \\leq 0``.
 prob_dde_paul1 = DDEProblem(f_dde_paul1, t -> [0.5], [0.5], (0., 30.), [],
                              [(t, u) -> 1 + abs(u[1])])
 
-function f_dde_paul2(t, u, h, du)
+function f_dde_paul2(du, u, h, p, t)
     h1 = h(t - u[2])[1]
     du[1] = -2*h1
     du[2] = (abs(h1) - abs(u[1]))/(1 + abs(h1))
@@ -489,7 +489,7 @@ prob_dde_paul2 = DDEProblem(f_dde_paul2, t -> [1; 0.5], [1; 0.5], (0., 30.), [],
                              [(t, u) -> u[2]])
 
 function build_prob_dde_mahaffy(tspan, h, σ₀, T₁, γ, Q, k, a, K, r)
-    function f(t, u, h, du)
+    function f(du, u, h, p, t)
         du[1] = σ₀*h(t-T₁)[2] - γ*u[1] - Q
         du[2] = a/(1 + K*u[1]^r) - k*u[2]
         du[3] = 1 - Q*exp(γ*u[3])/(σ₀*h(t-T₁-u[3])[2])
@@ -517,13 +517,13 @@ M. C. Mackey, Hematopoietic model with moving boundary condition and state depen
 """
 prob_dde_mahaffy1, prob_dde_mahaffy2
 
-function f_dde_neves2(t, u, h, du)
+function f_dde_neves2(du, u, h, p, t)
     t2 = exp(1 - u[2])
     du[1] = u[2]
     du[2] = -h(t2)[2]*u[2]^2*t2
 end
 # only valid for specific history function
-function f_dde_neves2(::Type{Val{:analytic}}, t, u₀)
+function f_dde_neves2(::Type{Val{:analytic}}, u₀, p, t )
     0 < t ≤ 5 && u₀ == [log(0.1); 10] && return [log(t); 1/t]
     error("This analytical solution is only valid on (0, 5) and for history function ϕ(t) = [ln(t); 1/t] for 0 < t ≤ 0.1")
 end
@@ -538,7 +538,7 @@ prob_dde_neves2 = DDEProblem(f_dde_neves2, t -> [log(t); 1/t], [log(0.1); 10], (
                               [], [(t, u) -> t - exp(1 - u[2])])
 
 function build_f_dde_gatica(r₁, r₂, α, δ)
-    function f_dde_gatica(t, u, h, du)
+    function f_dde_gatica(du, u, h, p, t)
         u₁u₂ = u[1]*u[2]
         r₁u₁u₂ = r₁*u₁u₂
         r₂u₃ = r₂*u[3]
@@ -580,7 +580,7 @@ function build_prob_dde_qs(u₀, tspan, τ, D, γₛ, Kₘ, nₛ, a, αₐ, β�
 
     S₀ = u₀[1]
 
-    function f_dde_qs(t, u, h, du)
+    function f_dde_qs(du, u, h, p, t)
         if u[1] < 0
             # eq. 1 and 2 not defined for u[1] < 0
             du[1] = 0

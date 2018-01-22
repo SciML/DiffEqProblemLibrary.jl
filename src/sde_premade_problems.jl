@@ -1,8 +1,8 @@
 ### SDE Examples
 
-f = (t,u) -> 1.01u
-σ = (t,u) -> 0.87u
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(0.63155t+0.87W)
+f = (u,p,t) -> 1.01u
+σ = (u,p,t) -> 0.87u
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(0.63155t+0.87W)
 """
 ```math
 du_t = βudt + αudW_t
@@ -10,28 +10,28 @@ du_t = βudt + αudW_t
 where β=1.01, α=0.87, and initial condtion u0=1/2, with solution
 
 ```math
-u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
+u(u0,p,t,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 
 """
 prob_sde_linear = SDEProblem(f,σ,1/2,(0.0,1.0))
 
-f = (t,u) -> 1.01u
-σ = (t,u) -> 0.87u
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(1.01t+0.87W)
+f = (u,p,t) -> 1.01u
+σ = (u,p,t) -> 0.87u
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(1.01t+0.87W)
 prob_sde_linear_stratonovich = SDEProblem(f,σ,1/2,(0.0,1.0))
 
-f = (t,u,du) -> begin
+f = (du,u,p,t) -> begin
   for i = 1:length(u)
     du[i] = 1.01*u[i]
   end
 end
-σ = (t,u,du) -> begin
+σ = (du,u,p,t) -> begin
   for i in 1:length(u)
     du[i] = .87*u[i]
   end
 end
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(0.63155*t+0.87*W)
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(0.63155*t+0.87*W)
 """
 8 linear SDEs (as a 4x2 matrix):
 
@@ -41,27 +41,27 @@ du_t = βudt + αudW_t
 where β=1.01, α=0.87, and initial condtion u0=1/2 with solution
 
 ```math
-u(t,u0,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
+u(u0,p,t,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 """
 prob_sde_2Dlinear = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
 
-f = (t,u,du) -> begin
+f = (du,u,p,t) -> begin
   for i = 1:length(u)
     du[i] = 1.01*u[i]
   end
 end
-σ = (t,u,du) -> begin
+σ = (du,u,p,t) -> begin
   for i in 1:length(u)
     du[i] = .87*u[i]
   end
 end
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0.*exp.(1.01*t+0.87*W)
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(1.01*t+0.87*W)
 prob_sde_2Dlinear_stratonovich = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
 
-f = (t,u) -> -.25*u*(1-u^2)
-σ = (t,u) -> .5*(1-u^2)
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = ((1+u0).*exp.(W)+u0-1)./((1+u0).*exp.(W)+1-u0)
+f = (u,p,t) -> -.25*u*(1-u^2)
+σ = (u,p,t) -> .5*(1-u^2)
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = ((1+u0).*exp.(W)+u0-1)./((1+u0).*exp.(W)+1-u0)
 """
 ```math
 du_t = \\frac{1}{4}u(1-u^2)dt + \\frac{1}{2}(1-u^2)dW_t
@@ -70,14 +70,14 @@ du_t = \\frac{1}{4}u(1-u^2)dt + \\frac{1}{2}(1-u^2)dW_t
 and initial condtion u0=1/2, with solution
 
 ```math
-u(t,u0,W_t)=\\frac{(1+u0)\\exp(W_t)+u0-1}{(1+u0)\\exp(W_t)+1-u0}
+u(u0,p,t,W_t)=\\frac{(1+u0)\\exp(W_t)+u0-1}{(1+u0)\\exp(W_t)+1-u0}
 ```
 """
 prob_sde_cubic = SDEProblem(f,σ,1/2,(0.0,1.0))
 
-f = (t,u) -> -0.01*sin.(u).*cos.(u).^3
-σ = (t,u) -> 0.1*cos.(u).^2
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = atan.(0.1*W + tan.(u0))
+f = (u,p,t) -> -0.01*sin.(u).*cos.(u).^3
+σ = (u,p,t) -> 0.1*cos.(u).^2
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = atan.(0.1*W + tan.(u0))
 """
 ```math
 du_t = -\\frac{1}{100}\sin(u)\cos^3(u)dt + \\frac{1}{10}\cos^{2}(u_t) dW_t
@@ -86,16 +86,16 @@ du_t = -\\frac{1}{100}\sin(u)\cos^3(u)dt + \\frac{1}{10}\cos^{2}(u_t) dW_t
 and initial condition `u0=1.0` with solution
 
 ```math
-u(t,u0,W_t)=\\arctan(\\frac{W_t}{10} + \\tan(u0))
+u(u0,p,t,W_t)=\\arctan(\\frac{W_t}{10} + \\tan(u0))
 ```
 """
 prob_sde_wave = SDEProblem(f,σ,1.,(0.0,1.0))
 
 const sde_wave_α = 0.1
 const sde_wave_β = 0.05
-f = (t,u) -> sde_wave_β./sqrt.(1+t) - u./(2*(1+t))
-σ = (t,u) -> sde_wave_α*sde_wave_β./sqrt.(1+t)
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0./sqrt.(1+t) + sde_wave_β*(t+sde_wave_α*W)./sqrt.(1+t)
+f = (u,p,t) -> sde_wave_β./sqrt.(1+t) - u./(2*(1+t))
+σ = (u,p,t) -> sde_wave_α*sde_wave_β./sqrt.(1+t)
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt.(1+t) + sde_wave_β*(t+sde_wave_α*W)./sqrt.(1+t)
 
 """
 Additive noise problem
@@ -107,25 +107,25 @@ u_t = (\\frac{β}{\\sqrt{1+t}}-\\frac{1}{2(1+t)}u_t)dt + \\frac{αβ}{\\sqrt{1+t
 and initial condition u0=1.0 with α=0.1 and β=0.05, with solution
 
 ```math
-u(t,u0,W_t)=\\frac{u0}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
+u(u0,p,t,W_t)=\\frac{u0}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
 ```
 """
 prob_sde_additive = SDEProblem(f,σ,1.,(0.0,1.0))
 
 const sde_wave_αvec = [0.1;0.1;0.1;0.1]
 const sde_wave_βvec = [0.5;0.25;0.125;0.1115]
-f = (t,u,du) -> begin
+f = (du,u,p,t) -> begin
   for i in 1:length(u)
     du[i] = sde_wave_βvec[i]/sqrt(1+t) - u[i]/(2*(1+t))
   end
 end
 
-σ = (t,u,du) -> begin
+σ = (du,u,p,t) -> begin
   for i in 1:length(u)
     du[i] = sde_wave_αvec[i]*sde_wave_βvec[i]/sqrt(1+t)
   end
 end
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
 
 """
 A multiple dimension extension of `additiveSDEExample`
@@ -139,7 +139,7 @@ f = @ode_def_nohes LorenzSDE begin
   dz = x*y - β*z
 end σ=>10. ρ=>28. β=>2.66
 
-σ = (t,u,du) -> begin
+σ = (du,u,p,t) -> begin
   for i in 1:3
     du[i] = 3.0 #Additive
   end
@@ -160,9 +160,9 @@ with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u0=[1;1
 prob_sde_lorenz = SDEProblem(f,σ,ones(3),(0.0,10.0))
 
 
-f = (t,u) -> (1/3)*u^(1/3) + 6*u^(2/3)
-σ = (t,u) -> u^(2/3)
-(p::typeof(f))(::Type{Val{:analytic}},t,u0,W) = (2t + 1 + W/3)^3
+f = (u,p,t) -> (1/3)*u^(1/3) + 6*u^(2/3)
+σ = (u,p,t) -> u^(2/3)
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = (2t + 1 + W/3)^3
 """
 Runge–Kutta methods for numerical solution of stochastic differential equations
 Tocino and Ardanuy
@@ -337,20 +337,20 @@ Higher α or β is stiff, with α being deterministic stiffness and
 """
 function generate_stiff_quad(α,β;ito=true)
     if ito
-        f = function (t,u)
+        f = function (u,p,t)
             -(α+(β^2)*u)*(1-u^2)
         end
     else
-        f = function (t,u)
+        f = function (u,p,t)
             -α*(1-u^2)
         end
     end
 
-    function g(t,u)
+    function g(u,p,t)
         β*(1-u^2)
     end
 
-    function (::typeof(f))(::Type{Val{:analytic}},t,u0,W)
+    function (::typeof(f))(::Type{Val{:analytic}},u0,p,t,W)
         exp_tmp = exp(-2*α*t+2*β*W)
         tmp = 1 + u0
         (tmp*exp_tmp + u0 - 1)/(tmp*exp_tmp - u0 + 1)
@@ -373,15 +373,15 @@ function generate_stiff_stoch_heat(D=1,k=1;N = 100)
     A = full(Tridiagonal([1.0 for i in 1:N-1],[-2.0 for i in 1:N],[1.0 for i in 1:N-1]))
     dx = 1/N
     A = D/(dx^2) * A
-    function f(t,u,du)
+    function f(du,u,p,t)
         A_mul_B!(du,A,u)
     end
     #=
-    function f(::Type{Val{:analytic}},t,u0,W)
+    function f(::Type{Val{:analytic}},u0,p,t,W)
         expm(A*t+W*I)*u0
     end
     =#
-    function g(t,u,du)
+    function g(du,u,p,t)
         @. du = k*u
     end
     SDEProblem(f,g,ones(N),(0.0,3.0),noise=WienerProcess(0.0,0.0,0.0,rswm=RSWM(adaptivealg=:RSwM3)))

@@ -3,8 +3,8 @@ srand(100)
 ### ODE Examples
 
 # Linear ODE
-linear = (t,u) -> (1.01*u)
-(f::typeof(linear))(::Type{Val{:analytic}},t,u0) = u0*exp(1.01*t)
+linear = (u,p,t) -> (1.01*u)
+(f::typeof(linear))(::Type{Val{:analytic}},u0,p,t) = u0*exp(1.01*t)
 """
 Linear ODE
 
@@ -23,8 +23,8 @@ with Float64s
 prob_ode_linear = ODEProblem(linear,1/2,(0.0,1.0))
 
 const linear_bigα = parse(BigFloat,"1.01")
-f_linearbig = (t,u) -> (linear_bigα*u)
-(f::typeof(f_linearbig))(::Type{Val{:analytic}},t,u0) = u0*exp(linear_bigα*t)
+f_linearbig = (u,p,t) -> (linear_bigα*u)
+(f::typeof(f_linearbig))(::Type{Val{:analytic}},u0,p,t) = u0*exp(linear_bigα*t)
 """
 Linear ODE
 
@@ -42,12 +42,12 @@ with BigFloats
 """
 prob_ode_bigfloatlinear = ODEProblem(f_linearbig,parse(BigFloat,"0.5"),(0.0,1.0))
 
-f_2dlinear = (t,u,du) -> begin
+f_2dlinear = (du,u,p,t) -> begin
   for i in 1:length(u)
     du[i] = 1.01*u[i]
   end
 end
-(f::typeof(f_2dlinear))(::Type{Val{:analytic}},t,u0) = u0*exp.(1.01*t)
+(f::typeof(f_2dlinear))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(1.01*t)
 """
 4x2 version of the Linear ODE
 
@@ -82,12 +82,12 @@ with Float64s
 """
 prob_ode_large2Dlinear = ODEProblem(f_2dlinear,rand(100,100),(0.0,1.0))
 
-f_2dlinearbig = (t,u,du) -> begin
+f_2dlinearbig = (du,u,p,t) -> begin
   for i in 1:length(u)
     du[i] = linear_bigα*u[i]
   end
 end
-(f::typeof(f_2dlinearbig))(::Type{Val{:analytic}},t,u0) = u0*exp.(1.01*t)
+(f::typeof(f_2dlinearbig))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(1.01*t)
 """
 4x2 version of the Linear ODE
 
@@ -104,8 +104,8 @@ u(t) = u0e^{αt}
 with BigFloats
 """
 prob_ode_bigfloat2Dlinear = ODEProblem(f_2dlinearbig,map(BigFloat,rand(4,2)).*ones(4,2)/2,(0.0,1.0))
-f_2dlinear_notinplace = (t,u) -> 1.01*u
-(f::typeof(f_2dlinear_notinplace))(::Type{Val{:analytic}},t,u0) = u0*exp.(1.01*t)
+f_2dlinear_notinplace = (u,p,t) -> 1.01*u
+(f::typeof(f_2dlinear_notinplace))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(1.01*t)
 """
 4x2 version of the Linear ODE
 
@@ -229,7 +229,7 @@ prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0],(0.0,1e11))
 # Three Body
 const threebody_μ = parse(BigFloat,"0.012277471"); const threebody_μ′ = 1 - threebody_μ
 
-threebody = (t,u,du) -> begin
+threebody = (du,u,p,t) -> begin
   # 1 = y₁
   # 2 = y₂
   # 3 = y₁'
@@ -295,7 +295,7 @@ prob_ode_rigidbody = ODEProblem(rigid,[1.0,0.0,0.9],(0.0,20.0))
 
 # Pleiades Problem
 
-pleiades = (t,u,du) -> begin
+pleiades = (du,u,p,t) -> begin
   x = view(u,1:7)   # x
   y = view(u,8:14)  # y
   v = view(u,15:21) # x′
@@ -370,9 +370,9 @@ prob_ode_pleiades = ODEProblem(pleiades,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0
 
 srand(100)
 const mm_A = rand(4,4)
-mm_linear = function (t,u,du)
+mm_linear = function (du,u,p,t)
   A_mul_B!(du,mm_A,u)
 end
 const MM_linear =full(Diagonal(0.5ones(4)))
-(::typeof(mm_linear))(::Type{Val{:analytic}},t,u0) = expm(inv(MM_linear)*mm_A*t)*u0
+(::typeof(mm_linear))(::Type{Val{:analytic}},u0,p,t) = expm(inv(MM_linear)*mm_A*t)*u0
 prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linear)
