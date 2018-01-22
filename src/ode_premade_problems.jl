@@ -129,7 +129,7 @@ prob_ode_2Dlinear_notinplace = ODEProblem(f_2dlinear_notinplace,rand(4,2),(0.0,1
 lotka = @ode_def_nohes LotkaVolterra begin
   dx = a*x - b*x*y
   dy = -c*y + d*x*y
-end a=>1.5 b=>1.0 c=>3.0 d=1.0
+end a b c d
 
 """
 Lotka-Voltera Equations
@@ -141,14 +141,14 @@ Lotka-Voltera Equations
 
 with initial condition ``x=y=1``
 """
-prob_ode_lotkavoltera = ODEProblem(lotka,[1;1],(0.0,1.0))
+prob_ode_lotkavoltera = ODEProblem(lotka,[1.0,1.0],(0.0,1.0),[1.5,1.0,3.0,1.0])
 
 ## Fitzhugh-Nagumo
 
 fitz = @ode_def_nohes FitzhughNagumo begin
   dv = v - v^3/3 -w + l
   dw = τinv*(v +  a - b*w)
-end a=0.7 b=0.8 τinv=(1/12.5) l=0.5
+end a b τinv l
 """
 Fitzhugh-Nagumo
 
@@ -159,13 +159,13 @@ Fitzhugh-Nagumo
 
 with initial condition ``v=w=1``
 """
-prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0))
+prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0),(0.7,0.8,1/12.5,0.5))
 
 #Van der Pol Equations
 van = @ode_def_noinvhes VanDerPol begin
   dy = μ*(1-x^2)*y - x
   dx = 1*y
-end μ=>1.
+end μ
 
 """
 Van der Pol Equations
@@ -181,9 +181,8 @@ with ``μ=1.0`` and ``u0=[0,\\sqrt{3}]``
 
 Non-stiff parameters.
 """
-prob_ode_vanderpol = ODEProblem(van,[0;sqrt(3)],(0.0,1.0))
+prob_ode_vanderpol = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1.0)
 
-van_stiff = VanDerPol(μ=1e6)
 """Van der Pol Equations
 
 ```math
@@ -197,7 +196,7 @@ with ``μ=10^6`` and ``u0=[0,\\sqrt{3}]``
 
 Stiff parameters.
 """
-prob_ode_vanderpol_stiff = ODEProblem(van_stiff,[0;sqrt(3)],(0.0,1.0))
+prob_ode_vanstiff = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1e6)
 
 # ROBER
 
@@ -205,7 +204,7 @@ rober = @ode_def_noinvjac Rober begin
   dy₁ = -k₁*y₁+k₃*y₂*y₃
   dy₂ =  k₁*y₁-k₂*y₂^2-k₃*y₂*y₃
   dy₃ =  k₂*y₂^2
-end k₁=>0.04 k₂=>3e7 k₃=>1e4
+end k₁ k₂ k₃
 
 """
 The Robertson biochemical reactions:
@@ -224,7 +223,7 @@ Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Probl
 
 Usually solved on `[0,1e11]`
 """
-prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0],(0.0,1e11))
+prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0],(0.0,1e11),(0.04,3e7,1e4))
 
 # Three Body
 const threebody_μ = parse(BigFloat,"0.012277471"); const threebody_μ′ = 1 - threebody_μ
@@ -268,7 +267,7 @@ rigid = @ode_def_noinvjac RigidBody begin
   dy₁  = I₁*y₂*y₃
   dy₂  = I₂*y₁*y₃
   dy₃  = I₃*y₁*y₂
-end I₁=>-2 I₂=>1.25 I₃=>-.5
+end I₁ I₂ I₃
 
 """
 Rigid Body Equations
@@ -291,7 +290,7 @@ or Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Pr
 
 Usually solved from 0 to 20.
 """
-prob_ode_rigidbody = ODEProblem(rigid,[1.0,0.0,0.9],(0.0,20.0))
+prob_ode_rigidbody = ODEProblem(rigid,[1.0,0.0,0.9],(0.0,20.0),(-2.0,1.25,-0.5))
 
 # Pleiades Problem
 

@@ -137,7 +137,7 @@ f = @ode_def_nohes LorenzSDE begin
   dx = σ*(y-x)
   dy = x*(ρ-z) - y
   dz = x*y - β*z
-end σ=>10. ρ=>28. β=>2.66
+end σ ρ β
 
 σ = (du,u,p,t) -> begin
   for i in 1:3
@@ -157,7 +157,7 @@ dz &= (x*y - β*z)dt + αdW_t \\\\
 
 with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u0=[1;1;1]``.
 """
-prob_sde_lorenz = SDEProblem(f,σ,ones(3),(0.0,10.0))
+prob_sde_lorenz = SDEProblem(f,σ,ones(3),(0.0,10.0),(10.0,28.0,2.66))
 
 
 f = (u,p,t) -> (1/3)*u^(1/3) + 6*u^(2/3)
@@ -249,7 +249,7 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
   nSO=2.
   nzo=2.
   GE = 1.
-  f = function (t,y,dy)
+  f = function (dy,y,p,t)
     # y(1) = snailt
     # y(2) = SNAIL
     # y(3) = miR34t
@@ -291,12 +291,12 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
     dy[19]=kOp*y[18]-kd_Op*y[19]
   end
 
-  σ1 = function (t,y,dσ)
+  σ1 = function (dσ,y,p,t)
     dσ[1] = noiseLevel*1.5y[1]
     dσ[18]= noiseLevel*6y[18]
   end
 
-  σ2 = function (t,y,dσ)
+  σ2 = function (dσ,y,p,t)
     dσ[1] = 0.02y[1]
     dσ[16]= 0.02y[16]
     dσ[18]= 0.2y[18]
