@@ -9,4 +9,4 @@ end
 u0 = [1.0, 0, 0]
 du0 = [-0.04, 0.04, 0.0]
 "DAE residual form for the Robertson model"
-prob_dae_resrob = DAEProblem(f,u0,du0,(0.0,100000.0))
+prob_dae_resrob = DAEProblem(f,du0,u0,(0.0,100000.0))
