@@ -5,7 +5,7 @@
 ### In-place function
 
 function f_1delay(du, u, h, p, t)
-    du[1] = - h(t - oneunit(t))[1] / oneunit(t)
+    du[1] = - h(p, t - oneunit(t))[1] / oneunit(t)
 end
 
 function f_1delay(::Type{Val{:analytic}}, u₀, p, t)
@@ -47,7 +47,7 @@ function f_1delay(::Type{Val{:analytic}}, u₀, p, t)
 end
 
 build_prob_dde_1delay(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay, [u₀], t->[zero(u₀)], (zero(T), T(10)),
+    DDEProblem(f_1delay, [u₀], (p, t)->[zero(u₀)], (zero(T), T(10)),
                constant_lags = [oneunit(T)])
 
 """
@@ -79,7 +79,7 @@ prob_dde_1delay = build_prob_dde_1delay(1.0)
 ### Not in-place function
 
 function f_1delay_notinplace(u, h, p, t)
-    - h(t - oneunit(t)) ./ oneunit(t)
+    - h(p, t - oneunit(t)) ./ oneunit(t)
 end
 
 f_1delay_notinplace(::Type{Val{:analytic}}, u0, p, t) = f_1delay(Val{:analytic}, u0, p, t)
@@ -87,7 +87,7 @@ f_1delay_notinplace(::Type{Val{:analytic}}, u0, p, t) = f_1delay(Val{:analytic},
 #### Vectorized history function
 
 build_prob_dde_1delay_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay_notinplace, [u₀], t->[zero(u₀)], (zero(T), T(10)),
+    DDEProblem(f_1delay_notinplace, [u₀], (p, t)->[zero(u₀)], (zero(T), T(10)),
                constant_lags = [oneunit(T)])
 
 """
@@ -101,8 +101,8 @@ prob_dde_1delay_notinplace = build_prob_dde_1delay_notinplace(1.0)
 #### Scalar history function
 
 build_prob_dde_1delay_scalar_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay_notinplace, u₀, t -> zero(u₀), (zero(T), T(10)),
-    constant_lags = [oneunit(T)])
+    DDEProblem(f_1delay_notinplace, u₀, (p, t) -> zero(u₀), (zero(T), T(10)),
+               constant_lags = [oneunit(T)])
 
 """
     prob_dde_1delay_scalar_notinplace
@@ -117,7 +117,7 @@ prob_dde_1delay_scalar_notinplace = build_prob_dde_1delay_scalar_notinplace(1.0)
 ### In-place function
 
 function f_2delays(du, u, h, p, t::T) where T
-    du[1] = (- h(t - T(1//3))[1] - h(t - T(1//5))[1]) / oneunit(t)
+    du[1] = (- h(p, t - T(1//3))[1] - h(p, t - T(1//5))[1]) / oneunit(t)
 end
 
 function f_2delays(::Type{Val{:analytic}}, u₀, p, t)
@@ -157,7 +157,7 @@ function f_2delays(::Type{Val{:analytic}}, u₀, p, t)
 end
 
 build_prob_dde_2delays(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_2delays, [u₀], t -> [zero(u₀)], (zero(T), oneunit(T)),
+    DDEProblem(f_2delays, [u₀], (p, t) -> [zero(u₀)], (zero(T), oneunit(T)),
     constant_lags = [T(1//3), T(1//5)])
 
 """
@@ -189,7 +189,7 @@ prob_dde_2delays = build_prob_dde_2delays(1.0)
 ### Not in-place function
 
 function f_2delays_notinplace(u, h, p, t::T) where T
-    (- h(t - T(1//3)) .- h(t - T(1//5))) ./ oneunit(t)
+    (- h(p, t - T(1//3)) .- h(p, t - T(1//5))) ./ oneunit(t)
 end
 
 f_2delays_notinplace(::Type{Val{:analytic}}, u0, p, t) =
@@ -198,7 +198,7 @@ f_2delays_notinplace(::Type{Val{:analytic}}, u0, p, t) =
 #### Vectorized history function
 
 build_prob_dde_2delays_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_2delays_notinplace, [u₀], t -> [zero(u₀)], (zero(T), oneunit(T)),
+    DDEProblem(f_2delays_notinplace, [u₀], (p, t) -> [zero(u₀)], (zero(T), oneunit(T)),
                constant_lags =  [T(1//3), T(1//5)])
 
 """
@@ -212,7 +212,7 @@ prob_dde_2delays_notinplace = build_prob_dde_2delays_notinplace(1.0)
 #### Scalar history function
 
 build_prob_dde_2delays_scalar_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_2delays_notinplace, u₀, t -> zero(u₀), (zero(T), oneunit(T)),
+    DDEProblem(f_2delays_notinplace, u₀, (p, t) -> zero(u₀), (zero(T), oneunit(T)),
                constant_lags = [T(1//3), T(1//5)])
 
 """
@@ -230,11 +230,11 @@ prob_dde_2delays_scalar_notinplace = build_prob_dde_2delays_scalar_notinplace(1.
 ### In-place function
 
 function f_1delay_long(du, u, h, p, t::T) where T
-    du[1] = (- h(t - T(1//5))[1] + u[1]) / oneunit(t)
+    du[1] = (- h(p, t - T(1//5))[1] + u[1]) / oneunit(t)
 end
 
 build_prob_dde_1delay_long(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay_long, [u₀], t -> [zero(u₀)], (zero(T), T(100)),
+    DDEProblem(f_1delay_long, [u₀], (p, t) -> [zero(u₀)], (zero(T), T(100)),
     constant_lags = [T(1//5)])
 
 """
@@ -264,11 +264,11 @@ prob_dde_1delay_long = build_prob_dde_1delay_long(1.0)
 ### Not in-place function
 
 function f_1delay_long_notinplace(u, h, p, t::T) where T
-    (- h(t - T(1//5)) .+ u ) ./ oneunit(t)
+    (- h(p, t - T(1//5)) .+ u ) ./ oneunit(t)
 end
 
 build_prob_dde_1delay_long_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay_long_notinplace, [u₀], t -> [zero(u₀)], (zero(T), T(100)),
+    DDEProblem(f_1delay_long_notinplace, [u₀], (p, t) -> [zero(u₀)], (zero(T), T(100)),
                constant_lags = [T(1//5)])
 
 """
@@ -280,7 +280,7 @@ in-place function.
 prob_dde_1delay_long_notinplace = build_prob_dde_1delay_long_notinplace(1.0)
 
 build_prob_dde_1delay_long_scalar_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay_long_notinplace, u₀, t -> zero(u₀), (zero(T), T(100)),
+    DDEProblem(f_1delay_long_notinplace, u₀, (p, t) -> zero(u₀), (zero(T), T(100)),
                constant_lags = [T(1//5)])
 
 """
@@ -296,12 +296,12 @@ prob_dde_1delay_long_scalar_notinplace = build_prob_dde_1delay_long_scalar_notin
 ### In-place function
 
 function f_2delays_long(du, u, h, p, t::T) where T
-    du[1] = (- h(t - T(1//3))[1] - h(t - T(1//5))[1]) / oneunit(t)
+    du[1] = (- h(p, t - T(1//3))[1] - h(p, t - T(1//5))[1]) / oneunit(t)
 end
 
 build_prob_dde_2delays_long(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_2delays_long, [u₀], t -> [zero(u₀)], (zero(T), T(100)),
-                constant_lags = [T(1//3), T(1//5)])
+    DDEProblem(f_2delays_long, [u₀], (p, t) -> [zero(u₀)], (zero(T), T(100)),
+               constant_lags = [T(1//3), T(1//5)])
 
 """
     prob_dde_2delays_long
@@ -330,13 +330,13 @@ prob_dde_2delays_long = build_prob_dde_2delays_long(1.0)
 ### Not in-place function
 
 function f_2delays_long_notinplace(u, h, p, t::T) where T
-    (- h(t - T(1//3)) .- h(t - T(1//5))) ./ oneunit(t)
+    (- h(p, t - T(1//3)) .- h(p, t - T(1//5))) ./ oneunit(t)
 end
 
 #### Vectorized history function
 
 build_prob_dde_2delays_long_notinplace(u₀, ::T=u₀) where {T} =
-     DDEProblem(f_2delays_long_notinplace, [u₀], t -> [zero(u₀)], (zero(T), T(100)),
+     DDEProblem(f_2delays_long_notinplace, [u₀], (p, t) -> [zero(u₀)], (zero(T), T(100)),
                 constant_lags = [T(1//3), T(1//5)])
 
 """
@@ -350,7 +350,7 @@ prob_dde_2delays_long_notinplace = build_prob_dde_2delays_long_notinplace(1.0)
 #### Scalar history function
 
 build_prob_dde_2delays_long_scalar_notinplace(u₀, ::T=u₀) where {T} =
-     DDEProblem(f_2delays_long_notinplace, u₀, t -> zero(u₀), (zero(T), T(100)),
+     DDEProblem(f_2delays_long_notinplace, u₀, (p, t) -> zero(u₀), (zero(T), T(100)),
                 constant_lags = [T(1//3), T(1//5)])
 
 """
@@ -368,7 +368,7 @@ differential equations.
 =#
 
 function f_dde_mackey(du, u, h, p, t)
-    du[1] = 0.2*h(t-14)[1]/(1 + h(t-14)[1]^10) - 0.1*u[1]
+    du[1] = 0.2*h(p, t-14)[1]/(1 + h(p, t-14)[1]^10) - 0.1*u[1]
 end
 
 """
@@ -377,11 +377,11 @@ end
 Model of blood production with constant delay (M. C. Mackey and L. Glass, Oscillation and
 chaos in physiological control systems, 1977).
 """
-prob_dde_mackey = DDEProblem(f_dde_mackey, [0.5], t -> [0.5], (0.0, 500.0),
+prob_dde_mackey = DDEProblem(f_dde_mackey, [0.5], (p, t) -> [0.5], (0.0, 500.0),
                              constant_lags = [14])
 
 function f_dde_wheldon(du, u, h, p, t)
-    du[1] = 1.1/(1 + sqrt(10)*(h(t-20)[1])^(5/4)) - 10*u[1]/(1 + 40*u[2])
+    du[1] = 1.1/(1 + sqrt(10)*(h(p, t-20)[1])^(5/4)) - 10*u[1]/(1 + 40*u[2])
     du[2] = 100*u[1]/(1 + 40*u[2]) - 2.43*u[2]
 end
 u0_wheldon = [1.05767027/3; 1.030713491/3]
@@ -392,11 +392,11 @@ u0_wheldon = [1.05767027/3; 1.030713491/3]
 Model of chronic granulocytic leukemia with constant delay (T. Wheldon, J. Kirk and
 H. Finlay, Cyclical granulopoiesis in chronic granulocytic leukemia: A simulation study, 1974).
 """
-prob_dde_wheldon = DDEProblem(f_dde_wheldon, u0_wheldon, t -> u0_wheldon, (0., 100.),
+prob_dde_wheldon = DDEProblem(f_dde_wheldon, u0_wheldon, (p, t) -> u0_wheldon, (0., 100.),
                               constant_lags = [20])
 
 function f_dde_neves1(du, u, h, p, t)
-    du[1] = 1 - h(exp(1-1/t))[1]
+    du[1] = 1 - h(p, exp(1-1/t))[1]
 end
 # only valid for specific history function
 function f_dde_neves1(::Type{Val{:analytic}}, u₀, p, t )
@@ -410,11 +410,11 @@ end
 DDE with vanishing time dependent delay at ``t = 1`` (K. W. Neves, Automatic integratorion
 of functional differential equations: An approach, 1975).
 """
-prob_dde_neves_1 = DDEProblem(f_dde_neves1, [log(0.1)], t -> [log(t)], (0.1, 10.),
+prob_dde_neves_1 = DDEProblem(f_dde_neves1, [log(0.1)], (p, t) -> [log(t)], (0.1, 10.),
                               dependent_lags = [(u,p,t) -> t - exp(1 - 1/t)])
 
 function f_dde_neves_thompson(du, u, h, p, t)
-    if h(t/2)[1] < 0
+    if h(p, t/2)[1] < 0
         du[1] = 1 - u[1]
     else
         du[1] = -1 - u[1]
@@ -455,11 +455,11 @@ u(t) = 1
 
 for ``t \\leq 0``.
 """
-prob_dde_neves_thompson = DDEProblem(f_dde_neves_thompson, [1.], t -> [1.], (0., 2*log(66)),
+prob_dde_neves_thompson = DDEProblem(f_dde_neves_thompson, [1.], (p, t) -> [1.], (0., 2*log(66)),
                                      constant_lags = [(u,p,t) -> t/2])
 
 function f_dde_paul1(du, u, h, p, t)
-    du[1] = - 2*h(t - 1 - abs(u[1]))[1]*(1 - u[1]^2)
+    du[1] = - 2*h(p, t - 1 - abs(u[1]))[1]*(1 - u[1]^2)
 end
 
 """
@@ -480,11 +480,11 @@ u(t) = 1/2
 
 for ``t \\leq 0``.
 """
-prob_dde_paul1 = DDEProblem(f_dde_paul1, [0.5], t -> [0.5], (0., 30.),
+prob_dde_paul1 = DDEProblem(f_dde_paul1, [0.5], (p, t) -> [0.5], (0., 30.),
                             dependent_lags = [(u,p,t) -> 1 + abs(u[1])])
 
 function f_dde_paul2(du, u, h, p, t)
-    h1 = h(t - u[2])[1]
+    h1 = h(p, t - u[2])[1]
     du[1] = -2*h1
     du[2] = (abs(h1) - abs(u[1]))/(1 + abs(h1))
 end
@@ -494,22 +494,22 @@ end
 
 DDE with state dependent delay (C. A. H. Paul, A test set of functional differential equations, 1994).
 """
-prob_dde_paul2 = DDEProblem(f_dde_paul2, [1; 0.5], t -> [1; 0.5], (0., 30.),
+prob_dde_paul2 = DDEProblem(f_dde_paul2, [1; 0.5], (p, t) -> [1; 0.5], (0., 30.),
                             dependent_lags = [(u,p,t) -> u[2]])
 
 function build_prob_dde_mahaffy(tspan, h, σ₀, T₁, γ, Q, k, a, K, r)
     function f(du, u, h, p, t)
-        du[1] = σ₀*h(t-T₁)[2] - γ*u[1] - Q
+        du[1] = σ₀*h(p, t-T₁)[2] - γ*u[1] - Q
         du[2] = a/(1 + K*u[1]^r) - k*u[2]
-        du[3] = 1 - Q*exp(γ*u[3])/(σ₀*h(t-T₁-u[3])[2])
+        du[3] = 1 - Q*exp(γ*u[3])/(σ₀*h(p, t-T₁-u[3])[2])
     end
 
-    DDEProblem(f, h(0), h, tspan,
+    DDEProblem(f, h(nothing, 0), h, tspan,
                 constant_lags = [T₁],
                 dependent_lags = [(u,p,t) -> T₁ + u[3]])
 end
 
-function h_mahaffy1(t)
+function h_mahaffy1(p, t)
     if t < -6
         return [3.325; 9.5; 120]
     else
@@ -519,7 +519,7 @@ end
 prob_dde_mahaffy1 = build_prob_dde_mahaffy((0., 300.), h_mahaffy1, 0.0031, 6, 0.001, 0.0275,
                                            2.8, 6570, 0.0382, 6.96)
 
-prob_dde_mahaffy2 = build_prob_dde_mahaffy((0., 100.), t -> [3.5; 10; 50], 0.00372, 3, 0.1,
+prob_dde_mahaffy2 = build_prob_dde_mahaffy((0., 100.), (p, t) -> [3.5; 10; 50], 0.00372, 3, 0.1,
                                            0.00178, 6.65, 15600, 0.0382, 6.96)
 
 """
@@ -531,7 +531,7 @@ prob_dde_mahaffy1, prob_dde_mahaffy2
 function f_dde_neves2(du, u, h, p, t)
     t2 = exp(1 - u[2])
     du[1] = u[2]
-    du[2] = -h(t2)[2]*u[2]^2*t2
+    du[2] = -h(p, t2)[2]*u[2]^2*t2
 end
 # only valid for specific history function
 function f_dde_neves2(::Type{Val{:analytic}}, u₀, p, t )
@@ -545,7 +545,7 @@ end
 DDE with vanishing state dependent delay at ``t = 1`` (K. W. Neves, Automatic integration
 of functional differential equations: An approach, 1975).
 """
-prob_dde_neves2 = DDEProblem(f_dde_neves2, [log(0.1); 10], t -> [log(t); 1/t], (0.1, 5.),
+prob_dde_neves2 = DDEProblem(f_dde_neves2, [log(0.1); 10], (p, t) -> [log(t); 1/t], (0.1, 5.),
                              dependent_lags = [(u,p,t) -> t - exp(1 - u[2])])
 
 function build_f_dde_gatica(r₁, r₂, α, δ)
@@ -553,7 +553,7 @@ function build_f_dde_gatica(r₁, r₂, α, δ)
         u₁u₂ = u[1]*u[2]
         r₁u₁u₂ = r₁*u₁u₂
         r₂u₃ = r₂*u[3]
-        uₕ = h(t - u[4])
+        uₕ = h(p, t - u[4])
         uₕ₁₂ = uₕ[1]*uₕ[2]
 
         du[1] = -r₁u₁u₂ + r₂u₃
@@ -570,7 +570,7 @@ Model of antigen antibody dynamics with fading memory, with vanishing state depe
 at ``t = 0`` (J. Gatica and P. Waltman, A threshold model of antigen antibody dynamics with fading memory, 1982).
 """
 prob_dde_gatica = DDEProblem(build_f_dde_gatica(0.02, 0.005, 3, 0.01),
-                             [5; 0.1; 0; 0], t -> [5; 0.1; 0; 0],
+                             [5; 0.1; 0; 0], (p, t) -> [5; 0.1; 0; 0],
                              (0., 40.), dependent_lags = [(u,p,t) -> u[4]])
 
 #=
@@ -614,7 +614,7 @@ function build_prob_dde_qs(u₀, tspan, τ, D, γₛ, Kₘ, nₛ, a, αₐ, β�
             du[4] = αC * (R - u[4]) * u[3] - γ₃ * u[4]
         end
 
-        Cₜ = h(t - τ)[4]
+        Cₜ = h(p, t - τ)[4]
         if Cₜ < 0
             # eq. 5 not defined for Cₜ < 0
             du[5] = 0
@@ -623,7 +623,7 @@ function build_prob_dde_qs(u₀, tspan, τ, D, γₛ, Kₘ, nₛ, a, αₐ, β�
         end
     end
 
-    DDEProblem(f_dde_qs, u₀, t -> u₀, tspan, constant_lags = [τ])
+    DDEProblem(f_dde_qs, u₀, (p, t) -> u₀, tspan, constant_lags = [τ])
 end
 
 """
