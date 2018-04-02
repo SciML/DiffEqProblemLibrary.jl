@@ -375,3 +375,99 @@ end
 const MM_linear =full(Diagonal(0.5ones(4)))
 (::typeof(mm_linear))(::Type{Val{:analytic}},u0,p,t) = expm(inv(MM_linear)*mm_A*t)*u0
 prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linear)
+
+function brusselator_loop(du, u, p, t)
+  @inbounds begin
+    A, B, α, dx, N = p
+    α = α/dx^2
+    # Interior
+    for i in 2:N-1, j in 2:N-1
+      du[i,j,1] = α*(u[i-1,j,1] + u[i+1,j,1] + u[i,j+1,1] + u[i,j-1,1] - 4u[i,j,1]) +
+      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    end
+    for i in 2:N-1, j in 2:N-1
+      du[i,j,2] = α*(u[i-1,j,2] + u[i+1,j,2] + u[i,j+1,2] + u[i,j-1,2] - 4u[i,j,2]) +
+      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+    end
+
+    # Boundary @ edges
+    for j in 2:N-1
+      i = 1
+      du[1,j,1] = α*(2u[i+1,j,1] + u[i,j+1,1] + u[i,j-1,1] - 4u[i,j,1]) +
+      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    end
+    for j in 2:N-1
+      i = 1
+      du[1,j,2] = α*(2u[i+1,j,2] + u[i,j+1,2] + u[i,j-1,2] - 4u[i,j,2]) +
+      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+    end
+    for j in 2:N-1
+      i = N
+      du[end,j,1] = α*(2u[i-1,j,1] + u[i,j+1,1] + u[i,j-1,1] - 4u[i,j,1]) +
+      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    end
+    for j in 2:N-1
+      i = N
+      du[end,j,2] = α*(2u[i-1,j,2] + u[i,j+1,2] + u[i,j-1,2] - 4u[i,j,2]) +
+      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+    end
+    for i in 2:N-1
+      j = 1
+      du[i,1,1] = α*(u[i-1,j,1] + u[i+1,j,1] + 2u[i,j+1,1] - 4u[i,j,1]) +
+      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    end
+    for i in 2:N-1
+      j = 1
+      du[i,1,2] = α*(u[i-1,j,2] + u[i+1,j,2] + 2u[i,j+1,2] - 4u[i,j,2]) +
+      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+    end
+    for i in 2:N-1
+      j = N
+      du[i,end,1] = α*(u[i-1,j,1] + u[i+1,j,1] + 2u[i,j-1,1] - 4u[i,j,1]) +
+      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    end
+    for i in 2:N-1
+      j = N
+      du[i,end,2] = α*(u[i-1,j,2] + u[i+1,j,2] + 2u[i,j-1,2] - 4u[i,j,2]) +
+      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+    end
+
+    # Boundary @ four vertexes
+    i = 1; j = 1
+    du[1,1,1] = α*(2u[i+1,j,1] + 2u[i,j+1,1] - 4u[i,j,1]) +
+    B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    du[1,1,2] = α*(2u[i+1,j,2] + 2u[i,j+1,2] - 4u[i,j,2]) +
+    A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+
+    i = 1; j = N
+    du[1,N,1] = α*(2u[i+1,j,1] + 2u[i,j-1,1] - 4u[i,j,1]) +
+    B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    du[1,N,2] = α*(2u[i+1,j,2] + 2u[i,j-1,2] - 4u[i,j,2]) +
+    A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+
+    i = N; j = 1
+    du[N,1,1] = α*(2u[i-1,j,1] + 2u[i,j+1,1] - 4u[i,j,1]) +
+    B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    du[N,1,2] = α*(2u[i-1,j,2] + 2u[i,j+1,2] - 4u[i,j,2]) +
+    A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+
+    i = N; j = N
+    du[end,end,1] = α*(2u[i-1,j,1] + 2u[i,j-1,1] - 4u[i,j,1]) +
+    B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    du[end,end,2] = α*(2u[i-1,j,2] + 2u[i,j-1,2] - 4u[i,j,2]) +
+    A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
+  end
+end
+function init_brusselator(xyd)
+  M = length(xyd)
+  u = zeros(M, M, 2)
+  for I in CartesianRange((M, M))
+    u[I,1] = (2 + 0.25xyd[I[2]])
+    u[I,2] = (1 + 0.8xyd[I[1]])
+  end
+  u
+end
+prob_ode_brusselator = ODEProblem(brusselator_loop,
+                                  init_brusselator(linspace(0,1,128)),
+                                  (0.,1),
+                                  (3.4, 1., 0.002, 1/127, 128))
