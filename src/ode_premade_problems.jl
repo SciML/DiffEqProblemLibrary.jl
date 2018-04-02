@@ -376,7 +376,7 @@ const MM_linear =full(Diagonal(0.5ones(4)))
 (::typeof(mm_linear))(::Type{Val{:analytic}},u0,p,t) = expm(inv(MM_linear)*mm_A*t)*u0
 prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linear)
 
-function brusselator_loop(du, u, p, t)
+function brusselator_2d_loop(du, u, p, t)
   @inbounds begin
     A, B, α, dx, N = p
     α = α/dx^2
@@ -458,7 +458,7 @@ function brusselator_loop(du, u, p, t)
     A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
   end
 end
-function init_brusselator(xyd)
+function init_brusselator_2d(xyd)
   M = length(xyd)
   u = zeros(M, M, 2)
   for I in CartesianRange((M, M))
@@ -467,7 +467,45 @@ function init_brusselator(xyd)
   end
   u
 end
-prob_ode_brusselator = ODEProblem(brusselator_loop,
-                                  init_brusselator(linspace(0,1,128)),
-                                  (0.,1),
-                                  (3.4, 1., 0.002, 1/127, 128))
+const N_brusselator_2d = 128
+prob_ode_brusselator_2d = ODEProblem(brusselator_2d_loop,
+                                     init_brusselator_2d(linspace(0,1,N_brusselator_2d)),
+                                     (0.,1),
+                                     (3.4, 1., 0.002, 1/(N_brusselator_2d-1),
+                                     N_brusselator_2d))
+
+const N_brusselator_1d = 40
+const D_brusselator_u = DerivativeOperator{Float64}(2,2,1/(N_brusselator_1d-1),
+                                                    N_brusselator_1d,
+                                                    :Dirichlet,:Dirichlet;
+                                                    BC=(1.,1.))
+const D_brusselator_v = DerivativeOperator{Float64}(2,2,1/(N_brusselator_1d-1),
+                                                    N_brusselator_1d,
+                                                    :Dirichlet,:Dirichlet;
+                                                    BC=(3.,3.))
+function brusselator_1d(du, u_, p, t)
+    A, B, α, buffer = p
+    u = @view(u_[:, 1])
+    v = @view(u_[:, 2])
+    A_mul_B!(buffer, D_brusselator_u, u)
+    Du = buffer
+    @. du[:, 1] = A + u^2*v - (B+1)*u + α*Du
+
+    A_mul_B!(buffer, D_brusselator_v, v)
+    Dv = buffer
+    @. du[:, 2] = B*u - u^2*v + α*Dv
+    nothing
+end
+function init_brusselator_1d(N)
+  u = zeros(N, 2)
+  x = linspace(0, 1, N)
+  for i in 1:N
+    u[i, 1] = 1 + sin(2pi*x[i])
+    u[i, 2] = 3.
+  end
+  u
+end
+prob_ode_brusselator_1d = ODEProblem(brusselator_1d,
+                                    init_brusselator_1d(N_brusselator_1d),
+                                    (0.,10.),
+                                    (1., 3., 1/50, zeros(N_brusselator_1d)))
