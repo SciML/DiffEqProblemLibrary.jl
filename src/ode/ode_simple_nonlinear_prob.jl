@@ -254,17 +254,19 @@ prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linea
 [Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
 """
 hires = @ode_def Hires begin
-  dy1 = -1.71*y1 + 0.43*y2 + 8.32*y3 + 0.0007
-  dy2 = 1.71*y1 - 8.75*y2
-  dy3 = -10.03*y3 + 0.43*y4 + 0.035*y5
-  dy4 = 8.32*y2 + 1.71*y3 - 1.12*y4
-  dy5 = -1.745*y5 + 0.43*y6 + 0.43*y7
-  dy6 = -280.0*y6*y8 + 0.69*y4 + 1.71*y5 -
-           0.43*y6 + 0.69*y7
-  dy7 = 280.0*y6*y8 - 1.81*y7
-  dy8 = -280.0*y6*y8 + 1.81*y7
-end
+  dy1 = -p1*y1 + p2*y2 + p3*y3 + p4
+  dy2 = p1*y1 - p5*y2
+  dy3 = -p6*y3 + p2*y4 + p7*y5
+  dy4 = p3*y2 + p1*y3 - p8*y4
+  dy5 = -p9*y5 + p2*y6 + p2*y7
+  dy6 = -p10*y6*y8 + p11*y4 + p1*y5 -
+           p2*y6 + p11*y7
+  dy7 = p10*y6*y8 - p12*y7
+  dy8 = -p10*y6*y8 + p12*y7
+end p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
 u0 = zeros(8)
 u0[1] = 1
 u0[8] = 0.0057
-prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122))
+prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122), (1.71, 0.43, 8.32, 0.0007, 8.75,
+                                                      10.03, 0.035, 1.12, 1.745, 280.0,
+                                                      0.69, 1.81))
