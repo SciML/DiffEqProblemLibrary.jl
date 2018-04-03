@@ -376,104 +376,133 @@ const MM_linear =full(Diagonal(0.5ones(4)))
 (::typeof(mm_linear))(::Type{Val{:analytic}},u0,p,t) = expm(inv(MM_linear)*mm_A*t)*u0
 prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linear)
 
+"""
+2D Brusselator
+
+```math
+\\begin{align}
+\\frac{\\partial u}{\\partial t} &= 1 + u^2v - 4.4u + \\alpha(\frac{\\partial^2 u}{\\partial x^2} + \frac{\\partial^2 u}{\\partial y^2}) + f(x, y, t)
+\\frac{\\partial v}{\\partial t} &= 3.4u - u^2v + \\alpha(\frac{\\partial^2 u}{\\partial x^2} + \frac{\\partial^2 u}{\\partial y^2})
+\\end{align}
+```
+
+where
+
+```math
+f(x, y, t) = \\begin{cases}
+5 & \\quad \\text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \\text{ and } t ≥ 1.1 \\\\
+0 & \\quad \\text{else}
+\\end{cases}
+```
+
+and the initial conditions are
+
+```math
+\\begin{align}
+u(x, y, 0) &= 22\\cdot y(1-y)^{3/2} \\\\
+v(x, y, 0) &= 27\\cdot x(1-x)^{3/2}
+\\end{align}
+```
+
+with the periodic boundary condition
+
+```math
+\\begin{align}
+u(x+1,y,t) &= u(x,y,t) \\\\
+u(x,y+1,t) &= u(x,y,t)
+\\end{align}
+```
+
+From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 152
+"""
+brusselator_f(x, y, t) = ifelse((((x-0.3)^2 + (y-0.6)^2) <= 0.1^2) &&
+                                (t >= 1.1), 5., 0.)
+function limit(a, N)
+  if a == N+1
+    return 1
+  elseif a == 0
+    return N
+  else
+    return a
+  end
+end
 function brusselator_2d_loop(du, u, p, t)
   @inbounds begin
-    A, B, α, dx, N = p
+    A, B, α, xyd, dx, N = p
     α = α/dx^2
-    # Interior
-    for i in 2:N-1, j in 2:N-1
-      du[i,j,1] = α*(u[i-1,j,1] + u[i+1,j,1] + u[i,j+1,1] + u[i,j-1,1] - 4u[i,j,1]) +
-      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
+    for I in CartesianRange((N, N))
+      x = xyd[I[1]]
+      y = xyd[I[2]]
+      i = I[1]
+      j = I[2]
+      ip1 = limit(i+1, N)
+      im1 = limit(i-1, N)
+      jp1 = limit(j+1, N)
+      jm1 = limit(j-1, N)
+      du[i,j,1] = α*(u[im1,j,1] + u[ip1,j,1] + u[i,jp1,1] + u[i,jm1,1] - 4u[i,j,1]) +
+      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1] + brusselator_f(x, y, t)
     end
-    for i in 2:N-1, j in 2:N-1
-      du[i,j,2] = α*(u[i-1,j,2] + u[i+1,j,2] + u[i,j+1,2] + u[i,j-1,2] - 4u[i,j,2]) +
+    for I in CartesianRange((N, N))
+      i = I[1]
+      j = I[2]
+      ip1 = limit(i+1, N)
+      im1 = limit(i-1, N)
+      jp1 = limit(j+1, N)
+      jm1 = limit(j-1, N)
+      du[i,j,2] = α*(u[im1,j,2] + u[ip1,j,2] + u[i,jp1,2] + u[i,jm1,2] - 4u[i,j,2]) +
       A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
     end
-
-    # Boundary @ edges
-    for j in 2:N-1
-      i = 1
-      du[1,j,1] = α*(2u[i+1,j,1] + u[i,j+1,1] + u[i,j-1,1] - 4u[i,j,1]) +
-      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
-    end
-    for j in 2:N-1
-      i = 1
-      du[1,j,2] = α*(2u[i+1,j,2] + u[i,j+1,2] + u[i,j-1,2] - 4u[i,j,2]) +
-      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
-    end
-    for j in 2:N-1
-      i = N
-      du[end,j,1] = α*(2u[i-1,j,1] + u[i,j+1,1] + u[i,j-1,1] - 4u[i,j,1]) +
-      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
-    end
-    for j in 2:N-1
-      i = N
-      du[end,j,2] = α*(2u[i-1,j,2] + u[i,j+1,2] + u[i,j-1,2] - 4u[i,j,2]) +
-      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
-    end
-    for i in 2:N-1
-      j = 1
-      du[i,1,1] = α*(u[i-1,j,1] + u[i+1,j,1] + 2u[i,j+1,1] - 4u[i,j,1]) +
-      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
-    end
-    for i in 2:N-1
-      j = 1
-      du[i,1,2] = α*(u[i-1,j,2] + u[i+1,j,2] + 2u[i,j+1,2] - 4u[i,j,2]) +
-      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
-    end
-    for i in 2:N-1
-      j = N
-      du[i,end,1] = α*(u[i-1,j,1] + u[i+1,j,1] + 2u[i,j-1,1] - 4u[i,j,1]) +
-      B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
-    end
-    for i in 2:N-1
-      j = N
-      du[i,end,2] = α*(u[i-1,j,2] + u[i+1,j,2] + 2u[i,j-1,2] - 4u[i,j,2]) +
-      A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
-    end
-
-    # Boundary @ four vertexes
-    i = 1; j = 1
-    du[1,1,1] = α*(2u[i+1,j,1] + 2u[i,j+1,1] - 4u[i,j,1]) +
-    B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
-    du[1,1,2] = α*(2u[i+1,j,2] + 2u[i,j+1,2] - 4u[i,j,2]) +
-    A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
-
-    i = 1; j = N
-    du[1,N,1] = α*(2u[i+1,j,1] + 2u[i,j-1,1] - 4u[i,j,1]) +
-    B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
-    du[1,N,2] = α*(2u[i+1,j,2] + 2u[i,j-1,2] - 4u[i,j,2]) +
-    A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
-
-    i = N; j = 1
-    du[N,1,1] = α*(2u[i-1,j,1] + 2u[i,j+1,1] - 4u[i,j,1]) +
-    B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
-    du[N,1,2] = α*(2u[i-1,j,2] + 2u[i,j+1,2] - 4u[i,j,2]) +
-    A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
-
-    i = N; j = N
-    du[end,end,1] = α*(2u[i-1,j,1] + 2u[i,j-1,1] - 4u[i,j,1]) +
-    B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1]
-    du[end,end,2] = α*(2u[i-1,j,2] + 2u[i,j-1,2] - 4u[i,j,2]) +
-    A*u[i,j,1] - u[i,j,1]^2*u[i,j,2]
   end
 end
 function init_brusselator_2d(xyd)
-  M = length(xyd)
-  u = zeros(M, M, 2)
-  for I in CartesianRange((M, M))
-    u[I,1] = (2 + 0.25xyd[I[2]])
-    u[I,2] = (1 + 0.8xyd[I[1]])
+  N = length(xyd)
+  u = zeros(N, N, 2)
+  for I in CartesianRange((N, N))
+    x = xyd[I[1]]
+    y = xyd[I[2]]
+    u[I,1] = 22*(y[I]*(1-y[I]))^(3/2)
+    u[I,2] = 27*(x[I]*(1-x[I]))^(3/2)
   end
   u
 end
-const N_brusselator_2d = 128
+xyd_brusselator = linspace(0,1,128)
 prob_ode_brusselator_2d = ODEProblem(brusselator_2d_loop,
-                                     init_brusselator_2d(linspace(0,1,N_brusselator_2d)),
-                                     (0.,1),
-                                     (3.4, 1., 0.002, 1/(N_brusselator_2d-1),
-                                     N_brusselator_2d))
+                                     init_brusselator_2d(xyd_brusselator),
+                                     (0.,11.5),
+                                     (3.4, 1., 0.1,
+                                      xyd_brusselator, step(xyd_brusselator),
+                                      length(xyd_brusselator)))
 
+"""
+1D Brusselator
+
+```math
+\\begin{align}
+\\frac{\\partial u}{\\partial t} &= A + u^2v - (B+1)u + \\alpha\frac{\\partial^2 u}{\\partial x^2}
+\\frac{\\partial v}{\\partial t} &= Bu - u^2v + \\alpha\frac{\\partial^2 u}{\\partial x^2}
+\\end{align}
+```
+
+and the initial conditions are
+
+```math
+\\begin{align}
+u(x,0) &= 1+\\sin(2π x) \\\\
+v(x,0) &= 3
+\\end{align}
+```
+
+with the boundary condition
+
+```math
+\\begin{align}
+u(0,t) &= u(1,t) = 1 \\\\
+v(0,t) &= v(1,t) = 3
+\\end{align}
+```
+
+From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 6
+"""
 const N_brusselator_1d = 40
 const D_brusselator_u = DerivativeOperator{Float64}(2,2,1/(N_brusselator_1d-1),
                                                     N_brusselator_1d,
@@ -510,6 +539,9 @@ prob_ode_brusselator_1d = ODEProblem(brusselator_1d,
                                     (0.,10.),
                                     (1., 3., 1/50, zeros(N_brusselator_1d)))
 
+"""
+[Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb)
+"""
 orego = @ode_def Orego begin
   dy1 = p1*(y2+y1*(1-p2*y1-y2))
   dy2 = (y3-(1+y1)*y2)/p1
@@ -517,6 +549,9 @@ orego = @ode_def Orego begin
 end p1 p2 p3
 prob_ode_orego = ODEProblem(orego,[1.0,2.0,3.0],(0.0,30.0),[77.27,8.375e-6,0.161])
 
+"""
+[Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
+"""
 hires = @ode_def Hires begin
   dy1 = -1.71*y1 + 0.43*y2 + 8.32*y3 + 0.0007
   dy2 = 1.71*y1 - 8.75*y2
@@ -533,6 +568,9 @@ u0[1] = 1
 u0[8] = 0.0057
 prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122))
 
+"""
+[Pollution Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Pollution.ipynb)
+"""
 const k1=.35e0
 const k2=.266e2
 const k3=.123e5
@@ -724,10 +762,9 @@ u0[9]  = 0.01
 u0[17] = 0.007
 prob_ode_pollution = ODEProblem(pollution,u0,(0.0,60.0))
 
-######################################################
-# Filament
-######################################################
-
+"""
+[Filament PDE Discretization](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Filament.ipynb)
+"""
 const T = Float64
 abstract type AbstractFilamentCache end
 abstract type AbstractMagneticForce end
@@ -945,4 +982,4 @@ function filament_prob(::SolverDiffEq; N=20, Cm=32, ω=200, time_end=1.)
     stiffness_matrix!(f)
     prob = ODEProblem(f, r0, (0., time_end))
 end
-prob_ode_filament = filament(SolverDiffEq())
+prob_ode_filament = filament_prob(SolverDiffEq())
