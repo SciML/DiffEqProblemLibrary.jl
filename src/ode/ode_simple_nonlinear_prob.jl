@@ -252,6 +252,26 @@ prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linea
 
 """
 [Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
+
+It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
+
+```math
+y \\in ℝ^8, \\quad 0 ≤ t ≤ 321.8122
+
+where ``f`` is defined by
+
+```math
+f(y) = \\begin{pmatrix}
+−1.71y_1 & +0.43y_2 & +8.32y_3 & +0.0007y_4 & \\\\
+1.71y_1 & −8.75y_2 & & & \\\\
+−10.03y_3 & +0.43y_4 & +0.035y_5 & & \\\\
+8.32y_2 & +1.71y_3 & −1.12y_4 & & \\\\
+−1.745y_5 & +0.43y_6 & +0.43y_7 & & \\\\
+−280y_6y_8 & +0.69y_4 & +1.71y_5 & −0.43y_6 & +0.69y_7 \\\\
+280y_6y_8 & −1.81y_7 & & & \\\\
+−280y_6y_8 & +1.81y_7 & & &
+\\end{pmatrix}
+```
 """
 hires = @ode_def Hires begin
   dy1 = -p1*y1 + p2*y2 + p3*y3 + p4
@@ -270,3 +290,30 @@ u0[8] = 0.0057
 prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122), (1.71, 0.43, 8.32, 0.0007, 8.75,
                                                       10.03, 0.035, 1.12, 1.745, 280.0,
                                                       0.69, 1.81))
+
+"""
+[Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb)
+
+It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
+
+```math
+y \\in ℝ^3, \\quad 0 ≤ t ≤ 360
+
+where ``f`` is defined by
+
+```math
+f(y) = \\begin{pmatrix}
+s(y_2 - y_1(1-qy_1-y_2)) \\\\
+(y_3 - y_2(1+y_1))/s \\\\
+w(y_1-y_3)
+\\end{pmatrix}
+```
+
+where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
+"""
+orego = @ode_def Orego begin
+  dy1 = p1*(y2+y1*(1-p2*y1-y2))
+  dy2 = (y3-(1+y1)*y2)/p1
+  dy3 = p3*(y1-y3)
+end p1 p2 p3
+prob_ode_orego = ODEProblem(orego,[1.0,2.0,3.0],(0.0,30.0),[77.27,8.375e-6,0.161])

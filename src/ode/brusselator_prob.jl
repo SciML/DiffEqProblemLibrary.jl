@@ -82,16 +82,16 @@ function init_brusselator_2d(xyd)
   for I in CartesianRange((N, N))
     x = xyd[I[1]]
     y = xyd[I[2]]
-    u[I,1] = 22*(y[I]*(1-y[I]))^(3/2)
-    u[I,2] = 27*(x[I]*(1-x[I]))^(3/2)
+    u[I,1] = 22*(y*(1-y))^(3/2)
+    u[I,2] = 27*(x*(1-x))^(3/2)
   end
   u
 end
-xyd_brusselator = linspace(0,1,128)
+xyd_brusselator = linspace(0,1,32)
 prob_ode_brusselator_2d = ODEProblem(brusselator_2d_loop,
                                      init_brusselator_2d(xyd_brusselator),
                                      (0.,11.5),
-                                     (3.4, 1., 0.1,
+                                     (3.4, 1., 10.,
                                       xyd_brusselator, step(xyd_brusselator),
                                       length(xyd_brusselator)))
 
@@ -160,13 +160,3 @@ prob_ode_brusselator_1d = ODEProblem(brusselator_1d,
                                     init_brusselator_1d(N_brusselator_1d),
                                     (0.,10.),
                                     (1., 3., 1/50, zeros(N_brusselator_1d)))
-
-"""
-[Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb)
-"""
-orego = @ode_def Orego begin
-  dy1 = p1*(y2+y1*(1-p2*y1-y2))
-  dy2 = (y3-(1+y1)*y2)/p1
-  dy3 = p3*(y1-y3)
-end p1 p2 p3
-prob_ode_orego = ODEProblem(orego,[1.0,2.0,3.0],(0.0,30.0),[77.27,8.375e-6,0.161])

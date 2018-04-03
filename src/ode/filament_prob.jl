@@ -1,5 +1,8 @@
 """
 [Filament PDE Discretization](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Filament.ipynb)
+
+In this problem is a real-world biological model from a paper entitled Magnetic dipole with a flexible tail as a self-propelling microdevice. It is a system of PDEs representing a Kirchhoff model of an elastic rod, where the equations of motion are given by the Rouse approximation with free boundary conditions.
+
 """
 const T = Float64
 abstract type AbstractFilamentCache end
