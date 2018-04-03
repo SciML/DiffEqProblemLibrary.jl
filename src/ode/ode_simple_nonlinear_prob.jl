@@ -1,130 +1,4 @@
-srand(100)
-
-### ODE Examples
-
-# Linear ODE
-linear = (u,p,t) -> (1.01*u)
-(f::typeof(linear))(::Type{Val{:analytic}},u0,p,t) = u0*exp(1.01*t)
-"""
-Linear ODE
-
-```math
-\\frac{du}{dt} = αu
-```
-
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
-
-```math
-u(t) = u0e^{αt}
-```
-
-with Float64s
-"""
-prob_ode_linear = ODEProblem(linear,1/2,(0.0,1.0))
-
-const linear_bigα = parse(BigFloat,"1.01")
-f_linearbig = (u,p,t) -> (linear_bigα*u)
-(f::typeof(f_linearbig))(::Type{Val{:analytic}},u0,p,t) = u0*exp(linear_bigα*t)
-"""
-Linear ODE
-
-```math
-\\frac{du}{dt} = αu
-```
-
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
-
-```math
-u(t) = u0e^{αt}
-```
-
-with BigFloats
-"""
-prob_ode_bigfloatlinear = ODEProblem(f_linearbig,parse(BigFloat,"0.5"),(0.0,1.0))
-
-f_2dlinear = (du,u,p,t) -> begin
-  for i in 1:length(u)
-    du[i] = 1.01*u[i]
-  end
-end
-(f::typeof(f_2dlinear))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(1.01*t)
-"""
-4x2 version of the Linear ODE
-
-```math
-\\frac{du}{dt} = αu
-```
-
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
-
-```math
-u(t) = u0e^{αt}
-```
-
-with Float64s
-"""
-prob_ode_2Dlinear = ODEProblem(f_2dlinear,rand(4,2),(0.0,1.0))
-
-"""
-100x100 version of the Linear ODE
-
-```math
-\\frac{du}{dt} = αu
-```
-
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
-
-```math
-u(t) = u0e^{αt}
-```
-
-with Float64s
-"""
-prob_ode_large2Dlinear = ODEProblem(f_2dlinear,rand(100,100),(0.0,1.0))
-
-f_2dlinearbig = (du,u,p,t) -> begin
-  for i in 1:length(u)
-    du[i] = linear_bigα*u[i]
-  end
-end
-(f::typeof(f_2dlinearbig))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(1.01*t)
-"""
-4x2 version of the Linear ODE
-
-```math
-\\frac{du}{dt} = αu
-```
-
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
-
-```math
-u(t) = u0e^{αt}
-```
-
-with BigFloats
-"""
-prob_ode_bigfloat2Dlinear = ODEProblem(f_2dlinearbig,map(BigFloat,rand(4,2)).*ones(4,2)/2,(0.0,1.0))
-f_2dlinear_notinplace = (u,p,t) -> 1.01*u
-(f::typeof(f_2dlinear_notinplace))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(1.01*t)
-"""
-4x2 version of the Linear ODE
-
-```math
-\\frac{du}{dt} = αu
-```
-
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
-
-```math
-u(t) = u0e^{αt}
-```
-
-on Float64. Purposefully not in-place as a test.
-"""
-prob_ode_2Dlinear_notinplace = ODEProblem(f_2dlinear_notinplace,rand(4,2),(0.0,1.0))
-
 ## Lotka-Volterra
-
 
 lotka = @ode_def_nohes LotkaVolterra begin
   dx = a*x - b*x*y
@@ -132,7 +6,7 @@ lotka = @ode_def_nohes LotkaVolterra begin
 end a b c d
 
 """
-Lotka-Voltera Equations
+Lotka-Voltera Equations (Non-stiff)
 
 ```math
 \\frac{dx}{dt} = ax - bxy
@@ -150,7 +24,7 @@ fitz = @ode_def_nohes FitzhughNagumo begin
   dw = τinv*(v +  a - b*w)
 end a b τinv l
 """
-Fitzhugh-Nagumo
+Fitzhugh-Nagumo (Non-stiff)
 
 ```math
 \\frac{dv}{dt} = v - \\frac{v^3}{3} - w + I_{est}
@@ -207,7 +81,7 @@ rober = @ode_def_noinvjac Rober begin
 end k₁ k₂ k₃
 
 """
-The Robertson biochemical reactions:
+The Robertson biochemical reactions: (Stiff)
 
 ```math
 \\begin{align}
@@ -241,7 +115,7 @@ threebody = (du,u,p,t) -> begin
   du[4] = u[2] - 2u[3] - threebody_μ′*u[2]/D₁ - threebody_μ*u[2]/D₂
 end
 """
-The ThreeBody problem as written by Hairer:
+The ThreeBody problem as written by Hairer: (Non-stiff)
 
 ```math
 \\begin{align}
@@ -270,7 +144,7 @@ rigid = @ode_def_noinvjac RigidBody begin
 end I₁ I₂ I₃
 
 """
-Rigid Body Equations
+Rigid Body Equations (Non-stiff)
 
 ```math
 \\begin{align}
@@ -302,7 +176,7 @@ pleiades = (du,u,p,t) -> begin
   du[1:7] .= v
   du[8:14].= w
   for i in 14:21
-    du[i] = zero(u)
+    du[i] = zero(eltype(u))
   end
   for i=1:7,j=1:7
     if i != j
@@ -313,7 +187,7 @@ pleiades = (du,u,p,t) -> begin
   end
 end
 """
-Pleiades Problem
+Pleiades Problem (Non-stiff)
 
 ```math
 \\begin{align}
@@ -375,3 +249,75 @@ end
 const MM_linear =full(Diagonal(0.5ones(4)))
 (::typeof(mm_linear))(::Type{Val{:analytic}},u0,p,t) = expm(inv(MM_linear)*mm_A*t)*u0
 prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linear)
+
+"""
+[Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb) (Stiff)
+
+It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
+
+```math
+y \\in ℝ^8, \\quad 0 ≤ t ≤ 321.8122
+
+where ``f`` is defined by
+
+```math
+f(y) = \\begin{pmatrix}
+−1.71y_1 & +0.43y_2 & +8.32y_3 & +0.0007y_4 & \\\\
+1.71y_1 & −8.75y_2 & & & \\\\
+−10.03y_3 & +0.43y_4 & +0.035y_5 & & \\\\
+8.32y_2 & +1.71y_3 & −1.12y_4 & & \\\\
+−1.745y_5 & +0.43y_6 & +0.43y_7 & & \\\\
+−280y_6y_8 & +0.69y_4 & +1.71y_5 & −0.43y_6 & +0.69y_7 \\\\
+280y_6y_8 & −1.81y_7 & & & \\\\
+−280y_6y_8 & +1.81y_7 & & &
+\\end{pmatrix}
+```
+
+http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf
+"""
+hires = @ode_def Hires begin
+  dy1 = -p1*y1 + p2*y2 + p3*y3 + p4
+  dy2 = p1*y1 - p5*y2
+  dy3 = -p6*y3 + p2*y4 + p7*y5
+  dy4 = p3*y2 + p1*y3 - p8*y4
+  dy5 = -p9*y5 + p2*y6 + p2*y7
+  dy6 = -p10*y6*y8 + p11*y4 + p1*y5 -
+           p2*y6 + p11*y7
+  dy7 = p10*y6*y8 - p12*y7
+  dy8 = -p10*y6*y8 + p12*y7
+end p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
+u0 = zeros(8)
+u0[1] = 1
+u0[8] = 0.0057
+prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122), (1.71, 0.43, 8.32, 0.0007, 8.75,
+                                                      10.03, 0.035, 1.12, 1.745, 280.0,
+                                                      0.69, 1.81))
+
+"""
+[Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb) (Stiff)
+
+It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
+
+```math
+y \\in ℝ^3, \\quad 0 ≤ t ≤ 360
+
+where ``f`` is defined by
+
+```math
+f(y) = \\begin{pmatrix}
+s(y_2 - y_1(1-qy_1-y_2)) \\\\
+(y_3 - y_2(1+y_1))/s \\\\
+w(y_1-y_3)
+\\end{pmatrix}
+```
+
+where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
+
+http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf
+"""
+orego = @ode_def Orego begin
+  dy1 = p1*(y2+y1*(1-p2*y1-y2))
+  dy2 = (y3-(1+y1)*y2)/p1
+  dy3 = p3*(y1-y3)
+end p1 p2 p3
+prob_ode_orego = ODEProblem(orego,[1.0,2.0,3.0],(0.0,30.0),[77.27,8.375e-6,0.161])

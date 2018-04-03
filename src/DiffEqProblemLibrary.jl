@@ -2,9 +2,9 @@ __precompile__()
 
 module DiffEqProblemLibrary
 
-using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase
+using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase, DiffEqOperators
 
-include("ode_premade_problems.jl")
+include("ode/ode_premade_problems.jl")
 include("dae_premade_problems.jl")
 include("dde_premade_problems.jl")
 include("sde_premade_problems.jl")
@@ -13,7 +13,10 @@ include("sde_premade_problems.jl")
 export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
        prob_ode_large2Dlinear, prob_ode_bigfloat2Dlinear, prob_ode_rigidbody,
        prob_ode_2Dlinear_notinplace, prob_ode_vanderpol, prob_ode_vanderpol_stiff,
-       prob_ode_lorenz, prob_ode_rober, prob_ode_threebody, prob_ode_mm_linear, prob_ode_pleiades
+       prob_ode_lorenz, prob_ode_rober, prob_ode_threebody, prob_ode_mm_linear, prob_ode_pleiades,
+       prob_ode_brusselator_1d, prob_ode_brusselator_2d, prob_ode_orego,
+       prob_ode_hires, prob_ode_pollution, prob_ode_filament,
+       SolverDiffEq, filament_prob
 
  #SDE Example Problems
  export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear, prob_sde_lorenz,
