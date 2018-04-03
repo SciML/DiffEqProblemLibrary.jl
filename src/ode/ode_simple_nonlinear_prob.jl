@@ -6,7 +6,7 @@ lotka = @ode_def_nohes LotkaVolterra begin
 end a b c d
 
 """
-Lotka-Voltera Equations
+Lotka-Voltera Equations (Non-stiff)
 
 ```math
 \\frac{dx}{dt} = ax - bxy
@@ -24,7 +24,7 @@ fitz = @ode_def_nohes FitzhughNagumo begin
   dw = τinv*(v +  a - b*w)
 end a b τinv l
 """
-Fitzhugh-Nagumo
+Fitzhugh-Nagumo (Non-stiff)
 
 ```math
 \\frac{dv}{dt} = v - \\frac{v^3}{3} - w + I_{est}
@@ -81,7 +81,7 @@ rober = @ode_def_noinvjac Rober begin
 end k₁ k₂ k₃
 
 """
-The Robertson biochemical reactions:
+The Robertson biochemical reactions: (Stiff)
 
 ```math
 \\begin{align}
@@ -115,7 +115,7 @@ threebody = (du,u,p,t) -> begin
   du[4] = u[2] - 2u[3] - threebody_μ′*u[2]/D₁ - threebody_μ*u[2]/D₂
 end
 """
-The ThreeBody problem as written by Hairer:
+The ThreeBody problem as written by Hairer: (Non-stiff)
 
 ```math
 \\begin{align}
@@ -144,7 +144,7 @@ rigid = @ode_def_noinvjac RigidBody begin
 end I₁ I₂ I₃
 
 """
-Rigid Body Equations
+Rigid Body Equations (Non-stiff)
 
 ```math
 \\begin{align}
@@ -176,7 +176,7 @@ pleiades = (du,u,p,t) -> begin
   du[1:7] .= v
   du[8:14].= w
   for i in 14:21
-    du[i] = zero(u)
+    du[i] = zero(eltype(u))
   end
   for i=1:7,j=1:7
     if i != j
@@ -187,7 +187,7 @@ pleiades = (du,u,p,t) -> begin
   end
 end
 """
-Pleiades Problem
+Pleiades Problem (Non-stiff)
 
 ```math
 \\begin{align}
@@ -251,7 +251,7 @@ const MM_linear =full(Diagonal(0.5ones(4)))
 prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linear)
 
 """
-[Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
+[Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb) (Stiff)
 
 It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
 
@@ -272,6 +272,8 @@ f(y) = \\begin{pmatrix}
 −280y_6y_8 & +1.81y_7 & & &
 \\end{pmatrix}
 ```
+
+http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf
 """
 hires = @ode_def Hires begin
   dy1 = -p1*y1 + p2*y2 + p3*y3 + p4
@@ -292,7 +294,7 @@ prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122), (1.71, 0.43, 8.32, 0.0007, 
                                                       0.69, 1.81))
 
 """
-[Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb)
+[Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb) (Stiff)
 
 It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
 
@@ -310,6 +312,8 @@ w(y_1-y_3)
 ```
 
 where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
+
+http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf
 """
 orego = @ode_def Orego begin
   dy1 = p1*(y2+y1*(1-p2*y1-y2))
