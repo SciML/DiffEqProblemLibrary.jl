@@ -37,7 +37,7 @@ prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0),(0.7,0.8,1/12.5,0.
 
 #Van der Pol Equations
 van = @ode_def_noinvhes VanDerPol begin
-  dy = μ*(1-x^2)*y - x
+  dy = μ*((1-x^2)*y - x)
   dx = 1*y
 end μ
 
@@ -47,7 +47,7 @@ Van der Pol Equations
 ```math
 \\begin{align}
 \\frac{dx}{dt} &= y \\\\
-\\frac{dy}{dt} &= μ(1-x^2)y -x
+\\frac{dy}{dt} &= μ((1-x^2)y -x)
 \\end{align}
 ```
 
