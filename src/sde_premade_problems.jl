@@ -91,11 +91,10 @@ u(u0,p,t,W_t)=\\arctan(\\frac{W_t}{10} + \\tan(u0))
 """
 prob_sde_wave = SDEProblem(f,σ,1.,(0.0,1.0))
 
-const sde_wave_α = 0.1
-const sde_wave_β = 0.05
-f = (u,p,t) -> sde_wave_β./sqrt.(1+t) - u./(2*(1+t))
-σ = (u,p,t) -> sde_wave_α*sde_wave_β./sqrt.(1+t)
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt.(1+t) + sde_wave_β*(t+sde_wave_α*W)./sqrt.(1+t)
+f = (u,p,t) -> p[2]./sqrt.(1+t) - u./(2*(1+t))
+σ = (u,p,t) -> p[1]*p[2]./sqrt.(1+t)
+p = (0.1,0.05)
+(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt.(1+t) + p[2]*(t+p[1]*W)./sqrt.(1+t)
 
 """
 Additive noise problem
@@ -110,7 +109,7 @@ and initial condition u0=1.0 with α=0.1 and β=0.05, with solution
 u(u0,p,t,W_t)=\\frac{u0}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
 ```
 """
-prob_sde_additive = SDEProblem(f,σ,1.,(0.0,1.0))
+prob_sde_additive = SDEProblem(f,σ,1.,(0.0,1.0),p)
 
 const sde_wave_αvec = [0.1;0.1;0.1;0.1]
 const sde_wave_βvec = [0.5;0.25;0.125;0.1115]
@@ -386,3 +385,54 @@ function generate_stiff_stoch_heat(D=1,k=1;N = 100)
     end
     SDEProblem(f,g,ones(N),(0.0,3.0),noise=WienerProcess(0.0,0.0,0.0,rswm=RSWM(adaptivealg=:RSwM3)))
 end
+
+bistable_f(du,u,p,t) = du[1] = p[1] + p[2]*u[1]^4/(u[1]^4+11.9^4) - p[3]*u[1]
+function bistable_g(du,u,p,t)
+  du[1,1] = .1*sqrt(p[1] + p[2]*u[1]^4/(u[1]^4+11.9^4))
+  du[1,2] = -.1*sqrt(p[3]*u[1])
+end
+p = (5.0,18.0,1.0)
+"""
+Bistable chemical reaction network with a semi-stable lower state.
+"""
+prob_sde_bistable = SDEProblem(bistable_f,bistable_g,[3.],(0.,300.),p,
+                               noise_rate_prototype=zeros(1,2))
+
+function bruss_f(du,u,p,t)
+    du[1] = p[1] + p[2]*u[1]*u[1]*u[2] - p[3]*u[1]-p[4]*u[1]
+    du[2] = p[3]*u[1] - p[2]*u[1]*u[1]*u[2]
+end
+function bruss_g(du,u,p,t)
+  du[1,1] = 0.15*sqrt(p[1])
+  du[1,2] = 0.15*sqrt(p[2]*u[1]*u[1]*u[2])
+  du[1,3] = -0.15*sqrt(p[3]*u[1])
+  du[1,4] = -0.15*sqrt(p[4]*u[1])
+  du[2,1] = 0
+  du[2,2] = -0.15*sqrt(p[2]*u[1]*u[1]*u[2])
+  du[2,3] = 0.15*sqrt(p[3]*2.5*u[1])
+  du[2,4] = 0
+end
+p = (1.0,1.0,2.5,1.0)
+"""
+Stochastic Brusselator
+"""
+prob_sde_bruss = SDEProblem(bruss_f,bruss_g,[3.,2.],(0.,100.),p,
+                            noise_rate_prototype=zeros(2,4))
+
+network = @reaction_network rnType  begin
+    p1, (X,Y,Z) --> 0
+    hill(X,p2,100.,-4), 0 --> Y
+    hill(Y,p3,100.,-4), 0 --> Z
+    hill(Z,p4,100.,-4), 0 --> X
+    hill(X,p5,100.,6), 0 --> R
+    hill(Y,p6,100.,4)*0.002, R --> 0
+    p7, 0 --> S
+    R*p8, S --> SP
+    p9, SP + SP --> SP2
+    p10, SP2 --> 0
+end p1 p2 p3 p4 p5 p6 p7 p8 p9 p10
+p = (0.01,3.0,3.0,4.5,2.,15.,20.0,0.005,0.01,0.05)
+"""
+An oscillatory chemical reaction system
+"""
+prob_sde_oscilreact = SDEProblem(network, [200.,60.,120.,100.,50.,50.,50.], (0.,4000.),p)

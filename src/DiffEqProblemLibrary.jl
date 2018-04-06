@@ -2,7 +2,7 @@ __precompile__()
 
 module DiffEqProblemLibrary
 
-using DiffEqBase, ParameterizedFunctions, DiffEqPDEBase, DiffEqOperators
+using DiffEqBase, ParameterizedFunctions, DiffEqOperators, DiffEqBiological
 
 include("ode/ode_premade_problems.jl")
 include("dae_premade_problems.jl")
@@ -19,8 +19,10 @@ export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
        SolverDiffEq, filament_prob
 
  #SDE Example Problems
- export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear, prob_sde_lorenz,
-        prob_sde_2Dlinear, prob_sde_additive, prob_sde_additivesystem, oval2ModelExample
+ export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
+        prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
+        prob_sde_additivesystem, oval2ModelExample, prob_sde_bistable,
+        prob_sde_bruss, prob_sde_oscilreact
 
  #SDE Stratonovich Example Problems
  export prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
