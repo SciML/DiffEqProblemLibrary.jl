@@ -8,6 +8,7 @@ include("ode/ode_premade_problems.jl")
 include("dae_premade_problems.jl")
 include("dde_premade_problems.jl")
 include("sde_premade_problems.jl")
+include("jump_premade_problems.jl")
 
 #ODE Example Problems
 export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
@@ -44,5 +45,10 @@ export prob_dde_1delay, prob_dde_1delay_notinplace, prob_dde_1delay_scalar_notin
        prob_dde_paul1, prob_dde_paul2, prob_dde_mahaffy1, prob_dde_mahaffy2,
 # examples with vanishing state dependent delays
        prob_neves2, prob_dde_gatica
+
+# Jump Example Problems
+export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
+# examples mixing mass action and constant rate jumps
+       prob_jump_osc_mixed_jumptypes
 
 end # module
