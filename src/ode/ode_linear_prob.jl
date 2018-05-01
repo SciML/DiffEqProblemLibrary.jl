@@ -43,7 +43,7 @@ f_2dlinear = (du,u,p,t) -> begin
     du[i] = 1.01*u[i]
   end
 end
-(f::typeof(f_2dlinear))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(1.01*t)
+(f::typeof(f_2dlinear))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(linear_bigα*t)
 """
 4x2 version of the Linear ODE
 
@@ -83,7 +83,7 @@ f_2dlinearbig = (du,u,p,t) -> begin
     du[i] = linear_bigα*u[i]
   end
 end
-(f::typeof(f_2dlinearbig))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(1.01*t)
+(f::typeof(f_2dlinearbig))(::Type{Val{:analytic}},u0,p,t) = u0*exp.(linear_bigα*t)
 """
 4x2 version of the Linear ODE
 
