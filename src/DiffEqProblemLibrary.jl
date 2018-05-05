@@ -51,6 +51,6 @@ export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
 # examples mixing mass action and constant rate jumps
        prob_jump_osc_mixed_jumptypes,
 # examples used in published benchmarks / comparisions
-       prob_jump_multistate
+       prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor
 
 end # module

@@ -73,7 +73,7 @@ prob_jump_nonlinrxs = JumpProblemNetwork(rs, rates, tf, u0, prob, prob_data)
 """
     Oscillatory system, uses a mixture of jump types.
 """
-rs = @reaction_network rnType  begin
+rs = @reaction_network rnoscType  begin
     0.01, (X,Y,Z) --> 0
     hill(X,3.,100.,-4), 0 --> Y
     hill(Y,3.,100.,-4), 0 --> Z
@@ -141,3 +141,62 @@ tf    = 100.
 prob = DiscreteProblem(u0, (0., tf), rates)
 prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob, 
                 Dict("specs_to_sym_name" => specs_sym_to_name, "rates_sym_to_idx" => rates_sym_to_idx, "params" => params))
+
+
+"""
+    Twenty-gene model from McCollum et al, 
+    "The sorting direct method for stochastic simulation of biochemical systems with varying reaction execution behavior"
+    Comp. Bio. and Chem., 30, pg. 39-49 (2006). 
+"""
+# generate the network
+N = 10  # number of genes
+genenetwork = "@reaction_network twentgtype begin\n"
+for i in 1:N
+    genenetwork *= "\t 10.0, G$(2*i-1) --> G$(2*i-1) + M$(2*i-1)\n"
+    genenetwork *= "\t 10.0, M$(2*i-1) --> M$(2*i-1) + P$(2*i-1)\n"
+    genenetwork *= "\t 1.0,  M$(2*i-1) --> 0\n"
+    genenetwork *= "\t 1.0,  P$(2*i-1) --> 0\n"
+
+    genenetwork *= "\t 5.0, G$(2*i) --> G$(2*i) + M$(2*i)\n"
+    genenetwork *= "\t 5.0, M$(2*i) --> M$(2*i) + P$(2*i)\n"
+    genenetwork *= "\t 1.0,  M$(2*i) --> 0\n"
+    genenetwork *= "\t 1.0,  P$(2*i) --> 0\n"
+
+    genenetwork *= "\t 0.0001, G$(2*i) + P$(2*i-1) --> G$(2*i)_ind \n"
+    genenetwork *= "\t 100., G$(2*i)_ind --> G$(2*i)_ind + M$(2*i)\n"
+end
+genenetwork *= "end"
+rs = eval( parse(genenetwork) )
+u0 = zeros(Int, length(rs.syms))
+for i = 1:(2*N)
+    u0[findfirst(rs.syms, Symbol("G$(i)"))] = 1    
+end
+tf = 2000.0
+prob = DiscreteProblem(u0, (0.0, tf))
+prob_jump_twentygenes = JumpProblemNetwork(rs, nothing, tf, u0, prob, nothing)
+
+
+"""
+    Negative feedback autoregulatory gene expression model. Dimer is the repressor.
+    Taken from Marchetti, Priami and Thanh, 
+    "Simulation Algorithms for Comptuational Systems Biology", 
+    Springer (2017).
+"""
+rn = @reaction_network gnrdtype begin
+    c1, G --> G + M
+    c2, M --> M + P
+    c3, M --> 0
+    c4, P --> 0
+    c5, 2P --> P2
+    c6, P2 --> 2P
+    c7, P2 + G --> P2G
+    c8, P2G --> P2 + G
+end c1 c2 c3 c4 c5 c6 c7 c8
+rnpar = [.09, .05, .001, .0009, .00001, .0005, .005, .9]
+varlabels = ["G", "M", "P", "P2","P2G"]
+u0 = [1000, 0, 0, 0,0]
+tf = 4000.
+prob = DiscreteProblem(u0, (0.0, tf), rnpar)
+prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob, 
+                                                Dict("specs_names" => varlabels))
+
