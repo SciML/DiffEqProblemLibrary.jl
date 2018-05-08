@@ -51,6 +51,8 @@ export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
 # examples mixing mass action and constant rate jumps
        prob_jump_osc_mixed_jumptypes,
 # examples used in published benchmarks / comparisions
-       prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor
+       prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor,
+# examples approximating diffusion by continuous time random walks
+       prob_jump_diffnetwork
 
 end # module

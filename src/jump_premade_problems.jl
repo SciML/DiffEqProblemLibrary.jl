@@ -200,3 +200,27 @@ prob = DiscreteProblem(u0, (0.0, tf), rnpar)
 prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob, 
                                                 Dict("specs_names" => varlabels))
 
+
+"""
+    Continuous time random walk (i.e. diffusion approximation) example.
+    Here the network in the JumpProblemNetwork is a function that returns a 
+    network given the number of lattice sites.
+    u0 is a similar function that returns the initial condition vector.
+"""
+# diffusion model
+function getDiffNetwork(N)
+    diffnetwork = "@reaction_network dpldifftype begin\n"
+    for i in 1:(N-1)
+        diffnetwork *= "\t K, X$(i) --> X$(i+1)\n"
+        diffnetwork *= "\t K, X$(i+1) --> X$(i)\n"
+    end
+    diffnetwork *= "end K"
+    rs = eval( parse(diffnetwork) )
+    rs
+end
+params = (1.,)
+function getDiffu0(N)
+    10*ones(Int64, N)
+end
+tf = 10.
+prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing, nothing)
