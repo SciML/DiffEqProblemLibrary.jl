@@ -12,10 +12,7 @@ struct JumpProblemNetwork
     prob_data       # additional problem data, stored as a Dict
 end
 
-"""
-    DNA negative feedback autoregulatory model. Protein acts as repressor.    
-"""
-rs = @reaction_network ptype begin
+dna_rs = @reaction_network ptype begin
     k1, DNA --> mRNA + DNA
     k2, mRNA --> mRNA + P
     k3, mRNA --> 0
@@ -30,13 +27,12 @@ prob = DiscreteProblem(u0, (0.0, tf), rates)
 Nsims = 8000
 expected_avg = 5.926553750000000e+02
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
-prob_jump_dnarepressor = JumpProblemNetwork(rs, rates, tf, u0, prob, prob_data)
-
-
 """
-    Simple constant production with degradation example
+    DNA negative feedback autoregulatory model. Protein acts as repressor.    
 """
-rs = @reaction_network pdtype begin
+prob_jump_dnarepressor = JumpProblemNetwork(dna_rs, rates, tf, u0, prob, prob_data)
+
+bd_rs = @reaction_network pdtype begin
     k1, 0 --> A
     k2, A --> 0
 end k1 k2
@@ -47,13 +43,12 @@ prob = DiscreteProblem(u0, (0., tf), rates)
 Nsims = 16000
 expected_avg = t -> rates[1] / rates[2] .* ( 1. - exp.(-rates[2] * t))
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean_at_t" => expected_avg)
-prob_jump_constproduct = JumpProblemNetwork(rs, rates, tf, u0, prob, prob_data)
-
-
 """
-    Example with a mix of nonlinear reactions, including third order
+    Simple birth-death process with constant production and degradation.
 """
-rs = @reaction_network dtype begin
+prob_jump_constproduct = JumpProblemNetwork(bd_rs, rates, tf, u0, prob, prob_data)
+
+nonlin_rs = @reaction_network dtype begin
     k1, 2A --> B
     k2, B --> 2A 
     k3, A + B --> C
@@ -67,13 +62,13 @@ prob = DiscreteProblem(u0, (0., tf), rates)
 Nsims = 32000
 expected_avg = 84.876015624999994
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
-prob_jump_nonlinrxs = JumpProblemNetwork(rs, rates, tf, u0, prob, prob_data)
+"""
+    Example with a mix of nonlinear reactions, including third order
+"""
+prob_jump_nonlinrxs = JumpProblemNetwork(nonlin_rs, rates, tf, u0, prob, prob_data)
 
 
-"""
-    Oscillatory system, uses a mixture of jump types.
-"""
-rs = @reaction_network rnoscType  begin
+oscil_rs = @reaction_network rnoscType  begin
     0.01, (X,Y,Z) --> 0
     hill(X,3.,100.,-4), 0 --> Y
     hill(Y,3.,100.,-4), 0 --> Z
@@ -88,15 +83,12 @@ end
 u0 = [200.,60.,120.,100.,50.,50.,50.]  # Hill equations force use of floats!
 tf = 4000.
 prob = DiscreteProblem(u0, (0.,tf))
-prob_jump_osc_mixed_jumptypes = JumpProblemNetwork(rs, nothing, tf, u0, prob, nothing)
+"""
+    Oscillatory system, uses a mixture of jump types.
+"""
+prob_jump_osc_mixed_jumptypes = JumpProblemNetwork(oscil_rs, nothing, tf, u0, prob, nothing)
 
 
-"""
-    Multistate model from Gupta and Mendes, 
-    "An Overview of Network-Based and -Free Approaches for Stochastic Simulation of Biochemical Systems",
-    Computation 2018, 6, 9; doi:10.3390/computation6010009
-    Translated from supplementary data file: Models/Multi-state/fixed_multistate.xml
-"""
 specs_sym_to_name = Dict(
     :S1 => "R(a,l)",
     :S2 => "L(r)",
@@ -139,15 +131,16 @@ u0[ findfirst(rs.syms, :S2) ] = params[2]
 u0[ findfirst(rs.syms, :S3) ] = params[3]
 tf    = 100.
 prob = DiscreteProblem(u0, (0., tf), rates)
+"""
+    Multistate model from Gupta and Mendes, 
+    "An Overview of Network-Based and -Free Approaches for Stochastic Simulation of Biochemical Systems",
+    Computation 2018, 6, 9; doi:10.3390/computation6010009
+    Translated from supplementary data file: Models/Multi-state/fixed_multistate.xml
+"""
 prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob, 
                 Dict("specs_to_sym_name" => specs_sym_to_name, "rates_sym_to_idx" => rates_sym_to_idx, "params" => params))
 
 
-"""
-    Twenty-gene model from McCollum et al, 
-    "The sorting direct method for stochastic simulation of biochemical systems with varying reaction execution behavior"
-    Comp. Bio. and Chem., 30, pg. 39-49 (2006). 
-"""
 # generate the network
 N = 10  # number of genes
 genenetwork = "@reaction_network twentgtype begin\n"
@@ -173,15 +166,14 @@ for i = 1:(2*N)
 end
 tf = 2000.0
 prob = DiscreteProblem(u0, (0.0, tf))
+"""
+    Twenty-gene model from McCollum et al, 
+    "The sorting direct method for stochastic simulation of biochemical systems with varying reaction execution behavior"
+    Comp. Bio. and Chem., 30, pg. 39-49 (2006). 
+"""
 prob_jump_twentygenes = JumpProblemNetwork(rs, nothing, tf, u0, prob, nothing)
 
 
-"""
-    Negative feedback autoregulatory gene expression model. Dimer is the repressor.
-    Taken from Marchetti, Priami and Thanh, 
-    "Simulation Algorithms for Comptuational Systems Biology", 
-    Springer (2017).
-"""
 rn = @reaction_network gnrdtype begin
     c1, G --> G + M
     c2, M --> M + P
@@ -197,16 +189,16 @@ varlabels = ["G", "M", "P", "P2","P2G"]
 u0 = [1000, 0, 0, 0,0]
 tf = 4000.
 prob = DiscreteProblem(u0, (0.0, tf), rnpar)
+"""
+    Negative feedback autoregulatory gene expression model. Dimer is the repressor.
+    Taken from Marchetti, Priami and Thanh, 
+    "Simulation Algorithms for Comptuational Systems Biology", 
+    Springer (2017).
+"""
 prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob, 
                                                 Dict("specs_names" => varlabels))
 
 
-"""
-    Continuous time random walk (i.e. diffusion approximation) example.
-    Here the network in the JumpProblemNetwork is a function that returns a 
-    network given the number of lattice sites.
-    u0 is a similar function that returns the initial condition vector.
-"""
 # diffusion model
 function getDiffNetwork(N)
     diffnetwork = "@reaction_network dpldifftype begin\n"
@@ -223,4 +215,10 @@ function getDiffu0(N)
     10*ones(Int64, N)
 end
 tf = 10.
+"""
+    Continuous time random walk (i.e. diffusion approximation) example.
+    Here the network in the JumpProblemNetwork is a function that returns a 
+    network given the number of lattice sites.
+    u0 is a similar function that returns the initial condition vector.
+"""
 prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing, nothing)
