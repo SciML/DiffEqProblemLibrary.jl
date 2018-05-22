@@ -275,7 +275,7 @@ f(y) = \\begin{pmatrix}
 
 http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf
 """
-hires = @ode_def Hires begin
+hires = @ode_def_noinvjac Hires begin
   dy1 = -p1*y1 + p2*y2 + p3*y3 + p4
   dy2 = p1*y1 - p5*y2
   dy3 = -p6*y3 + p2*y4 + p7*y5
