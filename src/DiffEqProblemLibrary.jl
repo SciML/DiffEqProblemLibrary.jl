@@ -2,7 +2,7 @@ __precompile__(false)
 
 module DiffEqProblemLibrary
 
-using DiffEqBase, ParameterizedFunctions, DiffEqOperators, Requires
+using DiffEqBase, ParameterizedFunctions, DiffEqOperators, DiffEqBiological
 
 include("ode/ode_premade_problems.jl")
 include("dae_premade_problems.jl")
