@@ -3,7 +3,8 @@
 f = (u,p,t) -> 1.01u
 σ = (u,p,t) -> 0.87u
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(0.63155t+0.87W)
-"""
+
+doc"""
 ```math
 du_t = βudt + αudW_t
 ```
@@ -32,7 +33,7 @@ end
   end
 end
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(0.63155*t+0.87*W)
-"""
+doc"""
 8 linear SDEs (as a 4x2 matrix):
 
 ```math
@@ -62,7 +63,7 @@ prob_sde_2Dlinear_stratonovich = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
 f = (u,p,t) -> -.25*u*(1-u^2)
 σ = (u,p,t) -> .5*(1-u^2)
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = ((1+u0).*exp.(W)+u0-1)./((1+u0).*exp.(W)+1-u0)
-"""
+doc"""
 ```math
 du_t = \\frac{1}{4}u(1-u^2)dt + \\frac{1}{2}(1-u^2)dW_t
 ```
@@ -78,7 +79,7 @@ prob_sde_cubic = SDEProblem(f,σ,1/2,(0.0,1.0))
 f = (u,p,t) -> -0.01*sin.(u).*cos.(u).^3
 σ = (u,p,t) -> 0.1*cos.(u).^2
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = atan.(0.1*W + tan.(u0))
-"""
+doc"""
 ```math
 du_t = -\\frac{1}{100}\sin(u)\cos^3(u)dt + \\frac{1}{10}\cos^{2}(u_t) dW_t
 ```
@@ -96,7 +97,7 @@ f = (u,p,t) -> p[2]./sqrt.(1+t) - u./(2*(1+t))
 p = (0.1,0.05)
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt.(1+t) + p[2]*(t+p[1]*W)./sqrt.(1+t)
 
-"""
+doc"""
 Additive noise problem
 
 ```math
@@ -126,7 +127,7 @@ end
 end
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
 
-"""
+doc"""
 A multiple dimension extension of `additiveSDEExample`
 
 """
@@ -143,7 +144,7 @@ end σ ρ β
     du[i] = 3.0 #Additive
   end
 end
-"""
+doc"""
 Lorenz Attractor with additive noise
 
 ```math
@@ -162,7 +163,7 @@ prob_sde_lorenz = SDEProblem(f,σ,ones(3),(0.0,10.0),(10.0,28.0,2.66))
 f = (u,p,t) -> (1/3)*u^(1/3) + 6*u^(2/3)
 σ = (u,p,t) -> u^(2/3)
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = (2t + 1 + W/3)^3
-"""
+doc"""
 Runge–Kutta methods for numerical solution of stochastic differential equations
 Tocino and Ardanuy
 """
@@ -316,8 +317,26 @@ function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
   SDEProblem(f,σ,u0,(0.0,500.0))
 end
 
+stiff_quad_f_ito(u,p,t) = -(p[1]+(p[2]^2)*u)*(1-u^2)
+stiff_quad_f_strat(u,p,t) = -p[1]*(1-u^2)
+stiff_quad_g(u,p,t) = p[2]*(1-u^2)
 
-"""
+function stiff_quad_f_ito(::Type{Val{:analytic}},u0,p,t,W)
+    α = p[1]
+    β = p[2]
+    exp_tmp = exp(-2*α*t+2*β*W)
+    tmp = 1 + u0
+    (tmp*exp_tmp + u0 - 1)/(tmp*exp_tmp - u0 + 1)
+end
+function stiff_quad_f_strat(::Type{Val{:analytic}},u0,p,t,W)
+    α = p[1]
+    β = p[2]
+    exp_tmp = exp(-2*α*t+2*β*W)
+    tmp = 1 + u0
+    (tmp*exp_tmp + u0 - 1)/(tmp*exp_tmp - u0 + 1)
+end
+
+doc"""
 The composite Euler method for stiff stochastic
 differential equations
 
@@ -334,31 +353,28 @@ Stiffness of Euler is determined by α+β²<1
 Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
-function generate_stiff_quad(α,β;ito=true)
-    if ito
-        f = function (u,p,t)
-            -(α+(β^2)*u)*(1-u^2)
-        end
-    else
-        f = function (u,p,t)
-            -α*(1-u^2)
-        end
-    end
+prob_sde_stiffquadito = SDEProblem(stiff_quad_f_ito,stiff_quad_g,0.5,(0.0,3.0),(1.0,1.0))
 
-    function g(u,p,t)
-        β*(1-u^2)
-    end
+doc"""
+The composite Euler method for stiff stochastic
+differential equations
 
-    function (::typeof(f))(::Type{Val{:analytic}},u0,p,t,W)
-        exp_tmp = exp(-2*α*t+2*β*W)
-        tmp = 1 + u0
-        (tmp*exp_tmp + u0 - 1)/(tmp*exp_tmp - u0 + 1)
-    end
+Kevin Burrage, Tianhai Tian
 
-    SDEProblem(f,g,0.5,(0.0,3.0))
-end
+And
 
+S-ROCK: CHEBYSHEV METHODS FOR STIFF STOCHASTIC
+DIFFERENTIAL EQUATIONS
+
+ASSYR ABDULLE AND STEPHANE CIRILLI
+
+Stiffness of Euler is determined by α+β²<1
+Higher α or β is stiff, with α being deterministic stiffness and
+β being noise stiffness (and grows by square).
 """
+prob_sde_stiffquadstrat = SDEProblem(stiff_quad_f_strat,stiff_quad_g,0.5,(0.0,3.0),(1.0,1.0))
+
+doc"""
 Stochastic Heat Equation with scalar multiplicative noise
 
 S-ROCK: CHEBYSHEV METHODS FOR STIFF STOCHASTIC
@@ -432,6 +448,7 @@ network = @reaction_network rnType  begin
     p10, SP2 --> 0
 end p1 p2 p3 p4 p5 p6 p7 p8 p9 p10
 p = (0.01,3.0,3.0,4.5,2.,15.,20.0,0.005,0.01,0.05)
+
 """
 An oscillatory chemical reaction system
 """

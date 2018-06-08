@@ -50,7 +50,7 @@ function init_brusselator_2d(xyd)
 end
 xyd_brusselator = linspace(0,1,32)
 
-"""
+doc"""
 2D Brusselator
 
 ```math
@@ -128,7 +128,7 @@ function init_brusselator_1d(N)
   u
 end
 
-"""
+doc"""
 1D Brusselator
 
 ```math
