@@ -1,42 +1,3 @@
-"""
-2D Brusselator
-
-```math
-\\begin{align}
-\\frac{\\partial u}{\\partial t} &= 1 + u^2v - 4.4u + \\alpha(\frac{\\partial^2 u}{\\partial x^2} + \frac{\\partial^2 u}{\\partial y^2}) + f(x, y, t)
-\\frac{\\partial v}{\\partial t} &= 3.4u - u^2v + \\alpha(\frac{\\partial^2 u}{\\partial x^2} + \frac{\\partial^2 u}{\\partial y^2})
-\\end{align}
-```
-
-where
-
-```math
-f(x, y, t) = \\begin{cases}
-5 & \\quad \\text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \\text{ and } t ≥ 1.1 \\\\
-0 & \\quad \\text{else}
-\\end{cases}
-```
-
-and the initial conditions are
-
-```math
-\\begin{align}
-u(x, y, 0) &= 22\\cdot y(1-y)^{3/2} \\\\
-v(x, y, 0) &= 27\\cdot x(1-x)^{3/2}
-\\end{align}
-```
-
-with the periodic boundary condition
-
-```math
-\\begin{align}
-u(x+1,y,t) &= u(x,y,t) \\\\
-u(x,y+1,t) &= u(x,y,t)
-\\end{align}
-```
-
-From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 152
-"""
 brusselator_f(x, y, t) = ifelse((((x-0.3)^2 + (y-0.6)^2) <= 0.1^2) &&
                                 (t >= 1.1), 5., 0.)
 function limit(a, N)
@@ -88,6 +49,46 @@ function init_brusselator_2d(xyd)
   u
 end
 xyd_brusselator = linspace(0,1,32)
+
+"""
+2D Brusselator
+
+```math
+\\begin{align}
+\\frac{\\partial u}{\\partial t} &= 1 + u^2v - 4.4u + \\alpha(\frac{\\partial^2 u}{\\partial x^2} + \frac{\\partial^2 u}{\\partial y^2}) + f(x, y, t)
+\\frac{\\partial v}{\\partial t} &= 3.4u - u^2v + \\alpha(\frac{\\partial^2 u}{\\partial x^2} + \frac{\\partial^2 u}{\\partial y^2})
+\\end{align}
+```
+
+where
+
+```math
+f(x, y, t) = \\begin{cases}
+5 & \\quad \\text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \\text{ and } t ≥ 1.1 \\\\
+0 & \\quad \\text{else}
+\\end{cases}
+```
+
+and the initial conditions are
+
+```math
+\\begin{align}
+u(x, y, 0) &= 22\\cdot y(1-y)^{3/2} \\\\
+v(x, y, 0) &= 27\\cdot x(1-x)^{3/2}
+\\end{align}
+```
+
+with the periodic boundary condition
+
+```math
+\\begin{align}
+u(x+1,y,t) &= u(x,y,t) \\\\
+u(x,y+1,t) &= u(x,y,t)
+\\end{align}
+```
+
+From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 152
+"""
 prob_ode_brusselator_2d = ODEProblem(brusselator_2d_loop,
                                      init_brusselator_2d(xyd_brusselator),
                                      (0.,11.5),
@@ -95,36 +96,6 @@ prob_ode_brusselator_2d = ODEProblem(brusselator_2d_loop,
                                       xyd_brusselator, step(xyd_brusselator),
                                       length(xyd_brusselator)))
 
-"""
-1D Brusselator
-
-```math
-\\begin{align}
-\\frac{\\partial u}{\\partial t} &= A + u^2v - (B+1)u + \\alpha\frac{\\partial^2 u}{\\partial x^2}
-\\frac{\\partial v}{\\partial t} &= Bu - u^2v + \\alpha\frac{\\partial^2 u}{\\partial x^2}
-\\end{align}
-```
-
-and the initial conditions are
-
-```math
-\\begin{align}
-u(x,0) &= 1+\\sin(2π x) \\\\
-v(x,0) &= 3
-\\end{align}
-```
-
-with the boundary condition
-
-```math
-\\begin{align}
-u(0,t) &= u(1,t) = 1 \\\\
-v(0,t) &= v(1,t) = 3
-\\end{align}
-```
-
-From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 6
-"""
 const N_brusselator_1d = 40
 const D_brusselator_u = DerivativeOperator{Float64}(2,2,1/(N_brusselator_1d-1),
                                                     N_brusselator_1d,
@@ -156,6 +127,37 @@ function init_brusselator_1d(N)
   end
   u
 end
+
+"""
+1D Brusselator
+
+```math
+\\begin{align}
+\\frac{\\partial u}{\\partial t} &= A + u^2v - (B+1)u + \\alpha\frac{\\partial^2 u}{\\partial x^2}
+\\frac{\\partial v}{\\partial t} &= Bu - u^2v + \\alpha\frac{\\partial^2 u}{\\partial x^2}
+\\end{align}
+```
+
+and the initial conditions are
+
+```math
+\\begin{align}
+u(x,0) &= 1+\\sin(2π x) \\\\
+v(x,0) &= 3
+\\end{align}
+```
+
+with the boundary condition
+
+```math
+\\begin{align}
+u(0,t) &= u(1,t) = 1 \\\\
+v(0,t) &= v(1,t) = 3
+\\end{align}
+```
+
+From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 6
+"""
 prob_ode_brusselator_1d = ODEProblem(brusselator_1d,
                                     init_brusselator_1d(N_brusselator_1d),
                                     (0.,10.),
