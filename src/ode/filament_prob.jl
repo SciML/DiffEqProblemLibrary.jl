@@ -155,15 +155,15 @@ function (f::FilamentCache)(dr, r, p, t)
     A, P, F, S1, S2 = f.A, f.P.P, f.F.F, f.Sc.S1, f.Sc.S2
 
     # implement dr = P * (A*r + F) in an optimized way to avoid temporaries
-    A_mul_B!(S1, A, r)
+    mul!(S1, A, r)
     S1 .+= F
-    A_mul_B!(S2, P, S1)
+    mul!(S2, P, S1)
     copy!(dr, S2)
     return dr
 end
 
 function (f::FilamentCache)(::Type{Val{:jac}}, J, r, p, t)
-    A_mul_B!(J, f.P.P, f.A)
+    mul!(J, f.P.P, f.A)
     nothing
 end
 

@@ -389,7 +389,7 @@ function generate_stiff_stoch_heat(D=1,k=1;N = 100)
     dx = 1/N
     A = D/(dx^2) * A
     function f(du,u,p,t)
-        A_mul_B!(du,A,u)
+        mul!(du,A,u)
     end
     #=
     function f(::Type{Val{:analytic}},u0,p,t,W)

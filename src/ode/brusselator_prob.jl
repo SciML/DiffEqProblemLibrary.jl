@@ -109,11 +109,11 @@ function brusselator_1d(du, u_, p, t)
     A, B, α, buffer = p
     u = @view(u_[:, 1])
     v = @view(u_[:, 2])
-    A_mul_B!(buffer, D_brusselator_u, u)
+    mul!(buffer, D_brusselator_u, u)
     Du = buffer
     @. du[:, 1] = A + u^2*v - (B+1)*u + α*Du
 
-    A_mul_B!(buffer, D_brusselator_v, v)
+    mul!(buffer, D_brusselator_v, v)
     Dv = buffer
     @. du[:, 2] = B*u - u^2*v + α*Dv
     nothing

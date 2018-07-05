@@ -244,7 +244,7 @@ prob_ode_pleiades = ODEProblem(pleiades,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0
 srand(100)
 const mm_A = rand(4,4)
 mm_linear = function (du,u,p,t)
-  A_mul_B!(du,mm_A,u)
+  mul!(du,mm_A,u)
 end
 const MM_linear =full(Diagonal(0.5ones(4)))
 (::typeof(mm_linear))(::Type{Val{:analytic}},u0,p,t) = expm(inv(MM_linear)*mm_A*t)*u0
