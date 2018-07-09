@@ -1,3 +1,13 @@
+using DiffEqBase, ParameterizedFunctions, DiffEqBiological
+#SDE Example Problems
+export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
+      prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
+      prob_sde_additivesystem, oval2ModelExample, prob_sde_bistable,
+      prob_sde_bruss, prob_sde_oscilreact
+#SDE Stratonovich Example Problems
+export prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
+
+
 ### SDE Examples
 
 f = (u,p,t) -> 1.01u

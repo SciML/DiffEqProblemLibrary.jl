@@ -1,3 +1,21 @@
+module DAEProblemLibrary
+using DiffEqBase
+# DDE Example Problems
+# examples with constant delays
+export prob_dde_1delay, prob_dde_1delay_notinplace, prob_dde_1delay_scalar_notinplace,
+       prob_dde_2delays, prob_dde_2delays_notinplace, prob_dde_2delays_scalar_notinplace,
+       prob_dde_1delay_long, prob_dde_1delay_long_notinplace,
+       prob_dde_1delay_long_scalar_notinplace, prob_dde_2delays_long,
+       prob_dde_2delays_long_notinplace, prob_dde_2delays_long_scalar_notinplace,
+       prob_dde_mackey, prob_dde_wheldon, prob_dde_qs,
+# examples with vanishing time dependent delays
+       prob_ddde_neves1, prob_dde_neves_thompson,
+# examples with state dependent delays
+       prob_dde_paul1, prob_dde_paul2, prob_dde_mahaffy1, prob_dde_mahaffy2,
+# examples with vanishing state dependent delays
+       prob_neves2, prob_dde_gatica
+
+
 # DDE examples with analytical solution
 
 ## Single constant delay
@@ -640,3 +658,4 @@ prob_dde_qs = build_prob_dde_qs([1; 8.4e8; 2.5e-9; 7.6e-8; 5e-15], # initial val
                                 0.1, 1.3e-12, 0.38, 1.3, 0.66, 2.3e-19, 2.3e-18, 70e-9,
                                 2.3, 0.05, 4e4, 5e-7, 0.080, 1.5e-4, 1.1e-8, 70e-9, 2.5,
                                 0.005)
+end # module
