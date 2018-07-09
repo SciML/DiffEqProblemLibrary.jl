@@ -1,4 +1,3 @@
-module DAEProblemLibrary
 using DiffEqBase
 # DDE Example Problems
 # examples with constant delays
@@ -658,4 +657,3 @@ prob_dde_qs = build_prob_dde_qs([1; 8.4e8; 2.5e-9; 7.6e-8; 5e-15], # initial val
                                 0.1, 1.3e-12, 0.38, 1.3, 0.66, 2.3e-19, 2.3e-18, 70e-9,
                                 2.3, 0.05, 4e4, 5e-7, 0.080, 1.5e-4, 1.1e-8, 70e-9, 2.5,
                                 0.005)
-end # module

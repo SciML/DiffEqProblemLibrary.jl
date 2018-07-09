@@ -50,7 +50,7 @@ function init_brusselator_2d(xyd)
 end
 xyd_brusselator = range(0,stop=1,length=32)
 
-@doc @doc doc"""
+@doc doc"""
 2D Brusselator
 
 ```math
@@ -128,7 +128,7 @@ function init_brusselator_1d(N)
   u
 end
 
-@doc @doc doc"""
+@doc doc"""
 1D Brusselator
 
 ```math
