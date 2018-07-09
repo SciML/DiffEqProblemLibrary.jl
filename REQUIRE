@@ -3,3 +3,4 @@ ParameterizedFunctions 2.0.0
 DiffEqBase 3.0.3
 DiffEqOperators
 DiffEqBiological
+Reexport

@@ -1,4 +1,5 @@
-using DiffEqBase, ParameterizedFunctions, DiffEqOperators, Random, LinearAlgebra
+using DiffEqBase, ParameterizedFunctions, DiffEqOperators, Random, LinearAlgebra,
+      Markdown
 
 srand(100)
 

@@ -14,7 +14,7 @@ f = (u,p,t) -> 1.01u
 σ = (u,p,t) -> 0.87u
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(0.63155t+0.87W)
 
-doc"""
+@doc doc"""
 ```math
 du_t = βudt + αudW_t
 ```
@@ -43,7 +43,7 @@ end
   end
 end
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(0.63155*t+0.87*W)
-doc"""
+@doc doc"""
 8 linear SDEs (as a 4x2 matrix):
 
 ```math
@@ -73,7 +73,7 @@ prob_sde_2Dlinear_stratonovich = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
 f = (u,p,t) -> -.25*u*(1-u^2)
 σ = (u,p,t) -> .5*(1-u^2)
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = ((1+u0).*exp.(W)+u0-1)./((1+u0).*exp.(W)+1-u0)
-doc"""
+@doc doc"""
 ```math
 du_t = \\frac{1}{4}u(1-u^2)dt + \\frac{1}{2}(1-u^2)dW_t
 ```
@@ -89,7 +89,7 @@ prob_sde_cubic = SDEProblem(f,σ,1/2,(0.0,1.0))
 f = (u,p,t) -> -0.01*sin.(u).*cos.(u).^3
 σ = (u,p,t) -> 0.1*cos.(u).^2
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = atan.(0.1*W + tan.(u0))
-doc"""
+@doc doc"""
 ```math
 du_t = -\\frac{1}{100}\sin(u)\cos^3(u)dt + \\frac{1}{10}\cos^{2}(u_t) dW_t
 ```
@@ -107,7 +107,7 @@ f = (u,p,t) -> p[2]./sqrt.(1+t) - u./(2*(1+t))
 p = (0.1,0.05)
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt.(1+t) + p[2]*(t+p[1]*W)./sqrt.(1+t)
 
-doc"""
+@doc doc"""
 Additive noise problem
 
 ```math
@@ -137,7 +137,7 @@ end
 end
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
 
-doc"""
+@doc doc"""
 A multiple dimension extension of `additiveSDEExample`
 
 """
@@ -154,7 +154,7 @@ end σ ρ β
     du[i] = 3.0 #Additive
   end
 end
-doc"""
+@doc doc"""
 Lorenz Attractor with additive noise
 
 ```math
@@ -173,7 +173,7 @@ prob_sde_lorenz = SDEProblem(f,σ,ones(3),(0.0,10.0),(10.0,28.0,2.66))
 f = (u,p,t) -> (1/3)*u^(1/3) + 6*u^(2/3)
 σ = (u,p,t) -> u^(2/3)
 (ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = (2t + 1 + W/3)^3
-doc"""
+@doc doc"""
 Runge–Kutta methods for numerical solution of stochastic differential equations
 Tocino and Ardanuy
 """
@@ -346,7 +346,7 @@ function stiff_quad_f_strat(::Type{Val{:analytic}},u0,p,t,W)
     (tmp*exp_tmp + u0 - 1)/(tmp*exp_tmp - u0 + 1)
 end
 
-doc"""
+@doc doc"""
 The composite Euler method for stiff stochastic
 differential equations
 
@@ -365,7 +365,7 @@ Higher α or β is stiff, with α being deterministic stiffness and
 """
 prob_sde_stiffquadito = SDEProblem(stiff_quad_f_ito,stiff_quad_g,0.5,(0.0,3.0),(1.0,1.0))
 
-doc"""
+@doc doc"""
 The composite Euler method for stiff stochastic
 differential equations
 
@@ -384,7 +384,7 @@ Higher α or β is stiff, with α being deterministic stiffness and
 """
 prob_sde_stiffquadstrat = SDEProblem(stiff_quad_f_strat,stiff_quad_g,0.5,(0.0,3.0),(1.0,1.0))
 
-doc"""
+@doc doc"""
 Stochastic Heat Equation with scalar multiplicative noise
 
 S-ROCK: CHEBYSHEV METHODS FOR STIFF STOCHASTIC
