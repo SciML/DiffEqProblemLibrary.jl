@@ -13,7 +13,7 @@ function brusselator_2d_loop(du, u, p, t)
   @inbounds begin
     A, B, α, xyd, dx, N = p
     α = α/dx^2
-    for I in CartesianRange((N, N))
+    for I in CartesianIndices((N, N))
       x = xyd[I[1]]
       y = xyd[I[2]]
       i = I[1]
@@ -25,7 +25,7 @@ function brusselator_2d_loop(du, u, p, t)
       du[i,j,1] = α*(u[im1,j,1] + u[ip1,j,1] + u[i,jp1,1] + u[i,jm1,1] - 4u[i,j,1]) +
       B + u[i,j,1]^2*u[i,j,2] - (A + 1)*u[i,j,1] + brusselator_f(x, y, t)
     end
-    for I in CartesianRange((N, N))
+    for I in CartesianIndices((N, N))
       i = I[1]
       j = I[2]
       ip1 = limit(i+1, N)
@@ -40,7 +40,7 @@ end
 function init_brusselator_2d(xyd)
   N = length(xyd)
   u = zeros(N, N, 2)
-  for I in CartesianRange((N, N))
+  for I in CartesianIndices((N, N))
     x = xyd[I[1]]
     y = xyd[I[2]]
     u[I,1] = 22*(y*(1-y))^(3/2)
@@ -48,9 +48,9 @@ function init_brusselator_2d(xyd)
   end
   u
 end
-xyd_brusselator = linspace(0,1,32)
+xyd_brusselator = range(0,stop=1,length=32)
 
-doc"""
+@doc doc"""
 2D Brusselator
 
 ```math
@@ -120,7 +120,7 @@ function brusselator_1d(du, u_, p, t)
 end
 function init_brusselator_1d(N)
   u = zeros(N, 2)
-  x = linspace(0, 1, N)
+  x = range(0, stop=1, length=N)
   for i in 1:N
     u[i, 1] = 1 + sin(2pi*x[i])
     u[i, 2] = 3.
@@ -128,7 +128,7 @@ function init_brusselator_1d(N)
   u
 end
 
-doc"""
+@doc doc"""
 1D Brusselator
 
 ```math

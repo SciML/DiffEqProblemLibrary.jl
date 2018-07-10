@@ -188,7 +188,7 @@ u0[8]  = 0.3
 u0[9]  = 0.01
 u0[17] = 0.007
 
-doc"""
+@doc doc"""
 [Pollution Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Pollution.ipynb) (Stiff)
 
 This IVP is a stiff system of 20 non-linear Ordinary Differential Equations. It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with

@@ -1,3 +1,8 @@
+using DiffEqBase
+
+#DAE Example Problems
+export prob_dae_resrob
+
 ### DAE Problems
 
 f = function (r, yp, y, p, tres)

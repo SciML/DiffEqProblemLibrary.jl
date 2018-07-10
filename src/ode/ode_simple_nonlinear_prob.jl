@@ -175,7 +175,7 @@ pleiades = (du,u,p,t) -> begin
   w = view(u,22:28) # y′
   du[1:7] .= v
   du[8:14].= w
-  for i in 14:21
+  for i in 14:28
     du[i] = zero(eltype(u))
   end
   for i=1:7,j=1:7
@@ -239,6 +239,7 @@ From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff 
 Usually solved from 0 to 3.
 """
 prob_ode_pleiades = ODEProblem(pleiades,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0,2.0,0,0,-4.0,4.0,0,0,0,0,0,1.75,-1.5,0,0,0,-1.25,1,0,0],(0.0,3.0))
+
 
 
 srand(100)

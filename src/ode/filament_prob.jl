@@ -35,14 +35,14 @@ struct NoHydroProjectionCache <: AbstractInextensibilityCache
     J         :: Matrix{T}
     P         :: Matrix{T}
     J_JT      :: Matrix{T}
-    J_JT_LDLT :: Base.LinAlg.LDLt{T, SymTridiagonal{T}}
+    J_JT_LDLT :: LinearAlgebra.LDLt{T, SymTridiagonal{T}}
     P0        :: Matrix{T}
 
     NoHydroProjectionCache(N::Int) = new(
         zeros(N, 3*(N+1)),          # J
         zeros(3*(N+1), 3*(N+1)),    # P
         zeros(N,N),                 # J_JT
-        Base.LinAlg.LDLt{T,SymTridiagonal{T}}(SymTridiagonal(zeros(N), zeros(N-1))),
+        LinearAlgebra.LDLt{T,SymTridiagonal{T}}(SymTridiagonal(zeros(N), zeros(N-1))),
         zeros(N, 3*(N+1))
     )
 end
@@ -66,7 +66,7 @@ function FilamentCache(N=20; Cm=32, ω=200, Solver=SolverDiffEq)
 end
 function stiffness_matrix!(f::AbstractFilamentCache)
     N, μ, A = f.N, f.μ, f.A
-    A[:] = eye(3*(N+1))
+    A[:] = Matrix{Float64}(I, 3*(N+1), 3*(N+1))
     for i in 1 : 3
         A[i,i] =    1
         A[i,3+i] = -2
@@ -94,7 +94,7 @@ function stiffness_matrix!(f::AbstractFilamentCache)
             A[3*j+i,3*(j+2)+i] =  1
         end
     end
-    scale!(A, -μ^4)
+    rmul!(A, -μ^4)
     nothing
 end
 function update_separate_coordinates!(f::AbstractFilamentCache, r)
@@ -126,7 +126,7 @@ end
 function initialize!(initial_conf_type::Symbol, f::AbstractFilamentCache)
     N, x, y, z = f.N, f.x, f.y, f.z
     if initial_conf_type == :StraightX
-        x[:] = linspace(0, 1, N+1)
+        x[:] = range(0, stop=1, length=N+1)
         y[:] = 0 .* x
         z[:] = 0 .* x
     else
@@ -192,14 +192,14 @@ function projection!(f::FilamentCache)
 end
 
 function subtract_from_identity!(A)
-    scale!(-1, A)
+    rmul!(-1, A)
     @inbounds for i in 1 : size(A,1)
         A[i,i] += 1
     end
     nothing
 end
 
-function LDLt_inplace!{T<:Real}(L::Base.LinAlg.LDLt{T,SymTridiagonal{T}}, A::Matrix{T})
+function LDLt_inplace!(L::LinearAlgebra.LDLt{T,SymTridiagonal{T}}, A::Matrix{T}) where {T<:Real}
     n = size(A,1)
     dv, ev = L.data.dv, L.data.ev
     @inbounds for (i,d) in enumerate(diagind(A))
