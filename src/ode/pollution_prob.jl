@@ -74,7 +74,7 @@ function pollution(dy,y,p,t)
  dy[20] = -r25+r24
 end
 
-function pollution(::Type{Val{:jac}},J,y,p,t)
+function pollution_jac(J,y,p,t)
   J .= 0.0
   J[1,1]   = -k1-k10*y[11]-k14*y[6]-k23*y[4]-k24*y[19]
   J[1,11]  = -k10*y[1]+k9*y[2]
@@ -232,4 +232,5 @@ y0 = (0, 0.2, 0, 0.04, 0, 0, 0.1, 0.3, 0.01, 0, 0, 0, 0 ,0, 0, 0, 0.007, 0, 0, 0
 
 https://archimede.dm.uniba.it/~testset/report/pollu.pdf
 """
-prob_ode_pollution = ODEProblem(pollution,u0,(0.0,60.0))
+prob_ode_pollution = ODEProblem(ODEFunction(pollution,jac=pollution_jac),
+                                u0,(0.0,60.0))

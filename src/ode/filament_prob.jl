@@ -217,8 +217,9 @@ end
 
 function filament_prob(::SolverDiffEq; N=20, Cm=32, ω=200, time_end=1.)
     f = FilamentCache(N, Solver=SolverDiffEq, Cm=Cm, ω=ω)
+    jac = (J, r, p, t) -> f(Val{:jac}, J, r, p, t)
     r0 = initialize!(:StraightX, f)
     stiffness_matrix!(f)
-    prob = ODEProblem(f, r0, (0., time_end))
+    prob = ODEProblem(ODEFunction(f,jac=jac), r0, (0., time_end))
 end
 prob_ode_filament = filament_prob(SolverDiffEq())
