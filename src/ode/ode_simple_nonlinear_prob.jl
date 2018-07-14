@@ -248,7 +248,7 @@ mm_linear = function (du,u,p,t)
   mul!(du,mm_A,u)
 end
 const MM_linear =full(Diagonal(0.5ones(4)))
-(::typeof(mm_linear))(::Type{Val{:analytic}},u0,p,t) = expm(inv(MM_linear)*mm_A*t)*u0
+(::typeof(mm_linear))(::Type{Val{:analytic}},u0,p,t) = exp(inv(MM_linear)*mm_A*t)*u0
 prob_ode_mm_linear = ODEProblem(mm_linear,rand(4),(0.0,1.0),mass_matrix=MM_linear)
 
 """
