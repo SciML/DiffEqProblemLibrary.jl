@@ -175,7 +175,7 @@ genenetwork = construct_genenetwork(N)
 rs = eval( Meta.parse(genenetwork) )
 u0 = zeros(Int, length(rs.syms))
 for i = 1:(2*N)
-    u0[findfirst(rs.syms, Symbol("G$(i)"))] = 1
+    u0[something(findfirst(isequal(Symbol("G$(i)")),rs.syms),0)] = 1
 end
 tf = 2000.0
 prob = DiscreteProblem(u0, (0.0, tf))
