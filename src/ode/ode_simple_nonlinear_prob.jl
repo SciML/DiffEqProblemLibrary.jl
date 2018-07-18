@@ -100,7 +100,7 @@ Usually solved on `[0,1e11]`
 prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0],(0.0,1e11),(0.04,3e7,1e4))
 
 # Three Body
-const threebody_μ = parse(BigFloat,"0.012277471"); const threebody_μ′ = 1 - threebody_μ
+const threebody_μ = big(0.012277471); const threebody_μ′ = 1 - threebody_μ
 
 threebody = (du,u,p,t) -> begin
   # 1 = y₁
@@ -130,10 +130,10 @@ D₂ &= ((y₁-μ′)^2+y₂^2)^{3/2} \\\\
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 
-Usually solved on `t₀ = 0.0`; `T = parse(BigFloat,"17.0652165601579625588917206249")`
+Usually solved on `t₀ = 0.0`; `T = "17.0652165601579625588917206249"`
 Periodic with that setup.
 """
-prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, parse(BigFloat,"-2.00158510637908252240537862224")],(parse(BigFloat,"0.0"),parse(BigFloat,"17.0652165601579625588917206249")))
+prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, big(-2.00158510637908252240537862224)],(big(0.0),big(17.0652165601579625588917206249)))
 
 # Rigid Body Equations
 
