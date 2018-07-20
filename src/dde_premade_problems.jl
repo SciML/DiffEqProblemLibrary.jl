@@ -25,7 +25,7 @@ function f_1delay(du, u, h, p, t)
     du[1] = - h(p, t - oneunit(t))[1] / oneunit(t)
 end
 
-function f_1delay(::Type{Val{:analytic}}, u₀, p, t)
+function f_1delay_analytic(u₀, p, t)
     z = t/oneunit(t)
 
     if z < 0
@@ -63,8 +63,10 @@ function f_1delay(::Type{Val{:analytic}}, u₀, p, t)
     end
 end
 
+ff_1delay = DDEFunction(f_1delay,analytic=f_1delay_analytic)
+
 build_prob_dde_1delay(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay, [u₀], (p, t)->[zero(u₀)], (zero(T), T(10)),
+    DDEProblem(ff_1delay, [u₀], (p, t)->[zero(u₀)], (zero(T), T(10)),
                constant_lags = [oneunit(T)])
 
 """
@@ -99,12 +101,12 @@ function f_1delay_notinplace(u, h, p, t)
     - h(p, t - oneunit(t)) ./ oneunit(t)
 end
 
-f_1delay_notinplace(::Type{Val{:analytic}}, u0, p, t) = f_1delay(Val{:analytic}, u0, p, t)
+ff_1delay_notinplace = DDEFunction(f_1delay_notinplace,analytic=f_1delay_analytic)
 
 #### Vectorized history function
 
 build_prob_dde_1delay_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay_notinplace, [u₀], (p, t)->[zero(u₀)], (zero(T), T(10)),
+    DDEProblem(ff_1delay_notinplace, [u₀], (p, t)->[zero(u₀)], (zero(T), T(10)),
                constant_lags = [oneunit(T)])
 
 """
@@ -118,7 +120,7 @@ prob_dde_1delay_notinplace = build_prob_dde_1delay_notinplace(1.0)
 #### Scalar history function
 
 build_prob_dde_1delay_scalar_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_1delay_notinplace, u₀, (p, t) -> zero(u₀), (zero(T), T(10)),
+    DDEProblem(ff_1delay_notinplace, u₀, (p, t) -> zero(u₀), (zero(T), T(10)),
                constant_lags = [oneunit(T)])
 
 """
@@ -137,7 +139,7 @@ function f_2delays(du, u, h, p, t::T) where T
     du[1] = (- h(p, t - T(1//3))[1] - h(p, t - T(1//5))[1]) / oneunit(t)
 end
 
-function f_2delays(::Type{Val{:analytic}}, u₀, p, t)
+function f_2delays_analytic(u₀, p, t)
     z = t/oneunit(t)
 
     if z < 0
@@ -173,8 +175,10 @@ function f_2delays(::Type{Val{:analytic}}, u₀, p, t)
     end
 end
 
+ff_2delays = DDEFunction(f_2delays,analytic=f_2delays_analytic)
+
 build_prob_dde_2delays(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_2delays, [u₀], (p, t) -> [zero(u₀)], (zero(T), oneunit(T)),
+    DDEProblem(ff_2delays, [u₀], (p, t) -> [zero(u₀)], (zero(T), oneunit(T)),
     constant_lags = [T(1//3), T(1//5)])
 
 """
@@ -209,13 +213,12 @@ function f_2delays_notinplace(u, h, p, t::T) where T
     (- h(p, t - T(1//3)) .- h(p, t - T(1//5))) ./ oneunit(t)
 end
 
-f_2delays_notinplace(::Type{Val{:analytic}}, u0, p, t) =
-    f_2delays(Val{:analytic}, u0, p, t)
+ff_2delays_notinplace = DDEFunction(f_2delays_notinplace,analytic=f_2delays_analytic)
 
 #### Vectorized history function
 
 build_prob_dde_2delays_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_2delays_notinplace, [u₀], (p, t) -> [zero(u₀)], (zero(T), oneunit(T)),
+    DDEProblem(ff_2delays_notinplace, [u₀], (p, t) -> [zero(u₀)], (zero(T), oneunit(T)),
                constant_lags =  [T(1//3), T(1//5)])
 
 """
@@ -229,7 +232,7 @@ prob_dde_2delays_notinplace = build_prob_dde_2delays_notinplace(1.0)
 #### Scalar history function
 
 build_prob_dde_2delays_scalar_notinplace(u₀, ::T=u₀) where {T} =
-    DDEProblem(f_2delays_notinplace, u₀, (p, t) -> zero(u₀), (zero(T), oneunit(T)),
+    DDEProblem(ff_2delays_notinplace, u₀, (p, t) -> zero(u₀), (zero(T), oneunit(T)),
                constant_lags = [T(1//3), T(1//5)])
 
 """
@@ -416,10 +419,12 @@ function f_dde_neves1(du, u, h, p, t)
     du[1] = 1 - h(p, exp(1-1/t))[1]
 end
 # only valid for specific history function
-function f_dde_neves1(::Type{Val{:analytic}}, u₀, p, t )
+function f_dde_neves1_analytic(u₀, p, t )
     0 < t ≤ 10 && u₀ == [log(0.1)] && return [log(t)]
     error("This analytical solution is only valid on (0, 10] and for history function ϕ(t) = ln(t) for 0 < t ≤ 0.1")
 end
+
+ff_dde_neves1 = DDEFunction(f_dde_neves1,analytic=f_dde_neves1_analytic)
 
 """
     prob_dde_neves1
@@ -427,7 +432,7 @@ end
 DDE with vanishing time dependent delay at ``t = 1`` (K. W. Neves, Automatic integratorion
 of functional differential equations: An approach, 1975).
 """
-prob_dde_neves_1 = DDEProblem(f_dde_neves1, [log(0.1)], (p, t) -> [log(t)], (0.1, 10.),
+prob_dde_neves_1 = DDEProblem(ff_dde_neves1, [log(0.1)], (p, t) -> [log(t)], (0.1, 10.),
                               dependent_lags = [(u,p,t) -> t - exp(1 - 1/t)])
 
 function f_dde_neves_thompson(du, u, h, p, t)
@@ -438,7 +443,7 @@ function f_dde_neves_thompson(du, u, h, p, t)
     end
 end
 # only valid for specific history function
-function f_dde_neves_thompson(::Type{Val{:analytic}}, u₀, p, t )
+function f_dde_neves_thompson_analytic(u₀, p, t )
     if u₀ == [1]
         if 0 ≤ t ≤ 2*log(2)
             return [2*exp(-t) - 1]
@@ -450,6 +455,9 @@ function f_dde_neves_thompson(::Type{Val{:analytic}}, u₀, p, t )
     end
     error("This analytical solution is only valid on [0, 2ln(66)] and for history function ϕ(t) = 1 for t ≤ 0")
 end
+
+ff_dde_neves_thompson = DDEFunction(f_dde_neves_thompson,
+                                    analytic=f_dde_neves_thompson_analytic)
 
 """
     prob_dde_neves_thompson
@@ -472,7 +480,8 @@ u(t) = 1
 
 for ``t \\leq 0``.
 """
-prob_dde_neves_thompson = DDEProblem(f_dde_neves_thompson, [1.], (p, t) -> [1.], (0., 2*log(66)),
+prob_dde_neves_thompson = DDEProblem(ff_dde_neves_thompson, [1.],
+                                     (p, t) -> [1.], (0., 2*log(66)),
                                      constant_lags = [(u,p,t) -> t/2])
 
 function f_dde_paul1(du, u, h, p, t)

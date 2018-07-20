@@ -10,9 +10,9 @@ export prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
 
 ### SDE Examples
 
-f = (u,p,t) -> 1.01u
-σ = (u,p,t) -> 0.87u
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(0.63155t+0.87W)
+f_linear(u,p,t) = 1.01u
+σ_linear(u,p,t) = 0.87u
+linear_analytic(u0,p,t,W) = @.(u0*exp(0.63155t+0.87W))
 
 @doc doc"""
 ```math
@@ -25,24 +25,15 @@ u(u0,p,t,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 
 """
-prob_sde_linear = SDEProblem(f,σ,1/2,(0.0,1.0))
+prob_sde_linear = SDEProblem(SDEFunction(f_linear,σ_linear,
+                             analytic=linear_analytic),σ_linear,1/2,(0.0,1.0))
 
-f = (u,p,t) -> 1.01u
-σ = (u,p,t) -> 0.87u
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(1.01t+0.87W)
-prob_sde_linear_stratonovich = SDEProblem(f,σ,1/2,(0.0,1.0))
-
-f = (du,u,p,t) -> begin
-  for i = 1:length(u)
-    du[i] = 1.01*u[i]
-  end
-end
-σ = (du,u,p,t) -> begin
-  for i in 1:length(u)
-    du[i] = .87*u[i]
-  end
-end
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(0.63155*t+0.87*W)
+linear_analytic_strat(u0,p,t,W) = @.(u0*exp(1.01t+0.87W))
+prob_sde_linear_stratonovich = SDEProblem(SDEFunction(f_linear,σ_linear,
+                               analytic=linear_analytic_strat),
+                               σ_linear,1/2,(0.0,1.0))
+f_linear_iip(du,u,p,t) = @.(du = 1.01*u)
+σ_linear_iip(du,u,p,t) = @.(du = 0.87*u)
 @doc doc"""
 8 linear SDEs (as a 4x2 matrix):
 
@@ -55,24 +46,17 @@ where β=1.01, α=0.87, and initial condtion u0=1/2 with solution
 u(u0,p,t,W_t)=u0\\exp((α-\\frac{β^2}{2})t+βW_t)
 ```
 """
-prob_sde_2Dlinear = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
+prob_sde_2Dlinear = SDEProblem(SDEFunction(f_linear_iip,σ_linear_iip,
+                               analytic=linear_analytic),
+                               σ_linear_iip,ones(4,2)/2,(0.0,1.0))
+prob_sde_2Dlinear_stratonovich = SDEProblem(SDEFunction(f_linear_iip,σ_linear_iip,
+                               analytic=linear_analytic_strat),
+                               σ_linear_iip,ones(4,2)/2,(0.0,1.0))
 
-f = (du,u,p,t) -> begin
-  for i = 1:length(u)
-    du[i] = 1.01*u[i]
-  end
-end
-σ = (du,u,p,t) -> begin
-  for i in 1:length(u)
-    du[i] = .87*u[i]
-  end
-end
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0.*exp.(1.01*t+0.87*W)
-prob_sde_2Dlinear_stratonovich = SDEProblem(f,σ,ones(4,2)/2,(0.0,1.0))
-
-f = (u,p,t) -> -.25*u*(1-u^2)
-σ = (u,p,t) -> .5*(1-u^2)
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = ((1+u0).*exp.(W)+u0-1)./((1+u0).*exp.(W)+1-u0)
+f_cubic(u,p,t) = -.25*u*(1-u^2)
+σ_cubic(u,p,t) = .5*(1-u^2)
+cubic_analytic(u0,p,t,W) = @. ((1+u0)*exp(W)+u0-1)/((1+u0)*exp(W)+1-u0)
+ff_cubic = SDEFunction(f_cubic,σ_cubic,analytic = cubic_analytic)
 @doc doc"""
 ```math
 du_t = \\frac{1}{4}u(1-u^2)dt + \\frac{1}{2}(1-u^2)dW_t
@@ -84,11 +68,12 @@ and initial condtion u0=1/2, with solution
 u(u0,p,t,W_t)=\\frac{(1+u0)\\exp(W_t)+u0-1}{(1+u0)\\exp(W_t)+1-u0}
 ```
 """
-prob_sde_cubic = SDEProblem(f,σ,1/2,(0.0,1.0))
+prob_sde_cubic = SDEProblem(ff_cubic,σ_cubic,1/2,(0.0,1.0))
 
-f = (u,p,t) -> -0.01*sin.(u).*cos.(u).^3
-σ = (u,p,t) -> 0.1*cos.(u).^2
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = atan.(0.1*W + tan.(u0))
+f_wave(u,p,t) = @. -0.01*sin(u)*cos(u)^3
+σ_wave(u,p,t) = @. 0.1*cos(u)^2
+wave_analytic(u0,p,t,W) = @. atan(0.1*W + tan(u0))
+ff_wave = SDEFunction(f_wave,σ_wave,analytic=wave_analytic)
 @doc doc"""
 ```math
 du_t = -\\frac{1}{100}\sin(u)\cos^3(u)dt + \\frac{1}{10}\cos^{2}(u_t) dW_t
@@ -100,13 +85,13 @@ and initial condition `u0=1.0` with solution
 u(u0,p,t,W_t)=\\arctan(\\frac{W_t}{10} + \\tan(u0))
 ```
 """
-prob_sde_wave = SDEProblem(f,σ,1.,(0.0,1.0))
+prob_sde_wave = SDEProblem(ff_wave,σ_wave,1.0,(0.0,1.0))
 
-f = (u,p,t) -> p[2]./sqrt.(1+t) - u./(2*(1+t))
-σ = (u,p,t) -> p[1]*p[2]./sqrt.(1+t)
+f_additive(u,p,t) = @. p[2]/sqrt(1+t) - u/(2*(1+t))
+σ_additive(u,p,t) = @. p[1]*p[2]/sqrt(1+t)
 p = (0.1,0.05)
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt.(1+t) + p[2]*(t+p[1]*W)./sqrt.(1+t)
-
+additive_analytic(u0,p,t,W) = @. u0/sqrt(1+t) + p[2]*(t+p[1]*W)/sqrt(1+t)
+ff_additive = SDEFunction(f_additive,σ_additive,analytic=additive_analytic)
 @doc doc"""
 Additive noise problem
 
@@ -120,40 +105,24 @@ and initial condition u0=1.0 with α=0.1 and β=0.05, with solution
 u(u0,p,t,W_t)=\\frac{u0}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
 ```
 """
-prob_sde_additive = SDEProblem(f,σ,1.,(0.0,1.0),p)
+prob_sde_additive = SDEProblem(ff_additive,σ_additive,1.0,(0.0,1.0),p)
 
-const sde_wave_αvec = [0.1;0.1;0.1;0.1]
-const sde_wave_βvec = [0.5;0.25;0.125;0.1115]
-f = (du,u,p,t) -> begin
-  for i in 1:length(u)
-    du[i] = sde_wave_βvec[i]/sqrt(1+t) - u[i]/(2*(1+t))
-  end
-end
-
-σ = (du,u,p,t) -> begin
-  for i in 1:length(u)
-    du[i] = sde_wave_αvec[i]*sde_wave_βvec[i]/sqrt(1+t)
-  end
-end
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = u0./sqrt(1+t) + sde_wave_βvec.*(t+sde_wave_αvec.*W)./sqrt(1+t)
-
+f_additive_iip(du,u,p,t) = @.(du = p[2]/sqrt(1+t) - u/(2*(1+t)))
+σ_additive_iip(du,u,p,t) = @.(du = p[1]*p[2]/sqrt(1+t))
+ff_additive_iip = SDEFunction(f_additive_iip,σ_additive_iip,analytic=additive_analytic)
+p = ([0.1;0.1;0.1;0.1],[0.5;0.25;0.125;0.1115])
 @doc doc"""
 A multiple dimension extension of `additiveSDEExample`
 
 """
-prob_sde_additivesystem = SDEProblem(f,σ,[1.;1.;1.;1.],(0.0,1.0))
+prob_sde_additivesystem = SDEProblem(ff_additive_iip,σ_additive_iip,[1.;1.;1.;1.],(0.0,1.0),p)
 
-f = @ode_def_nohes LorenzSDE begin
+f_lorenz = @ode_def_bare LorenzSDE begin
   dx = σ*(y-x)
   dy = x*(ρ-z) - y
   dz = x*y - β*z
 end σ ρ β
-
-σ = (du,u,p,t) -> begin
-  for i in 1:3
-    du[i] = 3.0 #Additive
-  end
-end
+σ_lorenz(du,u,p,t) = @.(du = 3.0)
 @doc doc"""
 Lorenz Attractor with additive noise
 
@@ -167,17 +136,18 @@ dz &= (x*y - β*z)dt + αdW_t \\\\
 
 with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u0=[1;1;1]``.
 """
-prob_sde_lorenz = SDEProblem(f,σ,ones(3),(0.0,10.0),(10.0,28.0,2.66))
+prob_sde_lorenz = SDEProblem(f_lorenz,σ_lorenz,ones(3),(0.0,10.0),(10.0,28.0,2.66))
 
 
-f = (u,p,t) -> (1/3)*u^(1/3) + 6*u^(2/3)
-σ = (u,p,t) -> u^(2/3)
-(ff::typeof(f))(::Type{Val{:analytic}},u0,p,t,W) = (2t + 1 + W/3)^3
+f_nltest(u,p,t) = (1/3)*u^(1/3) + 6*u^(2/3)
+σ_nltest(u,p,t) = u^(2/3)
+analytic_nltest(u0,p,t,W) = (2t + 1 + W/3)^3
+ff_nltest = SDEFunction(f_nltest,σ_nltest,analytic=analytic_nltest)
 @doc doc"""
 Runge–Kutta methods for numerical solution of stochastic differential equations
 Tocino and Ardanuy
 """
-prob_sde_nltest = SDEProblem(f,σ,1.0,(0.0,10.0))
+prob_sde_nltest = SDEProblem(ff_nltest,σ_nltest,1.0,(0.0,10.0))
 
 function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
   #Parameters
@@ -331,20 +301,27 @@ stiff_quad_f_ito(u,p,t) = -(p[1]+(p[2]^2)*u)*(1-u^2)
 stiff_quad_f_strat(u,p,t) = -p[1]*(1-u^2)
 stiff_quad_g(u,p,t) = p[2]*(1-u^2)
 
-function stiff_quad_f_ito(::Type{Val{:analytic}},u0,p,t,W)
+function stiff_quad_f_ito_analytic(u0,p,t,W)
     α = p[1]
     β = p[2]
     exp_tmp = exp(-2*α*t+2*β*W)
     tmp = 1 + u0
     (tmp*exp_tmp + u0 - 1)/(tmp*exp_tmp - u0 + 1)
 end
-function stiff_quad_f_strat(::Type{Val{:analytic}},u0,p,t,W)
+
+ff_stiff_quad_ito = SDEFunction(stiff_quad_f_ito,stiff_quad_g,
+                                analytic=stiff_quad_f_ito_analytic)
+
+function stiff_quad_f_strat_analytic(u0,p,t,W)
     α = p[1]
     β = p[2]
     exp_tmp = exp(-2*α*t+2*β*W)
     tmp = 1 + u0
     (tmp*exp_tmp + u0 - 1)/(tmp*exp_tmp - u0 + 1)
 end
+
+ff_stiff_quad_strat = SDEFunction(stiff_quad_f_strat,stiff_quad_g,
+                                analytic=stiff_quad_f_strat_analytic)
 
 @doc doc"""
 The composite Euler method for stiff stochastic
@@ -363,7 +340,7 @@ Stiffness of Euler is determined by α+β²<1
 Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
-prob_sde_stiffquadito = SDEProblem(stiff_quad_f_ito,stiff_quad_g,0.5,(0.0,3.0),(1.0,1.0))
+prob_sde_stiffquadito = SDEProblem(ff_stiff_quad_ito,stiff_quad_g,0.5,(0.0,3.0),(1.0,1.0))
 
 @doc doc"""
 The composite Euler method for stiff stochastic
@@ -382,7 +359,7 @@ Stiffness of Euler is determined by α+β²<1
 Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
-prob_sde_stiffquadstrat = SDEProblem(stiff_quad_f_strat,stiff_quad_g,0.5,(0.0,3.0),(1.0,1.0))
+prob_sde_stiffquadstrat = SDEProblem(ff_stiff_quad_strat,stiff_quad_g,0.5,(0.0,3.0),(1.0,1.0))
 
 @doc doc"""
 Stochastic Heat Equation with scalar multiplicative noise
