@@ -248,8 +248,8 @@ mm_linear = function (du,u,p,t)
   mul!(du,mm_A,u)
 end
 const MM_linear =Matrix(Diagonal(0.5ones(4)))
-mm_f = ODEFunction(mm_linear,analytic = (u0,p,t) -> exp(inv(MM_linear)*mm_A*t)*u0)
-prob_ode_mm_linear = ODEProblem(mm_f,rand(4),(0.0,1.0),mass_matrix=MM_linear)
+mm_f = ODEFunction(mm_linear;analytic = (u0,p,t) -> exp(inv(MM_linear)*mm_A*t)*u0, mass_matrix=MM_linear)
+prob_ode_mm_linear = ODEProblem(mm_f,rand(4),(0.0,1.0))
 
 """
 [Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb) (Stiff)
