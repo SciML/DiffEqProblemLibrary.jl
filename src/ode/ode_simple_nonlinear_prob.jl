@@ -242,7 +242,7 @@ prob_ode_pleiades = ODEProblem(pleiades,[3.0,3.0,-1.0,-3.0,2.0,-2.0,2.0,3.0,-3.0
 
 
 
-srand(100)
+Random.seed!(100)
 const mm_A = rand(4,4)
 mm_linear = function (du,u,p,t)
   mul!(du,mm_A,u)
