@@ -1,7 +1,7 @@
 using DiffEqBase, ParameterizedFunctions, DiffEqOperators, Random, LinearAlgebra
 using Markdown
 
-srand(100)
+Random.seed!(100)
 
 #ODE Example Problems
 export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
