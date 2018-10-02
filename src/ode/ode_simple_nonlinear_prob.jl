@@ -1,6 +1,6 @@
 ## Lotka-Volterra
 
-lotka = @ode_def_nohes LotkaVolterra begin
+lotka = @ode_def_all LotkaVolterra begin
   dx = a*x - b*x*y
   dy = -c*y + d*x*y
 end a b c d
@@ -19,7 +19,7 @@ prob_ode_lotkavoltera = ODEProblem(lotka,[1.0,1.0],(0.0,1.0),[1.5,1.0,3.0,1.0])
 
 ## Fitzhugh-Nagumo
 
-fitz = @ode_def_nohes FitzhughNagumo begin
+fitz = @ode_def_all FitzhughNagumo begin
   dv = v - v^3/3 -w + l
   dw = τinv*(v +  a - b*w)
 end a b τinv l
@@ -36,7 +36,7 @@ with initial condition ``v=w=1``
 prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0),(0.7,0.8,1/12.5,0.5))
 
 #Van der Pol Equations
-van = @ode_def_noinvhes VanDerPol begin
+van = @ode_def_all VanDerPol begin
   dy = μ*((1-x^2)*y - x)
   dx = 1*y
 end μ
@@ -74,7 +74,7 @@ prob_ode_vanstiff = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1e6)
 
 # ROBER
 
-rober = @ode_def_noinvjac Rober begin
+rober = @ode_def_all Rober begin
   dy₁ = -k₁*y₁+k₃*y₂*y₃
   dy₂ =  k₁*y₁-k₂*y₂^2-k₃*y₂*y₃
   dy₃ =  k₂*y₂^2
@@ -137,7 +137,7 @@ prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, big(-2.0015851063790
 
 # Rigid Body Equations
 
-rigid = @ode_def_noinvjac RigidBody begin
+rigid = @ode_def_all RigidBody begin
   dy₁  = I₁*y₂*y₃
   dy₂  = I₂*y₁*y₃
   dy₃  = I₃*y₁*y₂
@@ -276,7 +276,7 @@ f(y) = \\begin{pmatrix}
 
 http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf
 """
-hires = @ode_def_noinvjac Hires begin
+hires = @ode_def_all Hires begin
   dy1 = -p1*y1 + p2*y2 + p3*y3 + p4
   dy2 = p1*y1 - p5*y2
   dy3 = -p6*y3 + p2*y4 + p7*y5
@@ -316,7 +316,7 @@ where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
 
 http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf
 """
-orego = @ode_def Orego begin
+orego = @ode_def_all Orego begin
   dy1 = p1*(y2+y1*(1-p2*y1-y2))
   dy2 = (y3-(1+y1)*y2)/p1
   dy3 = p3*(y1-y3)
