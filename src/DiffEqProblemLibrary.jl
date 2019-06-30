@@ -19,7 +19,7 @@ end # module
 module DDEProblemLibrary
 function importddeproblems()
   @isdefined(prob_dde_1delay) ||
-  include(joinpath(@__DIR__, "dde_premade_problems.jl"));
+  include(joinpath(@__DIR__, "dde/dde_premade_problems.jl"));
   nothing
 end
 end # module
