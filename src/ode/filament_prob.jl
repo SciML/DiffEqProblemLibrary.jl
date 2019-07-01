@@ -158,7 +158,7 @@ function (f::FilamentCache)(dr, r, p, t)
     mul!(S1, A, r)
     S1 .+= F
     mul!(S2, P, S1)
-    copy!(dr, S2)
+    copyto!(dr, S2)
     return dr
 end
 
@@ -183,10 +183,10 @@ end
 function projection!(f::FilamentCache)
     # implement P[:] = I - J'/(J*J')*J in an optimized way to avoid temporaries
     J, P, J_JT, J_JT_LDLT, P0 = f.P.J, f.P.P, f.P.J_JT, f.P.J_JT_LDLT, f.P.P0
-    A_mul_Bt!(J_JT, J, J)
+    mul!(J_JT, J, J')
     LDLt_inplace!(J_JT_LDLT, J_JT)
-    A_ldiv_B!(P0, J_JT_LDLT, J)
-    At_mul_B!(P, P0, J)
+    ldiv!(P0, J_JT_LDLT, J)
+    mul!(P', P0, J)
     subtract_from_identity!(P)
     nothing
 end

@@ -1,7 +1,3 @@
-using DifferentialEquations
-using Plots
-using SpecialFunctions
-
 function nonLinChem(dy,y,p,t)
  dy[1] = -y[1]
  dy[2] = y[1]-(y[2])^2
@@ -9,20 +5,8 @@ function nonLinChem(dy,y,p,t)
 end
 y0 = [1.0;0.0;0.0]
 tspan = (0.0,20)
-prob = ODEProblem(nonLinChem,y0,tspan)
-sol = solve(prob)
-
-Analytical(t) = [exp(-t);
+nlc_analytic(u0,p,t) = [exp(-t);
     (2sqrt(exp(-t))besselk(1,2sqrt(exp(-t)))-2besselk(1,2)/besseli(1,2)*sqrt(exp(-t))besseli(1,2sqrt(exp(-t))))/(2besselk(0,2sqrt(exp(-t)))+(2besselk(1,2)/besseli(1,2))besseli(0,2sqrt(exp(-t))));
     -exp(-t)+1+(-2sqrt(exp(-t))*besselk(1,2sqrt(exp(-t)))+sqrt(exp(-t))*besseli(1,2sqrt(exp(-t)))*2besselk(1,2)/besseli(1,2))/(2besselk(0,2sqrt(exp(-t)))+2besselk(1,2)/besseli(1,2)*besseli(0,2sqrt(exp(-t))))]
-
-t=0:.1:20
-p = 1
-plot(sol,vars=(0,p))
-plot!(t,(x->Analytical(x)[p]).(t))
-p = 2
-plot!(sol,vars=(0,p))
-plot!(t,(x->Analytical(x)[p]).(t))
-p = 3
-plot!(sol,vars=(0,p))
-plot!(t,(x->Analytical(x)[p]).(t))
+nonLinChem_f = ODEFunction(nonLinChem,analytic = nlc_analytic)
+prob_ode_nonlinchem = ODEProblem(nonLinChem,y0,tspan)
