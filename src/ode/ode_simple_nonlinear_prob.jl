@@ -51,9 +51,7 @@ prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0),(0.7,0.8,1/12.5,0.
 eqs = [D(x) ~ μ*((1-x^2)*y - x),
        D(y) ~ y]
 de = ODESystem(eqs)
-jac = calculate_jacobian(de)
-ModelingToolkit.calculate_factorized_W(de)
-van = ODEFunction(de, [x,y], [μ])
+van = ODEFunction(de, [x,y], [μ], jac=true, Wfact=true)
 
 """
 Van der Pol Equations
@@ -94,9 +92,7 @@ eqs = [D(y₁) ~ -k₁*y₁+k₃*y₂*y₃,
        D(y₂) ~ k₁*y₁-k₂*y₂^2-k₃*y₂*y₃,
        D(y₃) ~ k₂*y₂^2]
 de = ODESystem(eqs)
-jac = calculate_jacobian(de)
-ModelingToolkit.calculate_factorized_W(de)
-rober = ODEFunction(de, [y₁,y₂,y₃], [k₁,k₂,k₃])
+rober = ODEFunction(de, [y₁,y₂,y₃], [k₁,k₂,k₃], jac=true, Wfact=true)
 
 """
 The Robertson biochemical reactions: (Stiff)
@@ -162,9 +158,7 @@ eqs = [D(y₁) ~ I₁*y₂*y₃,
        D(y₂) ~ I₂*y₁*y₃,
        D(y₃) ~ I₃*y₁*y₂]
 de = ODESystem(eqs)
-jac = calculate_jacobian(de)
-ModelingToolkit.calculate_factorized_W(de)
-rigid = ODEFunction(de, [y₁,y₂,y₃], [I₁,I₂,I₃])
+rigid = ODEFunction(de, [y₁,y₂,y₃], [I₁,I₂,I₃], jac=true, Wfact=true)
 
 """
 Rigid Body Equations (Non-stiff)
@@ -291,10 +285,9 @@ eqs = [D(y1) ~ -p1*y1 + p2*y2 + p3*y3 + p4,
        D(y7) ~  p10*y6*y8 - p12*y7,
        D(y8) ~ -p10*y6*y8 + p12*y7]
 de = ODESystem(eqs)
-jac = calculate_jacobian(de)
-ModelingToolkit.calculate_factorized_W(de)
 hires = ODEFunction(de, [y1,y2,y3,y4,y5,y6,y7,y8],
-                        [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12])
+                        [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12],
+                        jac=true, Wfact=true)
 
 u0 = zeros(8)
 u0[1] = 1
@@ -338,7 +331,7 @@ eqs = [D(y1) ~ p1*(y2+y1*(1-p2*y1-y2)),
 de = ODESystem(eqs)
 jac = calculate_jacobian(de)
 ModelingToolkit.calculate_factorized_W(de)
-orego = ODEFunction(de, [y1,y2,y3], [p1,p2,p3])
+orego = ODEFunction(de, [y1,y2,y3], [p1,p2,p3], jac=true, Wfact=true)
 
 """
 [Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb) (Stiff)
