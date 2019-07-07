@@ -1,4 +1,4 @@
-using DiffEqBase, ParameterizedFunctions, DiffEqBiological, Markdown
+using DiffEqBase, DiffEqBiological, Markdown
 #SDE Example Problems
 export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
       prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
@@ -117,11 +117,11 @@ A multiple dimension extension of `additiveSDEExample`
 """
 prob_sde_additivesystem = SDEProblem(ff_additive_iip,σ_additive_iip,[1.;1.;1.;1.],(0.0,1.0),p)
 
-f_lorenz = @ode_def_bare LorenzSDE begin
-  dx = σ*(y-x)
-  dy = x*(ρ-z) - y
-  dz = x*y - β*z
-end σ ρ β
+function f_lorenz(du,u,p,t)
+ du[1] = p[1]*(u[2]-u[1])
+ du[2] = u[1]*(p[2]-u[3]) - u[2]
+ du[3] = u[1]*u[2] - p[3]*u[3]
+end
 σ_lorenz(du,u,p,t) = @.(du = 3.0)
 @doc doc"""
 Lorenz Attractor with additive noise

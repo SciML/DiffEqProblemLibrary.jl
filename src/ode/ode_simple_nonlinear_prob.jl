@@ -1,9 +1,11 @@
 ## Lotka-Volterra
 
-lotka = @ode_def_all LotkaVolterra begin
-  dx = a*x - b*x*y
-  dy = -c*y + d*x*y
-end a b c d
+function lotka(du,u,p,t)
+  x = u[1]
+  y = u[2]
+  du[1] = p[1]*x - p[2]*x*y
+  du[2] = -p[3]*y + p[4]*x*y
+end
 
 """
 Lotka-Voltera Equations (Non-stiff)
@@ -19,10 +21,16 @@ prob_ode_lotkavoltera = ODEProblem(lotka,[1.0,1.0],(0.0,1.0),[1.5,1.0,3.0,1.0])
 
 ## Fitzhugh-Nagumo
 
-fitz = @ode_def_all FitzhughNagumo begin
-  dv = v - v^3/3 -w + l
-  dw = τinv*(v +  a - b*w)
-end a b τinv l
+function fitz(du,u,p,t)
+  v = u[1]
+  w = u[2]
+  a = p[1]
+  b = p[2]
+  τinv = p[3]
+  l = p[4]
+  du[1] = v - v^3/3 -w + l
+  du[2] = τinv*(v +  a - b*w)
+end
 """
 Fitzhugh-Nagumo (Non-stiff)
 
@@ -35,11 +43,15 @@ with initial condition ``v=w=1``
 """
 prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0),(0.7,0.8,1/12.5,0.5))
 
+
 #Van der Pol Equations
-van = @ode_def_all VanDerPol begin
-  dy = μ*((1-x^2)*y - x)
-  dx = 1*y
-end μ
+@parameters t μ
+@variables x(t) y(t)
+@derivatives D'~t
+eqs = [D(x) ~ μ*((1-x^2)*y - x),
+       D(y) ~ y]
+de = ODESystem(eqs)
+van = ODEFunction(de, [x,y], [μ], jac=true, Wfact=true)
 
 """
 Van der Pol Equations
@@ -73,12 +85,14 @@ Stiff parameters.
 prob_ode_vanstiff = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1e6)
 
 # ROBER
-
-rober = @ode_def_all Rober begin
-  dy₁ = -k₁*y₁+k₃*y₂*y₃
-  dy₂ =  k₁*y₁-k₂*y₂^2-k₃*y₂*y₃
-  dy₃ =  k₂*y₂^2
-end k₁ k₂ k₃
+@parameters t k₁ k₂ k₃
+@variables y₁(t) y₂(t) y₃(t)
+@derivatives D'~t
+eqs = [D(y₁) ~ -k₁*y₁+k₃*y₂*y₃,
+       D(y₂) ~ k₁*y₁-k₂*y₂^2-k₃*y₂*y₃,
+       D(y₃) ~ k₂*y₂^2]
+de = ODESystem(eqs)
+rober = ODEFunction(de, [y₁,y₂,y₃], [k₁,k₂,k₃], jac=true, Wfact=true)
 
 """
 The Robertson biochemical reactions: (Stiff)
@@ -137,11 +151,14 @@ prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, big(-2.0015851063790
 
 # Rigid Body Equations
 
-rigid = @ode_def_all RigidBody begin
-  dy₁  = I₁*y₂*y₃
-  dy₂  = I₂*y₁*y₃
-  dy₃  = I₃*y₁*y₂
-end I₁ I₂ I₃
+@parameters t I₁ I₂ I₃
+@variables y₁(t) y₂(t) y₃(t)
+@derivatives D'~t
+eqs = [D(y₁) ~ I₁*y₂*y₃,
+       D(y₂) ~ I₂*y₁*y₃,
+       D(y₃) ~ I₃*y₁*y₂]
+de = ODESystem(eqs)
+rigid = ODEFunction(de, [y₁,y₂,y₃], [I₁,I₂,I₃], jac=true, Wfact=true)
 
 """
 Rigid Body Equations (Non-stiff)
@@ -251,6 +268,31 @@ const MM_linear =Matrix(Diagonal(0.5ones(4)))
 mm_f = ODEFunction(mm_linear;analytic = (u0,p,t) -> exp(inv(MM_linear)*mm_A*t)*u0, mass_matrix=MM_linear)
 prob_ode_mm_linear = ODEProblem(mm_f,rand(4),(0.0,1.0))
 
+
+
+
+
+@parameters t p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
+@variables y1(t) y2(t) y3(t) y4(t) y5(t) y6(t) y7(t) y8(t)
+@derivatives D'~t
+eqs = [D(y1) ~ -p1*y1 + p2*y2 + p3*y3 + p4,
+       D(y2) ~ p1*y1 - p5*y2,
+       D(y3) ~ -p6*y3 + p2*y4 + p7*y5,
+       D(y4) ~ p3*y2 + p1*y3 - p8*y4,
+       D(y5) ~ -p9*y5 + p2*y6 + p2*y7,
+       D(y6) ~ -p10*y6*y8 + p11*y4 + p1*y5 -
+                p2*y6 + p11*y7,
+       D(y7) ~  p10*y6*y8 - p12*y7,
+       D(y8) ~ -p10*y6*y8 + p12*y7]
+de = ODESystem(eqs)
+hires = ODEFunction(de, [y1,y2,y3,y4,y5,y6,y7,y8],
+                        [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12],
+                        jac=true, Wfact=true)
+
+u0 = zeros(8)
+u0[1] = 1
+u0[8] = 0.0057
+
 """
 [Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb) (Stiff)
 
@@ -276,23 +318,20 @@ f(y) = \\begin{pmatrix}
 
 http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf
 """
-hires = @ode_def_all Hires begin
-  dy1 = -p1*y1 + p2*y2 + p3*y3 + p4
-  dy2 = p1*y1 - p5*y2
-  dy3 = -p6*y3 + p2*y4 + p7*y5
-  dy4 = p3*y2 + p1*y3 - p8*y4
-  dy5 = -p9*y5 + p2*y6 + p2*y7
-  dy6 = -p10*y6*y8 + p11*y4 + p1*y5 -
-           p2*y6 + p11*y7
-  dy7 = p10*y6*y8 - p12*y7
-  dy8 = -p10*y6*y8 + p12*y7
-end p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
-u0 = zeros(8)
-u0[1] = 1
-u0[8] = 0.0057
 prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122), (1.71, 0.43, 8.32, 0.0007, 8.75,
                                                       10.03, 0.035, 1.12, 1.745, 280.0,
                                                       0.69, 1.81))
+
+@parameters t p1 p2 p3
+@variables y1(t) y2(t) y3(t)
+@derivatives D'~t
+eqs = [D(y1) ~ p1*(y2+y1*(1-p2*y1-y2)),
+       D(y2) ~ (y3-(1+y1)*y2)/p1,
+       D(y3) ~ p3*(y1-y3)]
+de = ODESystem(eqs)
+jac = calculate_jacobian(de)
+ModelingToolkit.calculate_factorized_W(de)
+orego = ODEFunction(de, [y1,y2,y3], [p1,p2,p3], jac=true, Wfact=true)
 
 """
 [Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb) (Stiff)
@@ -316,9 +355,4 @@ where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
 
 http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf
 """
-orego = @ode_def_all Orego begin
-  dy1 = p1*(y2+y1*(1-p2*y1-y2))
-  dy2 = (y3-(1+y1)*y2)/p1
-  dy3 = p3*(y1-y3)
-end p1 p2 p3
 prob_ode_orego = ODEProblem(orego,[1.0,2.0,3.0],(0.0,30.0),[77.27,8.375e-6,0.161])
