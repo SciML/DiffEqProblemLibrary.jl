@@ -1,4 +1,4 @@
-using DiffEqBase, ParameterizedFunctions, DiffEqOperators, Random, LinearAlgebra
+using DiffEqBase, DiffEqOperators, Random, LinearAlgebra
 using Markdown, ModelingToolkit
 
 Random.seed!(100)
