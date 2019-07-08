@@ -201,7 +201,7 @@ end
 const prob_dde_DDETST_B2 =
   DDEProblem(DDEFunction(f_dde_DDETST_B2; analytic = fanalytic_dde_DDETST_B2),
              1.0, h_dde_DDETST_B2, (0.0, 2 * log(66));
-             constant_lags = [(u, p, t) -> t / 2])
+             dependent_lags = ((u, p, t) -> t / 2,))
 
 # Problem C1
 @doc raw"""
