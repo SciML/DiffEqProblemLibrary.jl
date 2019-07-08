@@ -1007,13 +1007,13 @@ function f_dde_DDETST_H1(u, h, p, t)
 end
 
 function h_dde_DDETST_H1(p, t)
-  t = zero(t) || error("history function is only implemented for t = 0")
+  iszero(t) || error("history function is only implemented for t = 0")
 
   0.0
 end
 
 function h_dde_DDETST_H1(p, t, ::Type{Val{1}})
-  t = zero(t) || error("history function is only implemented for t = 0")
+  iszero(t) || error("history function is only implemented for t = 0")
 
   0.0
 end
@@ -1071,13 +1071,13 @@ let L₃ = 0.1
 end
 
 function h_dde_DDETST_H234(p, t)
-  t = zero(t) || error("history function is only implemented for t = 0")
+  iszero(t) || error("history function is only implemented for t = 0")
 
   0.0
 end
 
 function h_dde_DDETST_H234(p, t, ::Type{Val{1}})
-  t = zero(t) || error("history function is only implemented for t = 0")
+  iszero(t) || error("history function is only implemented for t = 0")
 
   1.0
 end
