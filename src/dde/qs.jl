@@ -60,14 +60,25 @@ const prob_dde_qs =
       nothing
     end
 
-    # history function for the fourth component
-    function h_dde_qs(p, t; idxs = 4)
-      idxs == 4 || error("history function is only implemented for the fourth component")
+    function h_dde_qs(p, t; idxs::Union{Nothing,Int} = nothing)
       t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-      7.6e-8
+      if idxs === nothing
+        [1.0, 8.4e8, 2.5e-9, 7.6e-8, 5e-15]
+      elseif idxs == 1
+        1.0
+      elseif idxs == 2
+        8.4e8
+      elseif idxs == 3
+        2.5e-9
+      elseif idxs == 4
+        7.6e-8
+      elseif idxs == 5
+        5e-15
+      else
+        error("delay differential equation consists of five components")
+      end
     end
 
-    DDEProblem(f_dde_qs!, [1, 8.4e8, 2.5e-9, 7.6e-8, 5e-15], h_dde_qs, (0.0, 45.0);
-               constant_lags = [τ])
+    DDEProblem(f_dde_qs!, h_dde_qs, (0.0, 45.0); constant_lags = [τ])
   end

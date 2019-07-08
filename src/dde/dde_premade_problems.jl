@@ -29,12 +29,16 @@ export
   # neutral DDEs with vanishing state dependent delays
   prob_dde_DDETST_H1, prob_dde_DDETST_H2, prob_dde_DDETST_H3, prob_dde_DDETST_H4
 
+# RADAR5 problems
+export prob_dde_RADAR5_oregonator, prob_dde_RADAR5_robertson, prob_dde_RADAR5_waltman
+
 # QS exaple
 export prob_dde_qs
 
 include("constant_delays.jl")
 include("ddetst.jl")
 include("qs.jl")
+include("radar5.jl")
 
 # deprecations for problems with constant delays
 for p in (:(1delay), :(1delay_long), :(2delays), :(2delays_long))
