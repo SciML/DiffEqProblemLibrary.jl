@@ -499,32 +499,25 @@ const prob_dde_DDETST_D2 =
       r₁u₁u₂ = r₁ * u₁u₂
       r₂u₃ = r₂ * u[3]
 
-      # reduce allocations
-      h(du, p, t - u[4])
-      v = du[1] * du[2]
-      w = v + du[3]
+      v = h(p, t - u[4])
+      v₁v₂ = v[1] * v[2]
 
       du[1] = -r₁u₁u₂ + r₂u₃
-      du[2] = -r₁u₁u₂ + α * r₁ * v
+      du[2] = -r₁u₁u₂ + α * r₁ * v₁v₂
       du[3] = -du[1]
-      du[4] = 1 + (3 * δ - u₁u₂ - u[3]) * exp(δ * u[4]) / w
+      du[4] = 1 + (3 * δ - u₁u₂ - u[3]) * exp(δ * u[4]) / (v₁v₂ + v[3])
 
       nothing
     end
 
-    u₀ = [5.0; 0.1; 0.0; 0.0]
-
-    # vectorized history function
-    global function h_dde_DDETST_D2!(du, p, t)
+    global function h_dde_DDETST_D2(p, t)
       t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-      copyto!(du, u₀)
-
-      nothing
+      [5.0, 0.1, 0.0, 0.0]
     end
 
-    DDEProblem(f_dde_DDETST_D2!, u₀, h_dde_DDETST_D2!, (0.0, 40.0);
                dependent_lags = [(u, p, t) -> u[4]])
+    DDEProblem(f_dde_DDETST_D2!, h_dde_DDETST_D2(nothing, 0.0), h_dde_DDETST_D2, (0.0, 40.0);
   end
 
 # Problem E1
