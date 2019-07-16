@@ -258,7 +258,7 @@ const prob_dde_RADAR5_waltman_4 =
     prob_dde_RADAR5_waltman_5
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 35``,
-``t_1 = 197``, and ``\phi_0 = 0.5e-4``.
+``t_1 = 197``, and ``\phi_0 = 0.5e-5``.
 
 # References
 
