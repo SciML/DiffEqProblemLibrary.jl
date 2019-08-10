@@ -1,7 +1,7 @@
 name = "DiffEqProblemLibrary"
 uuid = "a077e3f3-b75c-5d7f-a0c6-6bc4c8ec64a9"
 authors = ["Chris Rackauckas <accounts@chrisrackauckas.com>"]
-version = "4.5.0"
+version = "4.5.1"
 
 [deps]
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
