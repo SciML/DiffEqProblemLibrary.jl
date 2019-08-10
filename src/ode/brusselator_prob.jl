@@ -97,14 +97,10 @@ prob_ode_brusselator_2d = ODEProblem(brusselator_2d_loop,
                                       length(xyd_brusselator)))
 
 const N_brusselator_1d = 40
-const D_brusselator_u = DerivativeOperator{Float64}(2,2,1/(N_brusselator_1d-1),
-                                                    N_brusselator_1d,
-                                                    :Dirichlet,:Dirichlet;
-                                                    BC=(1.,1.))
-const D_brusselator_v = DerivativeOperator{Float64}(2,2,1/(N_brusselator_1d-1),
-                                                    N_brusselator_1d,
-                                                    :Dirichlet,:Dirichlet;
-                                                    BC=(3.,3.))
+const D_brusselator_u = CenteredDifference{Float64}(2,2,1/(N_brusselator_1d-1),
+                                                    N_brusselator_1d)
+const D_brusselator_v = CenteredDifference{Float64}(2,2,1/(N_brusselator_1d-1),
+                                                    N_brusselator_1d)
 function brusselator_1d(du, u_, p, t)
     A, B, α, buffer = p
     u = @view(u_[:, 1])
