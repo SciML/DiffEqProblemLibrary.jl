@@ -12,6 +12,8 @@ Lotka-Voltera Equations (Non-stiff)
 
 ```math
 \\frac{dx}{dt} = ax - bxy
+```
+```math
 \\frac{dy}{dt} = -cy + dxy
 ```
 
@@ -36,6 +38,8 @@ Fitzhugh-Nagumo (Non-stiff)
 
 ```math
 \\frac{dv}{dt} = v - \\frac{v^3}{3} - w + I_{est}
+```
+```math
 τ \\frac{dw}{dt} = v + a -bw
 ```
 
@@ -57,10 +61,10 @@ van = ODEFunction(de, [x,y], [μ], jac=true, Wfact=true)
 Van der Pol Equations
 
 ```math
-\\begin{align}
-\\frac{dx}{dt} &= y \\\\
-\\frac{dy}{dt} &= μ((1-x^2)y -x)
-\\end{align}
+\\frac{dx}{dt} = y
+```
+```math
+\\frac{dy}{dt} = μ((1-x^2)y -x)
 ```
 
 with ``μ=1.0`` and ``u0=[0,\\sqrt{3}]``
@@ -69,13 +73,14 @@ Non-stiff parameters.
 """
 prob_ode_vanderpol = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1.0)
 
-"""Van der Pol Equations
+"""
+Van der Pol Equations
 
 ```math
-\\begin{align}
-\\frac{dx}{dt} &= y \\\\
-\\frac{dy}{dt} &= μ(1-x^2)y -x
-\\end{align}
+\\frac{dx}{dt} = y
+```
+```math
+\\frac{dy}{dt} = μ(1-x^2)y -x
 ```
 
 with ``μ=10^6`` and ``u0=[0,\\sqrt{3}]``
@@ -98,18 +103,20 @@ rober = ODEFunction(de, [y₁,y₂,y₃], [k₁,k₂,k₃], jac=true, Wfact=true
 The Robertson biochemical reactions: (Stiff)
 
 ```math
-\\begin{align}
-\\frac{dy₁}{dt} &= -k₁y₁+k₃y₂y₃  \\\\
-\\frac{dy₂}{dt} &=  k₁y₁-k₂y₂^2-k₃y₂y₃ \\\\
-\\frac{dy₃}{dt} &=  k₂y₂^2
-\\end{align}
+\\frac{dy₁}{dt} = -k₁y₁+k₃y₂y₃
+```
+```math
+\\frac{dy₂}{dt} =  k₁y₁-k₂y₂^2-k₃y₂y₃
+```
+```math
+\\frac{dy₃}{dt} =  k₂y₂^2
 ```
 
 where ``k₁=0.04``, ``k₂=3\\times10^7``, ``k₃=10^4``. For details, see:
 
 Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 
-Usually solved on `[0,1e11]`
+Usually solved on ``[0,1e11]``
 """
 prob_ode_rober = ODEProblem(rober,[1.0;0.0;0.0],(0.0,1e11),(0.04,3e7,1e4))
 
@@ -132,19 +139,27 @@ end
 The ThreeBody problem as written by Hairer: (Non-stiff)
 
 ```math
-\\begin{align}
-y₁′′ &= y₁ + 2y₂′ - μ′\\frac{y₁+μ}{D₁} - μ\\frac{y₁-μ′}{D₂} \\\\
-y₂′′ &= y₂ - 2y₁′ - μ′\\frac{y₂}{D₁} - μ\\frac{y₂}{D₂} \\\\
-D₁ &= ((y₁+μ)^2 + y₂^2)^{3/2} \\\\
-D₂ &= ((y₁-μ′)^2+y₂^2)^{3/2} \\\\
-μ &= 0.012277471 \\\\
-μ′ &=1-μ
-\\end{align}
+y₁′′ = y₁ + 2y₂′ - μ′\\frac{y₁+μ}{D₁} - μ\\frac{y₁-μ′}{D₂}
+```
+```math
+y₂′′ = y₂ - 2y₁′ - μ′\\frac{y₂}{D₁} - μ\\frac{y₂}{D₂}
+```
+```math
+D₁ = ((y₁+μ)^2 + y₂^2)^{3/2}
+```
+```math
+D₂ = ((y₁-μ′)^2+y₂^2)^{3/2}
+```
+```math
+μ = 0.012277471
+```
+```math
+μ′ =1-μ
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 
-Usually solved on `t₀ = 0.0`; `T = "17.0652165601579625588917206249"`
+Usually solved on ``t₀ = 0.0`` and ``T = 17.0652165601579625588917206249``
 Periodic with that setup.
 """
 prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, big(-2.00158510637908252240537862224)],(big(0.0),big(17.0652165601579625588917206249)))
@@ -164,11 +179,13 @@ rigid = ODEFunction(de, [y₁,y₂,y₃], [I₁,I₂,I₃], jac=true, Wfact=true
 Rigid Body Equations (Non-stiff)
 
 ```math
-\\begin{align}
-\\frac{dy₁}{dt}  &= I₁y₂y₃ \\\\
-\\frac{dy₂}{dt}  &= I₂y₁y₃ \\\\
-\\frac{dy₃}{dt}  &= I₃y₁y₂
-\\end{align}
+\\frac{dy₁}{dt}  = I₁y₂y₃
+```
+```math
+\\frac{dy₂}{dt}  = I₂y₁y₃
+```
+```math
+\\frac{dy₃}{dt}  = I₃y₁y₂
 ```
 
 with ``I₁=-2``, ``I₂=1.25``, and ``I₃=-1/2``.
@@ -207,10 +224,10 @@ end
 Pleiades Problem (Non-stiff)
 
 ```math
-\\begin{align}
-xᵢ′′ &= \\sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ \\\\
-yᵢ′′ &= \\sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
-\\end{align}
+xᵢ′′ = \\sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ
+```
+```math
+yᵢ′′ = \\sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
 ```
 
 where
@@ -222,33 +239,61 @@ rᵢⱼ = ((xᵢ-xⱼ)^2 + (yᵢ-yⱼ)^2)^{3/2}
 and initial conditions are
 
 ```math
-\\begin{align}
-x₁(0)&=3  \\\\
-x₂(0)&=3  \\\\
-x₃(0)&=-1  \\\\
-x₄(0)&=-3  \\\\
-x₅(0)&=2  \\\\
-x₆(0)&=-2  \\\\
-x₇(0)&=2  \\\\
-y₁(0)&=3  \\\\
-y₂(0)&=-3  \\\\
-y₃(0)&=2  \\\\
-y₄(0)&=0  \\\\
-y₅(0)&=0  \\\\
-y₆(0)&=-4  \\\\
-y₇(0)&=4
-\\end{align}
+x₁(0) = 3
+```
+```math
+x₂(0) = 3
+```
+```math
+x₃(0) = -1
+```
+```math
+x₄(0) = -3
+```
+```math
+x₅(0) = 2
+```
+```math
+x₆(0) = -2
+```
+```math
+x₇(0) = 2
+```
+```math
+y₁(0) = 3
+```
+```math
+y₂(0) = -3
+```
+```math
+y₃(0) = 2
+```
+```math
+y₄(0) = 0
+```
+```math
+y₅(0) = 0
+```
+```math
+y₆(0) = -4
+```
+```math
+y₇(0) = 4
 ```
 
 and with ``xᵢ′(0)=yᵢ′(0)=0`` except for
 
 ```math
-\\begin{align}
-x₆′(0)&=1.75 \\\\
-x₇′(0)&=-1.5 \\\\
-y₄′(0)&=-1.25 \\\\
-y₅′(0)&=1
-\\end{align}
+x₆′(0) = 1.75
+```
+```math
+x₇′(0) = -1.5
+```
+```math
+y₄′(0) = -1.25
+```
+```math
+y₅′(0) = 1
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 244
@@ -294,29 +339,26 @@ u0[1] = 1
 u0[8] = 0.0057
 
 """
-[Hires Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb) (Stiff)
+Hires Problem (Stiff)
 
-It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
+It is in the form of 
 
 ```math
-y \\in ℝ^8, \\quad 0 ≤ t ≤ 321.8122
+\\frac{dy}{dt} = f(y)
+```
+
+ with
+
+```math
+ y(0)=y_0, \\quad y \\in ℝ^8, \\quad 0 ≤ t ≤ 321.8122
+```
 
 where ``f`` is defined by
 
-```math
-f(y) = \\begin{pmatrix}
-−1.71y_1 & +0.43y_2 & +8.32y_3 & +0.0007y_4 & \\\\
-1.71y_1 & −8.75y_2 & & & \\\\
-−10.03y_3 & +0.43y_4 & +0.035y_5 & & \\\\
-8.32y_2 & +1.71y_3 & −1.12y_4 & & \\\\
-−1.745y_5 & +0.43y_6 & +0.43y_7 & & \\\\
-−280y_6y_8 & +0.69y_4 & +1.71y_5 & −0.43y_6 & +0.69y_7 \\\\
-280y_6y_8 & −1.81y_7 & & & \\\\
-−280y_6y_8 & +1.81y_7 & & &
-\\end{pmatrix}
-```
+``f(y) = \\begin{pmatrix} −1.71y_1 & +0.43y_2 & +8.32y_3 & +0.0007y_4 & \\\\ 1.71y_1 & −8.75y_2 & & & \\\\ −10.03y_3 & +0.43y_4 & +0.035y_5 & & \\\\ 8.32y_2 & +1.71y_3 & −1.12y_4 & & \\\\ −1.745y_5 & +0.43y_6 & +0.43y_7 & & \\\\ −280y_6y_8 & +0.69y_4 & +1.71y_5 & −0.43y_6 & +0.69y_7 \\\\ 280y_6y_8 & −1.81y_7 & & & \\\\ −280y_6y_8 & +1.81y_7 & & & \\end{pmatrix}``
 
-http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf
+Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf)  
+Notebook: [Hires.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
 """
 prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122), (1.71, 0.43, 8.32, 0.0007, 8.75,
                                                       10.03, 0.035, 1.12, 1.745, 280.0,
@@ -334,25 +376,21 @@ ModelingToolkit.calculate_factorized_W(de)
 orego = ODEFunction(de, [y1,y2,y3], [p1,p2,p3], jac=true, Wfact=true)
 
 """
-[Orego Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb) (Stiff)
+Orego Problem (Stiff)
 
 It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
 
 ```math
 y \\in ℝ^3, \\quad 0 ≤ t ≤ 360
+```
 
 where ``f`` is defined by
 
-```math
-f(y) = \\begin{pmatrix}
-s(y_2 - y_1(1-qy_1-y_2)) \\\\
-(y_3 - y_2(1+y_1))/s \\\\
-w(y_1-y_3)
-\\end{pmatrix}
-```
+``f(y) = \\begin{pmatrix} s(y_2 - y_1(1-qy_1-y_2)) \\\\ (y_3 - y_2(1+y_1))/s \\\\ w(y_1-y_3) \\end{pmatrix}``
 
 where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
 
-http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf
+Reference: [demoorego.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf)
+Notebook: [Orego.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb)
 """
 prob_ode_orego = ODEProblem(orego,[1.0,2.0,3.0],(0.0,30.0),[77.27,8.375e-6,0.161])

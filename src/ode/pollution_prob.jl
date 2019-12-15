@@ -188,41 +188,24 @@ u0[8]  = 0.3
 u0[9]  = 0.01
 u0[17] = 0.007
 
-@doc doc"""
-[Pollution Problem](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Pollution.ipynb) (Stiff)
+"""
+Pollution Problem (Stiff)
 
-This IVP is a stiff system of 20 non-linear Ordinary Differential Equations. It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
+This IVP is a stiff system of 20 non-linear Ordinary Differential Equations. It is in the form of 
 
 ```math
-y \\in ℝ^20, \\quad 0 ≤ t ≤ 60
+\\frac{dy}{dt}=f(y)
+```
+
+with
+
+```math
+y(0)=y0, \\quad y \\in ℝ^20, \\quad 0 ≤ t ≤ 60
 ```
 
 where ``f`` is defined by
 
-```math
-f(y) = \\begin{pmatrix}
--\\sum_{j∈\{1,10,14,23,24\}} r_j + \\sum_{j∈\{2,3,9,11,12,22,25\}} r_j \\\\
--r_2 - r_3 - r_9 - r_12 + r_1 + r_{21} \\\\
--r_{15} + r_1 + r_{17} + r_{19} + r_{22} \\\\
--r_2 - r_{16} - r_{17} - r_{23} + r_{15} \\\\
--r_3 + 2r_4 + r_6 + r_7 + r_{13} + r_{20} \\\\
--r_6 - r_8 - r_{14} - r_{20} + r_3 + 2r_{18} \\\\
--r_4 - r_5 - r_6 + r_{13} \\\\
-r_4 + r_5 + r_6 + r_7 \\\\
--r_7 - r_8 \\\\
--r_{12} + r_7 + r_9 \\\\
--r_9 - r_{10} + r_8 + r_{11} \\\\
-r_9 \\\\
--r_{11} + r_{10} \\\\
--r_{13} + r_{12} \\\\
-r_{14} \\\\
--r_{18} - r_{19} + r_{16} \\\\
--r_{20} \\\\
-r_{20} \\\\
--r{21} - r_{22} - r_{24} + r_{23} + r_{25} \\\\
--r_{25} + r_{24}
-\\end{pmatrix}
-```
+``f(y) = \\begin{pmatrix} -\\sum_{j∈{1,10,14,23,24}} r_j + \\sum_{j∈{2,3,9,11,12,22,25}} r_j \\\\ -r_2 - r_3 - r_9 - r_12 + r_1 + r_{21} \\\\ -r_{15} + r_1 + r_{17} + r_{19} + r_{22} \\\\ -r_2 - r_{16} - r_{17} - r_{23} + r_{15} \\\\ -r_3 + 2r_4 + r_6 + r_7 + r_{13} + r_{20} \\\\ -r_6 - r_8 - r_{14} - r_{20} + r_3 + 2r_{18} \\\\ -r_4 - r_5 - r_6 + r_{13} \\\\ r_4 + r_5 + r_6 + r_7 \\\\ -r_7 - r_8 \\\\ -r_{12} + r_7 + r_9 \\\\ -r_9 - r_{10} + r_8 + r_{11} \\\\ r_9 \\\\ -r_{11} + r_{10} \\\\ -r_{13} + r_{12} \\\\ r_{14} \\\\ -r_{18} - r_{19} + r_{16} \\\\ -r_{20} \\\\ r_{20} \\\\ -r{21} - r_{22} - r_{24} + r_{23} + r_{25} \\\\ -r_{25} + r_{24} \\end{pmatrix}``
 
 with the initial condition of
 
@@ -230,7 +213,8 @@ with the initial condition of
 y0 = (0, 0.2, 0, 0.04, 0, 0, 0.1, 0.3, 0.01, 0, 0, 0, 0 ,0, 0, 0, 0.007, 0, 0, 0)^T
 ```
 
-https://archimede.dm.uniba.it/~testset/report/pollu.pdf
+Reference: [pollu.pdf](https://archimede.dm.uniba.it/~testset/report/pollu.pdf)
+Notebook: [Pollution.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Pollution.ipynb)
 """
 prob_ode_pollution = ODEProblem(ODEFunction(pollution,jac=pollution_jac),
                                 u0,(0.0,60.0))

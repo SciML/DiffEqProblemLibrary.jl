@@ -50,41 +50,36 @@ function init_brusselator_2d(xyd)
 end
 xyd_brusselator = range(0,stop=1,length=32)
 
-@doc doc"""
+"""
 2D Brusselator
 
 ```math
-\\begin{align}
-\\frac{\\partial u}{\\partial t} &= 1 + u^2v - 4.4u + \\alpha(\frac{\\partial^2 u}{\\partial x^2} + \frac{\\partial^2 u}{\\partial y^2}) + f(x, y, t)
-\\frac{\\partial v}{\\partial t} &= 3.4u - u^2v + \\alpha(\frac{\\partial^2 u}{\\partial x^2} + \frac{\\partial^2 u}{\\partial y^2})
-\\end{align}
+\\frac{\\partial u}{\\partial t} = 1 + u^2v - 4.4u + \\alpha(\\frac{\\partial^2 u}{\\partial x^2} + \\frac{\\partial^2 u}{\\partial y^2}) + f(x, y, t)
+```
+```math
+\\frac{\\partial v}{\\partial t} = 3.4u - u^2v + \\alpha(\\frac{\\partial^2 u}{\\partial x^2} + \\frac{\\partial^2 u}{\\partial y^2})
 ```
 
 where
 
-```math
-f(x, y, t) = \\begin{cases}
-5 & \\quad \\text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \\text{ and } t ≥ 1.1 \\\\
-0 & \\quad \\text{else}
-\\end{cases}
-```
+``f(x, y, t) = \\begin{cases} 5 & \\quad \\text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \\text{ and } t ≥ 1.1 \\\\ 0 & \\quad \\text{else} \\end{cases}``
 
 and the initial conditions are
 
 ```math
-\\begin{align}
-u(x, y, 0) &= 22\\cdot y(1-y)^{3/2} \\\\
-v(x, y, 0) &= 27\\cdot x(1-x)^{3/2}
-\\end{align}
+u(x, y, 0) = 22\\cdot y(1-y)^{3/2}
+```
+```math
+v(x, y, 0) = 27\\cdot x(1-x)^{3/2}
 ```
 
 with the periodic boundary condition
 
 ```math
-\\begin{align}
-u(x+1,y,t) &= u(x,y,t) \\\\
-u(x,y+1,t) &= u(x,y,t)
-\\end{align}
+u(x+1,y,t) = u(x,y,t)
+```
+```math
+u(x,y+1,t) = u(x,y,t)
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 152
@@ -124,32 +119,32 @@ function init_brusselator_1d(N)
   u
 end
 
-@doc doc"""
+"""
 1D Brusselator
 
 ```math
-\\begin{align}
-\\frac{\\partial u}{\\partial t} &= A + u^2v - (B+1)u + \\alpha\frac{\\partial^2 u}{\\partial x^2}
-\\frac{\\partial v}{\\partial t} &= Bu - u^2v + \\alpha\frac{\\partial^2 u}{\\partial x^2}
-\\end{align}
+\\frac{\\partial u}{\\partial t} = A + u^2v - (B+1)u + \\alpha\\frac{\\partial^2 u}{\\partial x^2}
+```
+```math
+\\frac{\\partial v}{\\partial t} = Bu - u^2v + \\alpha\\frac{\\partial^2 u}{\\partial x^2}
 ```
 
 and the initial conditions are
 
 ```math
-\\begin{align}
-u(x,0) &= 1+\\sin(2π x) \\\\
-v(x,0) &= 3
-\\end{align}
+u(x,0) = 1+\\sin(2π x)
+```
+```math
+v(x,0) = 3
 ```
 
 with the boundary condition
 
 ```math
-\\begin{align}
-u(0,t) &= u(1,t) = 1 \\\\
-v(0,t) &= v(1,t) = 3
-\\end{align}
+u(0,t) = u(1,t) = 1
+```
+```math
+v(0,t) = v(1,t) = 3
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 6
