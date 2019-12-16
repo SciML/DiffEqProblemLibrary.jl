@@ -21,7 +21,7 @@ du_t = βudt + αudW_t
 where ``β=1.01``, ``α=0.87``, and initial condtion ``u_0=1/2``, with solution
 
 ```math
-u(u0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
+u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 ```
 
 """
@@ -43,7 +43,7 @@ du_t = βudt + αudW_t
 where ``β=1.01``, ``α=0.87``, and initial condtion ``u_0=\frac{1}{2}`` with solution
 
 ```math
-u(u0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
+u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 ```
 """
 prob_sde_2Dlinear = SDEProblem(SDEFunction(f_linear_iip,σ_linear_iip,
@@ -127,13 +127,13 @@ end
 Lorenz Attractor with additive noise
 
 ```math
-dx = σ*(y-x)dt + αdW_t
+dx = σ(y-x)dt + αdW_t
 ```
 ```math
-dy = (x*(ρ-z) - y)dt + αdW_t
+dy = (x(ρ-z) - y)dt + αdW_t
 ```
 ```math
-dz = (x*y - β*z)dt + αdW_t
+dz = (xy - βz)dt + αdW_t
 ```
 
 with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u_0=[1;1;1]``.
