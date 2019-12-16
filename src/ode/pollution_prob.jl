@@ -213,6 +213,8 @@ with the initial condition of
 y0 = (0, 0.2, 0, 0.04, 0, 0, 0.1, 0.3, 0.01, 0, 0, 0, 0 ,0, 0, 0, 0.007, 0, 0, 0)^T
 ```
 
+Analytical Jacobian is included.
+
 Reference: [pollu.pdf](https://archimede.dm.uniba.it/~testset/report/pollu.pdf)
 Notebook: [Pollution.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Pollution.ipynb)
 """
