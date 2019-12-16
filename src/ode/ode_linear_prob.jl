@@ -8,7 +8,7 @@ Linear ODE
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=\frac{1}{2}``, ``α=1.01``, and solution
+with initial condition ``u_0=\\frac{1}{2}``, ``α=1.01``, and solution
 
 ```math
 u(t) = u_0e^{αt}
@@ -27,7 +27,7 @@ Linear ODE
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=\frac{1}{2}``, ``α=1.01``, and solution
+with initial condition ``u_0=\\frac{1}{2}``, ``α=1.01``, and solution
 
 ```math
 u(t) = u_0e^{αt}
