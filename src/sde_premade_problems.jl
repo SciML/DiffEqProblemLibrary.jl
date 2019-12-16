@@ -151,6 +151,18 @@ Tocino and Ardanuy
 """
 prob_sde_nltest = SDEProblem(ff_nltest,σ_nltest,1.0,(0.0,10.0))
 
+@doc doc"""
+oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
+
+A function which generates the Oval2 Epithelial-Mesenchymal Transition model
+from:
+
+Rackauckas, C., & Nie, Q. (2017). Adaptive methods for stochastic differential equations 
+via natural embeddings and rejection sampling with memory. Discrete and continuous 
+dynamical systems. Series B, 22(7), 2731.
+
+19 SDEs which are only stiff during transitions between biological states.
+"""
 function oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
   #Parameters
   J1_200=3.
