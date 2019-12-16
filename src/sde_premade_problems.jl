@@ -82,7 +82,7 @@ du_t = -\frac{1}{100}\sin(u)\cos^3(u)dt + \frac{1}{10}\cos^{2}(u_t) dW_t
 and initial condition ``u_0=1`` with solution
 
 ```math
-u(u0,p,t,W_t)=\arctan(\frac{W_t}{10} + \tan(u0))
+u(u_0,p,t,W_t)=\arctan(\frac{W_t}{10} + \tan(u_0))
 ```
 """
 prob_sde_wave = SDEProblem(ff_wave,σ_wave,1.0,(0.0,1.0))
@@ -102,7 +102,7 @@ u_t = (\frac{β}{\sqrt{1+t}}-\frac{1}{2(1+t)}u_t)dt + \frac{αβ}{\sqrt{1+t}}dW_
 and initial condition ``u_0=1`` with ``α=0.1`` and ``β=0.05``, with solution
 
 ```math
-u(u0,p,t,W_t)=\frac{u0}{\sqrt{1+t}} + \frac{β(t+αW_t)}{\sqrt{1+t}}
+u(u_0,p,t,W_t)=\frac{u_0}{\sqrt{1+t}} + \frac{β(t+αW_t)}{\sqrt{1+t}}
 ```
 """
 prob_sde_additive = SDEProblem(ff_additive,σ_additive,1.0,(0.0,1.0),p)
