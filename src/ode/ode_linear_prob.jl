@@ -8,7 +8,7 @@ Linear ODE
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0=\frac{1}{2}``, ``α=1.01``, and solution
 
 ```math
 u(t) = u_0e^{αt}
@@ -27,7 +27,7 @@ Linear ODE
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0=\frac{1}{2}``, ``α=1.01``, and solution
 
 ```math
 u(t) = u_0e^{αt}
@@ -48,7 +48,8 @@ f_2dlinear_analytic = (u0,p,t) -> @. u0*exp(p*t)
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0`` as all uniformly distributed random numbers, 
+``α=1.01``, and solution
 
 ```math
 u(t) = u_0e^{αt}
@@ -67,7 +68,8 @@ prob_ode_2Dlinear = ODEProblem(
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0`` as all uniformly distributed random numbers, 
+``α=1.01``, and solution
 
 ```math
 u(t) = u_0e^{αt}
@@ -86,7 +88,8 @@ prob_ode_large2Dlinear = ODEProblem(
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0`` as all uniformly distributed random numbers, 
+``α=1.01``, and solution
 
 ```math
 u(t) = u_0e^{αt}
@@ -106,7 +109,8 @@ f_2dlinear_notinplace = (u,p,t) -> p*u
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0`` as all uniformly distributed random numbers, 
+``α=1.01``, and solution
 
 ```math
 u(t) = u_0e^{αt}
