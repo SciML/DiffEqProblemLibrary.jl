@@ -67,7 +67,7 @@ Van der Pol Equations
 \\frac{dy}{dt} = μ((1-x^2)y -x)
 ```
 
-with ``μ=1.0`` and ``u0=[0,\\sqrt{3}]``
+with ``μ=1.0`` and ``u_0=[0,\\sqrt{3}]``
 
 Non-stiff parameters.
 """
@@ -83,7 +83,7 @@ Van der Pol Equations
 \\frac{dy}{dt} = μ(1-x^2)y -x
 ```
 
-with ``μ=10^6`` and ``u0=[0,\\sqrt{3}]``
+with ``μ=10^6`` and ``u_0=[0,\\sqrt{3}]``
 
 Stiff parameters.
 """
@@ -139,22 +139,22 @@ end
 The ThreeBody problem as written by Hairer: (Non-stiff)
 
 ```math
-y₁′′ = y₁ + 2y₂′ - μ′\\frac{y₁+μ}{D₁} - μ\\frac{y₁-μ′}{D₂}
+\frac{dy₁}{dt} = y₁ + 2\frac{dy₂}{dt} - \bar{μ}\\frac{y₁+μ}{D₁} - μ\\frac{y₁-\bar{μ}}{D₂}
 ```
 ```math
-y₂′′ = y₂ - 2y₁′ - μ′\\frac{y₂}{D₁} - μ\\frac{y₂}{D₂}
+\frac{dy₂}{dt} = y₂ - 2\frac{dy₁}{dt} - \bar{μ}\\frac{y₂}{D₁} - μ\\frac{y₂}{D₂}
 ```
 ```math
 D₁ = ((y₁+μ)^2 + y₂^2)^{3/2}
 ```
 ```math
-D₂ = ((y₁-μ′)^2+y₂^2)^{3/2}
+D₂ = ((y₁-\bar{μ})^2+y₂^2)^{3/2}
 ```
 ```math
 μ = 0.012277471
 ```
 ```math
-μ′ =1-μ
+\bar{μ} =1-μ
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
@@ -224,10 +224,10 @@ end
 Pleiades Problem (Non-stiff)
 
 ```math
-xᵢ′′ = \\sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ
+\frac{d^2xᵢ}{dt^2} = \\sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ
 ```
 ```math
-yᵢ′′ = \\sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
+\frac{d^2yᵢ}{dt^2} = \\sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
 ```
 
 where
@@ -281,19 +281,19 @@ y₆(0) = -4
 y₇(0) = 4
 ```
 
-and with ``xᵢ′(0)=yᵢ′(0)=0`` except for
+and with ``\frac{dxᵢ(0)}{dt}=\frac{dyᵢ(0)}{dt}=0`` except for
 
 ```math
-x₆′(0) = 1.75
+\frac{dx₆(0)}{dt} = 1.75
 ```
 ```math
-x₇′(0) = -1.5
+\frac{dx₇(0)}{dt} = -1.5
 ```
 ```math
-y₄′(0) = -1.25
+\frac{dy₄(0)}{dt} = -1.25
 ```
 ```math
-y₅′(0) = 1
+\frac{dy₅(0)}{dt} = 1
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 244
