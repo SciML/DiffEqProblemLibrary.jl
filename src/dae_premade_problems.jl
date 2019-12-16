@@ -13,5 +13,21 @@ f = function (r, yp, y, p, tres)
 end
 u0 = [1.0, 0, 0]
 du0 = [-0.04, 0.04, 0.0]
-"DAE residual form for the Robertson model"
+
+@doc doc"""
+The Robertson biochemical reactions in DAE form
+
+```math
+\\frac{dy₁}{dt} = -k₁y₁+k₃y₂y₃
+```
+```math
+\\frac{dy₂}{dt} =  k₁y₁-k₂y₂^2-k₃y₂y₃
+```
+```math
+1 = y₁ + y₂ + y₃
+```
+where ``k₁=0.04``, ``k₂=3\\times10^7``, ``k₃=10^4``. For details, see:
+Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
+Usually solved on ``[0,1e11]``
+"""
 prob_dae_resrob = DAEProblem(f,du0,u0,(0.0,100000.0))
