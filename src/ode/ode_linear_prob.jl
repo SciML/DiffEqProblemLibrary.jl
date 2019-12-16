@@ -8,10 +8,10 @@ Linear ODE
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u0e^{αt}
+u(t) = u_0e^{αt}
 ```
 
 with Float64s. The parameter is ``α``
@@ -27,10 +27,10 @@ Linear ODE
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u0e^{αt}
+u(t) = u_0e^{αt}
 ```
 
 with BigFloats
@@ -48,10 +48,10 @@ f_2dlinear_analytic = (u0,p,t) -> @. u0*exp(p*t)
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u0e^{αt}
+u(t) = u_0e^{αt}
 ```
 
 with Float64s
@@ -67,10 +67,10 @@ prob_ode_2Dlinear = ODEProblem(
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u0e^{αt}
+u(t) = u_0e^{αt}
 ```
 
 with Float64s
@@ -86,10 +86,10 @@ prob_ode_large2Dlinear = ODEProblem(
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u0e^{αt}
+u(t) = u_0e^{αt}
 ```
 
 with BigFloats
@@ -106,10 +106,10 @@ f_2dlinear_notinplace = (u,p,t) -> p*u
 \\frac{du}{dt} = αu
 ```
 
-with initial condition ``u0=1/2``, ``α=1.01``, and solution
+with initial condition ``u_0=1/2``, ``α=1.01``, and solution
 
 ```math
-u(t) = u0e^{αt}
+u(t) = u_0e^{αt}
 ```
 
 on Float64. Purposefully not in-place as a test.
