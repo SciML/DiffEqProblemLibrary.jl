@@ -65,7 +65,7 @@ du_t = \frac{1}{4}u(1-u^2)dt + \frac{1}{2}(1-u^2)dW_t
 and initial condtion ``u_0=\frac{1}{2}``, with solution
 
 ```math
-u(u0,p,t,W_t)=\frac{(1+u0)\exp(W_t)+u0-1}{(1+u0)\exp(W_t)+1-u0}
+u(u0,p,t,W_t)=\frac{(1+u_0)\exp(W_t)+u)0-1}{(1+u_0)\exp(W_t)+1-u_0}
 ```
 """
 prob_sde_cubic = SDEProblem(ff_cubic,σ_cubic,1/2,(0.0,1.0))
