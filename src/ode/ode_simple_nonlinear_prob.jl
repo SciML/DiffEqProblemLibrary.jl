@@ -135,14 +135,15 @@ threebody = (du,u,p,t) -> begin
   du[3] = u[1] + 2u[4] - threebody_μ′*(u[1]+threebody_μ)/D₁ - threebody_μ*(u[1]-threebody_μ′)/D₂
   du[4] = u[2] - 2u[3] - threebody_μ′*u[2]/D₁ - threebody_μ*u[2]/D₂
 end
-"""
+
+@doc doc"""
 The ThreeBody problem as written by Hairer: (Non-stiff)
 
 ```math
-\frac{dy₁}{dt} = y₁ + 2\frac{dy₂}{dt} - \bar{μ}\\frac{y₁+μ}{D₁} - μ\\frac{y₁-\bar{μ}}{D₂}
+\frac{dy₁}{dt} = y₁ + 2\frac{dy₂}{dt} - \bar{μ}\frac{y₁+μ}{D₁} - μ\frac{y₁-\bar{μ}}{D₂}
 ```
 ```math
-\frac{dy₂}{dt} = y₂ - 2\frac{dy₁}{dt} - \bar{μ}\\frac{y₂}{D₁} - μ\\frac{y₂}{D₂}
+\frac{dy₂}{dt} = y₂ - 2\frac{dy₁}{dt} - \bar{μ}\frac{y₂}{D₁} - μ\frac{y₂}{D₂}
 ```
 ```math
 D₁ = ((y₁+μ)^2 + y₂^2)^{3/2}
@@ -220,14 +221,15 @@ pleiades = (du,u,p,t) -> begin
     end
   end
 end
-"""
+
+@doc doc"""
 Pleiades Problem (Non-stiff)
 
 ```math
-\frac{d^2xᵢ}{dt^2} = \\sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ
+\frac{d^2xᵢ}{dt^2} = \sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ
 ```
 ```math
-\frac{d^2yᵢ}{dt^2} = \\sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
+\frac{d^2yᵢ}{dt^2} = \sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
 ```
 
 where
@@ -281,19 +283,19 @@ y₆(0) = -4
 y₇(0) = 4
 ```
 
-and with ``\frac{dxᵢ(0)}{dt}=\frac{dyᵢ(0)}{dt}=0`` except for
+and with ``\\frac{dxᵢ(0)}{dt}=\frac{dyᵢ(0)}{dt}=0`` except for
 
 ```math
-\frac{dx₆(0)}{dt} = 1.75
+\\frac{dx₆(0)}{dt} = 1.75
 ```
 ```math
-\frac{dx₇(0)}{dt} = -1.5
+\\frac{dx₇(0)}{dt} = -1.5
 ```
 ```math
-\frac{dy₄(0)}{dt} = -1.25
+\\frac{dy₄(0)}{dt} = -1.25
 ```
 ```math
-\frac{dy₅(0)}{dt} = 1
+\\frac{dy₅(0)}{dt} = 1
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 244
