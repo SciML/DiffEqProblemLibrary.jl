@@ -10,7 +10,7 @@ nlc_analytic(u0,p,t) = [exp(-t);
     -exp(-t)+1+(-2sqrt(exp(-t))*besselk(1,2sqrt(exp(-t)))+sqrt(exp(-t))*besseli(1,2sqrt(exp(-t)))*2besselk(1,2)/besseli(1,2))/(2besselk(0,2sqrt(exp(-t)))+2besselk(1,2)/besseli(1,2)*besseli(0,2sqrt(exp(-t))))]
 nonLinChem_f = ODEFunction(nonLinChem,analytic = nlc_analytic)
 
-"""
+@doc doc"""
 Nonlinear system of reactions with an analytical solution
 
 ```math
