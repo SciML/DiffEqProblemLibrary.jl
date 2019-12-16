@@ -1,4 +1,4 @@
-using DiffEqBase
+using DiffEqBase, Markdown
 
 #DAE Example Problems
 export prob_dae_resrob
