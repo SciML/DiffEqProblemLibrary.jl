@@ -18,10 +18,10 @@ linear_analytic(u0,p,t,W) = @.(u0*exp(0.63155t+0.87W))
 ```math
 du_t = βudt + αudW_t
 ```
-where β=1.01, α=0.87, and initial condtion u0=1/2, with solution
+where ``β=1.01``, ``α=0.87``, and initial condtion ``u_0=1/2``, with solution
 
 ```math
-u(u0,p,t,W_t)=u0\exp((α-\frac{β^2}{2})t+βW_t)
+u(u0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 ```
 
 """
@@ -40,10 +40,10 @@ f_linear_iip(du,u,p,t) = @.(du = 1.01*u)
 ```math
 du_t = βudt + αudW_t
 ```
-where β=1.01, α=0.87, and initial condtion u0=1/2 with solution
+where ``β=1.01``, ``α=0.87``, and initial condtion ``u_0=\frac{1}{2}`` with solution
 
 ```math
-u(u0,p,t,W_t)=u0\exp((α-\frac{β^2}{2})t+βW_t)
+u(u0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 ```
 """
 prob_sde_2Dlinear = SDEProblem(SDEFunction(f_linear_iip,σ_linear_iip,
@@ -62,7 +62,7 @@ ff_cubic = SDEFunction(f_cubic,σ_cubic,analytic = cubic_analytic)
 du_t = \frac{1}{4}u(1-u^2)dt + \frac{1}{2}(1-u^2)dW_t
 ```
 
-and initial condtion u0=1/2, with solution
+and initial condtion ``u_0=\frac{1}{2}``, with solution
 
 ```math
 u(u0,p,t,W_t)=\frac{(1+u0)\exp(W_t)+u0-1}{(1+u0)\exp(W_t)+1-u0}
@@ -79,7 +79,7 @@ ff_wave = SDEFunction(f_wave,σ_wave,analytic=wave_analytic)
 du_t = -\frac{1}{100}\sin(u)\cos^3(u)dt + \frac{1}{10}\cos^{2}(u_t) dW_t
 ```
 
-and initial condition `u0=1.0` with solution
+and initial condition ``u_0=1`` with solution
 
 ```math
 u(u0,p,t,W_t)=\arctan(\frac{W_t}{10} + \tan(u0))
@@ -99,7 +99,7 @@ Additive noise problem
 u_t = (\frac{β}{\sqrt{1+t}}-\frac{1}{2(1+t)}u_t)dt + \frac{αβ}{\sqrt{1+t}}dW_t
 ```
 
-and initial condition u0=1.0 with α=0.1 and β=0.05, with solution
+and initial condition ``u_0=1`` with ``α=0.1`` and ``β=0.05``, with solution
 
 ```math
 u(u0,p,t,W_t)=\frac{u0}{\sqrt{1+t}} + \frac{β(t+αW_t)}{\sqrt{1+t}}
@@ -136,7 +136,7 @@ dy = (x*(ρ-z) - y)dt + αdW_t
 dz = (x*y - β*z)dt + αdW_t
 ```
 
-with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u0=[1;1;1]``.
+with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u_0=[1;1;1]``.
 """
 prob_sde_lorenz = SDEProblem(f_lorenz,σ_lorenz,ones(3),(0.0,10.0),(10.0,28.0,2.66))
 
