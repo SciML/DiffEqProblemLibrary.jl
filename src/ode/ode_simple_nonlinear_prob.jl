@@ -226,10 +226,10 @@ end
 Pleiades Problem (Non-stiff)
 
 ```math
-\frac{d^2xᵢ}{dt^2} = \sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ
+\\frac{d^2xᵢ}{dt^2} = \sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ
 ```
 ```math
-\frac{d^2yᵢ}{dt^2} = \sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
+\\frac{d^2yᵢ}{dt^2} = \sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
 ```
 
 where
@@ -283,19 +283,19 @@ y₆(0) = -4
 y₇(0) = 4
 ```
 
-and with ``\frac{dxᵢ(0)}{dt}=\frac{dyᵢ(0)}{dt}=0`` except for
+and with ``\\frac{dxᵢ(0)}{dt}=\frac{dyᵢ(0)}{dt}=0`` except for
 
 ```math
-\frac{dx₆(0)}{dt} = 1.75
+\\frac{dx₆(0)}{dt} = 1.75
 ```
 ```math
-\frac{dx₇(0)}{dt} = -1.5
+\\frac{dx₇(0)}{dt} = -1.5
 ```
 ```math
-\frac{dy₄(0)}{dt} = -1.25
+\\frac{dy₄(0)}{dt} = -1.25
 ```
 ```math
-\frac{dy₅(0)}{dt} = 1
+\\frac{dy₅(0)}{dt} = 1
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 244
