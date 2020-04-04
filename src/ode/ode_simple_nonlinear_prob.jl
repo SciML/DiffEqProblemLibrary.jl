@@ -210,7 +210,7 @@ pleiades = (du,u,p,t) -> begin
   w = view(u,22:28) # y′
   du[1:7] .= v
   du[8:14].= w
-  for i in 14:28
+  for i in 15:28
     du[i] = zero(eltype(u))
   end
   for i=1:7,j=1:7
