@@ -16,9 +16,9 @@ linear_analytic(u0,p,t,W) = @.(u0*exp(0.63155t+0.87W))
 
 @doc doc"""
 ```math
-du_t = βudt + αudW_t
+du_t = αudt + βudW_t
 ```
-where ``β=1.01``, ``α=0.87``, and initial condtion ``u_0=1/2``, with solution
+where ``α=1.01``, ``β=0.87``, and initial condtion ``u_0=1/2``, with solution
 
 ```math
 u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
@@ -38,9 +38,9 @@ f_linear_iip(du,u,p,t) = @.(du = 1.01*u)
 8 linear SDEs (as a 4x2 matrix):
 
 ```math
-du_t = βudt + αudW_t
+du_t = αudt + βudW_t
 ```
-where ``β=1.01``, ``α=0.87``, and initial condtion ``u_0=\frac{1}{2}`` with solution
+where ``α=1.01``, ``β=0.87``, and initial condtion ``u_0=\frac{1}{2}`` with solution
 
 ```math
 u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
