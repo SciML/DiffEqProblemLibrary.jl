@@ -22,7 +22,7 @@ struct JumpProblemNetwork
     prob_data       # additional problem data, stored as a Dict
 end
 
-dna_rs = @reaction_network ptype begin
+dna_rs = @reaction_network begin
     k1, DNA --> mRNA + DNA
     k2, mRNA --> mRNA + P
     k3, mRNA --> 0
@@ -42,7 +42,7 @@ prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
 """
 prob_jump_dnarepressor = JumpProblemNetwork(dna_rs, rates, tf, u0, prob, prob_data)
 
-bd_rs = @reaction_network pdtype begin
+bd_rs = @reaction_network begin
     k1, 0 --> A
     k2, A --> 0
 end k1 k2
@@ -58,7 +58,7 @@ prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean_at_t" => expected_
 """
 prob_jump_constproduct = JumpProblemNetwork(bd_rs, rates, tf, u0, prob, prob_data)
 
-nonlin_rs = @reaction_network dtype begin
+nonlin_rs = @reaction_network begin
     k1, 2A --> B
     k2, B --> 2A
     k3, A + B --> C
@@ -78,7 +78,7 @@ prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
 prob_jump_nonlinrxs = JumpProblemNetwork(nonlin_rs, rates, tf, u0, prob, prob_data)
 
 
-oscil_rs = @reaction_network rnoscType  begin
+oscil_rs = @reaction_network begin
     0.01, (X,Y,Z) --> 0
     hill(X,3.,100.,-4), 0 --> Y
     hill(Y,3.,100.,-4), 0 --> Z
@@ -113,7 +113,7 @@ rates_sym_to_idx = Dict(
     :R0 => 1,   :L0 => 2,    :A0 => 3,  :kon => 4, :koff => 5,
     :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9)
 params = [5360, 1160, 5360, 0.01, 0.1, 0.01, 0.1, 0.01, 0.1]
-rs = @reaction_network msType begin
+rs = @reaction_network begin
     kon, S1 + S2 --> S4
     kAon, S1 + S3 --> S5
     kon, S2 + S5 --> S6
@@ -154,7 +154,7 @@ prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
 # generate the network
 N = 10  # number of genes
 function construct_genenetwork(N)
-  genenetwork = "@reaction_network twentgtype begin\n"
+  genenetwork = "@reaction_network begin\n"
   for i in 1:N
       genenetwork *= "\t 10.0, G$(2*i-1) --> G$(2*i-1) + M$(2*i-1)\n"
       genenetwork *= "\t 10.0, M$(2*i-1) --> M$(2*i-1) + P$(2*i-1)\n"
@@ -187,7 +187,7 @@ prob = DiscreteProblem(u0, (0.0, tf))
 prob_jump_twentygenes = JumpProblemNetwork(rs, nothing, tf, u0, prob, nothing)
 
 
-rn = @reaction_network gnrdtype begin
+rn = @reaction_network begin
     c1, G --> G + M
     c2, M --> M + P
     c3, M --> 0
@@ -214,7 +214,7 @@ prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
 
 # diffusion model
 function getDiffNetwork(N)
-    diffnetwork = "@reaction_network dpldifftype begin\n"
+    diffnetwork = "@reaction_network begin\n"
     for i in 1:(N-1)
         diffnetwork *= "\t K, X$(i) --> X$(i+1)\n"
         diffnetwork *= "\t K, X$(i+1) --> X$(i)\n"
