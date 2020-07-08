@@ -436,7 +436,7 @@ Stochastic Brusselator
 prob_sde_bruss = SDEProblem(bruss_f,bruss_g,[3.,2.],(0.,100.),p,
                             noise_rate_prototype=zeros(2,4))
 
-network = @reaction_network rnType  begin
+network = @reaction_network begin
     p1, (X,Y,Z) --> 0
     hill(X,p2,100.,-4), 0 --> Y
     hill(Y,p3,100.,-4), 0 --> Z
