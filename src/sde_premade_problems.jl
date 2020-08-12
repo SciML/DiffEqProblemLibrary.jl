@@ -1,4 +1,4 @@
-using DiffEqBase, DiffEqBiological, Markdown
+using DiffEqBase, Catalyst, Markdown
 #SDE Example Problems
 export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
       prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
@@ -157,8 +157,8 @@ oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
 A function which generates the Oval2 Epithelial-Mesenchymal Transition model
 from:
 
-Rackauckas, C., & Nie, Q. (2017). Adaptive methods for stochastic differential equations 
-via natural embeddings and rejection sampling with memory. Discrete and continuous 
+Rackauckas, C., & Nie, Q. (2017). Adaptive methods for stochastic differential equations
+via natural embeddings and rejection sampling with memory. Discrete and continuous
 dynamical systems. Series B, 22(7), 2731.
 
 19 SDEs which are only stiff during transitions between biological states.

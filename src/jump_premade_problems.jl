@@ -1,4 +1,4 @@
-using DiffEqBase, DiffEqBiological
+using DiffEqBase, Catalyst
 # Jump Example Problems
 export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
 # examples mixing mass action and constant rate jumps
