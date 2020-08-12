@@ -1,4 +1,4 @@
-using DiffEqBase, DiffEqBiological, Markdown
+using DiffEqBase, Catalyst, Markdown
 #SDE Example Problems
 export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
       prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
