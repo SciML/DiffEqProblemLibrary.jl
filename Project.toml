@@ -1,11 +1,11 @@
 name = "DiffEqProblemLibrary"
 uuid = "a077e3f3-b75c-5d7f-a0c6-6bc4c8ec64a9"
 authors = ["Chris Rackauckas <accounts@chrisrackauckas.com>"]
-version = "4.8.1"
+version = "4.9.0"
 
 [deps]
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
-DiffEqBiological = "eb300fae-53e8-50a0-950c-e21f52c2b7e0"
+Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
 DiffEqOperators = "9fdde737-9c7f-55bf-ade8-46b3f136cc48"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
@@ -14,7 +14,7 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [compat]
 DiffEqBase = "6"
-DiffEqBiological = "4.0"
+DiffEqBiological = "5"
 DiffEqOperators = "4"
 ModelingToolkit = "0.9, 0.10, 1.0, 2.0, 3.0"
 julia = "1"
