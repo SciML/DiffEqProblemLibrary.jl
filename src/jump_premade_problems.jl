@@ -1,4 +1,4 @@
-using DiffEqBase, DiffEqBiological
+using DiffEqBase, Catalyst
 # Jump Example Problems
 export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
 # examples mixing mass action and constant rate jumps
@@ -13,8 +13,9 @@ export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
     the JumpProblem constructor requires the algorithm, so we
     don't create the JumpProblem here.
 """
+
 struct JumpProblemNetwork
-    network         # DiffEqBiological network
+    network         # Catalyst network
     rates           # vector of rate constants or nothing
     tstop           # time to end simulation
     u0              # initial values
@@ -33,7 +34,7 @@ end k1 k2 k3 k4 k5 k6
 rates = [.5, (20*log(2.)/120.), (log(2.)/120.), (log(2.)/600.), .025, 1.]
 tf = 1000.0
 u0 = [1,0,0,0]
-prob = DiscreteProblem(u0, (0.0, tf), rates)
+prob = DiscreteProblem(dna_rs, u0, (0.0, tf), rates)
 Nsims = 8000
 expected_avg = 5.926553750000000e+02
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
@@ -49,7 +50,7 @@ end k1 k2
 rates = [1000., 10.]
 tf = 1.0
 u0 = [0]
-prob = DiscreteProblem(u0, (0., tf), rates)
+prob = DiscreteProblem(bd_rs, u0, (0., tf), rates)
 Nsims = 16000
 expected_avg = t -> rates[1] / rates[2] .* ( 1. - exp.(-rates[2] * t))
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean_at_t" => expected_avg)
@@ -68,7 +69,7 @@ end k1 k2 k3 k4 k5
 rates = [1., 2., .5, .75, .25]
 tf = .01
 u0 = [200, 100, 150]
-prob = DiscreteProblem(u0, (0., tf), rates)
+prob = DiscreteProblem(nonlin_rs, u0, (0., tf), rates)
 Nsims = 32000
 expected_avg = 84.876015624999994
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
@@ -92,7 +93,7 @@ oscil_rs = @reaction_network begin
 end
 u0 = [200.,60.,120.,100.,50.,50.,50.]  # Hill equations force use of floats!
 tf = 4000.
-prob = DiscreteProblem(u0, (0.,tf))
+prob = DiscreteProblem(oscil_rs, u0, (0.,tf))
 """
     Oscillatory system, uses a mixture of jump types.
 """
@@ -136,11 +137,11 @@ end kon kAon koff kAoff kAp kAdp
 rsi   = rates_sym_to_idx
 rates = params[[rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
 u0    = zeros(Int,9)
-u0[ something(findfirst(isequal(:S1), rs.syms),0)] = params[1]
-u0[ something(findfirst(isequal(:S2), rs.syms),0)] = params[2]
-u0[ something(findfirst(isequal(:S3), rs.syms),0)] = params[3]
+u0[ findfirst(isequal(Variable(:S1)), rs.states)] = params[1]
+u0[ findfirst(isequal(Variable(:S2)), rs.states)] = params[2]
+u0[ findfirst(isequal(Variable(:S3)), rs.states)] = params[3]
 tf    = 100.
-prob = DiscreteProblem(u0, (0., tf), rates)
+prob = DiscreteProblem(rs, u0, (0., tf), rates)
 """
     Multistate model from Gupta and Mendes,
     "An Overview of Network-Based and -Free Approaches for Stochastic Simulation of Biochemical Systems",
@@ -154,38 +155,61 @@ prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
 # generate the network
 N = 10  # number of genes
 function construct_genenetwork(N)
-  genenetwork = "@reaction_network begin\n"
-  for i in 1:N
-      genenetwork *= "\t 10.0, G$(2*i-1) --> G$(2*i-1) + M$(2*i-1)\n"
-      genenetwork *= "\t 10.0, M$(2*i-1) --> M$(2*i-1) + P$(2*i-1)\n"
-      genenetwork *= "\t 1.0,  M$(2*i-1) --> 0\n"
-      genenetwork *= "\t 1.0,  P$(2*i-1) --> 0\n"
+    genenetwork = make_empty_network()  
+    @parameters t
+    for i in 1:N
+        G₂ᵢ₋₁ = Variable(Symbol("G",2*i-1))(t)        
+        M₂ᵢ₋₁ = Variable(Symbol("M",2*i-1))(t)
+        P₂ᵢ₋₁ = Variable(Symbol("P",2*i-1))(t)
+        addspecies!(genenetwork,G₂ᵢ₋₁)
+        addspecies!(genenetwork,M₂ᵢ₋₁)
+        addspecies!(genenetwork,P₂ᵢ₋₁)
+        addreaction!(genenetwork, Reaction(10.0, [G₂ᵢ₋₁], [G₂ᵢ₋₁,M₂ᵢ₋₁]))
+        addreaction!(genenetwork, Reaction(10.0, [M₂ᵢ₋₁], [M₂ᵢ₋₁,P₂ᵢ₋₁]))
+        addreaction!(genenetwork, Reaction(1.0, [M₂ᵢ₋₁], nothing))
+        addreaction!(genenetwork, Reaction(1.0, [P₂ᵢ₋₁], nothing))
+        # genenetwork *= "\t 10.0, G$(2*i-1) --> G$(2*i-1) + M$(2*i-1)\n"
+        # genenetwork *= "\t 10.0, M$(2*i-1) --> M$(2*i-1) + P$(2*i-1)\n"
+        # genenetwork *= "\t 1.0,  M$(2*i-1) --> 0\n"
+        # genenetwork *= "\t 1.0,  P$(2*i-1) --> 0\n"
 
-      genenetwork *= "\t 5.0, G$(2*i) --> G$(2*i) + M$(2*i)\n"
-      genenetwork *= "\t 5.0, M$(2*i) --> M$(2*i) + P$(2*i)\n"
-      genenetwork *= "\t 1.0,  M$(2*i) --> 0\n"
-      genenetwork *= "\t 1.0,  P$(2*i) --> 0\n"
+        G₂ᵢ = Variable(Symbol("G",2*i))(t)        
+        M₂ᵢ = Variable(Symbol("M",2*i))(t)
+        P₂ᵢ = Variable(Symbol("P",2*i))(t)
+        addspecies!(genenetwork,G₂ᵢ)
+        addspecies!(genenetwork,M₂ᵢ)
+        addspecies!(genenetwork,P₂ᵢ)
+        addreaction!(genenetwork, Reaction(5.0, [G₂ᵢ], [G₂ᵢ,M₂ᵢ]))
+        addreaction!(genenetwork, Reaction(5.0, [M₂ᵢ], [M₂ᵢ,P₂ᵢ]))
+        addreaction!(genenetwork, Reaction(1.0, [M₂ᵢ], nothing))
+        addreaction!(genenetwork, Reaction(1.0, [P₂ᵢ], nothing))
+        # genenetwork *= "\t 5.0, G$(2*i) --> G$(2*i) + M$(2*i)\n"
+        # genenetwork *= "\t 5.0, M$(2*i) --> M$(2*i) + P$(2*i)\n"
+        # genenetwork *= "\t 1.0,  M$(2*i) --> 0\n"
+        # genenetwork *= "\t 1.0,  P$(2*i) --> 0\n"
 
-      genenetwork *= "\t 0.0001, G$(2*i) + P$(2*i-1) --> G$(2*i)_ind \n"
-      genenetwork *= "\t 100., G$(2*i)_ind --> G$(2*i)_ind + M$(2*i)\n"
-  end
-  genenetwork *= "end"
+        G₂ᵢ_ind = Variable(Symbol("G",2*i,"_ind"))(t)
+        addspecies!(genenetwork, G₂ᵢ_ind)
+        addreaction!(genenetwork, Reaction(0.0001, [G₂ᵢ,P₂ᵢ₋₁], [G₂ᵢ_ind]))        
+        addreaction!(genenetwork, Reaction(100.0, [G₂ᵢ_ind], [G₂ᵢ_ind,M₂ᵢ]))
+        # genenetwork *= "\t 0.0001, G$(2*i) + P$(2*i-1) --> G$(2*i)_ind \n"
+        # genenetwork *= "\t 100., G$(2*i)_ind --> G$(2*i)_ind + M$(2*i)\n"
+    end
+    genenetwork
 end
-genenetwork = construct_genenetwork(N)
-rs = eval( Meta.parse(genenetwork) )
-u0 = zeros(Int, length(rs.syms))
+rs = construct_genenetwork(N)
+u0 = zeros(Int, length(rs.states))
 for i = 1:(2*N)
-    u0[something(findfirst(isequal(Symbol("G$(i)")),rs.syms),0)] = 1
+    u0[findfirst(isequal(Variable(Symbol("G$(i)"))),rs.states)] = 1
 end
 tf = 2000.0
-prob = DiscreteProblem(u0, (0.0, tf))
+prob = DiscreteProblem(rs, u0, (0.0, tf))
 """
     Twenty-gene model from McCollum et al,
     "The sorting direct method for stochastic simulation of biochemical systems with varying reaction execution behavior"
     Comp. Bio. and Chem., 30, pg. 39-49 (2006).
 """
 prob_jump_twentygenes = JumpProblemNetwork(rs, nothing, tf, u0, prob, nothing)
-
 
 rn = @reaction_network begin
     c1, G --> G + M
@@ -201,7 +225,7 @@ rnpar = [.09, .05, .001, .0009, .00001, .0005, .005, .9]
 varlabels = ["G", "M", "P", "P2","P2G"]
 u0 = [1000, 0, 0, 0,0]
 tf = 4000.
-prob = DiscreteProblem(u0, (0.0, tf), rnpar)
+prob = DiscreteProblem(rn, u0, (0.0, tf), rnpar)
 """
     Negative feedback autoregulatory gene expression model. Dimer is the repressor.
     Taken from Marchetti, Priami and Thanh,
@@ -214,14 +238,18 @@ prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
 
 # diffusion model
 function getDiffNetwork(N)
-    diffnetwork = "@reaction_network begin\n"
-    for i in 1:(N-1)
-        diffnetwork *= "\t K, X$(i) --> X$(i+1)\n"
-        diffnetwork *= "\t K, X$(i+1) --> X$(i)\n"
+    diffnetwork = make_empty_network()    
+    @parameters t K
+    for i = 1:N
+        addspecies!(diffnetwork, Variable("X",i)(t))
     end
-    diffnetwork *= "end K"
-    rs = eval( Meta.parse(diffnetwork) )
-    rs
+    for i in 1:(N-1)
+        Xᵢ   = Variable("X",i)(t)
+        Xᵢ₊₁ = Variable("X",i+1)(t)
+        addreaction!(diffnetwork, Reaction(K, [Xᵢ], [Xᵢ₊₁]))
+        addreaction!(diffnetwork, Reaction(K, [Xᵢ₊₁], [Xᵢ]))
+    end
+    diffnetwork
 end
 params = (1.,)
 function getDiffu0(N)
