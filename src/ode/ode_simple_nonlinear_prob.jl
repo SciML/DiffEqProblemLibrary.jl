@@ -52,10 +52,10 @@ prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0),(0.7,0.8,1/12.5,0.
 @parameters t μ
 @variables x(t) y(t)
 @derivatives D'~t
-eqs = [D(x) ~ μ*((1-x^2)*y - x),
-       D(y) ~ y]
+eqs = [D(y) ~ μ*((1-x^2)*y - x),
+       D(x) ~ y]
 de = ODESystem(eqs)
-van = ODEFunction(de, [x,y], [μ], jac=true)
+van = ODEFunction(de, [y,x], [μ], jac=true)
 
 """
 Van der Pol Equations
