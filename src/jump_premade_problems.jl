@@ -137,9 +137,10 @@ end kon kAon koff kAoff kAp kAdp
 rsi   = rates_sym_to_idx
 rates = params[[rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
 u0    = zeros(Int,9)
-u0[ findfirst(isequal(Variable(:S1)), rs.states)] = params[1]
-u0[ findfirst(isequal(Variable(:S2)), rs.states)] = params[2]
-u0[ findfirst(isequal(Variable(:S3)), rs.states)] = params[3]
+statesyms = ModelingToolkit.tosymbol.(ModelingToolkit.operation.(rs.states))
+u0[ findfirst(isequal(:S1), statesyms)] = params[1]
+u0[ findfirst(isequal(:S2), statesyms)] = params[2]
+u0[ findfirst(isequal(:S3), statesyms)] = params[3]
 tf    = 100.
 prob = DiscreteProblem(rs, u0, (0., tf), rates)
 """
@@ -154,44 +155,39 @@ prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
 
 # generate the network
 N = 10  # number of genes
+@parameters t
+@variables G[1:2N](t) M[1:2N](t) P[1:2N](t) G_ind[1:2N](t)
+
 function construct_genenetwork(N)
-    genenetwork = make_empty_network()  
-    @parameters t
+    genenetwork = make_empty_network()
     for i in 1:N
-        G₂ᵢ₋₁ = Variable(Symbol("G",2*i-1))(t)        
-        M₂ᵢ₋₁ = Variable(Symbol("M",2*i-1))(t)
-        P₂ᵢ₋₁ = Variable(Symbol("P",2*i-1))(t)
-        addspecies!(genenetwork,G₂ᵢ₋₁)
-        addspecies!(genenetwork,M₂ᵢ₋₁)
-        addspecies!(genenetwork,P₂ᵢ₋₁)
-        addreaction!(genenetwork, Reaction(10.0, [G₂ᵢ₋₁], [G₂ᵢ₋₁,M₂ᵢ₋₁]))
-        addreaction!(genenetwork, Reaction(10.0, [M₂ᵢ₋₁], [M₂ᵢ₋₁,P₂ᵢ₋₁]))
-        addreaction!(genenetwork, Reaction(1.0, [M₂ᵢ₋₁], nothing))
-        addreaction!(genenetwork, Reaction(1.0, [P₂ᵢ₋₁], nothing))
+        addspecies!(genenetwork,G[2*i-1])
+        addspecies!(genenetwork,M[2*i-i])
+        addspecies!(genenetwork,P[2*i-i])
+        addreaction!(genenetwork, Reaction(10.0, [G[2*i-i]], [G[2*i-i],M[2*i-i]]))
+        addreaction!(genenetwork, Reaction(10.0, [M[2*i-i]], [M[2*i-i],P[2*i-i]]))
+        addreaction!(genenetwork, Reaction(1.0, [M[2*i-i]], nothing))
+        addreaction!(genenetwork, Reaction(1.0, [P[2*i-i]], nothing))
         # genenetwork *= "\t 10.0, G$(2*i-1) --> G$(2*i-1) + M$(2*i-1)\n"
         # genenetwork *= "\t 10.0, M$(2*i-1) --> M$(2*i-1) + P$(2*i-1)\n"
         # genenetwork *= "\t 1.0,  M$(2*i-1) --> 0\n"
         # genenetwork *= "\t 1.0,  P$(2*i-1) --> 0\n"
 
-        G₂ᵢ = Variable(Symbol("G",2*i))(t)        
-        M₂ᵢ = Variable(Symbol("M",2*i))(t)
-        P₂ᵢ = Variable(Symbol("P",2*i))(t)
-        addspecies!(genenetwork,G₂ᵢ)
-        addspecies!(genenetwork,M₂ᵢ)
-        addspecies!(genenetwork,P₂ᵢ)
-        addreaction!(genenetwork, Reaction(5.0, [G₂ᵢ], [G₂ᵢ,M₂ᵢ]))
-        addreaction!(genenetwork, Reaction(5.0, [M₂ᵢ], [M₂ᵢ,P₂ᵢ]))
-        addreaction!(genenetwork, Reaction(1.0, [M₂ᵢ], nothing))
-        addreaction!(genenetwork, Reaction(1.0, [P₂ᵢ], nothing))
+        addspecies!(genenetwork,G[2*i])
+        addspecies!(genenetwork,M[2*i])
+        addspecies!(genenetwork,P[2*i])
+        addreaction!(genenetwork, Reaction(5.0, [G[2*i]], [G[2*i],M[2*i]]))
+        addreaction!(genenetwork, Reaction(5.0, [M[2*i]], [M[2*i],P[2*i]]))
+        addreaction!(genenetwork, Reaction(1.0, [M[2*i]], nothing))
+        addreaction!(genenetwork, Reaction(1.0, [P[2*i]], nothing))
         # genenetwork *= "\t 5.0, G$(2*i) --> G$(2*i) + M$(2*i)\n"
         # genenetwork *= "\t 5.0, M$(2*i) --> M$(2*i) + P$(2*i)\n"
         # genenetwork *= "\t 1.0,  M$(2*i) --> 0\n"
         # genenetwork *= "\t 1.0,  P$(2*i) --> 0\n"
 
-        G₂ᵢ_ind = Variable(Symbol("G",2*i,"_ind"))(t)
-        addspecies!(genenetwork, G₂ᵢ_ind)
-        addreaction!(genenetwork, Reaction(0.0001, [G₂ᵢ,P₂ᵢ₋₁], [G₂ᵢ_ind]))        
-        addreaction!(genenetwork, Reaction(100.0, [G₂ᵢ_ind], [G₂ᵢ_ind,M₂ᵢ]))
+        addspecies!(genenetwork, G_ind[2*i])
+        addreaction!(genenetwork, Reaction(0.0001, [G[2*i],P[2*i-i]], [G_ind[2*i]]))
+        addreaction!(genenetwork, Reaction(100.0, [G_ind[2*i]], [G_ind[2*i],M[2*i]]))
         # genenetwork *= "\t 0.0001, G$(2*i) + P$(2*i-1) --> G$(2*i)_ind \n"
         # genenetwork *= "\t 100., G$(2*i)_ind --> G$(2*i)_ind + M$(2*i)\n"
     end
@@ -199,8 +195,9 @@ function construct_genenetwork(N)
 end
 rs = construct_genenetwork(N)
 u0 = zeros(Int, length(rs.states))
+statesyms = ModelingToolkit.tosymbol.(ModelingToolkit.operation.(rs.states))
 for i = 1:(2*N)
-    u0[findfirst(isequal(Variable(Symbol("G$(i)"))),rs.states)] = 1
+    u0[findfirst(isequal(G[i]),rs.states)] = 1
 end
 tf = 2000.0
 prob = DiscreteProblem(rs, u0, (0.0, tf))
@@ -238,16 +235,15 @@ prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
 
 # diffusion model
 function getDiffNetwork(N)
-    diffnetwork = make_empty_network()    
+    diffnetwork = make_empty_network()
     @parameters t K
+    @variables X[1:N](t)
     for i = 1:N
-        addspecies!(diffnetwork, Variable("X",i)(t))
+        addspecies!(diffnetwork, X[i])
     end
     for i in 1:(N-1)
-        Xᵢ   = Variable("X",i)(t)
-        Xᵢ₊₁ = Variable("X",i+1)(t)
-        addreaction!(diffnetwork, Reaction(K, [Xᵢ], [Xᵢ₊₁]))
-        addreaction!(diffnetwork, Reaction(K, [Xᵢ₊₁], [Xᵢ]))
+        addreaction!(diffnetwork, Reaction(K, [X[i]], [X[i+1]]))
+        addreaction!(diffnetwork, Reaction(K, [X[i+1]], [X[i]]))
     end
     diffnetwork
 end
