@@ -16,7 +16,7 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Catalyst = "5.1, 6.0"
 DiffEqBase = "6"
 DiffEqOperators = "4"
-ModelingToolkit = "4"
+ModelingToolkit = "4, 5.0"
 julia = "1"
 
 [extras]
