@@ -80,7 +80,7 @@ Van der Pol Equations
 \\frac{dx}{dt} = y
 ```
 ```math
-\\frac{dy}{dt} = μ(1-x^2)y -x
+\\frac{dy}{dt} = μ((1-x^2)y -x)
 ```
 
 with ``μ=10^6`` and ``u_0=[0,\\sqrt{3}]``
