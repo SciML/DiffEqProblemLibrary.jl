@@ -241,6 +241,7 @@ function getDiffNetwork(N)
     for i = 1:N
         addspecies!(diffnetwork, X[i])
     end
+    addparam!(diffnetwork, K)
     for i in 1:(N-1)
         addreaction!(diffnetwork, Reaction(K, [X[i]], [X[i+1]]))
         addreaction!(diffnetwork, Reaction(K, [X[i+1]], [X[i]]))
