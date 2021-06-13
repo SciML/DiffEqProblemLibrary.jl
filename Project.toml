@@ -1,7 +1,7 @@
 name = "DiffEqProblemLibrary"
 uuid = "a077e3f3-b75c-5d7f-a0c6-6bc4c8ec64a9"
 authors = ["Chris Rackauckas <accounts@chrisrackauckas.com>"]
-version = "4.12.0"
+version = "4.13.0"
 
 [deps]
 Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
