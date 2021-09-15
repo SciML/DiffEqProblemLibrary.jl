@@ -87,7 +87,7 @@ with ``μ=10^6`` and ``u_0=[0,\\sqrt{3}]``
 
 Stiff parameters.
 """
-prob_ode_vanstiff = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1e6)
+prob_ode_vanderpol_stiff = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1e6)
 
 # ROBER
 @parameters t k₁ k₂ k₃
