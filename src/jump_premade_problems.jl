@@ -137,7 +137,7 @@ end kon kAon koff kAoff kAp kAdp
 rsi   = rates_sym_to_idx
 rates = params[[rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
 u0    = zeros(Int,9)
-statesyms = ModelingToolkit.tosymbol.(ModelingToolkit.operation.(rs.states))
+statesyms = ModelingToolkit.tosymbol.(ModelingToolkit.operation.(states(rs)))
 u0[ findfirst(isequal(:S1), statesyms)] = params[1]
 u0[ findfirst(isequal(:S2), statesyms)] = params[2]
 u0[ findfirst(isequal(:S3), statesyms)] = params[3]
@@ -194,10 +194,10 @@ function construct_genenetwork(N)
     genenetwork
 end
 rs = construct_genenetwork(N)
-u0 = zeros(Int, length(rs.states))
-statesyms = ModelingToolkit.tosymbol.(ModelingToolkit.operation.(rs.states))
+u0 = zeros(Int, length(states(rs)))
+statesyms = ModelingToolkit.tosymbol.(ModelingToolkit.operation.(states(rs)))
 for i = 1:(2*N)
-    u0[findfirst(isequal(G[i]),rs.states)] = 1
+    u0[findfirst(isequal(G[i]),states(rs))] = 1
 end
 tf = 2000.0
 prob = DiscreteProblem(rs, u0, (0.0, tf))

@@ -51,10 +51,10 @@ prob_ode_fitzhughnagumo = ODEProblem(fitz,[1.0;1.0],(0.0,1.0),(0.7,0.8,1/12.5,0.
 #Van der Pol Equations
 @parameters t μ
 @variables x(t) y(t)
-@derivatives D'~t
+D = Differential(t)
 eqs = [D(y) ~ μ*((1-x^2)*y - x),
        D(x) ~ y]
-de = ODESystem(eqs)
+de = ODESystem(eqs; name=:van_der_pol)
 van = ODEFunction(de, [y,x], [μ], jac=true)
 
 """
@@ -87,16 +87,16 @@ with ``μ=10^6`` and ``u_0=[0,\\sqrt{3}]``
 
 Stiff parameters.
 """
-prob_ode_vanstiff = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1e6)
+prob_ode_vanderpol_stiff = ODEProblem(van,[0;sqrt(3)],(0.0,1.0),1e6)
 
 # ROBER
 @parameters t k₁ k₂ k₃
 @variables y₁(t) y₂(t) y₃(t)
-@derivatives D'~t
+D = Differential(t)
 eqs = [D(y₁) ~ -k₁*y₁+k₃*y₂*y₃,
        D(y₂) ~ k₁*y₁-k₂*y₂^2-k₃*y₂*y₃,
        D(y₃) ~ k₂*y₂^2]
-de = ODESystem(eqs)
+de = ODESystem(eqs; name=:rober)
 rober = ODEFunction(de, [y₁,y₂,y₃], [k₁,k₂,k₃], jac=true)
 
 """
@@ -169,11 +169,11 @@ prob_ode_threebody = ODEProblem(threebody,[0.994, 0.0, 0.0, big(-2.0015851063790
 
 @parameters t I₁ I₂ I₃
 @variables y₁(t) y₂(t) y₃(t)
-@derivatives D'~t
+D = Differential(t)
 eqs = [D(y₁) ~ I₁*y₂*y₃,
        D(y₂) ~ I₂*y₁*y₃,
        D(y₃) ~ I₃*y₁*y₂]
-de = ODESystem(eqs)
+de = ODESystem(eqs; name=:rigid_body)
 rigid = ODEFunction(de, [y₁,y₂,y₃], [I₁,I₂,I₃], jac=true)
 
 """
@@ -321,7 +321,7 @@ prob_ode_mm_linear = ODEProblem(mm_f,rand(4),(0.0,1.0))
 
 @parameters t p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
 @variables y1(t) y2(t) y3(t) y4(t) y5(t) y6(t) y7(t) y8(t)
-@derivatives D'~t
+D = Differential(t)
 eqs = [D(y1) ~ -p1*y1 + p2*y2 + p3*y3 + p4,
        D(y2) ~ p1*y1 - p5*y2,
        D(y3) ~ -p6*y3 + p2*y4 + p7*y5,
@@ -331,7 +331,7 @@ eqs = [D(y1) ~ -p1*y1 + p2*y2 + p3*y3 + p4,
                 p2*y6 + p11*y7,
        D(y7) ~  p10*y6*y8 - p12*y7,
        D(y8) ~ -p10*y6*y8 + p12*y7]
-de = ODESystem(eqs)
+de = ODESystem(eqs; name=:hires)
 hires = ODEFunction(de, [y1,y2,y3,y4,y5,y6,y7,y8],
                         [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12],
                         jac=true)
@@ -368,11 +368,11 @@ prob_ode_hires = ODEProblem(hires,u0,(0.0,321.8122), (1.71, 0.43, 8.32, 0.0007, 
 
 @parameters t p1 p2 p3
 @variables y1(t) y2(t) y3(t)
-@derivatives D'~t
+D = Differential(t)
 eqs = [D(y1) ~ p1*(y2+y1*(1-p2*y1-y2)),
        D(y2) ~ (y3-(1+y1)*y2)/p1,
        D(y3) ~ p3*(y1-y3)]
-de = ODESystem(eqs)
+de = ODESystem(eqs; name=:orego)
 jac = calculate_jacobian(de)
 orego = ODEFunction(de, [y1,y2,y3], [p1,p2,p3], jac=true)
 

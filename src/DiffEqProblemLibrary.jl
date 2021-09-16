@@ -1,6 +1,7 @@
 module DiffEqProblemLibrary
 
 module ODEProblemLibrary
+using Latexify
 function importodeproblems()
   @isdefined(prob_ode_linear) ||
   include(joinpath(@__DIR__, "ode/ode_premade_problems.jl"));
