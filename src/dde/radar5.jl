@@ -164,7 +164,8 @@ for ``t \in [0, 300]`` with history function
 ```math
   \phi_4(t) = 0, 
 ```
-```math  \phi_5(t) = 0, 
+```math
+  \phi_5(t) = 0, 
 ```
 ```math
   \phi_6(t) = 0,
