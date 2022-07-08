@@ -13,9 +13,10 @@ export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
         prob_ode_nonlinchem,
         SolverDiffEq, filament_prob,
         thomas, lorenz, aizawa, dadras, chen, rossler, rabinovich_fabrikant, sprott, hindmarsh_rose,
-        prob_ode_thomas, prob_ode_lorenz, prob_ode_aizawa, prob_ode_dadras, 
+        prob_ode_thomas, prob_ode_lorenz, prob_ode_aizawa, prob_ode_dadras,
         prob_ode_chen, prob_ode_rossler, prob_ode_rabinovich_fabrikant, prob_ode_sprott,
-        prob_ode_hindmarsh_rose
+        prob_ode_hindmarsh_rose,
+        prob_sir, prob_sird, prob_seir
 
 include("ode_linear_prob.jl")
 include("ode_simple_nonlinear_prob.jl")
@@ -24,3 +25,4 @@ include("pollution_prob.jl")
 include("filament_prob.jl")
 include("nonlinchem.jl")
 include("strange_attractors.jl")
+include("ode_sir_models.jl")
