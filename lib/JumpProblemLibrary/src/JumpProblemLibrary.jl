@@ -1,3 +1,5 @@
+module JumpProblemLibrary
+
 using DiffEqBase, Catalyst
 # Jump Example Problems
 export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
@@ -260,3 +262,5 @@ tf = 10.0
 """
 prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing,
                                            nothing)
+
+end # module

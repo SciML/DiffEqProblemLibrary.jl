@@ -1,0 +1,12 @@
+name = "JumpProblemLibrary"
+uuid = "faf0f6d7-8cee-47cb-b27c-1eb80cef534e"
+version = "0.1.0"
+
+[deps]
+Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
+DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
+
+[compat]
+Catalyst = "11, 12"
+DiffEqBase = "6"
+julia = "1.6"
