@@ -43,6 +43,8 @@ jobs:
         with:
           project: "${{ matrix.pkg == 'DiffEqProblemLibrary' && '.' || format('lib/{0}', matrix.pkg) }}"
       - uses: julia-actions/julia-processcoverage@v1
+        with:
+          directories: "${{ matrix.pkg == 'DiffEqProblemLibrary' && 'src' || format('lib/{0}/src', matrix.pkg) }}"
       - uses: codecov/codecov-action@v3
         with:
           files: lcov.info
