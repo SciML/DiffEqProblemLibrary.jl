@@ -7,6 +7,13 @@ Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
 
 [compat]
+Aqua = "0.5"
 Catalyst = "11, 12"
 DiffEqBase = "6"
 julia = "1.6"
+
+[extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+
+[targets]
+test = ["Aqua"]

@@ -20,13 +20,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pkg:
-          - DiffEqProblemLibrary
-          - DAEProblemLibrary
-          - DDEProblemLibrary
-          - JumpProblemLibrary
-          - ODEProblemLibrary
-          - SDEProblemLibrary
+        project:
+          - '.'
+          - lib/DAEProblemLibrary
+          - lib/DDEProblemLibrary
+          - lib/JumpProblemLibrary
+          - lib/ODEProblemLibrary
+          - lib/SDEProblemLibrary
         version:
           - '1'
           - '1.6'
@@ -38,13 +38,13 @@ jobs:
       - uses: julia-actions/cache@v1
       - uses: julia-actions/julia-buildpkg@v1
         with:
-          project: "${{ matrix.pkg == 'DiffEqProblemLibrary' && '.' || format('lib/{0}', matrix.pkg) }}"
+          project: ${{ matrix.project }}
       - uses: julia-actions/julia-runtest@v1
         with:
-          project: "${{ matrix.pkg == 'DiffEqProblemLibrary' && '.' || format('lib/{0}', matrix.pkg) }}"
+          project: ${{ matrix.project }}
       - uses: julia-actions/julia-processcoverage@v1
         with:
-          directories: "${{ matrix.pkg == 'DiffEqProblemLibrary' && 'src' || format('lib/{0}/src', matrix.pkg) }}"
+          directories: ${{ matrix.project }}/src
       - uses: codecov/codecov-action@v3
         with:
           files: lcov.info
