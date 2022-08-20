@@ -315,7 +315,7 @@ prob_dde_constant_2delays_oop
 
 function f_dde_constant_2delays_oop(u, h, p, t)
     T = typeof(t)
-    (h(p, t - T(1 / 3)) .+ h(p, t - T(1 / 5))) ./ oneunit(t)
+    (h(p, t - T(1 / 3)) .+ h(p, t - T(1 / 5))) ./ (-oneunit(t))
 end
 
 const prob_dde_constant_2delays_oop = DDEProblem(DDEFunction(f_dde_constant_2delays_oop;
@@ -366,7 +366,6 @@ prob_dde_constant_2delays_long_ip
 function f_dde_constant_2delays_long_ip!(du, u, h, p, t)
     T = typeof(t)
     du[1] = -(h(p, t - T(1 / 3); idxs = 1) + h(p, t - T(1 / 5); idxs = 1)) / oneunit(t)
-
     nothing
 end
 
