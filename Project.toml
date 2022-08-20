@@ -1,28 +1,19 @@
 name = "DiffEqProblemLibrary"
 uuid = "a077e3f3-b75c-5d7f-a0c6-6bc4c8ec64a9"
 authors = ["Chris Rackauckas <accounts@chrisrackauckas.com>"]
-version = "4.17.0"
+version = "5.0.0"
 
 [deps]
-Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
-DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
-DiffEqOperators = "9fdde737-9c7f-55bf-ade8-46b3f136cc48"
-Latexify = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
-ModelingToolkit = "961ee093-0014-501f-94e3-6117800e7a78"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+DAEProblemLibrary = "dfb8ca35-80a1-48ba-a605-84916a45b4f8"
+DDEProblemLibrary = "f42792ee-6ffc-4e2a-ae83-8ee2f22de800"
+JumpProblemLibrary = "faf0f6d7-8cee-47cb-b27c-1eb80cef534e"
+ODEProblemLibrary = "fdc4e326-1af4-4b90-96e7-779fcce2daa5"
+SDEProblemLibrary = "c72e72a9-a271-4b2b-8966-303ed956772e"
 
 [compat]
-Catalyst = "11, 12"
-DiffEqBase = "6"
-DiffEqOperators = "4"
-Latexify = "0.15"
-ModelingToolkit = "7,8"
+DAEProblemLibrary = "0.1"
+DDEProblemLibrary = "0.1"
+JumpProblemLibrary = "0.1"
+ODEProblemLibrary = "0.1"
+SDEProblemLibrary = "0.1"
 julia = "1.6"
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]

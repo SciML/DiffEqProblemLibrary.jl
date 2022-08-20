@@ -1,3 +1,5 @@
+module DAEProblemLibrary
+
 using DiffEqBase, Markdown
 
 #DAE Example Problems
@@ -31,3 +33,5 @@ Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Probl
 Usually solved on ``[0,1e11]``
 """
 prob_dae_resrob = DAEProblem(f, du0, u0, (0.0, 100000.0))
+
+end # module

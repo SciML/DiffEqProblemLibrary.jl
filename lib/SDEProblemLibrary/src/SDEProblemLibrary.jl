@@ -1,3 +1,5 @@
+module SDEProblemLibrary
+
 using DiffEqBase, Catalyst, Markdown
 #SDE Example Problems
 export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
@@ -501,3 +503,5 @@ An oscillatory chemical reaction system
 """
 prob_sde_oscilreact = SDEProblem(network, [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0],
                                  (0.0, 4000.0), p)
+
+end # module

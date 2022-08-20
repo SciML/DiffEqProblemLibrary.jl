@@ -1,5 +1,13 @@
-using DiffEqBase, DiffEqOperators, Random, LinearAlgebra
-using Markdown, ModelingToolkit
+module ODEProblemLibrary
+
+using DiffEqBase
+using DiffEqOperators
+using Latexify
+using ModelingToolkit
+
+using LinearAlgebra
+using Markdown
+using Random
 
 Random.seed!(100)
 
@@ -25,3 +33,5 @@ include("pollution_prob.jl")
 include("filament_prob.jl")
 include("nonlinchem.jl")
 include("strange_attractors.jl")
+
+end # module
