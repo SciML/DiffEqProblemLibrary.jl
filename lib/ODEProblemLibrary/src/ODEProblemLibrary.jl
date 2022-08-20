@@ -9,6 +9,9 @@ using LinearAlgebra
 using Markdown
 using Random
 
+import RuntimeGeneratedFunctions
+RuntimeGeneratedFunctions.init(@__MODULE__)
+
 Random.seed!(100)
 
 #ODE Example Problems

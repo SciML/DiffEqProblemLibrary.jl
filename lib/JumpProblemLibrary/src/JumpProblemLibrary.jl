@@ -1,6 +1,10 @@
 module JumpProblemLibrary
 
 using DiffEqBase, Catalyst
+
+import RuntimeGeneratedFunctions
+RuntimeGeneratedFunctions.init(@__MODULE__)
+
 # Jump Example Problems
 export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
 # examples mixing mass action and constant rate jumps
