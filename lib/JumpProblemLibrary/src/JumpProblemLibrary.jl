@@ -40,14 +40,15 @@ end k1 k2 k3 k4 k5 k6
 rates = [0.5, (20 * log(2.0) / 120.0), (log(2.0) / 120.0), (log(2.0) / 600.0), 0.025, 1.0]
 tf = 1000.0
 u0 = [1, 0, 0, 0]
-prob = DiscreteProblem(dna_rs, u0, (0.0, tf), rates)
+prob = DiscreteProblem(dna_rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 Nsims = 8000
 expected_avg = 5.926553750000000e+02
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
 """
     DNA negative feedback autoregulatory model. Protein acts as repressor.
 """
-prob_jump_dnarepressor = JumpProblemNetwork(dna_rs, rates, tf, u0, prob, prob_data)
+prob_jump_dnarepressor = JumpProblemNetwork(dna_rs, rates, tf, u0, prob, prob_data,
+                                            eval_module = @__MODULE__)
 
 bd_rs = @reaction_network begin
     k1, 0 --> A
@@ -56,14 +57,15 @@ end k1 k2
 rates = [1000.0, 10.0]
 tf = 1.0
 u0 = [0]
-prob = DiscreteProblem(bd_rs, u0, (0.0, tf), rates)
+prob = DiscreteProblem(bd_rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 Nsims = 16000
 expected_avg = t -> rates[1] / rates[2] .* (1.0 - exp.(-rates[2] * t))
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean_at_t" => expected_avg)
 """
     Simple birth-death process with constant production and degradation.
 """
-prob_jump_constproduct = JumpProblemNetwork(bd_rs, rates, tf, u0, prob, prob_data)
+prob_jump_constproduct = JumpProblemNetwork(bd_rs, rates, tf, u0, prob, prob_data,
+                                            eval_module = @__MODULE__)
 
 nonlin_rs = @reaction_network begin
     k1, 2A --> B
@@ -75,14 +77,15 @@ end k1 k2 k3 k4 k5
 rates = [1.0, 2.0, 0.5, 0.75, 0.25]
 tf = 0.01
 u0 = [200, 100, 150]
-prob = DiscreteProblem(nonlin_rs, u0, (0.0, tf), rates)
+prob = DiscreteProblem(nonlin_rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 Nsims = 32000
 expected_avg = 84.876015624999994
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
 """
     Example with a mix of nonlinear reactions, including third order
 """
-prob_jump_nonlinrxs = JumpProblemNetwork(nonlin_rs, rates, tf, u0, prob, prob_data)
+prob_jump_nonlinrxs = JumpProblemNetwork(nonlin_rs, rates, tf, u0, prob, prob_data,
+                                         eval_module = @__MODULE__)
 
 oscil_rs = @reaction_network begin
     0.01, (X, Y, Z) --> 0
@@ -98,11 +101,12 @@ oscil_rs = @reaction_network begin
 end
 u0 = [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0]  # Hill equations force use of floats!
 tf = 4000.0
-prob = DiscreteProblem(oscil_rs, u0, (0.0, tf))
+prob = DiscreteProblem(oscil_rs, u0, (0.0, tf), eval_module = @__MODULE__)
 """
     Oscillatory system, uses a mixture of jump types.
 """
-prob_jump_osc_mixed_jumptypes = JumpProblemNetwork(oscil_rs, nothing, tf, u0, prob, nothing)
+prob_jump_osc_mixed_jumptypes = JumpProblemNetwork(oscil_rs, nothing, tf, u0, prob, nothing,
+                                                   eval_module = @__MODULE__)
 
 specs_sym_to_name = Dict(:S1 => "R(a,l)",
                          :S2 => "L(r)",
@@ -144,7 +148,7 @@ u0[findfirst(isequal(:S1), statesyms)] = params[1]
 u0[findfirst(isequal(:S2), statesyms)] = params[2]
 u0[findfirst(isequal(:S3), statesyms)] = params[3]
 tf = 100.0
-prob = DiscreteProblem(rs, u0, (0.0, tf), rates)
+prob = DiscreteProblem(rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 """
     Multistate model from Gupta and Mendes,
     "An Overview of Network-Based and -Free Approaches for Stochastic Simulation of Biochemical Systems",
@@ -154,7 +158,8 @@ prob = DiscreteProblem(rs, u0, (0.0, tf), rates)
 prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
                                           Dict("specs_to_sym_name" => specs_sym_to_name,
                                                "rates_sym_to_idx" => rates_sym_to_idx,
-                                               "params" => params))
+                                               "params" => params),
+                                               eval_module = @__MODULE__)
 
 # generate the network
 N = 10  # number of genes
@@ -206,13 +211,14 @@ for i in 1:(2 * N)
     u0[findfirst(isequal(G[i]), states(rs))] = 1
 end
 tf = 2000.0
-prob = DiscreteProblem(rs, u0, (0.0, tf))
+prob = DiscreteProblem(rs, u0, (0.0, tf), eval_module = @__MODULE__)
 """
     Twenty-gene model from McCollum et al,
     "The sorting direct method for stochastic simulation of biochemical systems with varying reaction execution behavior"
     Comp. Bio. and Chem., 30, pg. 39-49 (2006).
 """
-prob_jump_twentygenes = JumpProblemNetwork(rs, nothing, tf, u0, prob, nothing)
+prob_jump_twentygenes = JumpProblemNetwork(rs, nothing, tf, u0, prob, nothing,
+                                           eval_module = @__MODULE__)
 
 rn = @reaction_network begin
     c1, G --> G + M
@@ -228,7 +234,7 @@ rnpar = [0.09, 0.05, 0.001, 0.0009, 0.00001, 0.0005, 0.005, 0.9]
 varlabels = ["G", "M", "P", "P2", "P2G"]
 u0 = [1000, 0, 0, 0, 0]
 tf = 4000.0
-prob = DiscreteProblem(rn, u0, (0.0, tf), rnpar)
+prob = DiscreteProblem(rn, u0, (0.0, tf), rnpar, eval_module = @__MODULE__)
 """
     Negative feedback autoregulatory gene expression model. Dimer is the repressor.
     Taken from Marchetti, Priami and Thanh,
@@ -236,7 +242,8 @@ prob = DiscreteProblem(rn, u0, (0.0, tf), rnpar)
     Springer (2017).
 """
 prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
-                                                  Dict("specs_names" => varlabels))
+                                                  Dict("specs_names" => varlabels),
+                                                  eval_module = @__MODULE__)
 
 # diffusion model
 function getDiffNetwork(N)
@@ -265,6 +272,6 @@ tf = 10.0
     u0 is a similar function that returns the initial condition vector.
 """
 prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing,
-                                           nothing)
+                                           nothing, eval_module = @__MODULE__)
 
 end # module

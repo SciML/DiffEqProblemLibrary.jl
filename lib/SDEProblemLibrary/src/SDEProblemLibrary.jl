@@ -506,6 +506,6 @@ p = (0.01, 3.0, 3.0, 4.5, 2.0, 15.0, 20.0, 0.005, 0.01, 0.05)
 An oscillatory chemical reaction system
 """
 prob_sde_oscilreact = SDEProblem(network, [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0],
-                                 (0.0, 4000.0), p)
+                                 (0.0, 4000.0), p, eval_module = @__MODULE__)
 
 end # module
