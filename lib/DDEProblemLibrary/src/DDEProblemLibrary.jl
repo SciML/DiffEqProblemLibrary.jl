@@ -6,11 +6,15 @@ using DiffEqBase
 # examples with constant delays
 export
 # DDEs with 1 constant delay
-      prob_dde_1delay_ip, prob_dde_1delay_oop, prob_dde_1delay_scalar,
-      prob_dde_1delay_long_ip, prob_dde_1delay_long_oop, prob_dde_1delay_long_scalar,
+      prob_dde_constant_1delay_ip, prob_dde_constant_1delay_oop,
+      prob_dde_constant_1delay_scalar,
+      prob_dde_constant_1delay_long_ip, prob_dde_constant_1delay_long_oop,
+      prob_dde_constant_1delay_long_scalar,
 # DDEs with 2 constant delays
-      prob_dde_2delays_ip, prob_dde_2delays_oop, prob_dde_2delays_scalar,
-      prob_dde_2delays_long_ip, prob_dde_2delays_long_oop, prob_dde_2delays_long_scalar
+      prob_dde_constant_2delays_ip, prob_dde_constant_2delays_oop,
+      prob_dde_constant_2delays_scalar,
+      prob_dde_constant_2delays_long_ip, prob_dde_constant_2delays_long_oop,
+      prob_dde_constant_2delays_long_scalar
 
 # DDETST problems
 export
