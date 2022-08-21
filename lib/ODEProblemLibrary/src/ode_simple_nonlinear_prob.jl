@@ -55,7 +55,7 @@ D = Differential(t)
 eqs = [D(y) ~ μ * ((1 - x^2) * y - x),
     D(x) ~ y]
 de = ODESystem(eqs; name = :van_der_pol)
-van = ODEFunction(de, [y, x], [μ], jac = true)
+van = ODEFunction(de, [y, x], [μ], jac = true, eval_module = @__MODULE__)
 
 """
 Van der Pol Equations
@@ -97,7 +97,7 @@ eqs = [D(y₁) ~ -k₁ * y₁ + k₃ * y₂ * y₃,
     D(y₂) ~ k₁ * y₁ - k₂ * y₂^2 - k₃ * y₂ * y₃,
     D(y₃) ~ k₂ * y₂^2]
 de = ODESystem(eqs; name = :rober)
-rober = ODEFunction(de, [y₁, y₂, y₃], [k₁, k₂, k₃], jac = true)
+rober = ODEFunction(de, [y₁, y₂, y₃], [k₁, k₂, k₃], jac = true, eval_module = @__MODULE__)
 
 """
 The Robertson biochemical reactions: (Stiff)
@@ -178,7 +178,7 @@ eqs = [D(y₁) ~ I₁ * y₂ * y₃,
     D(y₂) ~ I₂ * y₁ * y₃,
     D(y₃) ~ I₃ * y₁ * y₂]
 de = ODESystem(eqs; name = :rigid_body)
-rigid = ODEFunction(de, [y₁, y₂, y₃], [I₁, I₂, I₃], jac = true)
+rigid = ODEFunction(de, [y₁, y₂, y₃], [I₁, I₂, I₃], jac = true, eval_module = @__MODULE__)
 
 """
 Rigid Body Equations (Non-stiff)
@@ -372,7 +372,7 @@ u0[8] = 0.0057
 """
 Hires Problem (Stiff)
 
-It is in the form of 
+It is in the form of
 
 ```math
 \\frac{dy}{dt} = f(y)
@@ -388,7 +388,7 @@ where ``f`` is defined by
 
 ``f(y) = \\begin{pmatrix} −1.71y_1 & +0.43y_2 & +8.32y_3 & +0.0007y_4 & \\\\ 1.71y_1 & −8.75y_2 & & & \\\\ −10.03y_3 & +0.43y_4 & +0.035y_5 & & \\\\ 8.32y_2 & +1.71y_3 & −1.12y_4 & & \\\\ −1.745y_5 & +0.43y_6 & +0.43y_7 & & \\\\ −280y_6y_8 & +0.69y_4 & +1.71y_5 & −0.43y_6 & +0.69y_7 \\\\ 280y_6y_8 & −1.81y_7 & & & \\\\ −280y_6y_8 & +1.81y_7 & & & \\end{pmatrix}``
 
-Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf)  
+Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf)
 Notebook: [Hires.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
 """
 prob_ode_hires = ODEProblem(hires, u0, (0.0, 321.8122),
@@ -404,7 +404,7 @@ eqs = [D(y1) ~ p1 * (y2 + y1 * (1 - p2 * y1 - y2)),
     D(y3) ~ p3 * (y1 - y3)]
 de = ODESystem(eqs; name = :orego)
 jac = calculate_jacobian(de)
-orego = ODEFunction(de, [y1, y2, y3], [p1, p2, p3], jac = true)
+orego = ODEFunction(de, [y1, y2, y3], [p1, p2, p3], jac = true, eval_module = @__MODULE__)
 
 """
 Orego Problem (Stiff)

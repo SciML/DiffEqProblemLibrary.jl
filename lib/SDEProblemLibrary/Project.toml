@@ -1,6 +1,6 @@
 name = "SDEProblemLibrary"
 uuid = "c72e72a9-a271-4b2b-8966-303ed956772e"
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
