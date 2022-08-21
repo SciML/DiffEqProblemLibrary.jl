@@ -264,6 +264,7 @@ tf = 10.0
     network given the number of lattice sites.
     u0 is a similar function that returns the initial condition vector.
 """
-prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing)
+prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing,
+                                           nothing)
 
 end # module
