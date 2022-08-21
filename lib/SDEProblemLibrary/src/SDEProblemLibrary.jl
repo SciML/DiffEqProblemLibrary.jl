@@ -1,3 +1,5 @@
+__precompile__(false)
+
 module SDEProblemLibrary
 
 using DiffEqBase, Catalyst, Markdown
