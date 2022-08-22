@@ -1,4 +1,7 @@
 using ModelingToolkit
+using IfElse
+using Symbolics
+using Symbolics: unwrap
 using DiffEqBase, StaticArrays, LinearAlgebra
 
 @variables t y(t)[1:10]
@@ -444,13 +447,13 @@ nc5sys = let
           0.0000517759138449
           0.00000277777777778]
 
-    r = [sum(i->y[i, j]^2, 1:3) for j in 1:5]
+    r = [sqrt(sum(i->y[i, j]^2, 1:3)) for j in 1:5]
     d = [sqrt(sum(i->(y[i, k] - y[i, j])^2, 1:3)) for k in 1:5, j in 1:5]
     ssum(i, j) = sum(1:5) do k
         k == j && return 0
         ms[k] * (y[i, k] - y[i, j]) / d[j, k]^3
     end
-    nc5eqs = [D(D(y[i, j])) .~ k_2 * (-(m_0 + ms[j]) * y[i, j])/r[j]^3 + ssum(i, j) for i in 1:3, j in 1:5]
+    nc5eqs = [D(D(y[i, j])) ~ k_2 * (-(m_0 + ms[j]) * y[i, j])/r[j]^3 + ssum(i, j) for i in 1:3, j in 1:5]
     structural_simplify(ODESystem(nc5eqs, t, name = :nc5))
 end
 
@@ -466,4 +469,118 @@ ys′ = [-0.557160570446, 0.505696783289, 0.230578543901,
        -0.176860753121, -0.216393453025, -0.0148647893090,]
 y0 = y .=> reshape(ys, 3, 5)
 y0′ = D.(y) .=> reshape(ys′, 3, 5)
+# The orginal paper has t_f = 20, but 1000 looks way better
 nc5prob = ODEProblem{false}(nc5sys, [y0; y0′], (0, 20.0), cse = true)
+
+@variables y(t)[1:4]
+y = collect(y)
+@parameters ε
+nd1sys = let
+    r = sqrt(y[1]^2 + y[2]^2)^3
+    nd1eqs = [D(y[1]) ~ y[3],
+              D(y[2]) ~ y[4],
+              D(y[3]) ~ (-y[1]) / r,
+              D(y[4]) ~ (-y[2]) / r,
+             ]
+    ODESystem(nd1eqs, t, name = :nd1)
+end
+
+function make_ds(nd1sys, e)
+    y = collect(@nonamespace nd1sys.y)
+    y0 = [y[1] => 1-e; y[2:3] .=> 0.0; y[4] => sqrt((1 + e) / (1 - e))]
+    ODEProblem{false}(nd1sys, y0, (0, 20.0), [ε => e], cse = true)
+end
+nd1prob = make_ds(nd1sys, 0.1)
+nd2prob = make_ds(nd1sys, 0.3)
+nd3prob = make_ds(nd1sys, 0.5)
+nd4prob = make_ds(nd1sys, 0.7)
+nd5prob = make_ds(nd1sys, 0.9)
+
+ne1sys = let
+    ne1eqs = [D(y[1]) ~ y[2],
+              D(y[2]) ~ -(y[2] / (t + 1) + (1 - 0.25 / (t + 1)^2) * y[1]),
+             ]
+    ODESystem(ne1eqs, t, name = :ne1)
+end
+
+y0 = [y[1] => 0.6713967071418030; y[2] => 0.09540051444747446]
+ne1prob = ODEProblem{false}(ne1sys, y0, (0, 20.0), cse = true)
+
+ne2sys = let
+    ne2eqs = [D(y[1]) ~ y[2],
+              D(y[2]) ~ (1 - y[1]^2) * y[2] - y[1],
+             ]
+    ODESystem(ne2eqs, t, name = :ne2)
+end
+
+y0 = [y[1] => 2.0; y[2] => 0.0]
+ne2prob = ODEProblem{false}(ne2sys, y0, (0, 20.0), cse = true)
+
+ne3sys = let
+    ne3eqs = [D(y[1]) ~ y[2],
+              D(y[2]) ~ y[1]^3/6 - y[1] + 2 * sin(2.78535t),
+             ]
+    ODESystem(ne3eqs, t, name = :ne3)
+end
+
+ne3prob = ODEProblem{false}(ne3sys, y[1:2] .=> 0, (0, 20.0), cse = true)
+
+ne4sys = let
+    ne4eqs = [D(y[1]) ~ y[2],
+              D(y[2]) ~ 0.032 - 0.4 * y[2]^2,
+             ]
+    ODESystem(ne4eqs, t, name = :ne4)
+end
+
+ne4prob = ODEProblem{false}(ne4sys, [y[1] => 30.0, y[2] => 0.0], (0, 20.0), cse = true)
+
+ne5sys = let
+    ne5eqs = [D(y[1]) ~ y[2],
+              D(y[2]) ~ sqrt(1 - y[2]^2) / (25 - t),]
+    ODESystem(ne5eqs, t, name = :ne5)
+end
+
+ne5prob = ODEProblem{false}(ne5sys, y[1:2] .=> 0.0, (0, 20.0), cse = true)
+
+nf1sys = let
+    a = 0.1
+    cond = term(iseven, term(floor, Int, unwrap(t), type = Int), type = Bool)
+    b = 2a * y[2] - (pi^2 + a^2) * y[1]
+    nf1eqs = [D(y[1]) ~ y[2],
+              D(y[2]) ~ b + IfElse.ifelse(cond, 1, -1)]
+    ODESystem(nf1eqs, t, name = :nf1)
+end
+
+nf1prob = ODEProblem{false}(nf1sys, y[1:2] .=> 0.0, (0, 20.0))
+
+nf2sys = let
+    cond = term(iseven, term(floor, Int, unwrap(t), type = Int), type = Bool)
+    nf2eqs = [D(y[1]) ~ 55 - IfElse.ifelse(cond, 2y[1]/2, y[1]/2)]
+    ODESystem(nf2eqs, t, name = :nf2)
+end
+
+nf2prob = ODEProblem{false}(nf2sys, [y[1] .=> 110.0], (0, 20.0), cse = true)
+
+nf3sys = let
+    nf3eqs = [D(y[1]) ~ y[2],
+              D(y[2]) ~ 0.01 * y[2] * (1 - y[1]^2) - y[1] - abs(sin(pi * t))]
+    ODESystem(nf3eqs, t, name = :nf3)
+end
+
+nf3prob = ODEProblem{false}(nf3sys, y[1:2] .=> 0.0, (0, 20.0), cse = true)
+
+nf4sys = let
+    nf4eqs = [D(y[1]) ~ IfElse.ifelse(t <= 10, -2/21 - (120 * (t - 5)) / (1 + 4 * (t - 5)^2), -2y[1])]
+    ODESystem(nf4eqs, t, name = :nf4)
+end
+
+nf4prob = ODEProblem{false}(nf4sys, [y[1] => 1.0], (0, 20.0), cse = true)
+
+nf5sys = let
+    c = sum(i->cbrt(i)^4, 1:19)
+    p = sum(i->cbrt(t - i)^4, 1:19)
+    nf5eqs = [D(y[1]) ~ inv(c) * Symbolics.derivative(p, t) * y[1]]
+    ODESystem(nf5eqs, t, name = :nf5)
+end
+
+nf5prob = ODEProblem{false}(nf5sys, [y[1] => 1.0], (0, 20.0), cse = true)
