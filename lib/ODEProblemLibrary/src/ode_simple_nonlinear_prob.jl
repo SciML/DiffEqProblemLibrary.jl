@@ -8,7 +8,7 @@ function lotka(du, u, p, t)
 end
 
 """
-Lotka-Voltera Equations (Non-stiff)
+Lotka-Volterra Equations (Non-stiff)
 
 ```math
 \\frac{dx}{dt} = ax - bxy
@@ -19,7 +19,7 @@ Lotka-Voltera Equations (Non-stiff)
 
 with initial condition ``x=y=1``
 """
-prob_ode_lotkavoltera = ODEProblem(lotka, [1.0, 1.0], (0.0, 1.0), [1.5, 1.0, 3.0, 1.0])
+prob_ode_lotkavolterra = ODEProblem(lotka, [1.0, 1.0], (0.0, 1.0), [1.5, 1.0, 3.0, 1.0])
 
 ## Fitzhugh-Nagumo
 
