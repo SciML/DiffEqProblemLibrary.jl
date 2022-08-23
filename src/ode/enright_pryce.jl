@@ -101,10 +101,10 @@ sc2sys = let
     ODESystem(sc2eqs, t, name = :sc2)
 end
 
-sc2prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 0.1], dt = 1e-2, cse = true)
-sc3prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 1.0], dt = 1e-2, cse = true)
-sc3prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 10.0], dt = 1e-2, cse = true)
-sc3prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 20.0], dt = 1e-2, cse = true)
+sc2prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 0.1], dt = 1e-2)
+sc3prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 1.0], dt = 1e-2)
+sc4prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 10.0], dt = 1e-2)
+sc5prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 20.0], dt = 1e-2)
 
 sd1sys = let
     sd1eqs = [D(y[1]) ~ 0.2 * (y[2] - y[1]),
@@ -199,7 +199,7 @@ se3sys = let
     ODESystem(se3eqs, t, name = :se3)
 end
 
-se3prob = ODEProblem{false}(se3sys, [y[1:2] .=> 1.0; y[3] => 0.0], (0, 500.0), dt = 0.02, cse = true)
+se3prob = ODEProblem{false}(se3sys, [y[1:2] .=> 1.0; y[3] => 0.0], (0, 500.0), dt = 0.02)
 
 se4sys = let y = y
     y = y[1:4]
@@ -402,7 +402,7 @@ nc1sys = let y = y
     ODESystem(nc1eqs, t, name = :nc1)
 end
 
-nc1prob = ODEProblem{false}(nc1sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0), cse = true)
+nc1prob = ODEProblem{false}(nc1sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
 
 nc2sys = let y = y
     n = 10
@@ -488,7 +488,7 @@ end
 function make_ds(nd1sys, e)
     y = collect(@nonamespace nd1sys.y)
     y0 = [y[1] => 1-e; y[2:3] .=> 0.0; y[4] => sqrt((1 + e) / (1 - e))]
-    ODEProblem{false}(nd1sys, y0, (0, 20.0), [ε => e], cse = true)
+    ODEProblem{false}(nd1sys, y0, (0, 20.0), [ε => e])
 end
 nd1prob = make_ds(nd1sys, 0.1)
 nd2prob = make_ds(nd1sys, 0.3)
@@ -504,7 +504,7 @@ ne1sys = let
 end
 
 y0 = [y[1] => 0.6713967071418030; y[2] => 0.09540051444747446]
-ne1prob = ODEProblem{false}(ne1sys, y0, (0, 20.0), cse = true)
+ne1prob = ODEProblem{false}(ne1sys, y0, (0, 20.0))
 
 ne2sys = let
     ne2eqs = [D(y[1]) ~ y[2],
@@ -523,7 +523,7 @@ ne3sys = let
     ODESystem(ne3eqs, t, name = :ne3)
 end
 
-ne3prob = ODEProblem{false}(ne3sys, y[1:2] .=> 0, (0, 20.0), cse = true)
+ne3prob = ODEProblem{false}(ne3sys, y[1:2] .=> 0, (0, 20.0))
 
 ne4sys = let
     ne4eqs = [D(y[1]) ~ y[2],
@@ -532,22 +532,23 @@ ne4sys = let
     ODESystem(ne4eqs, t, name = :ne4)
 end
 
-ne4prob = ODEProblem{false}(ne4sys, [y[1] => 30.0, y[2] => 0.0], (0, 20.0), cse = true)
+ne4prob = ODEProblem{false}(ne4sys, [y[1] => 30.0, y[2] => 0.0], (0, 20.0))
 
 ne5sys = let
     ne5eqs = [D(y[1]) ~ y[2],
-              D(y[2]) ~ sqrt(1 - y[2]^2) / (25 - t),]
+              D(y[2]) ~ sqrt(1 + y[2]^2) / (25 - t),]
     ODESystem(ne5eqs, t, name = :ne5)
 end
 
-ne5prob = ODEProblem{false}(ne5sys, y[1:2] .=> 0.0, (0, 20.0), cse = true)
+ne5prob = ODEProblem{false}(ne5sys, y[1:2] .=> 0.0, (0, 20.0))
 
+@inline myifelse(x, y, z) = ifelse(x, y, z)
 nf1sys = let
     a = 0.1
     cond = term(iseven, term(floor, Int, unwrap(t), type = Int), type = Bool)
     b = 2a * y[2] - (pi^2 + a^2) * y[1]
     nf1eqs = [D(y[1]) ~ y[2],
-              D(y[2]) ~ b + IfElse.ifelse(cond, 1, -1)]
+              D(y[2]) ~ b + term(myifelse, cond, 1, -1, type=Real)]
     ODESystem(nf1eqs, t, name = :nf1)
 end
 
@@ -555,11 +556,11 @@ nf1prob = ODEProblem{false}(nf1sys, y[1:2] .=> 0.0, (0, 20.0))
 
 nf2sys = let
     cond = term(iseven, term(floor, Int, unwrap(t), type = Int), type = Bool)
-    nf2eqs = [D(y[1]) ~ 55 - IfElse.ifelse(cond, 2y[1]/2, y[1]/2)]
+    nf2eqs = [D(y[1]) ~ 55 - term(myifelse, cond, 2y[1]/2, y[1]/2, type=Real)]
     ODESystem(nf2eqs, t, name = :nf2)
 end
 
-nf2prob = ODEProblem{false}(nf2sys, [y[1] .=> 110.0], (0, 20.0), cse = true)
+nf2prob = ODEProblem{false}(nf2sys, [y[1] .=> 110.0], (0, 20.0))
 
 nf3sys = let
     nf3eqs = [D(y[1]) ~ y[2],
@@ -567,14 +568,14 @@ nf3sys = let
     ODESystem(nf3eqs, t, name = :nf3)
 end
 
-nf3prob = ODEProblem{false}(nf3sys, y[1:2] .=> 0.0, (0, 20.0), cse = true)
+nf3prob = ODEProblem{false}(nf3sys, y[1:2] .=> 0.0, (0, 20.0))
 
 nf4sys = let
-    nf4eqs = [D(y[1]) ~ IfElse.ifelse(t <= 10, -2/21 - (120 * (t - 5)) / (1 + 4 * (t - 5)^2), -2y[1])]
+    nf4eqs = [D(y[1]) ~ term(myifelse, t <= 10, -2/21 - (120 * (t - 5)) / (1 + 4 * (t - 5)^2), -2y[1], type=Real)]
     ODESystem(nf4eqs, t, name = :nf4)
 end
 
-nf4prob = ODEProblem{false}(nf4sys, [y[1] => 1.0], (0, 20.0), cse = true)
+nf4prob = ODEProblem{false}(nf4sys, [y[1] => 1.0], (0, 20.0))
 
 nf5sys = let
     c = sum(i->cbrt(i)^4, 1:19)
@@ -583,4 +584,4 @@ nf5sys = let
     ODESystem(nf5eqs, t, name = :nf5)
 end
 
-nf5prob = ODEProblem{false}(nf5sys, [y[1] => 1.0], (0, 20.0), cse = true)
+nf5prob = ODEProblem{false}(nf5sys, [y[1] => 1.0], (0, 20.0))
