@@ -25,7 +25,7 @@ linear_analytic(u0, p, t, W) = @.(u0*exp(0.63155t + 0.87W))
 ```math
 du_t = αudt + βudW_t
 ```
-where ``α=1.01``, ``β=0.87``, and initial condtion ``u_0=1/2``, with solution
+where ``α=1.01``, ``β=0.87``, and initial condition ``u_0=1/2``, with solution
 
 ```math
 u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
@@ -48,7 +48,7 @@ f_linear_iip(du, u, p, t) = @.(du=1.01 * u)
 ```math
 du_t = αudt + βudW_t
 ```
-where ``α=1.01``, ``β=0.87``, and initial condtion ``u_0=\frac{1}{2}`` with solution
+where ``α=1.01``, ``β=0.87``, and initial condition ``u_0=\frac{1}{2}`` with solution
 
 ```math
 u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
@@ -70,7 +70,7 @@ ff_cubic = SDEFunction(f_cubic, σ_cubic, analytic = cubic_analytic)
 du_t = \frac{1}{4}u(1-u^2)dt + \frac{1}{2}(1-u^2)dW_t
 ```
 
-and initial condtion ``u_0=\frac{1}{2}``, with solution
+and initial condition ``u_0=\frac{1}{2}``, with solution
 
 ```math
 u(u0,p,t,W_t)=\frac{(1+u_0)\exp(W_t)+u)0-1}{(1+u_0)\exp(W_t)+1-u_0}
@@ -145,7 +145,7 @@ dy = (x(ρ-z) - y)dt + αdW_t
 dz = (xy - βz)dt + αdW_t
 ```
 
-with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and inital condition ``u_0=[1;1;1]``.
+with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and initial condition ``u_0=[1;1;1]``.
 """
 prob_sde_lorenz = SDEProblem(f_lorenz, σ_lorenz, ones(3), (0.0, 10.0), (10.0, 28.0, 2.66))
 
