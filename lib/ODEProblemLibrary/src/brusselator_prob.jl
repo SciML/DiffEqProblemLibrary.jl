@@ -151,7 +151,7 @@ v(0,t) = v(1,t) = 3
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 6
 """
-prob_ode_brusselator_1d = ODEProblem(brusselator_1d,
+prob_ode_brusselator_1d = ODEProblem(brusselator_1d_loop,
                                      init_brusselator_1d(N_brusselator_1d),
                                      (0.0, 10.0),
                                      (1.0, 3.0, 1 / 41, zeros(N_brusselator_1d)))
