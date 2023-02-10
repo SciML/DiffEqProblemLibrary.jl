@@ -97,23 +97,28 @@ prob_ode_brusselator_2d = ODEProblem(brusselator_2d_loop,
                                       length(xyd_brusselator)))
 
 const N_brusselator_1d = 40
-const D_brusselator_u = CenteredDifference{Float64}(2, 2, 1 / (N_brusselator_1d - 1),
-                                                    N_brusselator_1d)
-const D_brusselator_v = CenteredDifference{Float64}(2, 2, 1 / (N_brusselator_1d - 1),
-                                                    N_brusselator_1d)
-const N = 32
 
 function brusselator_1d_loop(du, u, p, t)
     A, B, alpha, dx = p
     alpha = alpha / dx^2
-    @inbounds for i in 2:N-1
+    @inbounds for i in 2:(N - 1)
         x = xyd_brusselator[i]
         ip1, im1 = i + 1, i - 1
         du[i, 1] = alpha * (u[im1, 1] + u[ip1, 1] - 2u[i, 1]) +
-                      A + u[i, 1]^2 * u[i, 2] - (B + 1) * u[i, 1]
+                   A + u[i, 1]^2 * u[i, 2] - (B + 1) * u[i, 1]
         du[i, 2] = alpha * (u[im1, 2] + u[ip1, 2] - 2u[i, 2]) +
-                      B * u[i, 1] - u[i, 1]^2 * u[i, 2]
+                   B * u[i, 1] - u[i, 1]^2 * u[i, 2]
     end
+end
+
+function init_brusselator_1d(N)
+    u = zeros(N, 2)
+    x = range(0, stop = 1, length = N)
+    for i in 1:N
+        u[i, 1] = 1 + sin(2pi * x[i])
+        u[i, 2] = 3.0
+    end
+    u
 end
 
 """
@@ -150,13 +155,3 @@ prob_ode_brusselator_1d = ODEProblem(brusselator_1d,
                                      init_brusselator_1d(N_brusselator_1d),
                                      (0.0, 10.0),
                                      (1.0, 3.0, 1 / 41, zeros(N_brusselator_1d)))
-
-function init_brusselator_1d(N)
-    u = zeros(N, 2)
-    x = range(0, stop = 1, length = N)
-    for i in 1:N
-        u[i, 1] = 1 + sin(2pi * x[i])
-        u[i, 2] = 3.0
-    end
-    u
-end
