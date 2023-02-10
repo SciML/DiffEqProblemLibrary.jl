@@ -3,7 +3,6 @@ __precompile__(false)
 module ODEProblemLibrary
 
 using DiffEqBase
-using DiffEqOperators
 using Latexify
 using ModelingToolkit
 
