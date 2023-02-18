@@ -1,6 +1,6 @@
 # Strange attractors from https://www.dynamicmath.xyz/strange-attractors/ and
 # https://en.wikipedia.org/wiki/List_of_chaotic_maps
-# Opted for the equations as reported in papers 
+# Opted for the equations as reported in papers
 
 # Thomas
 @parameters t b=0.208186
@@ -184,7 +184,7 @@ sprott equations
 $(latexify(sprott))
 ```
 
-[Reference](http://sprott.physics.wisc.edu/pubs/paper423.pdf)
+[Reference](https://sprott.physics.wisc.edu/pubs/paper423.pdf)
 
 """
 prob_ode_sprott = ODEProblem(sprott, [], (0.0, 1.0))
