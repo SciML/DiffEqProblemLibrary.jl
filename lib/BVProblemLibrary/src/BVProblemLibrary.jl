@@ -837,8 +837,8 @@ function prob_bvp_linear_15_bc!(res, u, p, t)
     res[1] = u[1][1] - 1
     res[2] = u[end][1] - 1
 end
-prob_bvp_linear_14_function = ODEFunction(prob_bvp_linear_15_f!)
-prob_bvp_linear_14_tspan = (-1., 1.)
+prob_bvp_linear_15_function = ODEFunction(prob_bvp_linear_15_f!)
+prob_bvp_linear_15_tspan = (-1., 1.)
 @doc raw"""
     prob_bvp_linear_15
 
