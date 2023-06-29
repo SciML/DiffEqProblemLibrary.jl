@@ -1,15 +1,15 @@
-λ=1
+λ = 1
 
 ################### nonlinear_bvp1 ############################
 # No analytical solution
-prob_bvp_nonlinear_1_f(t, u1, u2)=-exp(u1)*u2 + π/2*sin(π*t/2)*exp(2*u1)
+prob_bvp_nonlinear_1_f(t, u1, u2) = -exp(u1) * u2 + π / 2 * sin(π * t / 2) * exp(2 * u1)
 function prob_bvp_nonlinear_1_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_1_f(t, u[1], u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_1_f(t, u[1], u[2])
 end
 function prob_bvp_nonlinear_1_bc!(res, u, p, t)
     res[1] = u[1][1] - 1
-    res[2] = u[end][1] - exp(-1/p)
+    res[2] = u[end][1] - exp(-1 / p)
 end
 prob_bvp_nonlinear_1_function = ODEFunction(prob_bvp_nonlinear_1_f!)
 prob_bvp_nonlinear_1_tspan = (0, 1)
@@ -52,27 +52,28 @@ y_2(t) = y_1'(t)
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=230)
 """
-prob_bvp_nonlinear_1 = BVProblem(prob_bvp_nonlinear_1_function, prob_bvp_nonlinear_1_bc!, [1., 0.], prob_bvp_nonlinear_1_tspan, λ)
-
-
-
-
+prob_bvp_nonlinear_1 = BVProblem(prob_bvp_nonlinear_1_function,
+    prob_bvp_nonlinear_1_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_1_tspan,
+    λ)
 
 ################### nonlinear_bvp2 ############################
 function prob_bvp_nonlinear_2_analytic(u, λ, t)
-    [1+λ*log(cosh((t-0.745)/λ)),
-    tanh((t-0.745)/λ)/λ]
+    [1 + λ * log(cosh((t - 0.745) / λ)),
+        tanh((t - 0.745) / λ) / λ]
 end
-prob_bvp_nonlinear_2_f(u2)=-u2^2+1
+prob_bvp_nonlinear_2_f(u2) = -u2^2 + 1
 function prob_bvp_nonlinear_2_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_2_f(u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_2_f(u[2])
 end
 function prob_bvp_nonlinear_2_bc!(res, u, p, t)
-    res[1] = u[1][1] - 1 - p*log(cosh(-0.745/p))
-    res[2] = u[end][1] - 1 - p*log(cosh(0.255/p))
+    res[1] = u[1][1] - 1 - p * log(cosh(-0.745 / p))
+    res[2] = u[end][1] - 1 - p * log(cosh(0.255 / p))
 end
-prob_bvp_nonlinear_2_function = ODEFunction(prob_bvp_nonlinear_2_f!, analytic=prob_bvp_nonlinear_2_analytic)
+prob_bvp_nonlinear_2_function = ODEFunction(prob_bvp_nonlinear_2_f!,
+    analytic = prob_bvp_nonlinear_2_analytic)
 prob_bvp_nonlinear_2_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_2
@@ -113,30 +114,29 @@ y_2(t) = y_1'(t)
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=234)
 """
-prob_bvp_nonlinear_2 = BVProblem(prob_bvp_nonlinear_2_function, prob_bvp_nonlinear_2_bc!, [1., 0.], prob_bvp_nonlinear_2_tspan, λ)
-
-
-
-
-
-
+prob_bvp_nonlinear_2 = BVProblem(prob_bvp_nonlinear_2_function,
+    prob_bvp_nonlinear_2_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_2_tspan,
+    λ)
 
 ################### nonlinear_bvp3 ############################
 function prob_bvp_nonlinear_3_analytic(u, λ, t)
-    a=-1/sqrt(λ)
-    [exp(a*t),
-    a*exp(a*t)]
+    a = -1 / sqrt(λ)
+    [exp(a * t),
+        a * exp(a * t)]
 end
-prob_bvp_nonlinear_3_f(t, u1, p)=u1+u1^2-exp(-2*t/sqrt(p))
+prob_bvp_nonlinear_3_f(t, u1, p) = u1 + u1^2 - exp(-2 * t / sqrt(p))
 function prob_bvp_nonlinear_3_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_3_f(t, u[1], p)
+    du[2] = 1 / p * prob_bvp_nonlinear_3_f(t, u[1], p)
 end
 function prob_bvp_nonlinear_3_bc!(res, u, p, t)
     res[1] = u[1][1] - 1
-    res[2] = u[end][1] - exp(-1/sqrt(λ))
+    res[2] = u[end][1] - exp(-1 / sqrt(λ))
 end
-prob_bvp_nonlinear_3_function = ODEFunction(prob_bvp_nonlinear_3_f!, analytic=prob_bvp_nonlinear_3_analytic)
+prob_bvp_nonlinear_3_function = ODEFunction(prob_bvp_nonlinear_3_f!,
+    analytic = prob_bvp_nonlinear_3_analytic)
 prob_bvp_nonlinear_3_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_3
@@ -177,23 +177,22 @@ y_2(t) = y_1'(t)
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=237)
 """
-prob_bvp_nonlinear_3 = BVProblem(prob_bvp_nonlinear_3_function, prob_bvp_nonlinear_3_bc!, [1., 0.], prob_bvp_nonlinear_3_tspan, λ)
-
-
-
-
-
+prob_bvp_nonlinear_3 = BVProblem(prob_bvp_nonlinear_3_function,
+    prob_bvp_nonlinear_3_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_3_tspan,
+    λ)
 
 ################### nonlinear_bvp4 ############################
 # No analytical solution
-prob_bvp_nonlinear_4_f(u1, u2)=-u2-u1^2
+prob_bvp_nonlinear_4_f(u1, u2) = -u2 - u1^2
 function prob_bvp_nonlinear_4_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_4_f(u[1], u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_4_f(u[1], u[2])
 end
 function prob_bvp_nonlinear_4_bc!(res, u, p, t)
     res[1] = u[1][1]
-    res[2] = u[end][1] - 1/2
+    res[2] = u[end][1] - 1 / 2
 end
 prob_bvp_nonlinear_4_function = ODEFunction(prob_bvp_nonlinear_4_f!)
 prob_bvp_nonlinear_4_tspan = (0, 1)
@@ -229,17 +228,15 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=240)
 """
-prob_bvp_nonlinear_4 = BVProblem(prob_bvp_nonlinear_4_function, prob_bvp_nonlinear_4_bc!, [1., 0.], prob_bvp_nonlinear_4_tspan, λ)
-
-
-
-
-
-
+prob_bvp_nonlinear_4 = BVProblem(prob_bvp_nonlinear_4_function,
+    prob_bvp_nonlinear_4_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_4_tspan,
+    λ)
 
 ################### nonlinear_bvp5 ############################
 # No analytical solution
-prob_bvp_nonlinear_5_f(u1, p)=p*sinh(p*u1)
+prob_bvp_nonlinear_5_f(u1, p) = p * sinh(p * u1)
 function prob_bvp_nonlinear_5_f!(du, u, p, t)
     du[1] = u[2]
     du[2] = prob_bvp_nonlinear_5_f(u[1], p)
@@ -282,19 +279,22 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=243)
 """
-prob_bvp_nonlinear_5 = BVProblem(prob_bvp_nonlinear_5_function, prob_bvp_nonlinear_5_bc!, [1., 0.], prob_bvp_nonlinear_5_tspan, λ)
-
-
-
+prob_bvp_nonlinear_5 = BVProblem(prob_bvp_nonlinear_5_function,
+    prob_bvp_nonlinear_5_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_5_tspan,
+    λ)
 
 ################### nonlinear_bvp6 ############################
 # No analytical solution
-γ=1.4
-A(t)=1+t^2
-prob_bvp_nonlinear_6_f(t, u1, u2, p)=((1+p)/2-p*2*t)*u1*u2 - u2/u1 - 2*t/A(t)*(1-(p-1)/2*u1^2)
+γ = 1.4
+A(t) = 1 + t^2
+function prob_bvp_nonlinear_6_f(t, u1, u2, p)
+    ((1 + p) / 2 - p * 2 * t) * u1 * u2 - u2 / u1 - 2 * t / A(t) * (1 - (p - 1) / 2 * u1^2)
+end
 function prob_bvp_nonlinear_6_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = prob_bvp_nonlinear_6_f(t, u[1], u[2], p)/(p*A(t)*u[1])
+    du[2] = prob_bvp_nonlinear_6_f(t, u[1], u[2], p) / (p * A(t) * u[1])
 end
 function prob_bvp_nonlinear_6_bc!(res, u, p, t)
     res[1] = u[1][1] - 0.9129
@@ -336,23 +336,22 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=247)
 """
-prob_bvp_nonlinear_6 = BVProblem(prob_bvp_nonlinear_6_function, prob_bvp_nonlinear_6_bc!, [1., 0.], prob_bvp_nonlinear_6_tspan, λ)
-
-
-
-
-
+prob_bvp_nonlinear_6 = BVProblem(prob_bvp_nonlinear_6_function,
+    prob_bvp_nonlinear_6_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_6_tspan,
+    λ)
 
 ################### nonlinear_bvp7 ############################
 # No analytical solution
-prob_bvp_nonlinear_7_f(u1, u2)=-u1*u2+u1
+prob_bvp_nonlinear_7_f(u1, u2) = -u1 * u2 + u1
 function prob_bvp_nonlinear_7_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_7_f(u[1], u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_7_f(u[1], u[2])
 end
 function prob_bvp_nonlinear_7_bc!(res, u, p, t)
-    res[1] = u[1][1] + 1/3
-    res[2] = u[end][1] - 1/3
+    res[1] = u[1][1] + 1 / 3
+    res[2] = u[end][1] - 1 / 3
 end
 prob_bvp_nonlinear_7_function = ODEFunction(prob_bvp_nonlinear_7_f!)
 prob_bvp_nonlinear_7_tspan = (0, 1)
@@ -388,23 +387,22 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=250)
 """
-prob_bvp_nonlinear_7 = BVProblem(prob_bvp_nonlinear_7_function, prob_bvp_nonlinear_7_bc!, [1., 0.], prob_bvp_nonlinear_7_tspan, λ)
-
-
-
-
-
+prob_bvp_nonlinear_7 = BVProblem(prob_bvp_nonlinear_7_function,
+    prob_bvp_nonlinear_7_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_7_tspan,
+    λ)
 
 ################### nonlinear_bvp8 ############################
 # No analytical solution
-prob_bvp_nonlinear_8_f(u1, u2)=-u1*u2+u1
+prob_bvp_nonlinear_8_f(u1, u2) = -u1 * u2 + u1
 function prob_bvp_nonlinear_8_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_8_f(u[1], u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_8_f(u[1], u[2])
 end
 function prob_bvp_nonlinear_8_bc!(res, u, p, t)
     res[1] = u[1][1] - 1
-    res[2] = u[end][1] + 1/3
+    res[2] = u[end][1] + 1 / 3
 end
 prob_bvp_nonlinear_8_function = ODEFunction(prob_bvp_nonlinear_8_f!)
 prob_bvp_nonlinear_8_tspan = (0, 1)
@@ -440,23 +438,22 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=252)
 """
-prob_bvp_nonlinear_8 = BVProblem(prob_bvp_nonlinear_8_function, prob_bvp_nonlinear_8_bc!, [1., 0.], prob_bvp_nonlinear_8_tspan, λ)
-
-
-
-
-
+prob_bvp_nonlinear_8 = BVProblem(prob_bvp_nonlinear_8_function,
+    prob_bvp_nonlinear_8_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_8_tspan,
+    λ)
 
 ################### nonlinear_bvp9 ############################
 # No analytical solution
-prob_bvp_nonlinear_9_f(u1, u2)=-u1*u2+u1
+prob_bvp_nonlinear_9_f(u1, u2) = -u1 * u2 + u1
 function prob_bvp_nonlinear_9_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_9_f(u[1], u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_9_f(u[1], u[2])
 end
 function prob_bvp_nonlinear_9_bc!(res, u, p, t)
     res[1] = u[1][1] - 1
-    res[2] = u[end][1] - 1/3
+    res[2] = u[end][1] - 1 / 3
 end
 prob_bvp_nonlinear_9_function = ODEFunction(prob_bvp_nonlinear_9_f!)
 prob_bvp_nonlinear_9_tspan = (0, 1)
@@ -492,25 +489,22 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=252)
 """
-prob_bvp_nonlinear_9 = BVProblem(prob_bvp_nonlinear_9_function, prob_bvp_nonlinear_9_bc!, [1., 0.], prob_bvp_nonlinear_9_tspan, λ)
-
-
-
-
-
-
-
+prob_bvp_nonlinear_9 = BVProblem(prob_bvp_nonlinear_9_function,
+    prob_bvp_nonlinear_9_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_9_tspan,
+    λ)
 
 ################### nonlinear_bvp10 ############################
 # No analytical solution
-prob_bvp_nonlinear_10_f(u1, u2)=-u1*u2+u1
+prob_bvp_nonlinear_10_f(u1, u2) = -u1 * u2 + u1
 function prob_bvp_nonlinear_10_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_10_f(u[1], u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_10_f(u[1], u[2])
 end
 function prob_bvp_nonlinear_10_bc!(res, u, p, t)
     res[1] = u[1][1] - 1
-    res[2] = u[end][1] - 3/2
+    res[2] = u[end][1] - 3 / 2
 end
 prob_bvp_nonlinear_10_function = ODEFunction(prob_bvp_nonlinear_10_f!)
 prob_bvp_nonlinear_10_tspan = (0, 1)
@@ -546,28 +540,22 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=256)
 """
-prob_bvp_nonlinear_10 = BVProblem(prob_bvp_nonlinear_10_function, prob_bvp_nonlinear_10_bc!, [1., 0.], prob_bvp_nonlinear_10_tspan, λ)
-
-
-
-
-
-
-
-
-
-
+prob_bvp_nonlinear_10 = BVProblem(prob_bvp_nonlinear_10_function,
+    prob_bvp_nonlinear_10_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_10_tspan,
+    λ)
 
 ################### nonlinear_bvp11 ############################
 # No analytical solution
-prob_bvp_nonlinear_11_f(u1, u2)=-u1*u2+u1
+prob_bvp_nonlinear_11_f(u1, u2) = -u1 * u2 + u1
 function prob_bvp_nonlinear_11_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_11_f(u[1], u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_11_f(u[1], u[2])
 end
 function prob_bvp_nonlinear_11_bc!(res, u, p, t)
     res[1] = u[1][1]
-    res[2] = u[end][1] - 3/2
+    res[2] = u[end][1] - 3 / 2
 end
 prob_bvp_nonlinear_11_function = ODEFunction(prob_bvp_nonlinear_11_f!)
 prob_bvp_nonlinear_11_tspan = (0, 1)
@@ -603,24 +591,22 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=258)
 """
-prob_bvp_nonlinear_11 = BVProblem(prob_bvp_nonlinear_11_function, prob_bvp_nonlinear_11_bc!, [1., 0.], prob_bvp_nonlinear_11_tspan, λ)
-
-
-
-
-
-
+prob_bvp_nonlinear_11 = BVProblem(prob_bvp_nonlinear_11_function,
+    prob_bvp_nonlinear_11_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_11_tspan,
+    λ)
 
 ################### nonlinear_bvp12 ############################
 # No analytical solution
-prob_bvp_nonlinear_12_f(u1, u2)=-u1*u2+u1
+prob_bvp_nonlinear_12_f(u1, u2) = -u1 * u2 + u1
 function prob_bvp_nonlinear_12_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*prob_bvp_nonlinear_12_f(u[1], u[2])
+    du[2] = 1 / p * prob_bvp_nonlinear_12_f(u[1], u[2])
 end
 function prob_bvp_nonlinear_12_bc!(res, u, p, t)
-    res[1] = u[1][1] + 7/6
-    res[2] = u[end][1] - 3/2
+    res[1] = u[1][1] + 7 / 6
+    res[2] = u[end][1] - 3 / 2
 end
 prob_bvp_nonlinear_12_function = ODEFunction(prob_bvp_nonlinear_12_f!)
 prob_bvp_nonlinear_12_tspan = (0, 1)
@@ -656,22 +642,21 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=260)
 """
-prob_bvp_nonlinear_12 = BVProblem(prob_bvp_nonlinear_12_function, prob_bvp_nonlinear_12_bc!, [1., 0.], prob_bvp_nonlinear_12_tspan, λ)
-
-
-
-
-
-
-
+prob_bvp_nonlinear_12 = BVProblem(prob_bvp_nonlinear_12_function,
+    prob_bvp_nonlinear_12_bc!,
+    [1.0, 0.0],
+    prob_bvp_nonlinear_12_tspan,
+    λ)
 
 ################### nonlinear_bvp13 ############################
 # No analytical solution
-prob_bvp_nonlinear_13_f(z, θ, M, Q, p) = 1/p*((z-1)*cos(θ) - M*sec(θ)) + p*Q*tan(θ)
+function prob_bvp_nonlinear_13_f(z, θ, M, Q, p)
+    1 / p * ((z - 1) * cos(θ) - M * sec(θ)) + p * Q * tan(θ)
+end
 function prob_bvp_nonlinear_13_f!(du, u, p, t)
     du[1] = sin(u[2])
     du[2] = u[3]
-    du[3] = -u[4]/p
+    du[3] = -u[4] / p
     du[4] = prob_bvp_nonlinear_13_f(u[1], u[2], u[3], u[4], p)
 end
 function prob_bvp_nonlinear_13_bc!(res, u, p, t)
@@ -720,17 +705,15 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=262)
 """
-prob_bvp_nonlinear_13 = BVProblem(prob_bvp_nonlinear_13_function, prob_bvp_nonlinear_13_bc!, [1., 0., 0., 0.], prob_bvp_nonlinear_13_tspan, λ)
-
-
-
-
-
-
+prob_bvp_nonlinear_13 = BVProblem(prob_bvp_nonlinear_13_function,
+    prob_bvp_nonlinear_13_bc!,
+    [1.0, 0.0, 0.0, 0.0],
+    prob_bvp_nonlinear_13_tspan,
+    λ)
 
 ################### nonlinear_bvp14 ############################
 # No analytical solution
-prob_bvp_nonlinear_14_f(y1, y2, y3, y4, p) = p*(y2*y3-y1*y4)
+prob_bvp_nonlinear_14_f(y1, y2, y3, y4, p) = p * (y2 * y3 - y1 * y4)
 function prob_bvp_nonlinear_14_f!(du, u, p, t)
     du[1] = u[2]
     du[2] = u[3]
@@ -785,23 +768,21 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=264)
 """
-prob_bvp_nonlinear_14 = BVProblem(prob_bvp_nonlinear_14_function, prob_bvp_nonlinear_14_bc!, [1., 0., 0., 0.], prob_bvp_nonlinear_14_tspan, λ)
-
-
-
-
-
-
+prob_bvp_nonlinear_14 = BVProblem(prob_bvp_nonlinear_14_function,
+    prob_bvp_nonlinear_14_bc!,
+    [1.0, 0.0, 0.0, 0.0],
+    prob_bvp_nonlinear_14_tspan,
+    λ)
 
 ################### nonlinear_bvp15 ############################
 # No analytical solution
 function prob_bvp_nonlinear_15_f!(du, u, p, t)
     du[1] = u[2]
-    du[2] = 1/p*u[1]*u[4]-u[3]*u[2]
+    du[2] = 1 / p * u[1] * u[4] - u[3] * u[2]
     du[3] = u[4]
     du[4] = u[5]
     du[5] = u[6]
-    du[6] = 1/p*(-u[3]*u[6]-u[1]*u[2])
+    du[6] = 1 / p * (-u[3] * u[6] - u[1] * u[2])
 end
 function prob_bvp_nonlinear_15_bc!(res, u, p, t)
     res[1] = u[1][1] + 1
@@ -853,4 +834,8 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=266)
 """
-prob_bvp_nonlinear_15 = BVProblem(prob_bvp_nonlinear_15_function, prob_bvp_nonlinear_15_bc!, [1., 0., 0., 0., 0., 0.], prob_bvp_nonlinear_15_tspan, λ)
+prob_bvp_nonlinear_15 = BVProblem(prob_bvp_nonlinear_15_function,
+    prob_bvp_nonlinear_15_bc!,
+    [1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    prob_bvp_nonlinear_15_tspan,
+    λ)
