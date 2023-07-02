@@ -64,7 +64,7 @@ const prob_dde_RADAR5_oregonator = let k₁ = 1.34, k₂ = 1.6e9, k₃ = 8_000, 
     end
 
     DDEProblem(f_dde_RADAR5_oregonator!, h_dde_RADAR5_oregonator, (0.0, 100.5);
-               constant_lags = [τ])
+        constant_lags = [τ])
 end
 
 # ROBERTSON example
@@ -122,7 +122,7 @@ const prob_dde_RADAR5_robertson = let a = 0.04, b = 10_000, c = 3e7, τ = 0.01
     end
 
     DDEProblem(f_dde_RADAR5_robertson!, h_dde_RADAR5_robertson, (0.0, 1e10);
-               constant_lags = [τ])
+        constant_lags = [τ])
 end
 
 # WALTMAN example
@@ -224,12 +224,12 @@ function h_dde_RADAR5_waltman(p, t)
 end
 
 const prob_dde_RADAR5_waltman = DDEProblem(f_dde_RADAR5_waltman!,
-                                           (p, t) -> h_dde_RADAR5_waltman(p, 0.0),
-                                           h_dde_RADAR5_waltman, (0.0, 300.0),
-                                           (ϕ₀ = 0.75e-4, t₀ = 32, t₁ = 119);
-                                           dependent_lags = ((u, p, t) -> t - u[5],
-                                                             (u, p, t) -> t - u[6]),
-                                           order_discontinuity_t0 = 1)
+    (p, t) -> h_dde_RADAR5_waltman(p, 0.0),
+    h_dde_RADAR5_waltman, (0.0, 300.0),
+    (ϕ₀ = 0.75e-4, t₀ = 32, t₁ = 119);
+    dependent_lags = ((u, p, t) -> t - u[5],
+        (u, p, t) -> t - u[6]),
+    order_discontinuity_t0 = 1)
 const prob_dde_RADAR5_waltman_1 = prob_dde_RADAR5_waltman
 
 @doc raw"""
@@ -244,7 +244,7 @@ Waltman, P. (1978). A threshold model of antigen-stimulated antibody production,
 Immunology (8), pp. 437-453.
 """
 const prob_dde_RADAR5_waltman_2 = remake(prob_dde_RADAR5_waltman;
-                                         p = (ϕ₀ = 0.5e-4, t₀ = 32, t₁ = 111))
+    p = (ϕ₀ = 0.5e-4, t₀ = 32, t₁ = 111))
 
 @doc raw"""
     prob_dde_RADAR5_waltman_3
@@ -258,7 +258,7 @@ Waltman, P. (1978). A threshold model of antigen-stimulated antibody production,
 Immunology (8), pp. 437-453.
 """
 const prob_dde_RADAR5_waltman_3 = remake(prob_dde_RADAR5_waltman;
-                                         p = (ϕ₀ = 1e-5, t₀ = 33, t₁ = 145))
+    p = (ϕ₀ = 1e-5, t₀ = 33, t₁ = 145))
 
 @doc raw"""
     prob_dde_RADAR5_waltman_4
@@ -272,7 +272,7 @@ Waltman, P. (1978). A threshold model of antigen-stimulated antibody production,
 Immunology (8), pp. 437-453.
 """
 const prob_dde_RADAR5_waltman_4 = remake(prob_dde_RADAR5_waltman;
-                                         p = (ϕ₀ = 0.75e-5, t₀ = 34, t₁ = 163))
+    p = (ϕ₀ = 0.75e-5, t₀ = 34, t₁ = 163))
 
 @doc raw"""
     prob_dde_RADAR5_waltman_5
@@ -286,4 +286,4 @@ Waltman, P. (1978). A threshold model of antigen-stimulated antibody production,
 Immunology (8), pp. 437-453.
 """
 const prob_dde_RADAR5_waltman_5 = remake(prob_dde_RADAR5_waltman;
-                                         p = (ϕ₀ = 0.5e-5, t₀ = 35, t₁ = 197))
+    p = (ϕ₀ = 0.5e-5, t₀ = 35, t₁ = 197))

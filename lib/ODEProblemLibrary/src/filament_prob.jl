@@ -10,10 +10,10 @@ struct FerromagneticContinuous <: AbstractMagneticForce
 end
 
 mutable struct FilamentCache{
-                             MagneticForce <: AbstractMagneticForce,
-                             InextensibilityCache <: AbstractInextensibilityCache,
-                             SolverCache <: AbstractSolverCache
-                             } <: AbstractFilamentCache
+    MagneticForce <: AbstractMagneticForce,
+    InextensibilityCache <: AbstractInextensibilityCache,
+    SolverCache <: AbstractSolverCache,
+} <: AbstractFilamentCache
     N::Int
     μ::T
     Cm::T
@@ -36,7 +36,8 @@ struct NoHydroProjectionCache <: AbstractInextensibilityCache
         new(zeros(N, 3 * (N + 1)),          # J
             zeros(3 * (N + 1), 3 * (N + 1)),    # P
             zeros(N, N),                 # J_JT
-            LinearAlgebra.LDLt{T, SymTridiagonal{T}}(SymTridiagonal(zeros(N), zeros(N - 1))),
+            LinearAlgebra.LDLt{T, SymTridiagonal{T}}(SymTridiagonal(zeros(N),
+                zeros(N - 1))),
             zeros(N, 3 * (N + 1)))
     end
 end
@@ -51,22 +52,22 @@ function FilamentCache(N = 20; Cm = 32, ω = 200, Solver = SolverDiffEq)
     SolverCache = DiffEqSolverCache
     tmp = zeros(3 * (N + 1))
     FilamentCache{FerromagneticContinuous, InextensibilityCache, SolverCache}(N, N + 1, Cm,
-                                                                              view(tmp,
-                                                                                   1:3:(3 * (N + 1))),
-                                                                              view(tmp,
-                                                                                   2:3:(3 * (N + 1))),
-                                                                              view(tmp,
-                                                                                   3:3:(3 * (N + 1))),
-                                                                              zeros(3 *
-                                                                                    (N + 1),
-                                                                                    3 *
-                                                                                    (N + 1)), # A
-                                                                              InextensibilityCache(N), # P
-                                                                              FerromagneticContinuous(ω,
-                                                                                                      zeros(3 *
-                                                                                                            (N +
-                                                                                                             1))),
-                                                                              SolverCache(N))
+        view(tmp,
+            1:3:(3 * (N + 1))),
+        view(tmp,
+            2:3:(3 * (N + 1))),
+        view(tmp,
+            3:3:(3 * (N + 1))),
+        zeros(3 *
+              (N + 1),
+            3 *
+            (N + 1)), # A
+        InextensibilityCache(N), # P
+        FerromagneticContinuous(ω,
+            zeros(3 *
+                  (N +
+                   1))),
+        SolverCache(N))
 end
 function stiffness_matrix!(f::AbstractFilamentCache)
     N, μ, A = f.N, f.μ, f.A
@@ -204,7 +205,7 @@ function subtract_from_identity!(A)
 end
 
 function LDLt_inplace!(L::LinearAlgebra.LDLt{T, SymTridiagonal{T}},
-                       A::Matrix{T}) where {T <: Real}
+    A::Matrix{T}) where {T <: Real}
     n = size(A, 1)
     dv, ev = L.data.dv, L.data.ev
     @inbounds for (i, d) in enumerate(diagind(A))

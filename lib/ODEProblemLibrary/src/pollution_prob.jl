@@ -219,4 +219,4 @@ Reference: [pollu.pdf](https://archimede.dm.uniba.it/~testset/report/pollu.pdf)
 Notebook: [Pollution.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Pollution.ipynb)
 """
 prob_ode_pollution = ODEProblem(ODEFunction(pollution, jac = pollution_jac),
-                                u0, (0.0, 60.0))
+    u0, (0.0, 60.0))

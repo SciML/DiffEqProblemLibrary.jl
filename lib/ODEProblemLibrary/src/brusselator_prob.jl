@@ -1,6 +1,6 @@
 function brusselator_f(x, y, t)
     ifelse((((x - 0.3)^2 + (y - 0.6)^2) <= 0.1^2) &&
-               (t >= 1.1), 5.0, 0.0)
+            (t >= 1.1), 5.0, 0.0)
 end
 function limit(a, N)
     if a == N + 1
@@ -90,11 +90,11 @@ u(x,y+1,t) = u(x,y,t)
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 152
 """
 prob_ode_brusselator_2d = ODEProblem(brusselator_2d_loop,
-                                     init_brusselator_2d(xyd_brusselator),
-                                     (0.0, 11.5),
-                                     (3.4, 1.0, 10.0,
-                                      xyd_brusselator, step(xyd_brusselator),
-                                      length(xyd_brusselator)))
+    init_brusselator_2d(xyd_brusselator),
+    (0.0, 11.5),
+    (3.4, 1.0, 10.0,
+        xyd_brusselator, step(xyd_brusselator),
+        length(xyd_brusselator)))
 
 const N_brusselator_1d = 40
 
@@ -152,6 +152,6 @@ v(0,t) = v(1,t) = 3
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 6
 """
 prob_ode_brusselator_1d = ODEProblem(brusselator_1d_loop,
-                                     init_brusselator_1d(N_brusselator_1d),
-                                     (0.0, 10.0),
-                                     (1.0, 3.0, 1 / 41, zeros(N_brusselator_1d)))
+    init_brusselator_1d(N_brusselator_1d),
+    (0.0, 10.0),
+    (1.0, 3.0, 1 / 41, zeros(N_brusselator_1d)))
