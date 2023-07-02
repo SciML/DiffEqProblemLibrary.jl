@@ -9,12 +9,12 @@ RuntimeGeneratedFunctions.init(@__MODULE__)
 
 # Jump Example Problems
 export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
-# examples mixing mass action and constant rate jumps
-       prob_jump_osc_mixed_jumptypes,
-# examples used in published benchmarks / comparisions
-       prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor,
-# examples approximating diffusion by continuous time random walks
-       prob_jump_diffnetwork
+    # examples mixing mass action and constant rate jumps
+    prob_jump_osc_mixed_jumptypes,
+    # examples used in published benchmarks / comparisions
+    prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor,
+    # examples approximating diffusion by continuous time random walks
+    prob_jump_diffnetwork
 
 """
     General structure to hold JumpProblem info. Needed since
@@ -107,16 +107,16 @@ prob = DiscreteProblem(oscil_rs, u0, (0.0, tf), eval_module = @__MODULE__)
 prob_jump_osc_mixed_jumptypes = JumpProblemNetwork(oscil_rs, nothing, tf, u0, prob, nothing)
 
 specs_sym_to_name = Dict(:S1 => "R(a,l)",
-                         :S2 => "L(r)",
-                         :S3 => "A(Y~U,r)",
-                         :S4 => "L(r!1).R(a,l!1)",
-                         :S5 => "A(Y~U,r!1).R(a!1,l)",
-                         :S6 => "A(Y~U,r!1).L(r!2).R(a!1,l!2)",
-                         :S7 => "A(Y~P,r!1).L(r!2).R(a!1,l!2)",
-                         :S8 => "A(Y~P,r!1).R(a!1,l)",
-                         :S9 => "A(Y~P,r)")
+    :S2 => "L(r)",
+    :S3 => "A(Y~U,r)",
+    :S4 => "L(r!1).R(a,l!1)",
+    :S5 => "A(Y~U,r!1).R(a!1,l)",
+    :S6 => "A(Y~U,r!1).L(r!2).R(a!1,l!2)",
+    :S7 => "A(Y~P,r!1).L(r!2).R(a!1,l!2)",
+    :S8 => "A(Y~P,r!1).R(a!1,l)",
+    :S9 => "A(Y~P,r)")
 rates_sym_to_idx = Dict(:R0 => 1, :L0 => 2, :A0 => 3, :kon => 4, :koff => 5,
-                        :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9)
+    :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9)
 params = [5360, 1160, 5360, 0.01, 0.1, 0.01, 0.1, 0.01, 0.1]
 rs = @reaction_network begin
     kon, S1 + S2 --> S4
@@ -154,9 +154,9 @@ prob = DiscreteProblem(rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
     Translated from supplementary data file: Models/Multi-state/fixed_multistate.xml
 """
 prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
-                                          Dict("specs_to_sym_name" => specs_sym_to_name,
-                                               "rates_sym_to_idx" => rates_sym_to_idx,
-                                               "params" => params))
+    Dict("specs_to_sym_name" => specs_sym_to_name,
+        "rates_sym_to_idx" => rates_sym_to_idx,
+        "params" => params))
 
 # generate the network
 N = 10  # number of genes
@@ -170,9 +170,9 @@ function construct_genenetwork(N)
         addspecies!(genenetwork, M[2 * i - i])
         addspecies!(genenetwork, P[2 * i - i])
         addreaction!(genenetwork,
-                     Reaction(10.0, [G[2 * i - i]], [G[2 * i - i], M[2 * i - i]]))
+            Reaction(10.0, [G[2 * i - i]], [G[2 * i - i], M[2 * i - i]]))
         addreaction!(genenetwork,
-                     Reaction(10.0, [M[2 * i - i]], [M[2 * i - i], P[2 * i - i]]))
+            Reaction(10.0, [M[2 * i - i]], [M[2 * i - i], P[2 * i - i]]))
         addreaction!(genenetwork, Reaction(1.0, [M[2 * i - i]], nothing))
         addreaction!(genenetwork, Reaction(1.0, [P[2 * i - i]], nothing))
         # genenetwork *= "\t 10.0, G$(2*i-1) --> G$(2*i-1) + M$(2*i-1)\n"
@@ -194,7 +194,7 @@ function construct_genenetwork(N)
 
         addspecies!(genenetwork, G_ind[2 * i])
         addreaction!(genenetwork,
-                     Reaction(0.0001, [G[2 * i], P[2 * i - i]], [G_ind[2 * i]]))
+            Reaction(0.0001, [G[2 * i], P[2 * i - i]], [G_ind[2 * i]]))
         addreaction!(genenetwork, Reaction(100.0, [G_ind[2 * i]], [G_ind[2 * i], M[2 * i]]))
         # genenetwork *= "\t 0.0001, G$(2*i) + P$(2*i-1) --> G$(2*i)_ind \n"
         # genenetwork *= "\t 100., G$(2*i)_ind --> G$(2*i)_ind + M$(2*i)\n"
@@ -238,7 +238,7 @@ prob = DiscreteProblem(rn, u0, (0.0, tf), rnpar, eval_module = @__MODULE__)
     Springer (2017).
 """
 prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
-                                                  Dict("specs_names" => varlabels))
+    Dict("specs_names" => varlabels))
 
 # diffusion model
 function getDiffNetwork(N)
@@ -267,6 +267,6 @@ tf = 10.0
     u0 is a similar function that returns the initial condition vector.
 """
 prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing,
-                                           nothing)
+    nothing)
 
 end # module

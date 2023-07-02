@@ -9,9 +9,9 @@ RuntimeGeneratedFunctions.init(@__MODULE__)
 
 #SDE Example Problems
 export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
-       prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
-       prob_sde_additivesystem, oval2ModelExample, prob_sde_bistable,
-       prob_sde_bruss, prob_sde_oscilreact
+    prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
+    prob_sde_additivesystem, oval2ModelExample, prob_sde_bistable,
+    prob_sde_bruss, prob_sde_oscilreact
 #SDE Stratonovich Example Problems
 export prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
 
@@ -33,13 +33,13 @@ u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 
 """
 prob_sde_linear = SDEProblem(SDEFunction(f_linear, σ_linear,
-                                         analytic = linear_analytic), σ_linear, 1 / 2,
-                             (0.0, 1.0))
+        analytic = linear_analytic), σ_linear, 1 / 2,
+    (0.0, 1.0))
 
 linear_analytic_strat(u0, p, t, W) = @.(u0*exp(1.01t + 0.87W))
 prob_sde_linear_stratonovich = SDEProblem(SDEFunction(f_linear, σ_linear,
-                                                      analytic = linear_analytic_strat),
-                                          σ_linear, 1 / 2, (0.0, 1.0))
+        analytic = linear_analytic_strat),
+    σ_linear, 1 / 2, (0.0, 1.0))
 f_linear_iip(du, u, p, t) = @.(du=1.01 * u)
 σ_linear_iip(du, u, p, t) = @.(du=0.87 * u)
 @doc doc"""
@@ -55,11 +55,11 @@ u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 ```
 """
 prob_sde_2Dlinear = SDEProblem(SDEFunction(f_linear_iip, σ_linear_iip,
-                                           analytic = linear_analytic),
-                               σ_linear_iip, ones(4, 2) / 2, (0.0, 1.0))
+        analytic = linear_analytic),
+    σ_linear_iip, ones(4, 2) / 2, (0.0, 1.0))
 prob_sde_2Dlinear_stratonovich = SDEProblem(SDEFunction(f_linear_iip, σ_linear_iip,
-                                                        analytic = linear_analytic_strat),
-                                            σ_linear_iip, ones(4, 2) / 2, (0.0, 1.0))
+        analytic = linear_analytic_strat),
+    σ_linear_iip, ones(4, 2) / 2, (0.0, 1.0))
 
 f_cubic(u, p, t) = -0.25 * u * (1 - u^2)
 σ_cubic(u, p, t) = 0.5 * (1 - u^2)
@@ -124,7 +124,7 @@ A multiple dimension extension of `additiveSDEExample`
 
 """
 prob_sde_additivesystem = SDEProblem(ff_additive_iip, σ_additive_iip, [1.0; 1.0; 1.0; 1.0],
-                                     (0.0, 1.0), p)
+    (0.0, 1.0), p)
 
 function f_lorenz(du, u, p, t)
     du[1] = p[1] * (u[2] - u[1])
@@ -351,9 +351,9 @@ function oval2ModelExample(; largeFluctuations = false, useBigs = false, noiseLe
         σ = σ2
     end
 
-    u0 = [0.128483; 1.256853; 0.0030203; 0.0027977; 0.0101511; 0.0422942; 0.2391346;
-          0.0008014; 0.0001464; 2.67e-05; 4.8e-6; 9e-7; 0.0619917; 1.2444292; 0.0486676;
-          199.9383546; 137.4267984; 1.5180203; 1.5180203] #Fig 9B
+    u0 = [0.128483 1.256853 0.0030203 0.0027977 0.0101511 0.0422942 0.2391346
+        0.0008014 0.0001464 2.67e-05 4.8e-6 9e-7 0.0619917 1.2444292 0.0486676
+        199.9383546 137.4267984 1.5180203 1.5180203] #Fig 9B
     if useBigs
         u0 = big.(u0)
     end
@@ -374,7 +374,7 @@ function stiff_quad_f_ito_analytic(u0, p, t, W)
 end
 
 ff_stiff_quad_ito = SDEFunction(stiff_quad_f_ito, stiff_quad_g,
-                                analytic = stiff_quad_f_ito_analytic)
+    analytic = stiff_quad_f_ito_analytic)
 
 function stiff_quad_f_strat_analytic(u0, p, t, W)
     α = p[1]
@@ -385,7 +385,7 @@ function stiff_quad_f_strat_analytic(u0, p, t, W)
 end
 
 ff_stiff_quad_strat = SDEFunction(stiff_quad_f_strat, stiff_quad_g,
-                                  analytic = stiff_quad_f_strat_analytic)
+    analytic = stiff_quad_f_strat_analytic)
 
 @doc doc"""
 The composite Euler method for stiff stochastic
@@ -405,7 +405,7 @@ Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
 prob_sde_stiffquadito = SDEProblem(ff_stiff_quad_ito, stiff_quad_g, 0.5, (0.0, 3.0),
-                                   (1.0, 1.0))
+    (1.0, 1.0))
 
 @doc doc"""
 The composite Euler method for stiff stochastic
@@ -425,7 +425,7 @@ Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
 prob_sde_stiffquadstrat = SDEProblem(ff_stiff_quad_strat, stiff_quad_g, 0.5, (0.0, 3.0),
-                                     (1.0, 1.0))
+    (1.0, 1.0))
 
 @doc doc"""
 Stochastic Heat Equation with scalar multiplicative noise
@@ -439,7 +439,7 @@ Raising D or k increases stiffness
 """
 function generate_stiff_stoch_heat(D = 1, k = 1; N = 100)
     A = full(Tridiagonal([1.0 for i in 1:(N - 1)], [-2.0 for i in 1:N],
-                         [1.0 for i in 1:(N - 1)]))
+        [1.0 for i in 1:(N - 1)]))
     dx = 1 / N
     A = D / (dx^2) * A
     function f(du, u, p, t)
@@ -454,7 +454,7 @@ function generate_stiff_stoch_heat(D = 1, k = 1; N = 100)
         @. du = k * u
     end
     SDEProblem(f, g, ones(N), (0.0, 3.0),
-               noise = WienerProcess(0.0, 0.0, 0.0, rswm = RSWM(adaptivealg = :RSwM3)))
+        noise = WienerProcess(0.0, 0.0, 0.0, rswm = RSWM(adaptivealg = :RSwM3)))
 end
 
 bistable_f(du, u, p, t) = du[1] = p[1] + p[2] * u[1]^4 / (u[1]^4 + 11.9^4) - p[3] * u[1]
@@ -467,7 +467,7 @@ p = (5.0, 18.0, 1.0)
 Bistable chemical reaction network with a semi-stable lower state.
 """
 prob_sde_bistable = SDEProblem(bistable_f, bistable_g, [3.0], (0.0, 300.0), p,
-                               noise_rate_prototype = zeros(1, 2))
+    noise_rate_prototype = zeros(1, 2))
 
 function bruss_f(du, u, p, t)
     du[1] = p[1] + p[2] * u[1] * u[1] * u[2] - p[3] * u[1] - p[4] * u[1]
@@ -488,7 +488,7 @@ p = (1.0, 1.0, 2.5, 1.0)
 Stochastic Brusselator
 """
 prob_sde_bruss = SDEProblem(bruss_f, bruss_g, [3.0, 2.0], (0.0, 100.0), p,
-                            noise_rate_prototype = zeros(2, 4))
+    noise_rate_prototype = zeros(2, 4))
 
 network = @reaction_network begin
     p1, (X, Y, Z) --> 0
@@ -508,6 +508,6 @@ p = (0.01, 3.0, 3.0, 4.5, 2.0, 15.0, 20.0, 0.005, 0.01, 0.05)
 An oscillatory chemical reaction system
 """
 prob_sde_oscilreact = SDEProblem(network, [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0],
-                                 (0.0, 4000.0), p, eval_module = @__MODULE__)
+    (0.0, 4000.0), p, eval_module = @__MODULE__)
 
 end # module

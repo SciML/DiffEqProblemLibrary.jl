@@ -16,7 +16,7 @@ but not of `u`).
 """
 function remake_dde_constant_u0_tType(prob::DDEProblem, u₀, tType)
     remake(prob; u0 = u₀, tspan = tType.(prob.tspan), p = eltype(u₀),
-           constant_lags = tType.(prob.constant_lags))
+        constant_lags = tType.(prob.constant_lags))
 end
 
 # History functions
@@ -72,10 +72,10 @@ function f_dde_constant_1delay_ip!(du, u, h, p, t)
 end
 
 function fanalytic_dde_constant_1delay(u₀,
-                                       ::Union{typeof(h_dde_constant_ip),
-                                               typeof(h_dde_constant_oop),
-                                               typeof(h_dde_constant_scalar)},
-                                       p, t)
+    ::Union{typeof(h_dde_constant_ip),
+        typeof(h_dde_constant_oop),
+        typeof(h_dde_constant_scalar)},
+    p, t)
     z = t * inv(oneunit(t))
     0 ≤ z ≤ 10 || error("analytical solution is only implemented for t ∈ [0, 10]")
 
@@ -96,14 +96,14 @@ function fanalytic_dde_constant_1delay(u₀,
             c = @evalpoly(z, 13201//120, -13081//120, 521//12, -107//12, 1, -7//120, 1//720)
         elseif z < 8
             c = @evalpoly(z, 39371//144, -39227//144, 27227//240, -3685//144, 487//144,
-                          -21//80, 1//90, -1//5040)
+                -21//80, 1//90, -1//5040)
         elseif z < 9
             c = @evalpoly(z, 1158379//1680, -1156699//1680, 212753//720, -51193//720,
-                          1511//144, -701//720, 1//18, -1//560, 1//40320)
+                1511//144, -701//720, 1//18, -1//560, 1//40320)
         else
             c = @evalpoly(z, 23615939//13440, -23602499//13440, 7761511//10080,
-                          -279533//1440, 89269//2880, -1873//576, 323//1440, -11//1120,
-                          1//4032, -1//362880)
+                -279533//1440, 89269//2880, -1873//576, 323//1440, -11//1120,
+                1//4032, -1//362880)
         end
 
         c .* u₀
@@ -111,10 +111,10 @@ function fanalytic_dde_constant_1delay(u₀,
 end
 
 const prob_dde_constant_1delay_ip = DDEProblem(DDEFunction(f_dde_constant_1delay_ip!;
-                                                           analytic = fanalytic_dde_constant_1delay),
-                                               [1.0], h_dde_constant_ip, (0.0, 10.0),
-                                               typeof(1.0);
-                                               constant_lags = [1])
+        analytic = fanalytic_dde_constant_1delay),
+    [1.0], h_dde_constant_ip, (0.0, 10.0),
+    typeof(1.0);
+    constant_lags = [1])
 
 ### Out-of-place function
 
@@ -132,10 +132,10 @@ function f_dde_constant_1delay_oop(u, h, p, t)
 end
 
 const prob_dde_constant_1delay_oop = DDEProblem(DDEFunction(f_dde_constant_1delay_oop;
-                                                            analytic = fanalytic_dde_constant_1delay),
-                                                [1.0], h_dde_constant_oop, (0.0, 10.0),
-                                                typeof(1.0);
-                                                constant_lags = [1])
+        analytic = fanalytic_dde_constant_1delay),
+    [1.0], h_dde_constant_oop, (0.0, 10.0),
+    typeof(1.0);
+    constant_lags = [1])
 
 ### Scalar function
 
@@ -153,10 +153,10 @@ function f_dde_constant_1delay_scalar(u, h, p, t)
 end
 
 const prob_dde_constant_1delay_scalar = DDEProblem(DDEFunction(f_dde_constant_1delay_scalar;
-                                                               analytic = fanalytic_dde_constant_1delay),
-                                                   1.0, h_dde_constant_scalar, (0.0, 10.0),
-                                                   typeof(1.0);
-                                                   constant_lags = [1])
+        analytic = fanalytic_dde_constant_1delay),
+    1.0, h_dde_constant_scalar, (0.0, 10.0),
+    typeof(1.0);
+    constant_lags = [1])
 
 ## Long time span
 
@@ -184,9 +184,9 @@ function f_dde_constant_1delay_long_ip!(du, u, h, p, t)
 end
 
 const prob_dde_constant_1delay_long_ip = DDEProblem(f_dde_constant_1delay_long_ip!, [1.0],
-                                                    h_dde_constant_ip, (0.0, 100.0),
-                                                    typeof(1.0);
-                                                    constant_lags = [1 / 5])
+    h_dde_constant_ip, (0.0, 100.0),
+    typeof(1.0);
+    constant_lags = [1 / 5])
 
 ### Out-of-place function
 
@@ -204,9 +204,9 @@ function f_dde_constant_1delay_long_oop(u, h, p, t)
 end
 
 const prob_dde_constant_1delay_long_oop = DDEProblem(f_dde_constant_1delay_long_oop, [1.0],
-                                                     h_dde_constant_oop, (0.0, 100.0),
-                                                     typeof(1.0);
-                                                     constant_lags = [1 / 5])
+    h_dde_constant_oop, (0.0, 100.0),
+    typeof(1.0);
+    constant_lags = [1 / 5])
 
 ### Scalar function
 
@@ -224,10 +224,10 @@ function f_dde_constant_1delay_long_scalar(u, h, p, t)
 end
 
 const prob_dde_constant_1delay_long_scalar = DDEProblem(f_dde_constant_1delay_long_scalar,
-                                                        1.0, h_dde_constant_scalar,
-                                                        (0.0, 100.0),
-                                                        typeof(1.0);
-                                                        constant_lags = [1 / 5])
+    1.0, h_dde_constant_scalar,
+    (0.0, 100.0),
+    typeof(1.0);
+    constant_lags = [1 / 5])
 
 # Two constant delays
 
@@ -261,10 +261,10 @@ function f_dde_constant_2delays_ip!(du, u, h, p, t)
 end
 
 function fanalytic_dde_constant_2delays(u₀,
-                                        ::Union{typeof(h_dde_constant_ip),
-                                                typeof(h_dde_constant_oop),
-                                                typeof(h_dde_constant_scalar)},
-                                        p, t)
+    ::Union{typeof(h_dde_constant_ip),
+        typeof(h_dde_constant_oop),
+        typeof(h_dde_constant_scalar)},
+    p, t)
     z = t * inv(oneunit(t))
     0 ≤ z ≤ 1 || error("analytical solution is only implemented for t ∈ [0, 1]")
 
@@ -298,10 +298,10 @@ function fanalytic_dde_constant_2delays(u₀,
 end
 
 const prob_dde_constant_2delays_ip = DDEProblem(DDEFunction(f_dde_constant_2delays_ip!;
-                                                            analytic = fanalytic_dde_constant_2delays),
-                                                [1.0], h_dde_constant_ip, (0.0, 1.0),
-                                                typeof(1.0);
-                                                constant_lags = [1 / 3, 1 / 5])
+        analytic = fanalytic_dde_constant_2delays),
+    [1.0], h_dde_constant_ip, (0.0, 1.0),
+    typeof(1.0);
+    constant_lags = [1 / 3, 1 / 5])
 
 ### Out-of-place function
 
@@ -319,10 +319,10 @@ function f_dde_constant_2delays_oop(u, h, p, t)
 end
 
 const prob_dde_constant_2delays_oop = DDEProblem(DDEFunction(f_dde_constant_2delays_oop;
-                                                             analytic = fanalytic_dde_constant_2delays),
-                                                 [1.0], h_dde_constant_oop, (0.0, 1.0),
-                                                 typeof(1.0);
-                                                 constant_lags = [1 / 3, 1 / 5])
+        analytic = fanalytic_dde_constant_2delays),
+    [1.0], h_dde_constant_oop, (0.0, 1.0),
+    typeof(1.0);
+    constant_lags = [1 / 3, 1 / 5])
 
 ### Scalar function
 
@@ -340,10 +340,10 @@ function f_dde_constant_2delays_scalar(u, h, p, t)
 end
 
 const prob_dde_constant_2delays_scalar = DDEProblem(DDEFunction(f_dde_constant_2delays_scalar;
-                                                                analytic = fanalytic_dde_constant_2delays),
-                                                    1.0, h_dde_constant_scalar, (0.0, 1.0),
-                                                    typeof(1.0);
-                                                    constant_lags = [1 / 3, 1 / 5])
+        analytic = fanalytic_dde_constant_2delays),
+    1.0, h_dde_constant_scalar, (0.0, 1.0),
+    typeof(1.0);
+    constant_lags = [1 / 3, 1 / 5])
 
 ## Long time span
 
@@ -370,9 +370,9 @@ function f_dde_constant_2delays_long_ip!(du, u, h, p, t)
 end
 
 const prob_dde_constant_2delays_long_ip = DDEProblem(f_dde_constant_2delays_long_ip!, [1.0],
-                                                     h_dde_constant_ip, (0.0, 100.0),
-                                                     typeof(1.0);
-                                                     constant_lags = [1 / 3, 1 / 5])
+    h_dde_constant_ip, (0.0, 100.0),
+    typeof(1.0);
+    constant_lags = [1 / 3, 1 / 5])
 
 ### Out-of-place function
 
@@ -390,10 +390,10 @@ function f_dde_constant_2delays_long_oop(u, h, p, t)
 end
 
 const prob_dde_constant_2delays_long_oop = DDEProblem(f_dde_constant_2delays_long_oop,
-                                                      [1.0], h_dde_constant_oop,
-                                                      (0.0, 100.0),
-                                                      typeof(1.0);
-                                                      constant_lags = [1 / 3, 1 / 5])
+    [1.0], h_dde_constant_oop,
+    (0.0, 100.0),
+    typeof(1.0);
+    constant_lags = [1 / 3, 1 / 5])
 
 #### Scalar function
 
@@ -411,7 +411,7 @@ function f_dde_constant_2delays_long_scalar(u, h, p, t)
 end
 
 const prob_dde_constant_2delays_long_scalar = DDEProblem(f_dde_constant_2delays_long_scalar,
-                                                         1.0, h_dde_constant_scalar,
-                                                         (0.0, 100.0),
-                                                         typeof(1.0);
-                                                         constant_lags = [1 / 3, 1 / 5])
+    1.0, h_dde_constant_scalar,
+    (0.0, 100.0),
+    typeof(1.0);
+    constant_lags = [1 / 3, 1 / 5])

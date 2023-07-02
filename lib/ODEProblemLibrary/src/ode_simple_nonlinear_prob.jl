@@ -46,7 +46,7 @@ Fitzhugh-Nagumo (Non-stiff)
 with initial condition ``v=w=1``
 """
 prob_ode_fitzhughnagumo = ODEProblem(fitz, [1.0; 1.0], (0.0, 1.0),
-                                     (0.7, 0.8, 1 / 12.5, 0.5))
+    (0.7, 0.8, 1 / 12.5, 0.5))
 
 #Van der Pol Equations
 @parameters t μ
@@ -166,8 +166,8 @@ Usually solved on ``t₀ = 0.0`` and ``T = 17.0652165601579625588917206249``
 Periodic with that setup.
 """
 prob_ode_threebody = ODEProblem(threebody,
-                                [0.994, 0.0, 0.0, big(-2.00158510637908252240537862224)],
-                                (big(0.0), big(17.0652165601579625588917206249)))
+    [0.994, 0.0, 0.0, big(-2.00158510637908252240537862224)],
+    (big(0.0), big(17.0652165601579625588917206249)))
 
 # Rigid Body Equations
 
@@ -307,36 +307,36 @@ From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff 
 Usually solved from 0 to 3.
 """
 prob_ode_pleiades = ODEProblem(pleiades,
-                               [
-                                   3.0,
-                                   3.0,
-                                   -1.0,
-                                   -3.0,
-                                   2.0,
-                                   -2.0,
-                                   2.0,
-                                   3.0,
-                                   -3.0,
-                                   2.0,
-                                   0,
-                                   0,
-                                   -4.0,
-                                   4.0,
-                                   0,
-                                   0,
-                                   0,
-                                   0,
-                                   0,
-                                   1.75,
-                                   -1.5,
-                                   0,
-                                   0,
-                                   0,
-                                   -1.25,
-                                   1,
-                                   0,
-                                   0,
-                               ], (0.0, 3.0))
+    [
+        3.0,
+        3.0,
+        -1.0,
+        -3.0,
+        2.0,
+        -2.0,
+        2.0,
+        3.0,
+        -3.0,
+        2.0,
+        0,
+        0,
+        -4.0,
+        4.0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1.75,
+        -1.5,
+        0,
+        0,
+        0,
+        -1.25,
+        1,
+        0,
+        0,
+    ], (0.0, 3.0))
 
 Random.seed!(100)
 const mm_A = rand(4, 4)
@@ -345,7 +345,7 @@ mm_linear = function (du, u, p, t)
 end
 const MM_linear = Matrix(Diagonal(0.5ones(4)))
 mm_f = ODEFunction(mm_linear; analytic = (u0, p, t) -> exp(inv(MM_linear) * mm_A * t) * u0,
-                   mass_matrix = MM_linear)
+    mass_matrix = MM_linear)
 prob_ode_mm_linear = ODEProblem(mm_f, rand(4), (0.0, 1.0))
 
 @parameters t p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
@@ -362,8 +362,8 @@ eqs = [D(y1) ~ -p1 * y1 + p2 * y2 + p3 * y3 + p4,
     D(y8) ~ -p10 * y6 * y8 + p12 * y7]
 de = ODESystem(eqs; name = :hires)
 hires = ODEFunction(de, [y1, y2, y3, y4, y5, y6, y7, y8],
-                    [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
-                    jac = true)
+    [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
+    jac = true)
 
 u0 = zeros(8)
 u0[1] = 1
@@ -392,9 +392,9 @@ Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/
 Notebook: [Hires.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
 """
 prob_ode_hires = ODEProblem(hires, u0, (0.0, 321.8122),
-                            (1.71, 0.43, 8.32, 0.0007, 8.75,
-                             10.03, 0.035, 1.12, 1.745, 280.0,
-                             0.69, 1.81))
+    (1.71, 0.43, 8.32, 0.0007, 8.75,
+        10.03, 0.035, 1.12, 1.745, 280.0,
+        0.69, 1.81))
 
 @parameters t p1 p2 p3
 @variables y1(t) y2(t) y3(t)
