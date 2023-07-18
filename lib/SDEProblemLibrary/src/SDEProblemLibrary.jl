@@ -491,6 +491,7 @@ prob_sde_bruss = SDEProblem(bruss_f, bruss_g, [3.0, 2.0], (0.0, 100.0), p,
     noise_rate_prototype = zeros(2, 4))
 
 network = @reaction_network begin
+    @parameters p1=0.01 p2=3.0 p3=3.0 p4=4.5 p5=2.0 p6=15.0 p7=20.0 p8=0.005 p9=0.01 p10=0.05
     p1, (X, Y, Z) --> 0
     hill(X, p2, 100.0, -4), 0 --> Y
     hill(Y, p3, 100.0, -4), 0 --> Z
@@ -501,13 +502,12 @@ network = @reaction_network begin
     R * p8, S --> SP
     p9, SP + SP --> SP2
     p10, SP2 --> 0
-end p1 p2 p3 p4 p5 p6 p7 p8 p9 p10
-p = (0.01, 3.0, 3.0, 4.5, 2.0, 15.0, 20.0, 0.005, 0.01, 0.05)
+end
 
 """
 An oscillatory chemical reaction system
 """
 prob_sde_oscilreact = SDEProblem(network, [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0],
-    (0.0, 4000.0), p, eval_module = @__MODULE__)
+    (0.0, 4000.0), eval_module = @__MODULE__)
 
 end # module
