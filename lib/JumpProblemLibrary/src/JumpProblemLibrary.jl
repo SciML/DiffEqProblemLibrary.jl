@@ -38,7 +38,7 @@ dna_rs = @reaction_network begin
     k4, P --> 0
     k5, DNA + P --> DNAR
     k6, DNAR --> DNA + P
-end k1 k2 k3 k4 k5 k6
+end
 rates = [0.5, (20 * log(2.0) / 120.0), (log(2.0) / 120.0), (log(2.0) / 600.0), 0.025, 1.0]
 tf = 1000.0
 u0 = [1, 0, 0, 0]
@@ -54,7 +54,7 @@ prob_jump_dnarepressor = JumpProblemNetwork(dna_rs, rates, tf, u0, prob, prob_da
 bd_rs = @reaction_network begin
     k1, 0 --> A
     k2, A --> 0
-end k1 k2
+end
 rates = [1000.0, 10.0]
 tf = 1.0
 u0 = [0]
@@ -73,7 +73,7 @@ nonlin_rs = @reaction_network begin
     k3, A + B --> C
     k4, C --> A + B
     k5, 3C --> 3A
-end k1 k2 k3 k4 k5
+end
 rates = [1.0, 2.0, 0.5, 0.75, 0.25]
 tf = 0.01
 u0 = [200, 100, 150]
@@ -137,7 +137,7 @@ rs = @reaction_network begin
     kAoff, S8 --> S1 + S9
     kAdp, S8 --> S5
     kAdp, S9 --> S3
-end kon kAon koff kAoff kAp kAdp
+end
 rsi = rates_sym_to_idx
 rates = params[[rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
 u0 = zeros(Int, 9)
@@ -160,8 +160,8 @@ prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
 
 # generate the network
 N = 10  # number of genes
-@parameters t
-@variables G[1:(2N)](t) M[1:(2N)](t) P[1:(2N)](t) G_ind[1:(2N)](t)
+@variables t
+@species (G(t))[1:(2N)] (M(t))[1:(2N)] (P(t))[1:(2N)] (G_ind(t))[1:(2N)]
 
 function construct_genenetwork(N)
     genenetwork = make_empty_network()
@@ -209,6 +209,7 @@ for i in 1:(2 * N)
 end
 tf = 2000.0
 prob = DiscreteProblem(rs, u0, (0.0, tf), eval_module = @__MODULE__)
+
 """
     Twenty-gene model from McCollum et al,
     "The sorting direct method for stochastic simulation of biochemical systems with varying reaction execution behavior"
@@ -225,7 +226,7 @@ rn = @reaction_network begin
     c6, P2 --> 2P
     c7, P2 + G --> P2G
     c8, P2G --> P2 + G
-end c1 c2 c3 c4 c5 c6 c7 c8
+end
 rnpar = [0.09, 0.05, 0.001, 0.0009, 0.00001, 0.0005, 0.005, 0.9]
 varlabels = ["G", "M", "P", "P2", "P2G"]
 u0 = [1000, 0, 0, 0, 0]
@@ -243,8 +244,9 @@ prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
 # diffusion model
 function getDiffNetwork(N)
     diffnetwork = make_empty_network()
-    @parameters t K
-    @variables X[1:N](t)
+    @parameters K
+    @variables t
+    @species (X(t))[1:N]
     for i in 1:N
         addspecies!(diffnetwork, X[i])
     end
