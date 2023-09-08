@@ -635,7 +635,7 @@ const prob_dde_DDETST_E2 = let α = 0.1, ρ = 2.9, τ = 0.42
         v = u[1]^2
         z = u[2] * v / (v + 1)
 
-        du[1] = u[1] * (1 - h(p, t - τ; idxs = 1) - ρ * h(p, t - 1, Val{1}; idxs = 1)) - z
+        du[1] = u[1] * (1 - h(p, t - τ; idxs = 1) - ρ * h(p, t - τ, Val{1}; idxs = 1)) - z
         du[2] = z - α * u[2]
 
         nothing
