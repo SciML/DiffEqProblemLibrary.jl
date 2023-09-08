@@ -6,5 +6,6 @@ import DDEProblemLibrary
 import SDEProblemLibrary
 import JumpProblemLibrary
 import BVProblemLibrary
+import NonlinearProblemLibrary
 
 end # module
