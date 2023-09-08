@@ -28,6 +28,7 @@ jobs:
           - lib/ODEProblemLibrary
           - lib/SDEProblemLibrary
           - lib/BVProblemLibrary
+          - lib/NonlinearProblemLibrary
         version:
           - '1'
           - '1.6'
