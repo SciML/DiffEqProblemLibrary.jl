@@ -33,13 +33,12 @@ u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 
 """
 prob_sde_linear = SDEProblem(SDEFunction(f_linear, σ_linear,
-        analytic = linear_analytic), σ_linear, 1 / 2,
+        analytic = linear_analytic), 1 / 2,
     (0.0, 1.0))
 
 linear_analytic_strat(u0, p, t, W) = @.(u0*exp(1.01t + 0.87W))
 prob_sde_linear_stratonovich = SDEProblem(SDEFunction(f_linear, σ_linear,
-        analytic = linear_analytic_strat),
-    σ_linear, 1 / 2, (0.0, 1.0))
+        analytic = linear_analytic_strat), 1 / 2, (0.0, 1.0))
 f_linear_iip(du, u, p, t) = @.(du=1.01 * u)
 σ_linear_iip(du, u, p, t) = @.(du=0.87 * u)
 @doc doc"""
@@ -55,11 +54,9 @@ u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 ```
 """
 prob_sde_2Dlinear = SDEProblem(SDEFunction(f_linear_iip, σ_linear_iip,
-        analytic = linear_analytic),
-    σ_linear_iip, ones(4, 2) / 2, (0.0, 1.0))
+        analytic = linear_analytic), ones(4, 2) / 2, (0.0, 1.0))
 prob_sde_2Dlinear_stratonovich = SDEProblem(SDEFunction(f_linear_iip, σ_linear_iip,
-        analytic = linear_analytic_strat),
-    σ_linear_iip, ones(4, 2) / 2, (0.0, 1.0))
+        analytic = linear_analytic_strat), ones(4, 2) / 2, (0.0, 1.0))
 
 f_cubic(u, p, t) = -0.25 * u * (1 - u^2)
 σ_cubic(u, p, t) = 0.5 * (1 - u^2)
@@ -76,7 +73,7 @@ and initial condition ``u_0=\frac{1}{2}``, with solution
 u(u0,p,t,W_t)=\frac{(1+u_0)\exp(W_t)+u)0-1}{(1+u_0)\exp(W_t)+1-u_0}
 ```
 """
-prob_sde_cubic = SDEProblem(ff_cubic, σ_cubic, 1 / 2, (0.0, 1.0))
+prob_sde_cubic = SDEProblem(ff_cubic, 1 / 2, (0.0, 1.0))
 
 f_wave(u, p, t) = @. -0.01 * sin(u) * cos(u)^3
 σ_wave(u, p, t) = @. 0.1 * cos(u)^2
@@ -93,7 +90,7 @@ and initial condition ``u_0=1`` with solution
 u(u_0,p,t,W_t)=\arctan(\frac{W_t}{10} + \tan(u_0))
 ```
 """
-prob_sde_wave = SDEProblem(ff_wave, σ_wave, 1.0, (0.0, 1.0))
+prob_sde_wave = SDEProblem(ff_wave, 1.0, (0.0, 1.0))
 
 f_additive(u, p, t) = @. p[2] / sqrt(1 + t) - u / (2 * (1 + t))
 σ_additive(u, p, t) = @. p[1] * p[2] / sqrt(1 + t)
@@ -113,7 +110,7 @@ and initial condition ``u_0=1`` with ``α=0.1`` and ``β=0.05``, with solution
 u(u_0,p,t,W_t)=\frac{u_0}{\sqrt{1+t}} + \frac{β(t+αW_t)}{\sqrt{1+t}}
 ```
 """
-prob_sde_additive = SDEProblem(ff_additive, σ_additive, 1.0, (0.0, 1.0), p)
+prob_sde_additive = SDEProblem(ff_additive, 1.0, (0.0, 1.0), p)
 
 f_additive_iip(du, u, p, t) = @.(du=p[2] / sqrt(1 + t) - u / (2 * (1 + t)))
 σ_additive_iip(du, u, p, t) = @.(du=p[1] * p[2] / sqrt(1 + t))
@@ -123,7 +120,7 @@ p = ([0.1; 0.1; 0.1; 0.1], [0.5; 0.25; 0.125; 0.1115])
 A multiple dimension extension of `additiveSDEExample`
 
 """
-prob_sde_additivesystem = SDEProblem(ff_additive_iip, σ_additive_iip, [1.0; 1.0; 1.0; 1.0],
+prob_sde_additivesystem = SDEProblem(ff_additive_iip, [1.0; 1.0; 1.0; 1.0],
     (0.0, 1.0), p)
 
 function f_lorenz(du, u, p, t)
@@ -157,7 +154,7 @@ ff_nltest = SDEFunction(f_nltest, σ_nltest, analytic = analytic_nltest)
 Runge–Kutta methods for numerical solution of stochastic differential equations
 Tocino and Ardanuy
 """
-prob_sde_nltest = SDEProblem(ff_nltest, σ_nltest, 1.0, (0.0, 10.0))
+prob_sde_nltest = SDEProblem(ff_nltest, 1.0, (0.0, 10.0))
 
 @doc doc"""
 oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
@@ -404,7 +401,7 @@ Stiffness of Euler is determined by α+β²<1
 Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
-prob_sde_stiffquadito = SDEProblem(ff_stiff_quad_ito, stiff_quad_g, 0.5, (0.0, 3.0),
+prob_sde_stiffquadito = SDEProblem(ff_stiff_quad_ito, 0.5, (0.0, 3.0),
     (1.0, 1.0))
 
 @doc doc"""
@@ -424,7 +421,7 @@ Stiffness of Euler is determined by α+β²<1
 Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
-prob_sde_stiffquadstrat = SDEProblem(ff_stiff_quad_strat, stiff_quad_g, 0.5, (0.0, 3.0),
+prob_sde_stiffquadstrat = SDEProblem(ff_stiff_quad_strat, 0.5, (0.0, 3.0),
     (1.0, 1.0))
 
 @doc doc"""
