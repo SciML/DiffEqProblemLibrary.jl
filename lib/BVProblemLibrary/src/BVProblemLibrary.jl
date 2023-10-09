@@ -364,6 +364,29 @@ No analytical solution
 """
 measles = BVProblem(measles_function!, measles_bc!, [0, 0, 0], tspan)
 
+################### elastica ############################
+function elastica_function!(du, u, p, t)
+    ψ = u[1]
+    ψ′ = u[2]
+    du[1] = ψ′
+    du[2] = p[1] * sin(ψ) - p[2] * cos(ψ)
+    du[3] = cos(ψ)
+    du[4] = sin(ψ)
+end
+function elastica_bc!(residual, u, p, t)
+    residual[1] = u[end][4]
+    residual[2] = u[end][2]
+    residual[3] = u[1][3]
+    residual[4] = u[1][4]
+end
+
+tspan = (0, 1)
+
+@doc raw"""
+    TODO: add docs for elastica
+"""
+elastica = BVProblem(elastica_function!, elastica_bc!, [-10, 0.0], tspan)
+
 # Linear BVP Example Problems
 export prob_bvp_linear_1, prob_bvp_linear_2, prob_bvp_linear_3, prob_bvp_linear_4,
     prob_bvp_linear_5,
@@ -382,5 +405,7 @@ export prob_bvp_nonlinear_1, prob_bvp_nonlinear_2, prob_bvp_nonlinear_3,
     prob_bvp_nonlinear_14, prob_bvp_nonlinear_15
 
 export flat_moon, flat_earth, flat_earth_drag, measles
+
+export elastica #, bigon, gridshell
 
 end # module BVProblemLibrary
