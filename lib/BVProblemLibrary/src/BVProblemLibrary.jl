@@ -1,12 +1,12 @@
 module BVProblemLibrary
 
-using DiffEqBase, Markdown
+using DiffEqBase, Markdown, SpecialFunctions
 
 include("linear.jl")
 include("nonlinear.jl")
 
 ################### flat_moon ############################
-function flat_moon_function!(du, u, p, t)
+function flat_moon_f!(du, u, p, t)
     g = 1.62
     A = 3 * 1.62
     du[1] = u[3]
@@ -17,19 +17,19 @@ function flat_moon_function!(du, u, p, t)
     du[6] = (u[6])^2 * sin(u[5])
     du[7] = 0
 end
-
-function flat_moon_bc!(res, u, p, t)
-    Vc = 1627
-    h = 185.2
-    res[1] = u[1][1]
-    res[2] = u[1][2]
-    res[3] = u[1][3]
-    res[4] = u[1][4]
-    res[5] = u[end][2] - h
-    res[6] = u[end][3] - Vc
-    res[7] = u[end][4]
+function flat_moon_bca!(res_a, u_a, p)
+    res_a[1] = u_a[1]
+    res_a[2] = u_a[2]
+    res_a[3] = u_a[3]
+    res_a[4] = u_a[4]
 end
-tspan = (0, 700)
+function flat_moon_bcb!(res_b, u_b, p)
+    res_b[1] = u_b[5] - h
+    res_b[2] = u_b[6] - Vc
+    res_b[3] = u_b[7]
+end
+flat_moon_tspan = (0, 700)
+flat_moon_function = BVPFunction(flat_moon_f!, (flat_moon_bca!, flat_moon_bcb!), bcresid_prototype = (zeros(4), zeros(3)), twopoint = Val(true))
 @doc raw"""
     flat_moon
 
@@ -91,10 +91,10 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=534)
 """
-flat_moon = BVProblem(flat_moon_function!, flat_moon_bc!, [0, 0, 0, 0, 0, 0, 0], tspan)
+flat_moon = BVProblem(flat_moon_function, [0, 0, 0, 0, 0, 0, 0], flat_moon_tspan)
 
 ################### flat_earth ############################
-function flat_earth_function!(du, u, p, t)
+function flat_earth_f!(du, u, p, t)
     Vc = sqrt(398600.4 / (6378.14 + 300)) * 1000
     h = 300000
     g = 9.80665
@@ -109,18 +109,19 @@ function flat_earth_function!(du, u, p, t)
     du[6] = (-u[5] * (Vc / h))
     du[7] = 0
 end
-
-function flat_earth_bc!(res, u, p, t)
-    res[1] = u[1][1]
-    res[2] = u[1][2]
-    res[3] = u[1][3]
-    res[4] = u[1][4]
-    res[5] = u[end][2] - 1
-    res[6] = u[end][3] - 1
-    res[7] = u[end][4]
+function flat_earth_bca!(res_a, u_a, p)
+    res_a[1] = u_a[1]
+    res_a[2] = u_a[2]
+    res_a[3] = u_a[3]
+    res_a[4] = u_a[4]
 end
-tspan = (0, 700)
-
+function flat_earth_bcb!(res_b, u_b, p)
+    res_b[1] = u_b[2] - 1
+    res_b[2] = u_b[3] - 1
+    res_b[3] = u_b[4]
+end
+flat_earth_function = BVPFunction(flat_earth_f!, (flat_earth_bca!, flat_earth_bcb!), bcresid_prototype = (zeros(4), zeros(3)), twopoint = Val(true))
+flat_earth_tspan = (0, 700)
 @doc raw"""
     flat_earth
 
@@ -182,10 +183,10 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=538)
 """
-flat_earth = BVProblem(flat_earth_function!, flat_earth_bc!, [0, 0, 0, 0, 0, 0, 0], tspan)
+flat_earth = BVProblem(flat_earth_function, [0, 0, 0, 0, 0, 0, 0], flat_earth_tspan)
 
 ################### flat_earth_drag ############################
-function flat_earth_drag_function!(du, u, p, t)
+function flat_earth_drag_f!(du, u, p, t)
     fr = 2100000
     h = 180000
     m = 60880
@@ -223,8 +224,13 @@ function flat_earth_drag_function!(du, u, p, t)
     du[7] = lambda_4_bar
     du[8] = 0
 end
-
-function flat_earth_drag_bc!(res, u, p, t)
+function flat_earth_drag_bca!(res_a, u_a, p)
+    res_a[1] = u_a[1]
+    res_a[2] = u_a[2]
+    res_a[3] = u_a[3]
+    res_a[4] = u_a[4]
+end
+function flat_earth_drag_bcb!(res_b, u_b, p)
     fr = 2100000
     h = 180000
     m = 60880
@@ -232,18 +238,15 @@ function flat_earth_drag_bc!(res, u, p, t)
     vc = 1000 * sqrt((398600.4) / (6378.14 + (h / 1000.0)))
     beta = 180000 / 840
     eta = 1.225 * 0.5 * 7.069 / 2
-    res[1] = u[1][1]
-    res[2] = u[1][2]
-    res[3] = u[1][3]
-    res[4] = u[1][4]
-    res[5] = u[end][2] - 1
-    res[6] = u[end][3] - 1
-    res[7] = u[end][4]
-    res[8] = (-sqrt(u[6]^2.0 + u[7]^2.0) * fr / m / vc -
-              (u[6] * u[3]) * eta * exp(-beta) * sqrt(u[3]^2.0) * vc / m -
-              u[7] * g_accel / vc) * u[8] + 1.0
+    res_b[1] = u_b[2] - 1
+    res_b[2] = u_b[3] - 1
+    res_b[3] = u_b[4]
+    res_b[4] = (-sqrt(u_b[6]^2.0 + u_b[7]^2.0) * fr / m / vc -
+              (u_b[6] * u_b[3]) * eta * exp(-beta) * sqrt(u_b[3]^2.0) * vc / m -
+              u_b[7] * g_accel / vc) * u_b[8] + 1.0
 end
-tspan = (0, 100)
+flat_earth_drag_function = BVPFunction(flat_earth_drag_f!, (flat_earth_drag_bca!, flat_earth_drag_bcb!), bcresid_prototype = (zeros(4), zeros(4)), twopoint = Val(true))
+flat_earth_drag_tspan = (0, 100)
 @doc raw"""
     flat_earth_drag
 
@@ -305,13 +308,12 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=544)
 """
-flat_earth_drag = BVProblem(flat_earth_drag_function!,
-    flat_earth_drag_bc!,
+flat_earth_drag = BVProblem(flat_earth_drag_function,
     [0, 0, 0, 0, 0, 0, 0, 0],
-    tspan)
+    flat_earth_drag_tspan)
 
 ################### measles ############################
-function measles_function!(du, u, p, t)
+function measles_f!(du, u, p, t)
     mu = 0.02
     lambda = 0.0279
     eta = 0.01
@@ -328,8 +330,8 @@ function measles_bc!(res, u, p, t)
     res[2] = u[1][2] - u[end][2]
     res[3] = u[1][3] - u[end][3]
 end
-tspan = (0, 1)
-
+measles_function = BVPFunction(measles_f!, measles_bc!)
+measles_tspan = (0, 1)
 @doc raw"""
     measles
 
@@ -362,7 +364,7 @@ No analytical solution
 
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=555)
 """
-measles = BVProblem(measles_function!, measles_bc!, [0, 0, 0], tspan)
+measles = BVProblem(measles_function, [0, 0, 0], measles_tspan)
 
 # Linear BVP Example Problems
 export prob_bvp_linear_1, prob_bvp_linear_2, prob_bvp_linear_3, prob_bvp_linear_4,
