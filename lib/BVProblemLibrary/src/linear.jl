@@ -454,10 +454,10 @@ function prob_bvp_linear_8_f!(du, u, p, t)
     du[1] = u[2]
     du[2] = -1 / p * u[2]
 end
-function prob_bvp_linear_8_bca!(res_a!, u_a, p)
+function prob_bvp_linear_8_bca!(res_a, u_a, p)
     res_a[1] = u_a[1] - 1
 end
-function prob_bvp_linear_8_bcb!(res_b!, u_b, p)
+function prob_bvp_linear_8_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 2
 end
 prob_bvp_linear_8_function = BVPFunction(prob_bvp_linear_8_f!, (prob_bvp_linear_8_bca!, prob_bvp_linear_8_bcb!),

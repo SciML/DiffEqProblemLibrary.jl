@@ -407,10 +407,10 @@ function prob_bvp_nonlinear_8_f!(du, u, p, t)
     du[1] = u[2]
     du[2] = 1 / p * prob_bvp_nonlinear_8_f(u[1], u[2])
 end
-function prob_bvp_nonlinear_8_bca!(resid_a, u_a, p)
+function prob_bvp_nonlinear_8_bca!(res_a, u_a, p)
     res_a[1] = u_a[1] - 1
 end
-function prob_bvp_nonlinear_8_bcb!(resid_b, u_b, p)
+function prob_bvp_nonlinear_8_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] + 1 / 3
 end
 prob_bvp_nonlinear_8_function = BVPFunction(prob_bvp_nonlinear_8_f!, (prob_bvp_nonlinear_8_bca!, prob_bvp_nonlinear_8_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
@@ -615,10 +615,10 @@ function prob_bvp_nonlinear_12_f!(du, u, p, t)
     du[1] = u[2]
     du[2] = 1 / p * prob_bvp_nonlinear_12_f(u[1], u[2])
 end
-function prob_bvp_nonlinear_12_bca!(resid_a, u_a, p)
+function prob_bvp_nonlinear_12_bca!(res_a, u_a, p)
     res_a[1] = u_a[1] + 7 / 6
 end
-function prob_bvp_nonlinear_12_bcb!(resid_b, u_b, p)
+function prob_bvp_nonlinear_12_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 3 / 2
 end
 prob_bvp_nonlinear_12_function = BVPFunction(prob_bvp_nonlinear_12_f!, (prob_bvp_nonlinear_12_bca!, prob_bvp_nonlinear_12_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
@@ -733,7 +733,7 @@ function prob_bvp_nonlinear_14_f!(du, u, p, t)
     du[3] = u[4]
     du[4] = prob_bvp_nonlinear_14_f(u[1], u[2], u[3], u[4], p)
 end
-function prob_bvp_nonlinear_14_bca!(res_a, u_b, p)
+function prob_bvp_nonlinear_14_bca!(res_a, u_a, p)
     res_a[1] = u_a[1]
     res_a[2] = u_a[2]
 end

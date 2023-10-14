@@ -24,6 +24,8 @@ function flat_moon_bca!(res_a, u_a, p)
     res_a[4] = u_a[4]
 end
 function flat_moon_bcb!(res_b, u_b, p)
+    h = 185.2
+    Vc = 1627
     res_b[1] = u_b[5] - h
     res_b[2] = u_b[6] - Vc
     res_b[3] = u_b[7]
@@ -98,7 +100,7 @@ function flat_earth_f!(du, u, p, t)
     Vc = sqrt(398600.4 / (6378.14 + 300)) * 1000
     h = 300000
     g = 9.80665
-    thrust2Weight = 3
+    Thrust2Weight = 3
     acc = Thrust2Weight * g
 
     du[1] = (u[3] * (Vc / h))
