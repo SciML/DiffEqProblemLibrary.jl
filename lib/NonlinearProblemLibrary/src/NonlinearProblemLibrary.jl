@@ -90,6 +90,7 @@ p5_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
 # ------------------------------------- Problem 6 ------------------------------------------
 function p6_f!(out, x, p = nothing)
     n = length(x)
+    out .= 0
     for i in 1:29
         ti = i / 29.0
         sum1 = 0.0
@@ -113,7 +114,7 @@ function p6_f!(out, x, p = nothing)
         end
     end
 
-    out[1] = out[1] + 3.0 * x[1] - 2.0 * x[1] * x[1] + 2.0 * x[1]^3
+    out[1] = out[1] + 3.0 * x[1] - 2.0 * x[1] * x[2] + 2.0 * x[1]^3
     out[2] = out[2] + x[2] - x[2]^2 - 1.0
     nothing
 end
