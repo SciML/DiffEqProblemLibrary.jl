@@ -13,7 +13,9 @@ end
 function prob_bvp_nonlinear_1_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - exp(-1 / p)
 end
-prob_bvp_nonlinear_1_function = BVPFunction(prob_bvp_nonlinear_1_f!, (prob_bvp_nonlinear_1_bca!, prob_bvp_nonlinear_1_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_1_function = BVPFunction(
+    prob_bvp_nonlinear_1_f!, (prob_bvp_nonlinear_1_bca!, prob_bvp_nonlinear_1_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_1_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_1
@@ -75,7 +77,8 @@ end
 function prob_bvp_nonlinear_2_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1 - p * log(cosh(0.255 / p))
 end
-prob_bvp_nonlinear_2_function = BVPFunction(prob_bvp_nonlinear_2_f!, (prob_bvp_nonlinear_2_bca!, prob_bvp_nonlinear_2_bcb!),
+prob_bvp_nonlinear_2_function = BVPFunction(
+    prob_bvp_nonlinear_2_f!, (prob_bvp_nonlinear_2_bca!, prob_bvp_nonlinear_2_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_nonlinear_2_analytic, twopoint = Val(true))
 prob_bvp_nonlinear_2_tspan = (0, 1)
 @doc raw"""
@@ -139,7 +142,8 @@ end
 function prob_bvp_nonlinear_3_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - exp(-1 / sqrt(λ))
 end
-prob_bvp_nonlinear_3_function = BVPFunction(prob_bvp_nonlinear_3_f!, (prob_bvp_nonlinear_3_bca!, prob_bvp_nonlinear_3_bcb!),
+prob_bvp_nonlinear_3_function = BVPFunction(
+    prob_bvp_nonlinear_3_f!, (prob_bvp_nonlinear_3_bca!, prob_bvp_nonlinear_3_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_nonlinear_3_analytic, twopoint = Val(true))
 prob_bvp_nonlinear_3_tspan = (0, 1)
 @doc raw"""
@@ -199,7 +203,9 @@ end
 function prob_bvp_nonlinear_4_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1 / 2
 end
-prob_bvp_nonlinear_4_function = BVPFunction(prob_bvp_nonlinear_4_f!, (prob_bvp_nonlinear_4_bca!, prob_bvp_nonlinear_4_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_4_function = BVPFunction(
+    prob_bvp_nonlinear_4_f!, (prob_bvp_nonlinear_4_bca!, prob_bvp_nonlinear_4_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_4_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_4
@@ -251,7 +257,9 @@ end
 function prob_bvp_nonlinear_5_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1
 end
-prob_bvp_nonlinear_5_function = BVPFunction(prob_bvp_nonlinear_5_f!, (prob_bvp_nonlinear_5_bca!, prob_bvp_nonlinear_5_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_5_function = BVPFunction(
+    prob_bvp_nonlinear_5_f!, (prob_bvp_nonlinear_5_bca!, prob_bvp_nonlinear_5_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_5_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_5
@@ -307,7 +315,9 @@ end
 function prob_bvp_nonlinear_6_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 0.375
 end
-prob_bvp_nonlinear_6_function = BVPFunction(prob_bvp_nonlinear_6_f!, (prob_bvp_nonlinear_6_bca!, prob_bvp_nonlinear_6_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_6_function = BVPFunction(
+    prob_bvp_nonlinear_6_f!, (prob_bvp_nonlinear_6_bca!, prob_bvp_nonlinear_6_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_6_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_6
@@ -361,7 +371,9 @@ end
 function prob_bvp_nonlinear_7_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1 / 3
 end
-prob_bvp_nonlinear_7_function = BVPFunction(prob_bvp_nonlinear_7_f!, (prob_bvp_nonlinear_7_bca!, prob_bvp_nonlinear_7_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_7_function = BVPFunction(
+    prob_bvp_nonlinear_7_f!, (prob_bvp_nonlinear_7_bca!, prob_bvp_nonlinear_7_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_7_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_7
@@ -413,7 +425,9 @@ end
 function prob_bvp_nonlinear_8_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] + 1 / 3
 end
-prob_bvp_nonlinear_8_function = BVPFunction(prob_bvp_nonlinear_8_f!, (prob_bvp_nonlinear_8_bca!, prob_bvp_nonlinear_8_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_8_function = BVPFunction(
+    prob_bvp_nonlinear_8_f!, (prob_bvp_nonlinear_8_bca!, prob_bvp_nonlinear_8_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_8_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_8
@@ -465,7 +479,9 @@ end
 function prob_bvp_nonlinear_9_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1 / 3
 end
-prob_bvp_nonlinear_9_function = BVPFunction(prob_bvp_nonlinear_9_f!, (prob_bvp_nonlinear_9_bca!, prob_bvp_nonlinear_9_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_9_function = BVPFunction(
+    prob_bvp_nonlinear_9_f!, (prob_bvp_nonlinear_9_bca!, prob_bvp_nonlinear_9_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_9_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_9
@@ -517,7 +533,9 @@ end
 function prob_bvp_nonlinear_10_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 3 / 2
 end
-prob_bvp_nonlinear_10_function = BVPFunction(prob_bvp_nonlinear_10_f!, (prob_bvp_nonlinear_10_bca!, prob_bvp_nonlinear_10_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_10_function = BVPFunction(
+    prob_bvp_nonlinear_10_f!, (prob_bvp_nonlinear_10_bca!, prob_bvp_nonlinear_10_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_10_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_10
@@ -569,7 +587,9 @@ end
 function prob_bvp_nonlinear_11_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 3 / 2
 end
-prob_bvp_nonlinear_11_function = BVPFunction(prob_bvp_nonlinear_11_f!, (prob_bvp_nonlinear_11_bca!, prob_bvp_nonlinear_11_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_11_function = BVPFunction(
+    prob_bvp_nonlinear_11_f!, (prob_bvp_nonlinear_11_bca!, prob_bvp_nonlinear_11_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_11_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_11
@@ -621,7 +641,9 @@ end
 function prob_bvp_nonlinear_12_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 3 / 2
 end
-prob_bvp_nonlinear_12_function = BVPFunction(prob_bvp_nonlinear_12_f!, (prob_bvp_nonlinear_12_bca!, prob_bvp_nonlinear_12_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_nonlinear_12_function = BVPFunction(
+    prob_bvp_nonlinear_12_f!, (prob_bvp_nonlinear_12_bca!, prob_bvp_nonlinear_12_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_nonlinear_12_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_12
@@ -679,7 +701,9 @@ function prob_bvp_nonlinear_13_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1]
     res_b[2] = u_b[3]
 end
-prob_bvp_nonlinear_13_function = BVPFunction(prob_bvp_nonlinear_13_f!, (prob_bvp_nonlinear_13_bca!, prob_bvp_nonlinear_13_bcb!), bcresid_prototype = (zeros(2), zeros(2)), twopoint = Val(true))
+prob_bvp_nonlinear_13_function = BVPFunction(
+    prob_bvp_nonlinear_13_f!, (prob_bvp_nonlinear_13_bca!, prob_bvp_nonlinear_13_bcb!),
+    bcresid_prototype = (zeros(2), zeros(2)), twopoint = Val(true))
 prob_bvp_nonlinear_13_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_13
@@ -741,7 +765,9 @@ function prob_bvp_nonlinear_14_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1
     res_b[2] = u_b[2]
 end
-prob_bvp_nonlinear_14_function = BVPFunction(prob_bvp_nonlinear_14_f!, (prob_bvp_nonlinear_14_bca!, prob_bvp_nonlinear_14_bcb!), bcresid_prototype = (zeros(2), zeros(2)), twopoint = Val(true))
+prob_bvp_nonlinear_14_function = BVPFunction(
+    prob_bvp_nonlinear_14_f!, (prob_bvp_nonlinear_14_bca!, prob_bvp_nonlinear_14_bcb!),
+    bcresid_prototype = (zeros(2), zeros(2)), twopoint = Val(true))
 prob_bvp_nonlinear_14_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_14
@@ -808,7 +834,9 @@ function prob_bvp_nonlinear_15_bcb!(res_b, u_b, p)
     res_b[2] = u_b[3]
     res_b[3] = u_b[4]
 end
-prob_bvp_nonlinear_15_function = BVPFunction(prob_bvp_nonlinear_15_f!, (prob_bvp_nonlinear_15_bca!, prob_bvp_nonlinear_15_bcb!), bcresid_prototype = (zeros(3), zeros(3)), twopoint = Val(true))
+prob_bvp_nonlinear_15_function = BVPFunction(
+    prob_bvp_nonlinear_15_f!, (prob_bvp_nonlinear_15_bca!, prob_bvp_nonlinear_15_bcb!),
+    bcresid_prototype = (zeros(3), zeros(3)), twopoint = Val(true))
 prob_bvp_nonlinear_15_tspan = (0, 1)
 @doc raw"""
     prob_bvp_nonlinear_15

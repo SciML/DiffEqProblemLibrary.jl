@@ -17,7 +17,8 @@ function prob_bvp_linear_1_bcb!(resid_b, u_b, p)
     resid_b[1] = u_b[1]
 end
 
-prob_bvp_linear_1_function = BVPFunction(prob_bvp_linear_1_f!, (prob_bvp_linear_1_bca!, prob_bvp_linear_1_bcb!),
+prob_bvp_linear_1_function = BVPFunction(
+    prob_bvp_linear_1_f!, (prob_bvp_linear_1_bca!, prob_bvp_linear_1_bcb!),
     analytic = prob_bvp_linear_1_analytic, bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_linear_1_tspan = (0.0, 1.0)
 @doc raw"""
@@ -74,7 +75,8 @@ end
 function prob_bvp_linear_2_bcb!(resid_b, u_b, p)
     resid_b[1] = u_b[1]
 end
-prob_bvp_linear_2_function = BVPFunction(prob_bvp_linear_2_f!, (prob_bvp_linear_2_bca!, prob_bvp_linear_2_bcb!),
+prob_bvp_linear_2_function = BVPFunction(
+    prob_bvp_linear_2_f!, (prob_bvp_linear_2_bca!, prob_bvp_linear_2_bcb!),
     analytic = prob_bvp_linear_2_analytic, bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_linear_2_tspan = (0.0, 1.0)
 @doc raw"""
@@ -134,7 +136,8 @@ end
 function prob_bvp_linear_3_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] + 1
 end
-prob_bvp_linear_3_function = BVPFunction(prob_bvp_linear_3_f!, (prob_bvp_linear_3_bca!, prob_bvp_linear_3_bcb!),
+prob_bvp_linear_3_function = BVPFunction(
+    prob_bvp_linear_3_f!, (prob_bvp_linear_3_bca!, prob_bvp_linear_3_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_3_analytic, twopoint = Val(true))
 prob_bvp_linear_3_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -197,7 +200,8 @@ end
 function prob_bvp_linear_4_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1 - exp(-2 * (1 + p) / p)
 end
-prob_bvp_linear_4_function = BVPFunction(prob_bvp_linear_4_f!, (prob_bvp_linear_4_bca!, prob_bvp_linear_4_bcb!),
+prob_bvp_linear_4_function = BVPFunction(
+    prob_bvp_linear_4_f!, (prob_bvp_linear_4_bca!, prob_bvp_linear_4_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_4_analytic, twopoint = Val(true))
 prob_bvp_linear_4_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -262,7 +266,8 @@ end
 function prob_bvp_linear_5_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] + 1
 end
-prob_bvp_linear_5_function = BVPFunction(prob_bvp_linear_5_f!, (prob_bvp_linear_5_bca!, prob_bvp_linear_5_bcb!),
+prob_bvp_linear_5_function = BVPFunction(
+    prob_bvp_linear_5_f!, (prob_bvp_linear_5_bca!, prob_bvp_linear_5_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_5_analytic, twopoint = Val(true))
 prob_bvp_linear_5_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -326,7 +331,8 @@ end
 function prob_bvp_linear_6_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1]
 end
-prob_bvp_linear_6_function = BVPFunction(prob_bvp_linear_6_f!, (prob_bvp_linear_6_bca!, prob_bvp_linear_6_bcb!),
+prob_bvp_linear_6_function = BVPFunction(
+    prob_bvp_linear_6_f!, (prob_bvp_linear_6_bca!, prob_bvp_linear_6_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_6_analytic, twopoint = Val(true))
 prob_bvp_linear_6_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -395,9 +401,10 @@ function prob_bvp_linear_7_bca!(res_a, u_a, p)
     res_a[1] = u_a[1] + 1
 end
 function prob_bvp_linear_7_bcb!(res_b, u_b, p)
-    res_b[1] = u_b[1] -1
+    res_b[1] = u_b[1] - 1
 end
-prob_bvp_linear_7_function = BVPFunction(prob_bvp_linear_7_f!, (prob_bvp_linear_7_bca!, prob_bvp_linear_7_bcb!),
+prob_bvp_linear_7_function = BVPFunction(
+    prob_bvp_linear_7_f!, (prob_bvp_linear_7_bca!, prob_bvp_linear_7_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_7_analytic, twopoint = Val(true))
 prob_bvp_linear_7_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -460,7 +467,8 @@ end
 function prob_bvp_linear_8_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 2
 end
-prob_bvp_linear_8_function = BVPFunction(prob_bvp_linear_8_f!, (prob_bvp_linear_8_bca!, prob_bvp_linear_8_bcb!),
+prob_bvp_linear_8_function = BVPFunction(
+    prob_bvp_linear_8_f!, (prob_bvp_linear_8_bca!, prob_bvp_linear_8_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_8_analytic, twopoint = Val(true))
 prob_bvp_linear_8_tspan = (0.0, 1.0)
 @doc raw"""
@@ -517,7 +525,8 @@ end
 function prob_bvp_linear_9_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1 / (1 + p)
 end
-prob_bvp_linear_9_function = BVPFunction(prob_bvp_linear_9_f!, (prob_bvp_linear_9_bca!, prob_bvp_linear_9_bcb!),
+prob_bvp_linear_9_function = BVPFunction(
+    prob_bvp_linear_9_f!, (prob_bvp_linear_9_bca!, prob_bvp_linear_9_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_9_analytic, twopoint = Val(true))
 prob_bvp_linear_9_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -581,7 +590,8 @@ end
 function prob_bvp_linear_10_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 2
 end
-prob_bvp_linear_10_function = BVPFunction(prob_bvp_linear_10_f!, (prob_bvp_linear_10_bca!, prob_bvp_linear_10_bcb!),
+prob_bvp_linear_10_function = BVPFunction(
+    prob_bvp_linear_10_f!, (prob_bvp_linear_10_bca!, prob_bvp_linear_10_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_10_analytic, twopoint = Val(true))
 prob_bvp_linear_10_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -644,7 +654,8 @@ end
 function prob_bvp_linear_11_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] + 1
 end
-prob_bvp_linear_11_function = BVPFunction(prob_bvp_linear_11_f!, (prob_bvp_linear_11_bca!, prob_bvp_linear_11_bcb!),
+prob_bvp_linear_11_function = BVPFunction(
+    prob_bvp_linear_11_f!, (prob_bvp_linear_11_bca!, prob_bvp_linear_11_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_11_analytic, twopoint = Val(true))
 prob_bvp_linear_11_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -709,7 +720,8 @@ end
 function prob_bvp_linear_12_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1]
 end
-prob_bvp_linear_12_function = BVPFunction(prob_bvp_linear_12_f!, (prob_bvp_linear_12_bca!, prob_bvp_linear_12_bcb!),
+prob_bvp_linear_12_function = BVPFunction(
+    prob_bvp_linear_12_f!, (prob_bvp_linear_12_bca!, prob_bvp_linear_12_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_12_analytic, twopoint = Val(true))
 prob_bvp_linear_12_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -773,7 +785,8 @@ end
 function prob_bvp_linear_13_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] + 1
 end
-prob_bvp_linear_13_function = BVPFunction(prob_bvp_linear_13_f!, (prob_bvp_linear_13_bca!, prob_bvp_linear_13_bcb!),
+prob_bvp_linear_13_function = BVPFunction(
+    prob_bvp_linear_13_f!, (prob_bvp_linear_13_bca!, prob_bvp_linear_13_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_13_analytic, twopoint = Val(true))
 prob_bvp_linear_13_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -837,7 +850,8 @@ end
 function prob_bvp_linear_14_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - exp(-2 / sqrt(p))
 end
-prob_bvp_linear_14_function = BVPFunction(prob_bvp_linear_14_f!, (prob_bvp_linear_14_bca!, prob_bvp_linear_14_bcb!),
+prob_bvp_linear_14_function = BVPFunction(
+    prob_bvp_linear_14_f!, (prob_bvp_linear_14_bca!, prob_bvp_linear_14_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_14_analytic, twopoint = Val(true))
 prob_bvp_linear_14_tspan = (-1.0, 1.0)
 @doc raw"""
@@ -897,7 +911,9 @@ end
 function prob_bvp_linear_15_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 1
 end
-prob_bvp_linear_15_function = BVPFunction(prob_bvp_linear_15_f!, (prob_bvp_linear_15_bca!, prob_bvp_linear_15_bcb!), bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
+prob_bvp_linear_15_function = BVPFunction(
+    prob_bvp_linear_15_f!, (prob_bvp_linear_15_bca!, prob_bvp_linear_15_bcb!),
+    bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true))
 prob_bvp_linear_15_tspan = (-1.0, 1.0)
 @doc raw"""
     prob_bvp_linear_15
@@ -952,7 +968,8 @@ end
 function prob_bvp_linear_16_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - sin(π / (2 * p))
 end
-prob_bvp_linear_16_function = BVPFunction(prob_bvp_linear_16_f!, (prob_bvp_linear_16_bca!, prob_bvp_linear_16_bcb!),
+prob_bvp_linear_16_function = BVPFunction(
+    prob_bvp_linear_16_f!, (prob_bvp_linear_16_bca!, prob_bvp_linear_16_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_16_analytic, twopoint = Val(true))
 prob_bvp_linear_16_tspan = (0.0, 1.0)
 @doc raw"""
@@ -1014,7 +1031,8 @@ end
 function prob_bvp_linear_17_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - 0.1 / sqrt(p + 0.01)
 end
-prob_bvp_linear_17_function = BVPFunction(prob_bvp_linear_17_f!, (prob_bvp_linear_17_bca!, prob_bvp_linear_17_bcb!),
+prob_bvp_linear_17_function = BVPFunction(
+    prob_bvp_linear_17_f!, (prob_bvp_linear_17_bca!, prob_bvp_linear_17_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_17_analytic, twopoint = Val(true))
 prob_bvp_linear_17_tspan = (-0.1, 0.1)
 @doc raw"""
@@ -1077,7 +1095,8 @@ end
 function prob_bvp_linear_18_bcb!(res_b, u_b, p)
     res_b[1] = u_b[1] - exp(-1 / p)
 end
-prob_bvp_linear_18_function = BVPFunction(prob_bvp_linear_18_f!, (prob_bvp_linear_18_bca!, prob_bvp_linear_18_bcb!),
+prob_bvp_linear_18_function = BVPFunction(
+    prob_bvp_linear_18_f!, (prob_bvp_linear_18_bca!, prob_bvp_linear_18_bcb!),
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_18_analytic, twopoint = Val(true))
 prob_bvp_linear_18_tspan = (0, 1)
 @doc raw"""
