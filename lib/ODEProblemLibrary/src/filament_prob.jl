@@ -12,7 +12,7 @@ end
 mutable struct FilamentCache{
     MagneticForce <: AbstractMagneticForce,
     InextensibilityCache <: AbstractInextensibilityCache,
-    SolverCache <: AbstractSolverCache,
+    SolverCache <: AbstractSolverCache
 } <: AbstractFilamentCache
     N::Int
     μ::T
@@ -205,7 +205,7 @@ function subtract_from_identity!(A)
 end
 
 function LDLt_inplace!(L::LinearAlgebra.LDLt{T, SymTridiagonal{T}},
-    A::Matrix{T}) where {T <: Real}
+        A::Matrix{T}) where {T <: Real}
     n = size(A, 1)
     dv, ev = L.data.dv, L.data.ev
     @inbounds for (i, d) in enumerate(diagind(A))

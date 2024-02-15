@@ -31,7 +31,8 @@ function flat_moon_bcb!(res_b, u_b, p)
     res_b[3] = u_b[7]
 end
 flat_moon_tspan = (0, 700)
-flat_moon_function = BVPFunction(flat_moon_f!, (flat_moon_bca!, flat_moon_bcb!), bcresid_prototype = (zeros(4), zeros(3)), twopoint = Val(true))
+flat_moon_function = BVPFunction(flat_moon_f!, (flat_moon_bca!, flat_moon_bcb!),
+    bcresid_prototype = (zeros(4), zeros(3)), twopoint = Val(true))
 @doc raw"""
     flat_moon
 
@@ -122,7 +123,8 @@ function flat_earth_bcb!(res_b, u_b, p)
     res_b[2] = u_b[3] - 1
     res_b[3] = u_b[4]
 end
-flat_earth_function = BVPFunction(flat_earth_f!, (flat_earth_bca!, flat_earth_bcb!), bcresid_prototype = (zeros(4), zeros(3)), twopoint = Val(true))
+flat_earth_function = BVPFunction(flat_earth_f!, (flat_earth_bca!, flat_earth_bcb!),
+    bcresid_prototype = (zeros(4), zeros(3)), twopoint = Val(true))
 flat_earth_tspan = (0, 700)
 @doc raw"""
     flat_earth
@@ -244,10 +246,12 @@ function flat_earth_drag_bcb!(res_b, u_b, p)
     res_b[2] = u_b[3] - 1
     res_b[3] = u_b[4]
     res_b[4] = (-sqrt(u_b[6]^2.0 + u_b[7]^2.0) * fr / m / vc -
-              (u_b[6] * u_b[3]) * eta * exp(-beta) * sqrt(u_b[3]^2.0) * vc / m -
-              u_b[7] * g_accel / vc) * u_b[8] + 1.0
+                (u_b[6] * u_b[3]) * eta * exp(-beta) * sqrt(u_b[3]^2.0) * vc / m -
+                u_b[7] * g_accel / vc) * u_b[8] + 1.0
 end
-flat_earth_drag_function = BVPFunction(flat_earth_drag_f!, (flat_earth_drag_bca!, flat_earth_drag_bcb!), bcresid_prototype = (zeros(4), zeros(4)), twopoint = Val(true))
+flat_earth_drag_function = BVPFunction(
+    flat_earth_drag_f!, (flat_earth_drag_bca!, flat_earth_drag_bcb!),
+    bcresid_prototype = (zeros(4), zeros(4)), twopoint = Val(true))
 flat_earth_drag_tspan = (0, 100)
 @doc raw"""
     flat_earth_drag
@@ -370,20 +374,21 @@ measles = BVProblem(measles_function, [0, 0, 0], measles_tspan)
 
 # Linear BVP Example Problems
 export prob_bvp_linear_1, prob_bvp_linear_2, prob_bvp_linear_3, prob_bvp_linear_4,
-    prob_bvp_linear_5,
-    prob_bvp_linear_6, prob_bvp_linear_7, prob_bvp_linear_8, prob_bvp_linear_9,
-    prob_bvp_linear_10,
-    prob_bvp_linear_11, prob_bvp_linear_12, prob_bvp_linear_13, prob_bvp_linear_14,
-    prob_bvp_linear_15,
-    prob_bvp_linear_16, prob_bvp_linear_17, prob_bvp_linear_18
+       prob_bvp_linear_5,
+       prob_bvp_linear_6, prob_bvp_linear_7, prob_bvp_linear_8, prob_bvp_linear_9,
+       prob_bvp_linear_10,
+       prob_bvp_linear_11, prob_bvp_linear_12, prob_bvp_linear_13, prob_bvp_linear_14,
+       prob_bvp_linear_15,
+       prob_bvp_linear_16, prob_bvp_linear_17, prob_bvp_linear_18
 
 # Nonlinear BVP Example Problems
 export prob_bvp_nonlinear_1, prob_bvp_nonlinear_2, prob_bvp_nonlinear_3,
-    prob_bvp_nonlinear_4, prob_bvp_nonlinear_5,
-    prob_bvp_nonlinear_6, prob_bvp_nonlinear_7, prob_bvp_nonlinear_8, prob_bvp_nonlinear_9,
-    prob_bvp_nonlinear_10,
-    prob_bvp_nonlinear_11, prob_bvp_nonlinear_12, prob_bvp_nonlinear_13,
-    prob_bvp_nonlinear_14, prob_bvp_nonlinear_15
+       prob_bvp_nonlinear_4, prob_bvp_nonlinear_5,
+       prob_bvp_nonlinear_6, prob_bvp_nonlinear_7, prob_bvp_nonlinear_8,
+       prob_bvp_nonlinear_9,
+       prob_bvp_nonlinear_10,
+       prob_bvp_nonlinear_11, prob_bvp_nonlinear_12, prob_bvp_nonlinear_13,
+       prob_bvp_nonlinear_14, prob_bvp_nonlinear_15
 
 export flat_moon, flat_earth, flat_earth_drag, measles
 

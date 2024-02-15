@@ -9,9 +9,9 @@ RuntimeGeneratedFunctions.init(@__MODULE__)
 
 #SDE Example Problems
 export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
-    prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
-    prob_sde_additivesystem, oval2ModelExample, prob_sde_bistable,
-    prob_sde_bruss, prob_sde_oscilreact
+       prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
+       prob_sde_additivesystem, oval2ModelExample, prob_sde_bistable,
+       prob_sde_bruss, prob_sde_oscilreact
 #SDE Stratonovich Example Problems
 export prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
 
@@ -32,12 +32,14 @@ u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 ```
 
 """
-prob_sde_linear = SDEProblem(SDEFunction(f_linear, σ_linear,
+prob_sde_linear = SDEProblem(
+    SDEFunction(f_linear, σ_linear,
         analytic = linear_analytic), 1 / 2,
     (0.0, 1.0))
 
 linear_analytic_strat(u0, p, t, W) = @.(u0*exp(1.01t + 0.87W))
-prob_sde_linear_stratonovich = SDEProblem(SDEFunction(f_linear, σ_linear,
+prob_sde_linear_stratonovich = SDEProblem(
+    SDEFunction(f_linear, σ_linear,
         analytic = linear_analytic_strat), 1 / 2, (0.0, 1.0))
 f_linear_iip(du, u, p, t) = @.(du=1.01 * u)
 σ_linear_iip(du, u, p, t) = @.(du=0.87 * u)
@@ -53,10 +55,14 @@ where ``α=1.01``, ``β=0.87``, and initial condition ``u_0=\frac{1}{2}`` with s
 u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
 ```
 """
-prob_sde_2Dlinear = SDEProblem(SDEFunction(f_linear_iip, σ_linear_iip,
-        analytic = linear_analytic), ones(4, 2) / 2, (0.0, 1.0))
-prob_sde_2Dlinear_stratonovich = SDEProblem(SDEFunction(f_linear_iip, σ_linear_iip,
-        analytic = linear_analytic_strat), ones(4, 2) / 2, (0.0, 1.0))
+prob_sde_2Dlinear = SDEProblem(
+    SDEFunction(f_linear_iip, σ_linear_iip,
+        analytic = linear_analytic),
+    ones(4, 2) / 2, (0.0, 1.0))
+prob_sde_2Dlinear_stratonovich = SDEProblem(
+    SDEFunction(f_linear_iip, σ_linear_iip,
+        analytic = linear_analytic_strat),
+    ones(4, 2) / 2, (0.0, 1.0))
 
 f_cubic(u, p, t) = -0.25 * u * (1 - u^2)
 σ_cubic(u, p, t) = 0.5 * (1 - u^2)

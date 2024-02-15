@@ -335,7 +335,7 @@ prob_ode_pleiades = ODEProblem(pleiades,
         -1.25,
         1,
         0,
-        0,
+        0
     ], (0.0, 3.0))
 
 Random.seed!(100)

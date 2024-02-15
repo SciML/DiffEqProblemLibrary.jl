@@ -139,7 +139,8 @@ function fanalytic_dde_DDETST_B1(u₀, ::typeof(h_dde_DDETST_B1), p, t)
     log(t)
 end
 
-const prob_dde_DDETST_B1 = DDEProblem(DDEFunction(f_dde_DDETST_B1;
+const prob_dde_DDETST_B1 = DDEProblem(
+    DDEFunction(f_dde_DDETST_B1;
         analytic = fanalytic_dde_DDETST_B1),
     h_dde_DDETST_B1, (0.1, 10.0);
     dependent_lags = ((u, p, t) -> t - exp(1 - 1 / t),))
@@ -203,7 +204,8 @@ function fanalytic_dde_DDETST_B2(u₀, ::typeof(h_dde_DDETST_B2), p, t)
     end
 end
 
-const prob_dde_DDETST_B2 = DDEProblem(DDEFunction(f_dde_DDETST_B2;
+const prob_dde_DDETST_B2 = DDEProblem(
+    DDEFunction(f_dde_DDETST_B2;
         analytic = fanalytic_dde_DDETST_B2),
     h_dde_DDETST_B2, (0.0, 2 * log(66));
     dependent_lags = ((u, p, t) -> t / 2,))
@@ -490,7 +492,8 @@ function fanalytic_dde_DDETST_D1(u₀, ::typeof(h_dde_DDETST_D1), p, t)
     [log(t), 1 / t]
 end
 
-const prob_dde_DDETST_D1 = DDEProblem(DDEFunction(f_dde_DDETST_D1!;
+const prob_dde_DDETST_D1 = DDEProblem(
+    DDEFunction(f_dde_DDETST_D1!;
         analytic = fanalytic_dde_DDETST_D1),
     h_dde_DDETST_D1, (0.1, 5.0);
     dependent_lags = ((u, p, t) -> t - exp(1 - u[2]),))
@@ -656,7 +659,7 @@ const prob_dde_DDETST_E2 = let α = 0.1, ρ = 2.9, τ = 0.42
     end
 
     global function h_dde_DDETST_E2(p, t, ::Type{Val{1}};
-        idxs::Union{Nothing, Int} = nothing)
+            idxs::Union{Nothing, Int} = nothing)
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
         if idxs === nothing
@@ -729,7 +732,8 @@ function fanalytic_dde_DDETST_F1(u₀, ::typeof(h_dde_DDETST_F1), p, t)
     exp(sin(2 * t))
 end
 
-const prob_dde_DDETST_F1 = DDEProblem(DDEFunction(f_dde_DDETST_F1;
+const prob_dde_DDETST_F1 = DDEProblem(
+    DDEFunction(f_dde_DDETST_F1;
         analytic = fanalytic_dde_DDETST_F1),
     h_dde_DDETST_F1, (0.0, 0.1);
     dependent_lags = ((u, p, t) -> t / 2,),
@@ -819,7 +823,8 @@ function fanalytic_dde_DDETST_F2(u₀, ::typeof(h_dde_DDETST_F2), p, t)
     end
 end
 
-const prob_dde_DDETST_F2 = DDEProblem(DDEFunction(f_dde_DDETST_F2;
+const prob_dde_DDETST_F2 = DDEProblem(
+    DDEFunction(f_dde_DDETST_F2;
         analytic = fanalytic_dde_DDETST_F2),
     h_dde_DDETST_F2, (0.25, 0.499);
     dependent_lags = ((u, p, t) -> 1 / 2 - t,),
@@ -875,7 +880,8 @@ function fanalytic_dde_DDETST_F345(u₀, ::typeof(h_dde_DDETST_F345), p, t)
     log(t + 3)
 end
 
-const prob_dde_DDETST_F3 = DDEProblem(DDEFunction(f_dde_DDETST_F3;
+const prob_dde_DDETST_F3 = DDEProblem(
+    DDEFunction(f_dde_DDETST_F3;
         analytic = fanalytic_dde_DDETST_F345),
     h_dde_DDETST_F345, (0.0, 10.0);
     dependent_lags = ((u, p, t) -> 0.5 * t *
@@ -971,7 +977,8 @@ function fanalytic_dde_DDETST_G1(u₀, ::typeof(h_dde_DDETST_G1), p, t)
     t + 1
 end
 
-const prob_dde_DDETST_G1 = DDEProblem(DDEFunction(f_dde_DDETST_G1;
+const prob_dde_DDETST_G1 = DDEProblem(
+    DDEFunction(f_dde_DDETST_G1;
         analytic = fanalytic_dde_DDETST_G1),
     h_dde_DDETST_G1, (0.0, 1.0);
     dependent_lags = ((u, p, t) -> u^2 / 4,),
@@ -1024,7 +1031,8 @@ function fanalytic_dde_DDETST_G2(u₀, ::typeof(h_dde_DDETST_G2), p, t)
     t + 1
 end
 
-const prob_dde_DDETST_G2 = DDEProblem(DDEFunction(f_dde_DDETST_G2;
+const prob_dde_DDETST_G2 = DDEProblem(
+    DDEFunction(f_dde_DDETST_G2;
         analytic = fanalytic_dde_DDETST_G2),
     h_dde_DDETST_G2, (0.0, 1.0);
     dependent_lags = ((u, p, t) -> t + 2 - u,),
@@ -1083,7 +1091,8 @@ function fanalytic_dde_DDETST_H1(u₀, ::typeof(h_dde_DDETST_H1), p, t)
     -log(cos(2 * t)) / 2
 end
 
-const prob_dde_DDETST_H1 = DDEProblem(DDEFunction(f_dde_DDETST_H1;
+const prob_dde_DDETST_H1 = DDEProblem(
+    DDEFunction(f_dde_DDETST_H1;
         analytic = fanalytic_dde_DDETST_H1),
     h_dde_DDETST_H1, (0.0, 0.225 * π);
     dependent_lags = ((u, p, t) -> t / (1 + u^2),),
@@ -1148,7 +1157,8 @@ function fanalytic_dde_DDETST_H234(u₀, ::typeof(h_dde_DDETST_H234), p, t)
     sin(t)
 end
 
-const prob_dde_DDETST_H2 = DDEProblem(DDEFunction(f_dde_DDETST_H2;
+const prob_dde_DDETST_H2 = DDEProblem(
+    DDEFunction(f_dde_DDETST_H2;
         analytic = fanalytic_dde_DDETST_H234),
     h_dde_DDETST_H234, (0.0, π);
     dependent_lags = ((u, p, t) -> t * (1 - u^2),),
