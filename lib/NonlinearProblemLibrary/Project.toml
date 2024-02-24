@@ -10,7 +10,7 @@ SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
 Aqua = "0.8"
 LinearAlgebra = "1.6"
 SciMLBase = "1, 2"
-julia = "1.6"
+julia = "1.10"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
