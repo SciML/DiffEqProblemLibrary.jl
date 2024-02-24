@@ -3,15 +3,15 @@
 # Opted for the equations as reported in papers
 
 # Thomas
-@parameters t b=0.208186
+@parameters b=0.208186
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ sin(y) - b * x,
     D(y) ~ sin(z) - b * y,
     D(z) ~ sin(x) - b * z]
 
-@named thomas = ODESystem(eqs)
+@mtkbuild thomas = ODESystem(eqs,t)
 
 """
 Thomas' cyclically symmetric attractor equations
@@ -27,15 +27,15 @@ $(latexify(thomas))
 prob_ode_thomas = ODEProblem(thomas, [], (0.0, 1.0))
 
 # Lorenz
-@parameters t σ=10 ρ=28 β=8 / 3
+@parameters σ=10 ρ=28 β=8 / 3
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ σ * (y - x),
     D(y) ~ x * (ρ - z) - y,
     D(z) ~ x * y - β * z]
 
-@named lorenz = ODESystem(eqs)
+@mtkbuild lorenz = ODESystem(eqs,t)
 
 """
 Lorenz equations
@@ -51,15 +51,15 @@ $(latexify(lorenz))
 prob_ode_lorenz = ODEProblem(lorenz, [], (0.0, 1.0))
 
 # Aizawa
-@parameters t a=0.95 b=0.7 c=0.6 d=3.5 e=0.25 f=0.1
+@parameters a=0.95 b=0.7 c=0.6 d=3.5 e=0.25 f=0.1
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ (z - b) * x - d * y,
     D(y) ~ d * x + (z - b) * y,
     D(z) ~ c + a * z - z^3 / 3 - (x^2 + y^2) * (1 + e * z) + f * z * x^3]
 
-@named aizawa = ODESystem(eqs)
+@mtkbuild aizawa = ODESystem(eqs,t)
 
 """
 Aizawa equations
@@ -74,15 +74,15 @@ $(latexify(aizawa))
 prob_ode_aizawa = ODEProblem(aizawa, [], (0.0, 1.0))
 
 # Dadras
-@parameters t a=3 b=2.7 c=1.7 d=2 e=9
+@parameters a=3 b=2.7 c=1.7 d=2 e=9
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ y - a * x + b * y * z,
     D(y) ~ c * y - x * z + z,
     D(z) ~ d * x * y - e * z]
 
-@named dadras = ODESystem(eqs)
+@mtkbuild dadras = ODESystem(eqs,t)
 
 """
 Dadras equations
@@ -97,15 +97,15 @@ $(latexify(dadras))
 prob_ode_dadras = ODEProblem(dadras, [], (0.0, 1.0))
 
 # chen
-@parameters t a=35 b=3 c=28
+@parameters a=35 b=3 c=28
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ a * (y - x),
     D(y) ~ (c - a) * x - x * z + c * y,
     D(z) ~ x * y - b * z]
 
-@named chen = ODESystem(eqs)
+@mtkbuild chen = ODESystem(eqs,t)
 
 """
 chen equations
@@ -120,15 +120,15 @@ $(latexify(chen))
 prob_ode_chen = ODEProblem(chen, [], (0.0, 1.0))
 
 # rossler
-@parameters t a=0.2 b=0.2 c=5.7
+@parameters a=0.2 b=0.2 c=5.7
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ -(y + z),
     D(y) ~ x + a * y,
     D(z) ~ b + z * (x - c)]
 
-@named rossler = ODESystem(eqs)
+@mtkbuild rossler = ODESystem(eqs,t)
 
 """
 rossler equations
@@ -144,15 +144,15 @@ $(latexify(rossler))
 prob_ode_rossler = ODEProblem(rossler, [], (0.0, 1.0))
 
 # rabinovich_fabrikant
-@parameters t a=0.14 b=0.10
+@parameters a=0.14 b=0.10
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ y * (z - 1 + x^2) + b * x,
     D(y) ~ x * (3 * z + 1 - x^2) + b * y,
     D(z) ~ -2 * z * (a + x * y)]
 
-@named rabinovich_fabrikant = ODESystem(eqs)
+@mtkbuild rabinovich_fabrikant = ODESystem(eqs,t)
 
 """
 rabinovich_fabrikant equations
@@ -167,15 +167,15 @@ $(latexify(rabinovich_fabrikant))
 prob_ode_rabinovich_fabrikant = ODEProblem(rabinovich_fabrikant, [], (0.0, 1.0))
 
 # sprott
-@parameters t a=2.07 b=1.79
+@parameters a=2.07 b=1.79
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ y + a * x * y + x * z,
     D(y) ~ 1 - b * x^2 + y * z,
     D(z) ~ x - x^2 - y^2]
 
-@named sprott = ODESystem(eqs)
+@mtkbuild sprott = ODESystem(eqs,t)
 
 """
 sprott equations
@@ -190,15 +190,15 @@ $(latexify(sprott))
 prob_ode_sprott = ODEProblem(sprott, [], (0.0, 1.0))
 
 # hindmarsh_rose
-@parameters t a=1 b=3 c=1 d=5 r=1e-2 s=4 xr=-8 / 5 i=5
+@parameters a=1 b=3 c=1 d=5 r=1e-2 s=4 xr=-8 / 5 i=5
 @variables x(t)=1 y(t)=0 z(t)=0
-D = Differential(t)
+
 
 eqs = [D(x) ~ y - a * x^3 + b * x^2 - z + i,
     D(y) ~ c - d * x^2 - y,
     D(z) ~ r * (s * (x - xr) - z)]
 
-@named hindmarsh_rose = ODESystem(eqs)
+@mtkbuild hindmarsh_rose = ODESystem(eqs,t)
 
 """
 hindmarsh_rose equations
