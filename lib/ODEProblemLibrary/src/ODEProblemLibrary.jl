@@ -5,6 +5,7 @@ module ODEProblemLibrary
 using DiffEqBase
 using Latexify
 using ModelingToolkit
+using ModelingToolkit: t_nounits as t, D_nounits as D
 
 using LinearAlgebra
 using Markdown
