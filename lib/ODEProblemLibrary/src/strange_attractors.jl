@@ -3,15 +3,14 @@
 # Opted for the equations as reported in papers
 
 # Thomas
-@parameters b=0.208186
+@parameters b = 0.208186
 @variables x(t)=1 y(t)=0 z(t)=0
-
 
 eqs = [D(x) ~ sin(y) - b * x,
     D(y) ~ sin(z) - b * y,
     D(z) ~ sin(x) - b * z]
 
-@mtkbuild thomas = ODESystem(eqs,t)
+@mtkbuild thomas = ODESystem(eqs, t)
 
 """
 Thomas' cyclically symmetric attractor equations
@@ -30,12 +29,11 @@ prob_ode_thomas = ODEProblem(thomas, [], (0.0, 1.0))
 @parameters σ=10 ρ=28 β=8 / 3
 @variables x(t)=1 y(t)=0 z(t)=0
 
-
 eqs = [D(x) ~ σ * (y - x),
     D(y) ~ x * (ρ - z) - y,
     D(z) ~ x * y - β * z]
 
-@mtkbuild lorenz = ODESystem(eqs,t)
+@mtkbuild lorenz = ODESystem(eqs, t)
 
 """
 Lorenz equations
@@ -54,12 +52,11 @@ prob_ode_lorenz = ODEProblem(lorenz, [], (0.0, 1.0))
 @parameters a=0.95 b=0.7 c=0.6 d=3.5 e=0.25 f=0.1
 @variables x(t)=1 y(t)=0 z(t)=0
 
-
 eqs = [D(x) ~ (z - b) * x - d * y,
     D(y) ~ d * x + (z - b) * y,
     D(z) ~ c + a * z - z^3 / 3 - (x^2 + y^2) * (1 + e * z) + f * z * x^3]
 
-@mtkbuild aizawa = ODESystem(eqs,t)
+@mtkbuild aizawa = ODESystem(eqs, t)
 
 """
 Aizawa equations
@@ -77,12 +74,11 @@ prob_ode_aizawa = ODEProblem(aizawa, [], (0.0, 1.0))
 @parameters a=3 b=2.7 c=1.7 d=2 e=9
 @variables x(t)=1 y(t)=0 z(t)=0
 
-
 eqs = [D(x) ~ y - a * x + b * y * z,
     D(y) ~ c * y - x * z + z,
     D(z) ~ d * x * y - e * z]
 
-@mtkbuild dadras = ODESystem(eqs,t)
+@mtkbuild dadras = ODESystem(eqs, t)
 
 """
 Dadras equations
@@ -100,12 +96,11 @@ prob_ode_dadras = ODEProblem(dadras, [], (0.0, 1.0))
 @parameters a=35 b=3 c=28
 @variables x(t)=1 y(t)=0 z(t)=0
 
-
 eqs = [D(x) ~ a * (y - x),
     D(y) ~ (c - a) * x - x * z + c * y,
     D(z) ~ x * y - b * z]
 
-@mtkbuild chen = ODESystem(eqs,t)
+@mtkbuild chen = ODESystem(eqs, t)
 
 """
 chen equations
@@ -123,12 +118,11 @@ prob_ode_chen = ODEProblem(chen, [], (0.0, 1.0))
 @parameters a=0.2 b=0.2 c=5.7
 @variables x(t)=1 y(t)=0 z(t)=0
 
-
 eqs = [D(x) ~ -(y + z),
     D(y) ~ x + a * y,
     D(z) ~ b + z * (x - c)]
 
-@mtkbuild rossler = ODESystem(eqs,t)
+@mtkbuild rossler = ODESystem(eqs, t)
 
 """
 rossler equations
@@ -147,12 +141,11 @@ prob_ode_rossler = ODEProblem(rossler, [], (0.0, 1.0))
 @parameters a=0.14 b=0.10
 @variables x(t)=1 y(t)=0 z(t)=0
 
-
 eqs = [D(x) ~ y * (z - 1 + x^2) + b * x,
     D(y) ~ x * (3 * z + 1 - x^2) + b * y,
     D(z) ~ -2 * z * (a + x * y)]
 
-@mtkbuild rabinovich_fabrikant = ODESystem(eqs,t)
+@mtkbuild rabinovich_fabrikant = ODESystem(eqs, t)
 
 """
 rabinovich_fabrikant equations
@@ -170,12 +163,11 @@ prob_ode_rabinovich_fabrikant = ODEProblem(rabinovich_fabrikant, [], (0.0, 1.0))
 @parameters a=2.07 b=1.79
 @variables x(t)=1 y(t)=0 z(t)=0
 
-
 eqs = [D(x) ~ y + a * x * y + x * z,
     D(y) ~ 1 - b * x^2 + y * z,
     D(z) ~ x - x^2 - y^2]
 
-@mtkbuild sprott = ODESystem(eqs,t)
+@mtkbuild sprott = ODESystem(eqs, t)
 
 """
 sprott equations
@@ -193,12 +185,11 @@ prob_ode_sprott = ODEProblem(sprott, [], (0.0, 1.0))
 @parameters a=1 b=3 c=1 d=5 r=1e-2 s=4 xr=-8 / 5 i=5
 @variables x(t)=1 y(t)=0 z(t)=0
 
-
 eqs = [D(x) ~ y - a * x^3 + b * x^2 - z + i,
     D(y) ~ c - d * x^2 - y,
     D(z) ~ r * (s * (x - xr) - z)]
 
-@mtkbuild hindmarsh_rose = ODESystem(eqs,t)
+@mtkbuild hindmarsh_rose = ODESystem(eqs, t)
 
 """
 hindmarsh_rose equations
