@@ -783,7 +783,7 @@ function prob_bvp_linear_13_bca!(res_a, u_a, p)
     res_a[1] = u_a[1]
 end
 function prob_bvp_linear_13_bcb!(res_b, u_b, p)
-    res_b[1] = u_b[1] + 1
+    res_b[1] = u_b[1] + 1 - exp(-2 / sqrt(p))
 end
 prob_bvp_linear_13_function = BVPFunction(
     prob_bvp_linear_13_f!, (prob_bvp_linear_13_bca!, prob_bvp_linear_13_bcb!),
@@ -1019,7 +1019,7 @@ prob_bvp_linear_16 = BVProblem(prob_bvp_linear_16_function,
 ################### linear_bvp17 ############################
 function prob_bvp_linear_17_analytic(u, λ, t)
     [t / sqrt(λ + t^2),
-        (λ - t^2) / (λ + t^2)^2]
+        1 / sqrt(λ + t^2) - t^2 / (λ + t^2)^(3 / 2)]
 end
 function prob_bvp_linear_17_f!(du, u, p, t)
     du[1] = u[2]
