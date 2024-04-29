@@ -1,10 +1,9 @@
-name: format-check
+name: "Format Check"
 
 on:
   push:
     branches:
       - 'master'
-      - 'release-'
     tags: '*'
   pull_request:
 
@@ -15,33 +14,6 @@ concurrency:
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: julia-actions/setup-julia@v2
-        with:
-          version: 1
-      - name: Install JuliaFormatter
-        run: |
-          using Pkg
-          name = "JuliaFormatter"
-          uuid = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
-          Pkg.add(; name, uuid)
-        shell: julia --color=yes {0}
-      - name: Format Julia code
-        run: |
-          using JuliaFormatter
-          format("."; verbose = true)
-        shell: julia --color=yes {0}
-      - name: Format check
-        run: |
-          out = Cmd(`git diff --name-only`) |> read |> String
-          if out == ""
-              exit(0)
-          else
-              @error "Some files have not been formatted !!!"
-              write(stdout, out)
-              exit(1)
-          end
-        shell: julia --color=yes {0}
+  format-check:
+    name: "Format Check"
+    uses: "SciML/.github/.github/workflows/format-check.yml@v1"
