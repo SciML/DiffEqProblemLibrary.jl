@@ -11,7 +11,7 @@ SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
 
 [compat]
 Aqua = "0.5"
-Catalyst = "13"
+Catalyst = "14"
 DiffEqBase = "6"
 RuntimeGeneratedFunctions = "0.5"
 SciMLBase = "2.0.1"
