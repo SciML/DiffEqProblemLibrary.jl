@@ -9,7 +9,7 @@ RuntimeGeneratedFunctions = "7e49a35a-f44a-4d26-94aa-eba1b4ca6b47"
 
 [compat]
 Aqua = "0.5"
-Catalyst = "14"
+Catalyst = "13"
 DiffEqBase = "6"
 RuntimeGeneratedFunctions = "0.5"
 julia = "1.10"
