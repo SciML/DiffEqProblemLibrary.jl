@@ -39,11 +39,11 @@ dna_rs = @reaction_network begin
     k6, DNAR --> DNA + P
 end
 rates = [:k1 => 0.5,
-         :k2 => (20 * log(2.0) / 120.0),
-         :k3 => (log(2.0) / 120.0),
-         :k4 => (log(2.0) / 600.0),
-         :k5 => 0.025,
-         :k6 => 1.0]
+    :k2 => (20 * log(2.0) / 120.0),
+    :k3 => (log(2.0) / 120.0),
+    :k4 => (log(2.0) / 600.0),
+    :k5 => 0.025,
+    :k6 => 1.0]
 tf = 1000.0
 u0 = [:DNA => 1, :mRNA => 0, :P => 0, :DNAR => 0]
 prob = DiscreteProblem(dna_rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
@@ -103,7 +103,7 @@ oscil_rs = @reaction_network begin
     0.05, SP2 --> 0
 end
 u0 = [:X => 200.0, :Y => 60.0, :Z => 120.0, :R => 100.0, :S => 50.0, :SP => 50.0,
-      :SP2 => 50.0]  # Hill equations force use of floats!
+    :SP2 => 50.0]  # Hill equations force use of floats!
 tf = 4000.0
 prob = DiscreteProblem(oscil_rs, u0, (0.0, tf), eval_module = @__MODULE__)
 """
@@ -121,7 +121,7 @@ specs_sym_to_name = Dict(:S1 => "R(a,l)",
     :S8 => "A(Y~P,r!1).R(a!1,l)",
     :S9 => "A(Y~P,r)")
 rsi = Dict(:R0 => 1, :L0 => 2, :A0 => 3, :kon => 4, :koff => 5,
-           :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9)
+    :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9)
 params = (5360, 1160, 5360, 0.01, 0.1, 0.01, 0.1, 0.01, 0.1)
 rs = @reaction_network begin
     kon, S1 + S2 --> S4
@@ -146,7 +146,7 @@ end
 rates = [:kon, :kAon, :koff, :kAoff, :kAp, :kAdp] .=>
     params[[rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
 u0 = [:S1 => params[1], :S2 => params[2], :S3 => params[3], :S4 => 0, :S5 => 0,
-      :S6 => 0, :S7 => 0, :S8 => 0, :S9 => 0]
+    :S6 => 0, :S7 => 0, :S8 => 0, :S9 => 0]
 tf = 100.0
 prob = DiscreteProblem(rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 """
@@ -220,7 +220,7 @@ rn = @reaction_network begin
     c8, P2G --> P2 + G
 end
 rnpar = [:c1 => 0.09, :c2 => 0.05, :c3 => 0.001, :c4 => 0.0009, :c5 => 0.00001,
-         :c6 => 0.0005, :c7 => 0.005, :c8 => 0.9]
+    :c6 => 0.0005, :c7 => 0.005, :c8 => 0.9]
 varlabels = ["G", "M", "P", "P2", "P2G"]
 u0 = [:G => 1000, :M => 0, :P => 0, :P2 => 0, :P2G => 0]
 tf = 4000.0
