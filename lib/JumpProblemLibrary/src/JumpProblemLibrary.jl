@@ -21,7 +21,6 @@ export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
     the JumpProblem constructor requires the algorithm, so we
     don't create the JumpProblem here.
 """
-
 struct JumpProblemNetwork
     network::Any         # Catalyst network
     rates::Any           # vector of rate constants or nothing
@@ -39,9 +38,14 @@ dna_rs = @reaction_network begin
     k5, DNA + P --> DNAR
     k6, DNAR --> DNA + P
 end
-rates = [0.5, (20 * log(2.0) / 120.0), (log(2.0) / 120.0), (log(2.0) / 600.0), 0.025, 1.0]
+rates = [:k1 => 0.5,
+         :k2 => (20 * log(2.0) / 120.0),
+         :k3 => (log(2.0) / 120.0),
+         :k4 => (log(2.0) / 600.0),
+         :k5 => 0.025,
+         :k6 => 1.0]
 tf = 1000.0
-u0 = [1, 0, 0, 0]
+u0 = [:DNA => 1, :mRNA => 0, :P => 0, :DNAR => 0]
 prob = DiscreteProblem(dna_rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 Nsims = 8000
 expected_avg = 5.926553750000000e+02
@@ -55,9 +59,9 @@ bd_rs = @reaction_network begin
     k1, 0 --> A
     k2, A --> 0
 end
-rates = [1000.0, 10.0]
+rates = [:k1 => 1000.0, :k2 => 10.0]
 tf = 1.0
-u0 = [0]
+u0 = [:A => 0]
 prob = DiscreteProblem(bd_rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 Nsims = 16000
 expected_avg = t -> rates[1] / rates[2] .* (1.0 - exp.(-rates[2] * t))
@@ -74,9 +78,9 @@ nonlin_rs = @reaction_network begin
     k4, C --> A + B
     k5, 3C --> 3A
 end
-rates = [1.0, 2.0, 0.5, 0.75, 0.25]
+rates = [:k1 => 1.0, :k2 => 2.0, :k3 => 0.5, :k4 => 0.75, :k5 => 0.25]
 tf = 0.01
-u0 = [200, 100, 150]
+u0 = [:A => 200, :B => 100, :C => 150]
 prob = DiscreteProblem(nonlin_rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 Nsims = 32000
 expected_avg = 84.876015624999994
@@ -98,7 +102,8 @@ oscil_rs = @reaction_network begin
     0.01, SP + SP --> SP2
     0.05, SP2 --> 0
 end
-u0 = [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0]  # Hill equations force use of floats!
+u0 = [:X => 200.0, :Y => 60.0, :Z => 120.0, :R => 100.0, :S => 50.0, :SP => 50.0,
+      :SP2 => 50.0]  # Hill equations force use of floats!
 tf = 4000.0
 prob = DiscreteProblem(oscil_rs, u0, (0.0, tf), eval_module = @__MODULE__)
 """
@@ -115,9 +120,9 @@ specs_sym_to_name = Dict(:S1 => "R(a,l)",
     :S7 => "A(Y~P,r!1).L(r!2).R(a!1,l!2)",
     :S8 => "A(Y~P,r!1).R(a!1,l)",
     :S9 => "A(Y~P,r)")
-rates_sym_to_idx = Dict(:R0 => 1, :L0 => 2, :A0 => 3, :kon => 4, :koff => 5,
-    :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9)
-params = [5360, 1160, 5360, 0.01, 0.1, 0.01, 0.1, 0.01, 0.1]
+rsi = Dict(:R0 => 1, :L0 => 2, :A0 => 3, :kon => 4, :koff => 5,
+           :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9)
+params = (5360, 1160, 5360, 0.01, 0.1, 0.01, 0.1, 0.01, 0.1)
 rs = @reaction_network begin
     kon, S1 + S2 --> S4
     kAon, S1 + S3 --> S5
@@ -138,13 +143,10 @@ rs = @reaction_network begin
     kAdp, S8 --> S5
     kAdp, S9 --> S3
 end
-rsi = rates_sym_to_idx
-rates = params[[rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
-u0 = zeros(Int, 9)
-statesyms = ModelingToolkit.tosymbol.(ModelingToolkit.operation.(unknowns(rs)))
-u0[findfirst(isequal(:S1), statesyms)] = params[1]
-u0[findfirst(isequal(:S2), statesyms)] = params[2]
-u0[findfirst(isequal(:S3), statesyms)] = params[3]
+rates = [:kon, :kAon, :koff, :kAoff, :kAp, :kAdp] .=>
+    params[[rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
+u0 = [:S1 => params[1], :S2 => params[2], :S3 => params[3], :S4 => 0, :S5 => 0,
+      :S6 => 0, :S7 => 0, :S8 => 0, :S9 => 0]
 tf = 100.0
 prob = DiscreteProblem(rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 """
@@ -155,57 +157,47 @@ prob = DiscreteProblem(rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 """
 prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
     Dict("specs_to_sym_name" => specs_sym_to_name,
-        "rates_sym_to_idx" => rates_sym_to_idx,
-        "params" => params))
+        "rates_sym_to_idx" => rsi, "params" => params))
 
 # generate the network
 N = 10  # number of genes
-@variables t
+t = Catalyst.default_t()
 @species (G(t))[1:(2N)] (M(t))[1:(2N)] (P(t))[1:(2N)] (G_ind(t))[1:(2N)]
 
 function construct_genenetwork(N)
-    genenetwork = make_empty_network()
+    rxs = Reaction[]
     for i in 1:N
-        addspecies!(genenetwork, G[2 * i - 1])
-        addspecies!(genenetwork, M[2 * i - i])
-        addspecies!(genenetwork, P[2 * i - i])
-        addreaction!(genenetwork,
-            Reaction(10.0, [G[2 * i - i]], [G[2 * i - i], M[2 * i - i]]))
-        addreaction!(genenetwork,
-            Reaction(10.0, [M[2 * i - i]], [M[2 * i - i], P[2 * i - i]]))
-        addreaction!(genenetwork, Reaction(1.0, [M[2 * i - i]], nothing))
-        addreaction!(genenetwork, Reaction(1.0, [P[2 * i - i]], nothing))
+        push!(rxs, Reaction(10.0, [G[2 * i - i]], [G[2 * i - i], M[2 * i - i]]))
+        push!(rxs, Reaction(10.0, [M[2 * i - i]], [M[2 * i - i], P[2 * i - i]]))
+        push!(rxs, Reaction(1.0, [M[2 * i - i]], nothing))
+        push!(rxs, Reaction(1.0, [P[2 * i - i]], nothing))
         # genenetwork *= "\t 10.0, G$(2*i-1) --> G$(2*i-1) + M$(2*i-1)\n"
         # genenetwork *= "\t 10.0, M$(2*i-1) --> M$(2*i-1) + P$(2*i-1)\n"
         # genenetwork *= "\t 1.0,  M$(2*i-1) --> 0\n"
         # genenetwork *= "\t 1.0,  P$(2*i-1) --> 0\n"
 
-        addspecies!(genenetwork, G[2 * i])
-        addspecies!(genenetwork, M[2 * i])
-        addspecies!(genenetwork, P[2 * i])
-        addreaction!(genenetwork, Reaction(5.0, [G[2 * i]], [G[2 * i], M[2 * i]]))
-        addreaction!(genenetwork, Reaction(5.0, [M[2 * i]], [M[2 * i], P[2 * i]]))
-        addreaction!(genenetwork, Reaction(1.0, [M[2 * i]], nothing))
-        addreaction!(genenetwork, Reaction(1.0, [P[2 * i]], nothing))
+        push!(rxs, Reaction(5.0, [G[2 * i]], [G[2 * i], M[2 * i]]))
+        push!(rxs, Reaction(5.0, [M[2 * i]], [M[2 * i], P[2 * i]]))
+        push!(rxs, Reaction(1.0, [M[2 * i]], nothing))
+        push!(rxs, Reaction(1.0, [P[2 * i]], nothing))
         # genenetwork *= "\t 5.0, G$(2*i) --> G$(2*i) + M$(2*i)\n"
         # genenetwork *= "\t 5.0, M$(2*i) --> M$(2*i) + P$(2*i)\n"
         # genenetwork *= "\t 1.0,  M$(2*i) --> 0\n"
         # genenetwork *= "\t 1.0,  P$(2*i) --> 0\n"
 
-        addspecies!(genenetwork, G_ind[2 * i])
-        addreaction!(genenetwork,
-            Reaction(0.0001, [G[2 * i], P[2 * i - i]], [G_ind[2 * i]]))
-        addreaction!(genenetwork, Reaction(100.0, [G_ind[2 * i]], [G_ind[2 * i], M[2 * i]]))
+        push!(rxs, Reaction(0.0001, [G[2 * i], P[2 * i - i]], [G_ind[2 * i]]))
+        push!(rxs, Reaction(100.0, [G_ind[2 * i]], [G_ind[2 * i], M[2 * i]]))
         # genenetwork *= "\t 0.0001, G$(2*i) + P$(2*i-1) --> G$(2*i)_ind \n"
         # genenetwork *= "\t 100., G$(2*i)_ind --> G$(2*i)_ind + M$(2*i)\n"
     end
-    genenetwork
+    spcs = reduce(vcat, collect.((G, M, P, G_ind)))
+    @named genenetwork = ReactionSystem(rxs, t, spcs, [])
+    complete(genenetwork)
 end
 rs = construct_genenetwork(N)
-u0 = zeros(Int, length(unknowns(rs)))
-statesyms = ModelingToolkit.tosymbol.(ModelingToolkit.operation.(unknowns(rs)))
+u0 = Num.(unknowns(rs)) .=> zeros(Int, length(unknowns(rs)))
 for i in 1:(2 * N)
-    u0[findfirst(isequal(G[i]), unknowns(rs))] = 1
+    u0[findfirst(isequal(G[i]), unknowns(rs))] = (G[i] => 1)
 end
 tf = 2000.0
 prob = DiscreteProblem(rs, u0, (0.0, tf), eval_module = @__MODULE__)
@@ -227,9 +219,10 @@ rn = @reaction_network begin
     c7, P2 + G --> P2G
     c8, P2G --> P2 + G
 end
-rnpar = [0.09, 0.05, 0.001, 0.0009, 0.00001, 0.0005, 0.005, 0.9]
+rnpar = [:c1 => 0.09, :c2 => 0.05, :c3 => 0.001, :c4 => 0.0009, :c5 => 0.00001,
+         :c6 => 0.0005, :c7 => 0.005, :c8 => 0.9]
 varlabels = ["G", "M", "P", "P2", "P2G"]
-u0 = [1000, 0, 0, 0, 0]
+u0 = [:G => 1000, :M => 0, :P => 0, :P2 => 0, :P2G => 0]
 tf = 4000.0
 prob = DiscreteProblem(rn, u0, (0.0, tf), rnpar, eval_module = @__MODULE__)
 """
@@ -245,21 +238,19 @@ prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
 function getDiffNetwork(N)
     diffnetwork = make_empty_network()
     @parameters K
-    @variables t
+    t = default_t()
     @species (X(t))[1:N]
-    for i in 1:N
-        addspecies!(diffnetwork, X[i])
-    end
-    addparam!(diffnetwork, K)
+    rxs = Reaction[]
     for i in 1:(N - 1)
-        addreaction!(diffnetwork, Reaction(K, [X[i]], [X[i + 1]]))
-        addreaction!(diffnetwork, Reaction(K, [X[i + 1]], [X[i]]))
+        push!(rxs, Reaction(K, [X[i]], [X[i + 1]]))
+        push!(rxs, Reaction(K, [X[i + 1]], [X[i]]))
     end
-    diffnetwork
+    @named diffnetwork = ReactionSystem(rxs, t, collect(X), [K])
+    complete(diffnetwork)
 end
-params = (1.0,)
-function getDiffu0(N)
-    10 * ones(Int64, N)
+params = [:K => 1.0]
+function getDiffu0(diffnetwork, N)
+    species(diffnetwork) .=> (10 * ones(Int64, N))
 end
 tf = 10.0
 """
