@@ -1,4 +1,4 @@
-name: CI
+name: "Tests"
 
 on:
   pull_request:
@@ -9,45 +9,29 @@ on:
       - master
 
 concurrency:
-  # Skip intermediate builds: always.
-  # Cancel intermediate builds: only if it is a pull request build.
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+  cancel-in-progress: ${{ github.ref_name != github.event.repository.default_branch || github.ref != 'refs/tags/v*' }}
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  tests:
+    name: "Tests"
     strategy:
       fail-fast: false
       matrix:
+        version:
+          - "1"
+          - "lts"
         project:
           - '.'
-          - lib/DAEProblemLibrary
-          - lib/DDEProblemLibrary
-          - lib/JumpProblemLibrary
-          - lib/ODEProblemLibrary
-          - lib/SDEProblemLibrary
-          - lib/BVProblemLibrary
-          - lib/NonlinearProblemLibrary
-        version:
-          - '1'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: julia-actions/setup-julia@v2
-        with:
-          version: ${{ matrix.version }}
-      - uses: julia-actions/cache@v2
-      - uses: julia-actions/julia-buildpkg@v1
-        with:
-          project: ${{ matrix.project }}
-      - uses: julia-actions/julia-runtest@v1
-        with:
-          project: ${{ matrix.project }}
-      - uses: julia-actions/julia-processcoverage@v1
-        with:
-          directories: ${{ matrix.project }}/src
-      - uses: codecov/codecov-action@v4
-        with:
-          files: lcov.info
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          - 'lib/DAEProblemLibrary'
+          - 'lib/DDEProblemLibrary'
+          - 'lib/JumpProblemLibrary'
+          - 'lib/ODEProblemLibrary'
+          - 'lib/SDEProblemLibrary'
+          - 'lib/BVPProblemLibrary'
+          - 'lib/NonlinearProblemLibrary'
+    uses: "SciML/.github/.github/workflows/tests.yml@v1"
+    with:
+      julia-version: "${{ matrix.version }}"
+      project: "${{ matrix.project }}"
+    secrets: "inherit"
