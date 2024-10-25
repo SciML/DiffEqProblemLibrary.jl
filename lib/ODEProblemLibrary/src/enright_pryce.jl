@@ -1,6 +1,5 @@
 using ModelingToolkit
-using IfElse
-using Symbolics
+using ModelingToolkit.Symbolics
 using Symbolics: unwrap
 using DiffEqBase, StaticArrays, LinearAlgebra
 
@@ -124,7 +123,7 @@ sd2sys = let
     ODESystem(sd2eqs, t, name = :sd2)
 end
 
-sd2prob = ODEProblem{false}(sd2sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 40.0), dt = 1e-5, cse = true)
+sd2prob = ODEProblem{false}(sd2sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 40.0), dt = 1e-5)
 
 sd3sys = let
     sd3eqs = [D(y[1]) ~ y[3] - 100 * (y[1] * y[2]),
@@ -135,7 +134,7 @@ sd3sys = let
     ODESystem(sd3eqs, t, name = :sd3)
 end
 
-sd3prob = ODEProblem{false}(sd3sys, [y[1:2] .=> 1; y[3:4] .=> 0.0], (0, 20.0), dt = 2.5e-5, cse = true)
+sd3prob = ODEProblem{false}(sd3sys, [y[1:2] .=> 1; y[3:4] .=> 0.0], (0, 20.0), dt = 2.5e-5)
 
 sd4sys = let
     sd4eqs = [D(y[1]) ~ -0.013y[1] - 1000 * (y[1] * y[3]),
@@ -145,7 +144,7 @@ sd4sys = let
     ODESystem(sd4eqs, t, name = :sd4)
 end
 
-sd4prob = ODEProblem{false}(sd4sys, [y[1:2] .=> 1; y[3] => 0.0], (0, 50.0), dt = 2.9e-4, cse = true)
+sd4prob = ODEProblem{false}(sd4sys, [y[1:2] .=> 1; y[3] => 0.0], (0, 50.0), dt = 2.9e-4)
 
 sd5sys = let
     sd5eqs = [D(y[1]) ~ 0.01 - (1 + (y[1] + 1000) * (y[1] + 1)) * (0.01 + y[1] + y[2]),
@@ -154,7 +153,7 @@ sd5sys = let
     ODESystem(sd5eqs, t, name = :sd5)
 end
 
-sd5prob = ODEProblem{false}(sd5sys, y[1:2] .=> 0.0, (0, 100.0), dt = 1e-4, cse = true)
+sd5prob = ODEProblem{false}(sd5sys, y[1:2] .=> 0.0, (0, 100.0), dt = 1e-4)
 
 sd6sys = let
     sd6eqs = [D(y[1]) ~ -y[1] + 10^8 * y[3] * (1 - y[1]),
@@ -165,7 +164,7 @@ sd6sys = let
     ODESystem(sd6eqs, t, name = :sd6)
 end
 
-sd6prob = ODEProblem{false}(sd6sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 1.0), dt = 3.3e-8, cse = true)
+sd6prob = ODEProblem{false}(sd6sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 1.0), dt = 3.3e-8)
 
 se1sys = let
     Γ = 100
@@ -178,7 +177,7 @@ se1sys = let
     ODESystem(se1eqs, t, name = :se1)
 end
 
-se1prob = ODEProblem{false}(se1sys, y .=> 0.0, (0, 1.0), dt = 6.8e-3, cse = true)
+se1prob = ODEProblem{false}(se1sys, y .=> 0.0, (0, 1.0), dt = 6.8e-3)
 
 se2sys = let
     se2eqs = [D(y[1]) ~ y[2],
@@ -188,7 +187,7 @@ se2sys = let
     ODESystem(se2eqs, t, name = :se2)
 end
 
-se2prob = ODEProblem{false}(se2sys, [y[1] => 2.0, y[2] => 0.0], (0, 1.0), dt = 1e-3, cse = true)
+se2prob = ODEProblem{false}(se2sys, [y[1] => 2.0, y[2] => 0.0], (0, 1.0), dt = 1e-3)
 
 se3sys = let
     se3eqs = [D(y[1]) ~ -(55 + y[3]) * y[1] + 65 * y[2],
@@ -214,7 +213,7 @@ se4sys = let y = y
     ODESystem(se4eqs, t, name = :se4)
 end
 
-se4prob = ODEProblem{false}(se4sys, [y[1] => 0.0; y[2] => -2.0; y[3:4] .=> -1.0], (0, 1000.0), dt = 1e-3, cse = true)
+se4prob = ODEProblem{false}(se4sys, [y[1] => 0.0; y[2] => -2.0; y[3:4] .=> -1.0], (0, 1000.0), dt = 1e-3)
 
 se5sys = let
     se5eqs = [
@@ -227,7 +226,7 @@ se5sys = let
     ODESystem(se5eqs, t, name = :se5)
 end
 
-se5prob = ODEProblem{false}(se5sys, [y[1] => 1.76e-3; y[2:4] .=> 0.0], (0, 1000.0), dt = 1e-3, cse = true)
+se5prob = ODEProblem{false}(se5sys, [y[1] => 1.76e-3; y[2:4] .=> 0.0], (0, 1000.0), dt = 1e-3)
 
 sf1sys = let
     k = exp(20.7 - 1500 / y[1])
@@ -241,7 +240,7 @@ sf1sys = let
     ODESystem(sf1eqs, t, name = :sf1)
 end
 
-sf1prob = ODEProblem{false}(sf1sys, [y[1] => 761.0; y[2] => 0.0; y[3] => 600.0; y[4] => 0.1], (0, 1000.0), dt = 1e-4, cse = true)
+sf1prob = ODEProblem{false}(sf1sys, [y[1] => 761.0; y[2] => 0.0; y[3] => 600.0; y[4] => 0.1], (0, 1000.0), dt = 1e-4)
 
 sf2sys = let
     sf2eqs = [
@@ -252,7 +251,7 @@ sf2sys = let
     ODESystem(sf2eqs, t, name = :sf2)
 end
 
-sf2prob = ODEProblem{false}(sf2sys, [y[1] => 1.0; y[2] => 0.0], (0, 240.0), dt = 1e-2, cse = true)
+sf2prob = ODEProblem{false}(sf2sys, [y[1] => 1.0; y[2] => 0.0], (0, 240.0), dt = 1e-2)
 
 sf3sys = let
     sf3eqs = [
@@ -266,7 +265,7 @@ sf3sys = let
     ODESystem(sf3eqs, t, name = :sf3)
 end
 
-sf3prob = ODEProblem{false}(sf3sys, [y[1] => 4e-6; y[2] => 1e-6; y[3:5] .=> 0.0], (0, 100.0), dt = 1e-6, cse = true)
+sf3prob = ODEProblem{false}(sf3sys, [y[1] => 4e-6; y[2] => 1e-6; y[3:5] .=> 0.0], (0, 100.0), dt = 1e-6)
 
 sf4sys = let
     sf4eqs = [
@@ -278,7 +277,7 @@ sf4sys = let
     ODESystem(sf4eqs, t, name = :sf4)
 end
 
-sf4prob = ODEProblem{false}(sf4sys, [y[1] => 4.0; y[2] => 1.1; y[3] => 4.0], (0, 300.0), dt = 1e-3, cse = true)
+sf4prob = ODEProblem{false}(sf4sys, [y[1] => 4.0; y[2] => 1.1; y[3] => 4.0], (0, 300.0), dt = 1e-3)
 
 sf5sys = let
     sf5eqs = [
@@ -291,7 +290,7 @@ sf5sys = let
     ODESystem(sf5eqs, t, name = :sf5)
 end
 
-sf5prob = ODEProblem{false}(sf5sys, [y[1] => 3.365e-7; y[2] => 8.261e-3; y[3] => 1.642e-3; y[4] => 9.38e-6], (0, 100.0), dt = 1e-7, cse = true)
+sf5prob = ODEProblem{false}(sf5sys, [y[1] => 3.365e-7; y[2] => 8.261e-3; y[3] => 1.642e-3; y[4] => 9.38e-6], (0, 100.0), dt = 1e-7)
 
 # Non-stiff
 na1sys = let y = y[1]
@@ -300,7 +299,7 @@ na1sys = let y = y[1]
     ODESystem(na1eqs, t, name = :na1)
 end
 
-na1prob = ODEProblem{false}(na1sys, [y[1] => 1], (0, 20.0), cse = true)
+na1prob = ODEProblem{false}(na1sys, [y[1] => 1], (0, 20.0))
 
 na2sys = let y = y[1]
     na2eqs = D(y) ~ -y^3/2
@@ -308,7 +307,7 @@ na2sys = let y = y[1]
     ODESystem(na2eqs, t, name = :na2)
 end
 
-na2prob = ODEProblem{false}(na2sys, [y[1] => 1], (0, 20.0), cse = true)
+na2prob = ODEProblem{false}(na2sys, [y[1] => 1], (0, 20.0))
 
 na3sys = let y = y[1]
     na3eqs = D(y) ~ y * cos(t)
@@ -316,7 +315,7 @@ na3sys = let y = y[1]
     ODESystem(na3eqs, t, name = :na3)
 end
 
-na3prob = ODEProblem{false}(na3sys, [y[1] => 1], (0, 20.0), cse = true)
+na3prob = ODEProblem{false}(na3sys, [y[1] => 1], (0, 20.0))
 
 na4sys = let y = y[1]
     na4eqs = D(y) ~ y/4 * (1 - y/20)
@@ -324,7 +323,7 @@ na4sys = let y = y[1]
     ODESystem(na4eqs, t, name = :na4)
 end
 
-na4prob = ODEProblem{false}(na4sys, [y[1] => 1], (0, 20.0), cse = true)
+na4prob = ODEProblem{false}(na4sys, [y[1] => 1], (0, 20.0))
 
 na5sys = let y = y[1]
     na5eqs = D(y) ~ (y - t) / (y + t)
@@ -332,7 +331,7 @@ na5sys = let y = y[1]
     ODESystem(na5eqs, t, name = :na5)
 end
 
-na5prob = ODEProblem{false}(na5sys, [y[1] => 4], (0, 20.0), cse = true)
+na5prob = ODEProblem{false}(na5sys, [y[1] => 4], (0, 20.0))
 
 nb1sys = let
     nb1eqs = [
@@ -343,7 +342,7 @@ nb1sys = let
     ODESystem(nb1eqs, t, name = :nb1)
 end
 
-nb1prob = ODEProblem{false}(nb1sys, [y[1] => 1.0, y[2] => 3], (0, 20.0), cse = true)
+nb1prob = ODEProblem{false}(nb1sys, [y[1] => 1.0, y[2] => 3], (0, 20.0))
 
 nb2sys = let
     nb2eqs = [
@@ -355,7 +354,7 @@ nb2sys = let
     ODESystem(nb2eqs, t, name = :nb2)
 end
 
-nb2prob = ODEProblem{false}(nb2sys, [y[1] => 2.0, y[2] => 0.0, y[3] => 1.0], (0, 20.0), cse = true)
+nb2prob = ODEProblem{false}(nb2sys, [y[1] => 2.0, y[2] => 0.0, y[3] => 1.0], (0, 20.0))
 
 nb3sys = let
     nb3eqs = [
@@ -367,7 +366,7 @@ nb3sys = let
     ODESystem(nb3eqs, t, name = :nb3)
 end
 
-nb3prob = ODEProblem{false}(nb3sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 20.0), cse = true)
+nb3prob = ODEProblem{false}(nb3sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 20.0))
 
 nb4sys = let
     r = sqrt(y[1]^2 + y[2]^2)
@@ -380,7 +379,7 @@ nb4sys = let
     ODESystem(nb4eqs, t, name = :nb4)
 end
 
-nb4prob = ODEProblem{false}(nb4sys, [y[1] => 3.0; y[2:3] .=> 0.0], (0, 20.0), cse = true)
+nb4prob = ODEProblem{false}(nb4sys, [y[1] => 3.0; y[2:3] .=> 0.0], (0, 20.0))
 
 nb5sys = let
     nb5eqs = [
@@ -392,7 +391,7 @@ nb5sys = let
     ODESystem(nb5eqs, t, name = :nb5)
 end
 
-nb5prob = ODEProblem{false}(nb5sys, [y[1] => 0.0; y[2:3] .=> 1.0], (0, 20.0), cse = true)
+nb5prob = ODEProblem{false}(nb5sys, [y[1] => 0.0; y[2:3] .=> 1.0], (0, 20.0))
 
 nc1sys = let y = y
     n = 10
@@ -412,7 +411,7 @@ nc2sys = let y = y
     ODESystem(nc2eqs, t, name = :nc2)
 end
 
-nc2prob = ODEProblem{false}(nc2sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0), cse = true)
+nc2prob = ODEProblem{false}(nc2sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
 
 nc3sys = let y = y
     n = 10
@@ -422,7 +421,7 @@ nc3sys = let y = y
     ODESystem(nc3eqs, t, name = :nc3)
 end
 
-nc3prob = ODEProblem{false}(nc3sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0), cse = true)
+nc3prob = ODEProblem{false}(nc3sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
 
 @variables y(t)[1:51]
 y = collect(y)
@@ -434,7 +433,7 @@ nc4sys = let y = y
     ODESystem(nc4eqs, t, name = :nc4)
 end
 
-nc4prob = ODEProblem{false}(nc4sys, [y[1] => 1.0; y[2:51] .=> 0.0], (0, 20.0), cse = true)
+nc4prob = ODEProblem{false}(nc4sys, [y[1] => 1.0; y[2:51] .=> 0.0], (0, 20.0))
 
 @variables y(t)[1:3, 1:5]
 y = collect(y)
@@ -470,7 +469,7 @@ ys′ = [-0.557160570446, 0.505696783289, 0.230578543901,
 y0 = y .=> reshape(ys, 3, 5)
 y0′ = D.(y) .=> reshape(ys′, 3, 5)
 # The orginal paper has t_f = 20, but 1000 looks way better
-nc5prob = ODEProblem{false}(nc5sys, [y0; y0′], (0, 20.0), cse = true)
+nc5prob = ODEProblem{false}(nc5sys, [y0; y0′], (0, 20.0))
 
 @variables y(t)[1:4]
 y = collect(y)
@@ -514,7 +513,7 @@ ne2sys = let
 end
 
 y0 = [y[1] => 2.0; y[2] => 0.0]
-ne2prob = ODEProblem{false}(ne2sys, y0, (0, 20.0), cse = true)
+ne2prob = ODEProblem{false}(ne2sys, y0, (0, 20.0))
 
 ne3sys = let
     ne3eqs = [D(y[1]) ~ y[2],
