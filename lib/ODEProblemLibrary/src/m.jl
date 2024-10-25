@@ -74,7 +74,6 @@ DQ = zeros(Num, 4, 4)
 #     for linear stiffness term and no damping
 #     (ipar(1) = 0, ipar(2) = 0).
 @variables(
-    t,
     ϕ₁(t)=0.0,
     ϕ₂(t)=0.0,
     x₃(t)=4.500169330000000e-1,
@@ -179,7 +178,6 @@ sinp2  = sin(ϕ₂)
 cosp12 = cos(ϕ₁-ϕ₂)
 sinp12 = sin(ϕ₁-ϕ₂)
 
-D = Differential(t)
 P = [ϕ₁, ϕ₂, x₃]
 Q = [q₁, q₂, q₃, q₄]
 X = [P..., Q...]
@@ -384,4 +382,6 @@ for I = 1:7
     push!(eqs, D(X[I]) ~ DX[I])
     push!(eqs, D(DX[I]) ~ DDX[I])
 end
-eqs
+
+@mtkbuild sys = ODESystem(eqs, t)
+someprob = ODEProblem(sys, [], (0.0,1.0))

@@ -1,11 +1,11 @@
 using ModelingToolkit
+using ModelingToolkit: t_nounits as t, D_nounits as D
 using ModelingToolkit.Symbolics
 using Symbolics: unwrap
 using DiffEqBase, StaticArrays, LinearAlgebra
 
-@variables t y(t)[1:10]
+@variables y(t)[1:10]
 y = collect(y)
-D = Differential(t)
 
 # Stiff
 sa1sys = let
@@ -13,7 +13,7 @@ sa1sys = let
     ODESystem(sa1eqs, t, name = :sa1)
 end
 
-sa1prob = ODEProblem{false}(sa1sys, y[1:4] .=> 1.0, (0, 20.0), dt = 1e-2)
+sa1prob = ODEProblem{false}(structural_simplify(sa1sys), y[1:4] .=> 1.0, (0, 20.0), dt = 1e-2)
 
 sa2sys = let
     sa2eqs = [D(y[1]) ~ -1800 * y[1] + 900 * y[2]]
@@ -24,7 +24,7 @@ sa2sys = let
     ODESystem(sa2eqs, t, name = :sa2)
 end
 
-sa2prob = ODEProblem{false}(sa2sys, y[1:9] .=> 0.0, (0, 120.0), dt = 5e-4)
+sa2prob = ODEProblem{false}(structural_simplify(sa2sys), y[1:9] .=> 0.0, (0, 120.0), dt = 5e-4)
 
 sa3sys = let
     sa3eqs = [
@@ -36,14 +36,14 @@ sa3sys = let
     ODESystem(sa3eqs, t, name = :sa3)
 end
 
-sa3prob = ODEProblem{false}(sa3sys, y[1:4] .=> 1.0, (0, 20.0), dt = 1e-5)
+sa3prob = ODEProblem{false}(structural_simplify(sa3sys), y[1:4] .=> 1.0, (0, 20.0), dt = 1e-5)
 
 sa4sys = let
     sa4eqs = [D(y[i]) ~ -i^5 * y[i] for i in 1:10]
     ODESystem(sa4eqs, t, name = :sa4)
 end
 
-sa4prob = ODEProblem{false}(sa4sys, y[1:10] .=> 1.0, (0, 1.0), dt = 1e-5)
+sa4prob = ODEProblem{false}(structural_simplify(sa4sys), y[1:10] .=> 1.0, (0, 1.0), dt = 1e-5)
 
 #const SA_PROBLEMS = [sa1prob, sa2prob, sa3prob, sa4prob]
 
@@ -56,7 +56,7 @@ sb1sys = let
     ODESystem(sb1eqs, t, name = :sb1)
 end
 
-sb1prob = ODEProblem{false}(sb1sys, [y[[1, 3]] .=> 1.0; y[[2, 4]] .=> 0.0;], (0, 20.0), dt = 7e-3)
+sb1prob = ODEProblem{false}(structural_simplify(sb1sys), [y[[1, 3]] .=> 1.0; y[[2, 4]] .=> 0.0;], (0, 20.0), dt = 7e-3)
 
 
 @parameters α
@@ -71,10 +71,10 @@ sb2sys = let
     ODESystem(sb2eqs, t, name = :sb2)
 end
 
-sb2prob = ODEProblem{false}(sb2sys, y .=> 1.0, (0, 20.0), [α => 3], dt = 1e-2)
-sb3prob = ODEProblem{false}(sb2sys, y .=> 1.0, (0, 20.0), [α => 8], dt = 1e-2)
-sb4prob = ODEProblem{false}(sb2sys, y .=> 1.0, (0, 20.0), [α => 25], dt = 1e-2)
-sb5prob = ODEProblem{false}(sb2sys, y .=> 1.0, (0, 20.0), [α => 100], dt = 1e-2)
+sb2prob = ODEProblem{false}(structural_simplify(sb2sys), y .=> 1.0, (0, 20.0), [α => 3], dt = 1e-2)
+sb3prob = ODEProblem{false}(structural_simplify(sb2sys), y .=> 1.0, (0, 20.0), [α => 8], dt = 1e-2)
+sb4prob = ODEProblem{false}(structural_simplify(sb2sys), y .=> 1.0, (0, 20.0), [α => 25], dt = 1e-2)
+sb5prob = ODEProblem{false}(structural_simplify(sb2sys), y .=> 1.0, (0, 20.0), [α => 100], dt = 1e-2)
 
 
 sc1sys = let
@@ -87,7 +87,7 @@ sc1sys = let
     ODESystem(sc1eqs, t, name = :sc1)
 end
 
-sc1prob = ODEProblem{false}(sc1sys, y .=> 1.0, (0, 20.0), dt = 1e-2)
+sc1prob = ODEProblem{false}(structural_simplify(sc1sys), y .=> 1.0, (0, 20.0), dt = 1e-2)
 
 
 @parameters β
@@ -100,10 +100,10 @@ sc2sys = let
     ODESystem(sc2eqs, t, name = :sc2)
 end
 
-sc2prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 0.1], dt = 1e-2)
-sc3prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 1.0], dt = 1e-2)
-sc4prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 10.0], dt = 1e-2)
-sc5prob = ODEProblem{false}(sc2sys, y .=> 1.0, (0, 20.0), [β => 20.0], dt = 1e-2)
+sc2prob = ODEProblem{false}(structural_simplify(sc2sys), y .=> 1.0, (0, 20.0), [β => 0.1], dt = 1e-2)
+sc3prob = ODEProblem{false}(structural_simplify(sc2sys), y .=> 1.0, (0, 20.0), [β => 1.0], dt = 1e-2)
+sc4prob = ODEProblem{false}(structural_simplify(sc2sys), y .=> 1.0, (0, 20.0), [β => 10.0], dt = 1e-2)
+sc5prob = ODEProblem{false}(structural_simplify(sc2sys), y .=> 1.0, (0, 20.0), [β => 20.0], dt = 1e-2)
 
 sd1sys = let
     sd1eqs = [D(y[1]) ~ 0.2 * (y[2] - y[1]),
@@ -113,7 +113,7 @@ sd1sys = let
     ODESystem(sd1eqs, t, name = :sd1)
 end
 
-sd1prob = ODEProblem{false}(sd1sys, y .=> 0.0, (0, 400.0), [β => 0.1], dt = 1.7e-2)
+sd1prob = ODEProblem{false}(structural_simplify(sd1sys), y .=> 0.0, (0, 400.0), [β => 0.1], dt = 1.7e-2)
 
 sd2sys = let
     sd2eqs = [D(y[1]) ~ -0.04y[1] + 0.01 * (y[2] * y[3]),
@@ -123,7 +123,7 @@ sd2sys = let
     ODESystem(sd2eqs, t, name = :sd2)
 end
 
-sd2prob = ODEProblem{false}(sd2sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 40.0), dt = 1e-5)
+sd2prob = ODEProblem{false}(structural_simplify(sd2sys), [y[1] => 1.0; y[2:3] .=> 0.0], (0, 40.0), dt = 1e-5)
 
 sd3sys = let
     sd3eqs = [D(y[1]) ~ y[3] - 100 * (y[1] * y[2]),
@@ -134,7 +134,7 @@ sd3sys = let
     ODESystem(sd3eqs, t, name = :sd3)
 end
 
-sd3prob = ODEProblem{false}(sd3sys, [y[1:2] .=> 1; y[3:4] .=> 0.0], (0, 20.0), dt = 2.5e-5)
+sd3prob = ODEProblem{false}(structural_simplify(sd3sys), [y[1:2] .=> 1; y[3:4] .=> 0.0], (0, 20.0), dt = 2.5e-5)
 
 sd4sys = let
     sd4eqs = [D(y[1]) ~ -0.013y[1] - 1000 * (y[1] * y[3]),
@@ -144,7 +144,7 @@ sd4sys = let
     ODESystem(sd4eqs, t, name = :sd4)
 end
 
-sd4prob = ODEProblem{false}(sd4sys, [y[1:2] .=> 1; y[3] => 0.0], (0, 50.0), dt = 2.9e-4)
+sd4prob = ODEProblem{false}(structural_simplify(sd4sys), [y[1:2] .=> 1; y[3] => 0.0], (0, 50.0), dt = 2.9e-4)
 
 sd5sys = let
     sd5eqs = [D(y[1]) ~ 0.01 - (1 + (y[1] + 1000) * (y[1] + 1)) * (0.01 + y[1] + y[2]),
@@ -153,7 +153,7 @@ sd5sys = let
     ODESystem(sd5eqs, t, name = :sd5)
 end
 
-sd5prob = ODEProblem{false}(sd5sys, y[1:2] .=> 0.0, (0, 100.0), dt = 1e-4)
+sd5prob = ODEProblem{false}(structural_simplify(sd5sys), y[1:2] .=> 0.0, (0, 100.0), dt = 1e-4)
 
 sd6sys = let
     sd6eqs = [D(y[1]) ~ -y[1] + 10^8 * y[3] * (1 - y[1]),
@@ -164,7 +164,7 @@ sd6sys = let
     ODESystem(sd6eqs, t, name = :sd6)
 end
 
-sd6prob = ODEProblem{false}(sd6sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 1.0), dt = 3.3e-8)
+sd6prob = ODEProblem{false}(structural_simplify(sd6sys), [y[1] => 1.0; y[2:3] .=> 0.0], (0, 1.0), dt = 3.3e-8)
 
 se1sys = let
     Γ = 100
@@ -177,7 +177,7 @@ se1sys = let
     ODESystem(se1eqs, t, name = :se1)
 end
 
-se1prob = ODEProblem{false}(se1sys, y .=> 0.0, (0, 1.0), dt = 6.8e-3)
+se1prob = ODEProblem{false}(structural_simplify(se1sys), y .=> 0.0, (0, 1.0), dt = 6.8e-3)
 
 se2sys = let
     se2eqs = [D(y[1]) ~ y[2],
@@ -187,7 +187,7 @@ se2sys = let
     ODESystem(se2eqs, t, name = :se2)
 end
 
-se2prob = ODEProblem{false}(se2sys, [y[1] => 2.0, y[2] => 0.0], (0, 1.0), dt = 1e-3)
+se2prob = ODEProblem{false}(structural_simplify(se2sys), [y[1] => 2.0, y[2] => 0.0], (0, 1.0), dt = 1e-3)
 
 se3sys = let
     se3eqs = [D(y[1]) ~ -(55 + y[3]) * y[1] + 65 * y[2],
@@ -198,7 +198,7 @@ se3sys = let
     ODESystem(se3eqs, t, name = :se3)
 end
 
-se3prob = ODEProblem{false}(se3sys, [y[1:2] .=> 1.0; y[3] => 0.0], (0, 500.0), dt = 0.02)
+se3prob = ODEProblem{false}(structural_simplify(se3sys), [y[1:2] .=> 1.0; y[3] => 0.0], (0, 500.0), dt = 0.02)
 
 se4sys = let y = y
     y = y[1:4]
@@ -213,7 +213,7 @@ se4sys = let y = y
     ODESystem(se4eqs, t, name = :se4)
 end
 
-se4prob = ODEProblem{false}(se4sys, [y[1] => 0.0; y[2] => -2.0; y[3:4] .=> -1.0], (0, 1000.0), dt = 1e-3)
+se4prob = ODEProblem{false}(structural_simplify(se4sys), [y[1] => 0.0; y[2] => -2.0; y[3:4] .=> -1.0], (0, 1000.0), dt = 1e-3)
 
 se5sys = let
     se5eqs = [
@@ -226,7 +226,7 @@ se5sys = let
     ODESystem(se5eqs, t, name = :se5)
 end
 
-se5prob = ODEProblem{false}(se5sys, [y[1] => 1.76e-3; y[2:4] .=> 0.0], (0, 1000.0), dt = 1e-3)
+se5prob = ODEProblem{false}(structural_simplify(se5sys), [y[1] => 1.76e-3; y[2:4] .=> 0.0], (0, 1000.0), dt = 1e-3)
 
 sf1sys = let
     k = exp(20.7 - 1500 / y[1])
@@ -240,7 +240,7 @@ sf1sys = let
     ODESystem(sf1eqs, t, name = :sf1)
 end
 
-sf1prob = ODEProblem{false}(sf1sys, [y[1] => 761.0; y[2] => 0.0; y[3] => 600.0; y[4] => 0.1], (0, 1000.0), dt = 1e-4)
+sf1prob = ODEProblem{false}(structural_simplify(sf1sys), [y[1] => 761.0; y[2] => 0.0; y[3] => 600.0; y[4] => 0.1], (0, 1000.0), dt = 1e-4)
 
 sf2sys = let
     sf2eqs = [
@@ -251,7 +251,7 @@ sf2sys = let
     ODESystem(sf2eqs, t, name = :sf2)
 end
 
-sf2prob = ODEProblem{false}(sf2sys, [y[1] => 1.0; y[2] => 0.0], (0, 240.0), dt = 1e-2)
+sf2prob = ODEProblem{false}(structural_simplify(sf2sys), [y[1] => 1.0; y[2] => 0.0], (0, 240.0), dt = 1e-2)
 
 sf3sys = let
     sf3eqs = [
@@ -265,7 +265,7 @@ sf3sys = let
     ODESystem(sf3eqs, t, name = :sf3)
 end
 
-sf3prob = ODEProblem{false}(sf3sys, [y[1] => 4e-6; y[2] => 1e-6; y[3:5] .=> 0.0], (0, 100.0), dt = 1e-6)
+sf3prob = ODEProblem{false}(structural_simplify(sf3sys), [y[1] => 4e-6; y[2] => 1e-6; y[3:5] .=> 0.0], (0, 100.0), dt = 1e-6)
 
 sf4sys = let
     sf4eqs = [
@@ -277,7 +277,7 @@ sf4sys = let
     ODESystem(sf4eqs, t, name = :sf4)
 end
 
-sf4prob = ODEProblem{false}(sf4sys, [y[1] => 4.0; y[2] => 1.1; y[3] => 4.0], (0, 300.0), dt = 1e-3)
+sf4prob = ODEProblem{false}(structural_simplify(sf4sys), [y[1] => 4.0; y[2] => 1.1; y[3] => 4.0], (0, 300.0), dt = 1e-3)
 
 sf5sys = let
     sf5eqs = [
@@ -290,7 +290,7 @@ sf5sys = let
     ODESystem(sf5eqs, t, name = :sf5)
 end
 
-sf5prob = ODEProblem{false}(sf5sys, [y[1] => 3.365e-7; y[2] => 8.261e-3; y[3] => 1.642e-3; y[4] => 9.38e-6], (0, 100.0), dt = 1e-7)
+sf5prob = ODEProblem{false}(structural_simplify(sf5sys), [y[1] => 3.365e-7; y[2] => 8.261e-3; y[3] => 1.642e-3; y[4] => 9.38e-6], (0, 100.0), dt = 1e-7)
 
 # Non-stiff
 na1sys = let y = y[1]
@@ -299,7 +299,7 @@ na1sys = let y = y[1]
     ODESystem(na1eqs, t, name = :na1)
 end
 
-na1prob = ODEProblem{false}(na1sys, [y[1] => 1], (0, 20.0))
+na1prob = ODEProblem{false}(structural_simplify(na1sys), [y[1] => 1], (0, 20.0))
 
 na2sys = let y = y[1]
     na2eqs = D(y) ~ -y^3/2
@@ -307,7 +307,7 @@ na2sys = let y = y[1]
     ODESystem(na2eqs, t, name = :na2)
 end
 
-na2prob = ODEProblem{false}(na2sys, [y[1] => 1], (0, 20.0))
+na2prob = ODEProblem{false}(structural_simplify(na2sys), [y[1] => 1], (0, 20.0))
 
 na3sys = let y = y[1]
     na3eqs = D(y) ~ y * cos(t)
@@ -315,7 +315,7 @@ na3sys = let y = y[1]
     ODESystem(na3eqs, t, name = :na3)
 end
 
-na3prob = ODEProblem{false}(na3sys, [y[1] => 1], (0, 20.0))
+na3prob = ODEProblem{false}(structural_simplify(na3sys), [y[1] => 1], (0, 20.0))
 
 na4sys = let y = y[1]
     na4eqs = D(y) ~ y/4 * (1 - y/20)
@@ -323,7 +323,7 @@ na4sys = let y = y[1]
     ODESystem(na4eqs, t, name = :na4)
 end
 
-na4prob = ODEProblem{false}(na4sys, [y[1] => 1], (0, 20.0))
+na4prob = ODEProblem{false}(structural_simplify(na4sys), [y[1] => 1], (0, 20.0))
 
 na5sys = let y = y[1]
     na5eqs = D(y) ~ (y - t) / (y + t)
@@ -331,7 +331,7 @@ na5sys = let y = y[1]
     ODESystem(na5eqs, t, name = :na5)
 end
 
-na5prob = ODEProblem{false}(na5sys, [y[1] => 4], (0, 20.0))
+na5prob = ODEProblem{false}(structural_simplify(na5sys), [y[1] => 4], (0, 20.0))
 
 nb1sys = let
     nb1eqs = [
@@ -342,7 +342,7 @@ nb1sys = let
     ODESystem(nb1eqs, t, name = :nb1)
 end
 
-nb1prob = ODEProblem{false}(nb1sys, [y[1] => 1.0, y[2] => 3], (0, 20.0))
+nb1prob = ODEProblem{false}(structural_simplify(nb1sys), [y[1] => 1.0, y[2] => 3], (0, 20.0))
 
 nb2sys = let
     nb2eqs = [
@@ -354,7 +354,7 @@ nb2sys = let
     ODESystem(nb2eqs, t, name = :nb2)
 end
 
-nb2prob = ODEProblem{false}(nb2sys, [y[1] => 2.0, y[2] => 0.0, y[3] => 1.0], (0, 20.0))
+nb2prob = ODEProblem{false}(structural_simplify(nb2sys), [y[1] => 2.0, y[2] => 0.0, y[3] => 1.0], (0, 20.0))
 
 nb3sys = let
     nb3eqs = [
@@ -366,7 +366,7 @@ nb3sys = let
     ODESystem(nb3eqs, t, name = :nb3)
 end
 
-nb3prob = ODEProblem{false}(nb3sys, [y[1] => 1.0; y[2:3] .=> 0.0], (0, 20.0))
+nb3prob = ODEProblem{false}(structural_simplify(nb3sys), [y[1] => 1.0; y[2:3] .=> 0.0], (0, 20.0))
 
 nb4sys = let
     r = sqrt(y[1]^2 + y[2]^2)
@@ -379,7 +379,7 @@ nb4sys = let
     ODESystem(nb4eqs, t, name = :nb4)
 end
 
-nb4prob = ODEProblem{false}(nb4sys, [y[1] => 3.0; y[2:3] .=> 0.0], (0, 20.0))
+nb4prob = ODEProblem{false}(structural_simplify(nb4sys), [y[1] => 3.0; y[2:3] .=> 0.0], (0, 20.0))
 
 nb5sys = let
     nb5eqs = [
@@ -391,7 +391,7 @@ nb5sys = let
     ODESystem(nb5eqs, t, name = :nb5)
 end
 
-nb5prob = ODEProblem{false}(nb5sys, [y[1] => 0.0; y[2:3] .=> 1.0], (0, 20.0))
+nb5prob = ODEProblem{false}(structural_simplify(nb5sys), [y[1] => 0.0; y[2:3] .=> 1.0], (0, 20.0))
 
 nc1sys = let y = y
     n = 10
@@ -401,7 +401,7 @@ nc1sys = let y = y
     ODESystem(nc1eqs, t, name = :nc1)
 end
 
-nc1prob = ODEProblem{false}(nc1sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
+nc1prob = ODEProblem{false}(structural_simplify(nc1sys), [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
 
 nc2sys = let y = y
     n = 10
@@ -411,7 +411,7 @@ nc2sys = let y = y
     ODESystem(nc2eqs, t, name = :nc2)
 end
 
-nc2prob = ODEProblem{false}(nc2sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
+nc2prob = ODEProblem{false}(structural_simplify(nc2sys), [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
 
 nc3sys = let y = y
     n = 10
@@ -421,7 +421,7 @@ nc3sys = let y = y
     ODESystem(nc3eqs, t, name = :nc3)
 end
 
-nc3prob = ODEProblem{false}(nc3sys, [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
+nc3prob = ODEProblem{false}(structural_simplify(nc3sys), [y[1] => 1.0; y[2:10] .=> 0.0], (0, 20.0))
 
 @variables y(t)[1:51]
 y = collect(y)
@@ -433,7 +433,7 @@ nc4sys = let y = y
     ODESystem(nc4eqs, t, name = :nc4)
 end
 
-nc4prob = ODEProblem{false}(nc4sys, [y[1] => 1.0; y[2:51] .=> 0.0], (0, 20.0))
+nc4prob = ODEProblem{false}(structural_simplify(nc4sys), [y[1] => 1.0; y[2:51] .=> 0.0], (0, 20.0))
 
 @variables y(t)[1:3, 1:5]
 y = collect(y)
@@ -487,7 +487,7 @@ end
 function make_ds(nd1sys, e)
     y = collect(@nonamespace nd1sys.y)
     y0 = [y[1] => 1-e; y[2:3] .=> 0.0; y[4] => sqrt((1 + e) / (1 - e))]
-    ODEProblem{false}(nd1sys, y0, (0, 20.0), [ε => e])
+    ODEProblem{false}(structural_simplify(nd1sys), y0, (0, 20.0), [ε => e])
 end
 nd1prob = make_ds(nd1sys, 0.1)
 nd2prob = make_ds(nd1sys, 0.3)
@@ -503,7 +503,7 @@ ne1sys = let
 end
 
 y0 = [y[1] => 0.6713967071418030; y[2] => 0.09540051444747446]
-ne1prob = ODEProblem{false}(ne1sys, y0, (0, 20.0))
+ne1prob = ODEProblem{false}(structural_simplify(ne1sys), y0, (0, 20.0))
 
 ne2sys = let
     ne2eqs = [D(y[1]) ~ y[2],
@@ -513,7 +513,7 @@ ne2sys = let
 end
 
 y0 = [y[1] => 2.0; y[2] => 0.0]
-ne2prob = ODEProblem{false}(ne2sys, y0, (0, 20.0))
+ne2prob = ODEProblem{false}(structural_simplify(ne2sys), y0, (0, 20.0))
 
 ne3sys = let
     ne3eqs = [D(y[1]) ~ y[2],
@@ -522,7 +522,7 @@ ne3sys = let
     ODESystem(ne3eqs, t, name = :ne3)
 end
 
-ne3prob = ODEProblem{false}(ne3sys, y[1:2] .=> 0, (0, 20.0))
+ne3prob = ODEProblem{false}(structural_simplify(ne3sys), y[1:2] .=> 0, (0, 20.0))
 
 ne4sys = let
     ne4eqs = [D(y[1]) ~ y[2],
@@ -531,7 +531,7 @@ ne4sys = let
     ODESystem(ne4eqs, t, name = :ne4)
 end
 
-ne4prob = ODEProblem{false}(ne4sys, [y[1] => 30.0, y[2] => 0.0], (0, 20.0))
+ne4prob = ODEProblem{false}(structural_simplify(ne4sys), [y[1] => 30.0, y[2] => 0.0], (0, 20.0))
 
 ne5sys = let
     ne5eqs = [D(y[1]) ~ y[2],
@@ -539,27 +539,28 @@ ne5sys = let
     ODESystem(ne5eqs, t, name = :ne5)
 end
 
-ne5prob = ODEProblem{false}(ne5sys, y[1:2] .=> 0.0, (0, 20.0))
+ne5prob = ODEProblem{false}(structural_simplify(ne5sys), y[1:2] .=> 0.0, (0, 20.0))
 
-@inline myifelse(x, y, z) = ifelse(x, y, z)
+cond = term(iseven, term(floor, Int, unwrap(t), type = Int), type = Bool)
+
 nf1sys = let
     a = 0.1
-    cond = term(iseven, term(floor, Int, unwrap(t), type = Int), type = Bool)
     b = 2a * y[2] - (pi^2 + a^2) * y[1]
     nf1eqs = [D(y[1]) ~ y[2],
-              D(y[2]) ~ b + term(myifelse, cond, 1, -1, type=Real)]
+              D(y[2]) ~ b + ifelse(cond, 1, -1)]
     ODESystem(nf1eqs, t, name = :nf1)
 end
 
-nf1prob = ODEProblem{false}(nf1sys, y[1:2] .=> 0.0, (0, 20.0))
+nf1prob = ODEProblem{false}(structural_simplify(nf1sys), y[1:2] .=> 0.0, (0, 20.0))
 
+#=
 nf2sys = let
-    cond = term(iseven, term(floor, Int, unwrap(t), type = Int), type = Bool)
-    nf2eqs = [D(y[1]) ~ 55 - term(myifelse, cond, 2y[1]/2, y[1]/2, type=Real)]
+    nf2eqs = [D(y[1]) ~ 55 - ifelse(cond, 2y[1]/2, y[1]/2)]
     ODESystem(nf2eqs, t, name = :nf2)
 end
 
-nf2prob = ODEProblem{false}(nf2sys, [y[1] .=> 110.0], (0, 20.0))
+nf2prob = ODEProblem{false}(structural_simplify(nf2sys), [y[1] .=> 110.0], (0, 20.0))
+=#
 
 nf3sys = let
     nf3eqs = [D(y[1]) ~ y[2],
@@ -567,14 +568,14 @@ nf3sys = let
     ODESystem(nf3eqs, t, name = :nf3)
 end
 
-nf3prob = ODEProblem{false}(nf3sys, y[1:2] .=> 0.0, (0, 20.0))
+nf3prob = ODEProblem{false}(structural_simplify(nf3sys), y[1:2] .=> 0.0, (0, 20.0))
 
 nf4sys = let
     nf4eqs = [D(y[1]) ~ term(myifelse, t <= 10, -2/21 - (120 * (t - 5)) / (1 + 4 * (t - 5)^2), -2y[1], type=Real)]
     ODESystem(nf4eqs, t, name = :nf4)
 end
 
-nf4prob = ODEProblem{false}(nf4sys, [y[1] => 1.0], (0, 20.0))
+nf4prob = ODEProblem{false}(structural_simplify(nf4sys), [y[1] => 1.0], (0, 20.0))
 
 nf5sys = let
     c = sum(i->cbrt(i)^4, 1:19)
@@ -583,4 +584,4 @@ nf5sys = let
     ODESystem(nf5eqs, t, name = :nf5)
 end
 
-nf5prob = ODEProblem{false}(nf5sys, [y[1] => 1.0], (0, 20.0))
+nf5prob = ODEProblem{false}(structural_simplify(nf5sys), [y[1] => 1.0], (0, 20.0))
