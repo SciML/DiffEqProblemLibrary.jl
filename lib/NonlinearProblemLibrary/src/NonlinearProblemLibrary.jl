@@ -134,7 +134,7 @@ p6_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol, "title" => "Watson 
     end
 
     @simd ivdep for i in 1:n
-        out[i] = out[i] / n + ifelse(i % 2 == 0, 0.0, 1.0 / (i * i - 1))
+        out[i] = out[i] / n + ifelse(i % 2 == 0, 1.0 / (i * i - 1), 0.0)
     end
     nothing
 end
