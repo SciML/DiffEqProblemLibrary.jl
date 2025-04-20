@@ -6,10 +6,10 @@ using SciMLBase, LinearAlgebra
 # [test_nonlin](https://people.sc.fsu.edu/~jburkardt/m_src/test_nonlin/test_nonlin.html)
 
 # ------------------------------------- Problem 1 ------------------------------------------
-function p1_f!(out, x, p = nothing)
+@inbounds @views function p1_f!(out, x, p = nothing)
     n = length(x)
     out[1] = 1.0 - x[1]
-    out[2:n] .= 10.0 .* (x[2:n] .- x[1:(n - 1)] .* x[1:(n - 1)])
+    @. out[2:n] = 10.0 * (x[2:n] - x[1:(n - 1)] * x[1:(n - 1)])
     nothing
 end
 
@@ -21,7 +21,7 @@ p1_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Generalized Rosenbrock function")
 
 # ------------------------------------- Problem 2 ------------------------------------------
-function p2_f!(out, x, p = nothing)
+@inbounds function p2_f!(out, x, p = nothing)
     out[1] = x[1] + 10.0 * x[2]
     out[2] = sqrt(5.0) * (x[3] - x[4])
     out[3] = (x[2] - 2.0 * x[3])^2
@@ -36,7 +36,7 @@ p2_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Powell singular function")
 
 # ------------------------------------- Problem 3 ------------------------------------------
-function p3_f!(out, x, p = nothing)
+@inbounds function p3_f!(out, x, p = nothing)
     out[1] = 10000.0 * x[1] * x[2] - 1.0
     out[2] = exp(-x[1]) + exp(-x[2]) - 1.0001
     nothing
@@ -49,7 +49,7 @@ p3_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Powell badly scaled function")
 
 # ------------------------------------- Problem 4 ------------------------------------------
-function p4_f!(out, x, p = nothing)
+@inbounds function p4_f!(out, x, p = nothing)
     temp1 = x[2] - x[1] * x[1]
     temp2 = x[4] - x[3] * x[3]
 
@@ -66,15 +66,9 @@ x_start = [-3.0, -1.0, -3.0, -1.0]
 p4_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol, "title" => "Wood function")
 
 # ------------------------------------- Problem 5 ------------------------------------------
-function p5_f!(out, x, p = nothing)
-    if 0.0 < x[1]
-        temp = atan(x[2] / x[1]) / (2.0 * pi)
-    elseif x[1] < 0.0
-        temp = atan(x[2] / x[1]) / (2.0 * pi) + 0.5
-    else
-        temp = 0.25 * sign(x[2])
-    end
-
+@inbounds function p5_f!(out, x, p = nothing)
+    temp1 = atan(x[2] / x[1]) / (2.0 * pi)
+    temp = ifelse(0.0 < x[1], temp1, ifelse(x[1] < 0.0, temp1 + 0.5, 0.25 * sign(x[2])))
     out[1] = 10.0 * (x[3] - 10.0 * temp)
     out[2] = 10.0 * (sqrt(x[1] * x[1] + x[2] * x[2]) - 1.0)
     out[3] = x[3]
@@ -88,7 +82,7 @@ p5_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Helical valley function")
 
 # ------------------------------------- Problem 6 ------------------------------------------
-function p6_f!(out, x, p = nothing)
+@inbounds function p6_f!(out, x, p = nothing)
     n = length(x)
     out .= 0
     for i in 1:29
@@ -114,8 +108,8 @@ function p6_f!(out, x, p = nothing)
         end
     end
 
-    out[1] = out[1] + 3.0 * x[1] - 2.0 * x[1] * x[2] + 2.0 * x[1]^3
-    out[2] = out[2] + x[2] - x[2]^2 - 1.0
+    out[1] += x[1] * (3.0 - 2.0 * x[2] + 2.0 * x[1]^2)
+    out[2] += x[2] * (1.0 - x[2]) - 1.0
     nothing
 end
 
@@ -125,7 +119,7 @@ x_start = zeros(n)
 p6_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol, "title" => "Watson function")
 
 # ------------------------------------- Problem 7 ------------------------------------------
-function p7_f!(out, x, p = nothing)
+@inbounds function p7_f!(out, x, p = nothing)
     n = length(x)
     out .= 0.0
     for j in 1:n
@@ -138,13 +132,9 @@ function p7_f!(out, x, p = nothing)
             t2 = t3
         end
     end
-    out ./= n
 
-    for i in 1:n
-        ip1 = i
-        if ip1 % 2 == 0
-            out[i] = out[i] + 1.0 / (ip1 * ip1 - 1)
-        end
+    @simd ivdep for i in 1:n
+        out[i] = out[i] / n + ifelse(i % 2 == 0, 1.0 / (i * i - 1), 0.0)
     end
     nothing
 end
@@ -160,9 +150,10 @@ p7_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Chebyquad function")
 
 # ------------------------------------- Problem 8 ------------------------------------------
-function p8_f!(out, x, p = nothing)
+@inbounds @views function p8_f!(out, x, p = nothing)
     n = length(x)
-    out[1:(n - 1)] .= x[1:(n - 1)] .+ sum(x) .- (n + 1)
+    sum_x = sum(x)
+    @. out[1:(n - 1)] = x[1:(n - 1)] + sum_x - (n + 1)
     out[n] = prod(x) - 1.0
     nothing
 end
@@ -174,18 +165,18 @@ p8_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Brown almost linear function")
 
 # ------------------------------------- Problem 9 ------------------------------------------
-function p9_f!(out, x, p = nothing)
+@inline function discrete_bvf_kernel(xk, k, h)
+    return 2.0 * xk + 0.5 * h^2 * (xk + k * h + 1.0)^3
+end
+
+@inbounds function p9_f!(out, x, p = nothing)
     n = length(x)
     h = 1.0 / (n + 1)
-    for k in 1:n
-        out[k] = 2.0 * x[k] + 0.5 * h^2 * (x[k] + k * h + 1.0)^3
-        if 1 < k
-            out[k] = out[k] - x[k - 1]
-        end
-        if k < n
-            out[k] = out[k] - x[k + 1]
-        end
+    out[1] = discrete_bvf_kernel(x[1], 1, h) - x[2]
+    for k in 2:(n - 1)
+        out[k] = discrete_bvf_kernel(x[k], k, h) - x[k - 1] - x[k + 1]
     end
+    out[n] = discrete_bvf_kernel(x[n], n, h) - x[n - 1]
     nothing
 end
 
@@ -199,7 +190,7 @@ p9_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Discrete boundary value function")
 
 # ------------------------------------- Problem 10 -----------------------------------------
-function p10_f!(out, x, p = nothing)
+@inbounds function p10_f!(out, x, p = nothing)
     n = length(x)
     h = 1.0 / (n + 1)
     for k in 1:n
@@ -230,11 +221,12 @@ p10_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Discrete integral equation function")
 
 # ------------------------------------- Problem 11 -----------------------------------------
-function p11_f!(out, x, p = nothing)
+@inbounds function p11_f!(out, x, p = nothing)
     n = length(x)
-    c_sum = sum(cos.(x))
-    for k in 1:n
-        out[k] = n - c_sum + k * (1.0 - cos(x[k])) - sin(x[k])
+    c_sum = sum(cos, x)
+    @simd ivdep for k in 1:n
+        sxk, cxk = sincos(x[k])
+        out[k] = n - c_sum + k * (1.0 - cxk) - sxk
     end
     nothing
 end
@@ -246,7 +238,7 @@ p11_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Trigonometric function")
 
 # ------------------------------------- Problem 12 -----------------------------------------
-function p12_f!(out, x, p = nothing)
+@inbounds function p12_f!(out, x, p = nothing)
     n = length(x)
     sum1 = 0.0
     for j in 1:n
@@ -268,17 +260,15 @@ p12_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Variably dimensioned function")
 
 # ------------------------------------- Problem 13 -----------------------------------------
-function p13_f!(out, x, p = nothing)
+@inline broyden_tridiag_kernel(xk) = (3.0 - 2.0 * xk) * xk + 1.0
+
+@inbounds function p13_f!(out, x, p = nothing)
     n = length(x)
-    for k in 1:n
-        out[k] = (3.0 - 2.0 * x[k]) * x[k] + 1.0
-        if 1 < k
-            out[k] -= x[k - 1]
-        end
-        if k < n
-            out[k] -= 2.0 * x[k + 1]
-        end
+    out[1] = broyden_tridiag_kernel(x[1]) -2.0 * x[2]
+    for k in 2:(n - 1)
+        out[k] = broyden_tridiag_kernel(x[k]) - x[k - 1] - 2.0 * x[k + 1]
     end
+    out[n] = broyden_tridiag_kernel(x[n]) - x[n - 1]
     nothing
 end
 
@@ -289,7 +279,7 @@ p13_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Broyden tridiagonal function")
 
 # ------------------------------------- Problem 14 -----------------------------------------
-function p14_f!(out, x, p = nothing)
+@inbounds function p14_f!(out, x, p = nothing)
     n = length(x)
     ml = 5
     mu = 1
@@ -315,7 +305,7 @@ p14_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Broyden banded function")
 
 # ------------------------------------- Problem 15 -----------------------------------------
-function p15_f!(out, x, p = nothing)
+@inbounds function p15_f!(out, x, p = nothing)
     out[1] = (x[1] * x[1] + x[2] * x[3]) - 0.0001
     out[2] = (x[1] * x[2] + x[2] * x[4]) - 1.0
     out[3] = (x[3] * x[1] + x[4] * x[3]) - 0.0
@@ -330,7 +320,7 @@ p15_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Hammarling 2 by 2 matrix square root problem")
 
 # ------------------------------------- Problem 16 -----------------------------------------
-function p16_f!(out, x, p = nothing)
+@inbounds function p16_f!(out, x, p = nothing)
     out[1] = (x[1] * x[1] + x[2] * x[4] + x[3] * x[7]) - 0.0001
     out[2] = (x[1] * x[2] + x[2] * x[5] + x[3] * x[8]) - 1.0
     out[3] = x[1] * x[3] + x[2] * x[6] + x[3] * x[9]
@@ -350,7 +340,7 @@ p16_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Hammarling 3 by 3 matrix square root problem")
 
 # ------------------------------------- Problem 17 -----------------------------------------
-function p17_f!(out, x, p = nothing)
+@inbounds function p17_f!(out, x, p = nothing)
     out[1] = x[1] + x[2] - 3.0
     out[2] = x[1]^2 + x[2]^2 - 9.0
     nothing
@@ -364,16 +354,18 @@ p17_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
 
 # ------------------------------------- Problem 18 -----------------------------------------
 function p18_f!(out, x, p = nothing)
-    if x[1] != 0.0
-        out[1] = x[2]^2 * (1.0 - exp(-x[1] * x[1])) / x[1]
-    else
+    if iszero(x[1])
         out[1] = 0.0
-    end
-    if x[2] != 0.0
-        out[2] = x[1] * (1.0 - exp(-x[2] * x[2])) / x[2]
     else
-        out[2] = 0.0
+        out[1] = x[2]^2 * (1.0 - exp(-x[1] * x[1])) / x[1]
     end
+
+    if iszero(x[2])
+        out[2] = 0.0
+    else
+        out[2] = x[1] * (1.0 - exp(-x[2] * x[2])) / x[2]
+    end
+
     nothing
 end
 
@@ -384,9 +376,10 @@ p18_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Sample problem 18")
 
 # ------------------------------------- Problem 19 -----------------------------------------
-function p19_f!(out, x, p = nothing)
-    out[1] = x[1] * (x[1]^2 + x[2]^2)
-    out[2] = x[2] * (x[1]^2 + x[2]^2)
+@inbounds function p19_f!(out, x, p = nothing)
+    tmp = x[1]^2 + x[2]^2
+    out[1] = x[1] * tmp
+    out[2] = x[2] * tmp
     nothing
 end
 
@@ -397,7 +390,7 @@ p19_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Sample problem 19")
 
 # ------------------------------------- Problem 20 -----------------------------------------
-function p20_f!(out, x, p = nothing)
+@inbounds function p20_f!(out, x, p = nothing)
     out[1] = x[1] * (x[1] - 5.0)^2
     nothing
 end
@@ -409,7 +402,7 @@ p20_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Scalar problem f(x) = x(x - 5)^2")
 
 # ------------------------------------- Problem 21 -----------------------------------------
-function p21_f!(out, x, p = nothing)
+@inbounds function p21_f!(out, x, p = nothing)
     out[1] = x[1] - x[2]^3 + 5.0 * x[2]^2 - 2.0 * x[2] - 13.0
     out[2] = x[1] + x[2]^3 + x[2]^2 - 14.0 * x[2] - 29.0
     nothing
@@ -422,9 +415,9 @@ p21_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Freudenstein-Roth function")
 
 # ------------------------------------- Problem 22 -----------------------------------------
-function p22_f!(out, x, p = nothing)
+@inbounds function p22_f!(out, x, p = nothing)
     out[1] = x[1] * x[1] - x[2] + 1.0
-    out[2] = x[1] - cos(0.5 * pi * x[2])
+    out[2] = x[1] - cospi(0.5 * x[2])
     nothing
 end
 
@@ -435,7 +428,7 @@ p22_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
     "title" => "Boggs function")
 
 # ------------------------------------- Problem 23 -----------------------------------------
-function p23_f!(out, x, p = nothing)
+@inbounds function p23_f!(out, x, p = nothing)
     c = 0.9
     out[1:n] = x[1:n]
     μ = zeros(n)
