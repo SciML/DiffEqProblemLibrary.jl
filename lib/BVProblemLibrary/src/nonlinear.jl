@@ -303,7 +303,7 @@ prob_bvp_nonlinear_5 = BVProblem(prob_bvp_nonlinear_5_function,
 γ = 1.4
 A(t) = 1 + t^2
 function prob_bvp_nonlinear_6_f(t, u1, u2, p)
-    ((1 + p) / 2 - p * 2 * t) * u1 * u2 - u2 / u1 - 2 * t / A(t) * (1 - (p - 1) / 2 * u1^2)
+    ((1 + γ) / 2 - p * 2 * t) * u1 * u2 - u2 / u1 - 2 * t / A(t) * (1 - (γ - 1) / 2 * u1^2)
 end
 function prob_bvp_nonlinear_6_f!(du, u, p, t)
     du[1] = u[2]
@@ -354,7 +354,7 @@ No analytical solution
 [Reference](https://archimede.uniba.it/~bvpsolvers/testsetbvpsolvers/?page_id=247)
 """
 prob_bvp_nonlinear_6 = BVProblem(prob_bvp_nonlinear_6_function,
-    [1.0, 0.0],
+    [1.0, 1.0],
     prob_bvp_nonlinear_6_tspan,
     λ)
 
