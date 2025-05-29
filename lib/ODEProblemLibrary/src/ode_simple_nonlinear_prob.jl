@@ -54,7 +54,7 @@ prob_ode_fitzhughnagumo = ODEProblem(fitz, [1.0; 1.0], (0.0, 1.0),
 
 eqs = [D(y) ~ μ * ((1 - x^2) * y - x),
     D(x) ~ y]
-van = ODESystem(eqs, t; name = :van_der_pol) |> structural_simplify |> complete
+van = System(eqs, t; name = :van_der_pol) |> mtkcompile
 
 """
 Van der Pol Equations
@@ -70,7 +70,7 @@ with ``μ=1.0`` and ``u_0=[x => \\sqrt{3}, y => 0]``
 
 Non-stiff parameters.
 """
-prob_ode_vanderpol = ODEProblem(van, [y => 0, x => sqrt(3)], (0.0, 1.0), [μ => 1.0], jac=true, eval_module = @__MODULE__)
+prob_ode_vanderpol = ODEProblem(van, [y => 0, x => sqrt(3), μ => 1.0], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
 
 """
 Van der Pol Equations
@@ -86,7 +86,7 @@ with ``μ=10^6`` and ``u_0=[x => \\sqrt{3}, y => 0]``
 
 Stiff parameters.
 """
-prob_ode_vanderpol_stiff = ODEProblem(van, [y => 0, x => sqrt(3)], (0.0, 1.0), [μ => 1e6], jac=true, eval_module = @__MODULE__)
+prob_ode_vanderpol_stiff = ODEProblem(van, [y => 0, x => sqrt(3), μ => 1e6], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
 
 # ROBER
 @parameters k₁ k₂ k₃
@@ -95,7 +95,7 @@ prob_ode_vanderpol_stiff = ODEProblem(van, [y => 0, x => sqrt(3)], (0.0, 1.0), [
 eqs = [D(y₁) ~ -k₁ * y₁ + k₃ * y₂ * y₃,
     D(y₂) ~ k₁ * y₁ - k₂ * y₂^2 - k₃ * y₂ * y₃,
     D(y₃) ~ k₂ * y₂^2]
-rober = ODESystem(eqs, t; name = :rober) |> structural_simplify |> complete
+rober = System(eqs, t; name = :rober) |> mtkcompile
 
 """
 The Robertson biochemical reactions: (Stiff)
@@ -116,7 +116,7 @@ Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Probl
 
 Usually solved on ``[0,1e11]``
 """
-prob_ode_rober = ODEProblem(rober, [y₁, y₂, y₃] .=> [1.0; 0.0; 0.0], (0.0, 1e11), [k₁, k₂, k₃] .=> (0.04, 3e7, 1e4), jac = true, eval_module = @__MODULE__)
+prob_ode_rober = ODEProblem(rober, [[y₁, y₂, y₃] .=> [1.0; 0.0; 0.0]; [k₁, k₂, k₃] .=> (0.04, 3e7, 1e4)], (0.0, 1e11), jac = true, eval_module = @__MODULE__)
 
 # Three Body
 const threebody_μ = big(0.012277471);
@@ -175,7 +175,7 @@ prob_ode_threebody = ODEProblem(threebody,
 eqs = [D(y₁) ~ I₁ * y₂ * y₃,
     D(y₂) ~ I₂ * y₁ * y₃,
     D(y₃) ~ I₃ * y₁ * y₂]
-rigid = ODESystem(eqs, t; name = :rigid_body) |> structural_simplify |> complete
+rigid = System(eqs, t; name = :rigid_body) |> mtkcompile
 
 """
 Rigid Body Equations (Non-stiff)
@@ -200,9 +200,8 @@ or Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Pr
 
 Usually solved from 0 to 20.
 """
-prob_ode_rigidbody = ODEProblem(rigid, [y₁, y₂, y₃] .=> [1.0, 0.0, 0.9], (0.0, 20.0),
-                                       [I₁, I₂, I₃] .=> (-2.0, 1.25, -0.5), jac = true,
-                                       eval_module = @__MODULE__)
+prob_ode_rigidbody = ODEProblem(rigid, [[y₁, y₂, y₃] .=> [1.0, 0.0, 0.9]; [I₁, I₂, I₃] .=> (-2.0, 1.25, -0.5)], (0.0, 20.0),
+                                jac = true, eval_module = @__MODULE__)
 
 # Pleiades Problem
 
@@ -359,11 +358,15 @@ eqs = [D(y1) ~ -p1 * y1 + p2 * y2 + p3 * y3 + p4,
             p2 * y6 + p11 * y7,
     D(y7) ~ p10 * y6 * y8 - p12 * y7,
     D(y8) ~ -p10 * y6 * y8 + p12 * y7]
-hires = ODESystem(eqs, t; name = :hires) |> structural_simplify |> complete
+hires = System(eqs, t; name = :hires) |> mtkcompile
 
 u0 = zeros(8)
 u0[1] = 1
 u0[8] = 0.0057
+
+u0 = [y1, y2, y3, y4, y5, y6, y7, y8] .=> u0
+p = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12] .=> (1.71, 0.43, 8.32, 0.0007, 8.75,
+    10.03, 0.035, 1.12, 1.745, 280.0, 0.69, 1.81)
 
 """
 Hires Problem (Stiff)
@@ -387,10 +390,7 @@ where ``f`` is defined by
 Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf)
 Notebook: [Hires.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
 """
-prob_ode_hires = ODEProblem(hires, [y1, y2, y3, y4, y5, y6, y7, y8] .=> u0, (0.0, 321.8122),
-                            [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12] .=> (1.71, 0.43, 8.32, 0.0007, 8.75,
-                                    10.03, 0.035, 1.12, 1.745, 280.0,
-                                    0.69, 1.81), jac = true, eval_module = @__MODULE__)
+prob_ode_hires = ODEProblem(hires, [u0; p], (0.0, 321.8122), jac = true, eval_module = @__MODULE__)
 
 @parameters p1 p2 p3
 @variables y1(t) y2(t) y3(t)
@@ -398,7 +398,7 @@ prob_ode_hires = ODEProblem(hires, [y1, y2, y3, y4, y5, y6, y7, y8] .=> u0, (0.0
 eqs = [D(y1) ~ p1 * (y2 + y1 * (1 - p2 * y1 - y2)),
     D(y2) ~ (y3 - (1 + y1) * y2) / p1,
     D(y3) ~ p3 * (y1 - y3)]
-orego = ODESystem(eqs, t; name = :orego) |> structural_simplify |> complete
+orego = System(eqs, t; name = :orego) |> mtkcompile
 
 """
 Orego Problem (Stiff)
@@ -418,4 +418,4 @@ where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
 Reference: [demoorego.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf)
 Notebook: [Orego.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb)
 """
-prob_ode_orego = ODEProblem(orego, [y1, y2, y3] .=> [1.0, 2.0, 3.0], (0.0, 30.0), [p1, p2, p3] .=> [77.27, 8.375e-6, 0.161], jac = true, eval_module = @__MODULE__)
+prob_ode_orego = ODEProblem(orego, [[y1, y2, y3] .=> [1.0, 2.0, 3.0]; [p1, p2, p3] .=> [77.27, 8.375e-6, 0.161]], (0.0, 30.0), jac = true, eval_module = @__MODULE__)

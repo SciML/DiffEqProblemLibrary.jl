@@ -30,6 +30,13 @@ export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
        prob_ode_chen, prob_ode_rossler, prob_ode_rabinovich_fabrikant, prob_ode_sprott,
        prob_ode_hindmarsh_rose
 
+# For MTKv9 compatibility
+@static if !isdefined(ModelingToolkit, :mtkcompile)
+    function mtkcompile(args...; kwargs...)
+        structural_simplify(args...; kwargs...)
+    end
+end
+
 include("ode_linear_prob.jl")
 include("ode_simple_nonlinear_prob.jl")
 include("brusselator_prob.jl")
