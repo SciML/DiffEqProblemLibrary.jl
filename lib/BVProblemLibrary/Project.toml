@@ -8,7 +8,7 @@ Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 
 [compat]
-Aqua = "0.5"
+Aqua = "0.8"
 DiffEqBase = "6"
 SpecialFunctions = "2.3"
 julia = "1.10"
