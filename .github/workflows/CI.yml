@@ -28,7 +28,7 @@ jobs:
           - 'lib/JumpProblemLibrary'
           - 'lib/ODEProblemLibrary'
           - 'lib/SDEProblemLibrary'
-          - 'lib/BVPProblemLibrary'
+          - 'lib/BVProblemLibrary'
           - 'lib/NonlinearProblemLibrary'
     uses: "SciML/.github/.github/workflows/tests.yml@v1"
     with:
