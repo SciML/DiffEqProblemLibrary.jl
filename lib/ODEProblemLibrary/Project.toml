@@ -15,7 +15,7 @@ RuntimeGeneratedFunctions = "7e49a35a-f44a-4d26-94aa-eba1b4ca6b47"
 Aqua = "0.5"
 DiffEqBase = "6"
 Latexify = "0.16"
-ModelingToolkit = "9, 10"
+ModelingToolkit = "10"
 RuntimeGeneratedFunctions = "0.5"
 julia = "1.10"
 
