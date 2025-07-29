@@ -70,7 +70,8 @@ with ``μ=1.0`` and ``u_0=[x => \\sqrt{3}, y => 0]``
 
 Non-stiff parameters.
 """
-prob_ode_vanderpol = ODEProblem(van, [y => 0, x => sqrt(3), μ => 1.0], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_vanderpol = ODEProblem(van, [y => 0, x => sqrt(3), μ => 1.0], (0.0, 1.0),
+    jac = true, eval_module = @__MODULE__)
 
 """
 Van der Pol Equations
@@ -86,7 +87,8 @@ with ``μ=10^6`` and ``u_0=[x => \\sqrt{3}, y => 0]``
 
 Stiff parameters.
 """
-prob_ode_vanderpol_stiff = ODEProblem(van, [y => 0, x => sqrt(3), μ => 1e6], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_vanderpol_stiff = ODEProblem(van, [y => 0, x => sqrt(3), μ => 1e6], (0.0, 1.0),
+    jac = true, eval_module = @__MODULE__)
 
 # ROBER
 @parameters k₁ k₂ k₃
@@ -116,13 +118,18 @@ Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Probl
 
 Usually solved on ``[0,1e11]``
 """
-prob_ode_rober = ODEProblem(rober, [[y₁, y₂, y₃] .=> [1.0; 0.0; 0.0]; [k₁, k₂, k₃] .=> (0.04, 3e7, 1e4)], (0.0, 1e11), jac = true, eval_module = @__MODULE__)
+prob_ode_rober = ODEProblem(
+    rober, [[y₁, y₂, y₃] .=> [1.0; 0.0; 0.0]; [k₁, k₂, k₃] .=> (0.04, 3e7, 1e4)],
+    (0.0, 1e11), jac = true, eval_module = @__MODULE__)
 
 # Three Body
 const threebody_μ = big(0.012277471);
 const threebody_μ′ = 1 - threebody_μ;
 
-threebody = (du, u, p, t) -> begin
+threebody = (du,
+    u,
+    p,
+    t) -> begin
     # 1 = y₁
     # 2 = y₂
     # 3 = y₁'
@@ -200,8 +207,10 @@ or Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Pr
 
 Usually solved from 0 to 20.
 """
-prob_ode_rigidbody = ODEProblem(rigid, [[y₁, y₂, y₃] .=> [1.0, 0.0, 0.9]; [I₁, I₂, I₃] .=> (-2.0, 1.25, -0.5)], (0.0, 20.0),
-                                jac = true, eval_module = @__MODULE__)
+prob_ode_rigidbody = ODEProblem(
+    rigid, [[y₁, y₂, y₃] .=> [1.0, 0.0, 0.9]; [I₁, I₂, I₃] .=> (-2.0, 1.25, -0.5)],
+    (0.0, 20.0),
+    jac = true, eval_module = @__MODULE__)
 
 # Pleiades Problem
 
@@ -216,6 +225,7 @@ pleiades = (du, u, p, t) -> begin
         du[i] = zero(eltype(u))
     end
     for i in 1:7, j in 1:7
+
         if i != j
             r = ((x[i] - x[j])^2 + (y[i] - y[j])^2)^(3 / 2)
             du[14 + i] += j * (x[j] - x[i]) / r
@@ -365,7 +375,8 @@ u0[1] = 1
 u0[8] = 0.0057
 
 u0 = [y1, y2, y3, y4, y5, y6, y7, y8] .=> u0
-p = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12] .=> (1.71, 0.43, 8.32, 0.0007, 8.75,
+p = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11,
+    p12] .=> (1.71, 0.43, 8.32, 0.0007, 8.75,
     10.03, 0.035, 1.12, 1.745, 280.0, 0.69, 1.81)
 
 """
@@ -390,7 +401,8 @@ where ``f`` is defined by
 Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf)
 Notebook: [Hires.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
 """
-prob_ode_hires = ODEProblem(hires, [u0; p], (0.0, 321.8122), jac = true, eval_module = @__MODULE__)
+prob_ode_hires = ODEProblem(
+    hires, [u0; p], (0.0, 321.8122), jac = true, eval_module = @__MODULE__)
 
 @parameters p1 p2 p3
 @variables y1(t) y2(t) y3(t)
@@ -418,4 +430,6 @@ where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
 Reference: [demoorego.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf)
 Notebook: [Orego.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb)
 """
-prob_ode_orego = ODEProblem(orego, [[y1, y2, y3] .=> [1.0, 2.0, 3.0]; [p1, p2, p3] .=> [77.27, 8.375e-6, 0.161]], (0.0, 30.0), jac = true, eval_module = @__MODULE__)
+prob_ode_orego = ODEProblem(
+    orego, [[y1, y2, y3] .=> [1.0, 2.0, 3.0]; [p1, p2, p3] .=> [77.27, 8.375e-6, 0.161]],
+    (0.0, 30.0), jac = true, eval_module = @__MODULE__)

@@ -24,10 +24,12 @@ function brusselator_2d_loop(du, u, p, t)
             im1 = limit(i - 1, N)
             jp1 = limit(j + 1, N)
             jm1 = limit(j - 1, N)
-            du[i, j, 1] = α * (u[im1, j, 1] + u[ip1, j, 1] + u[i, jp1, 1] + u[i, jm1, 1] -
-                           4u[i, j, 1]) +
-                          B + u[i, j, 1]^2 * u[i, j, 2] - (A + 1) * u[i, j, 1] +
-                          brusselator_f(x, y, t)
+            du[i,
+                j,
+                1] = α * (u[im1, j, 1] + u[ip1, j, 1] + u[i, jp1, 1] + u[i, jm1, 1] -
+                      4u[i, j, 1]) +
+                     B + u[i, j, 1]^2 * u[i, j, 2] - (A + 1) * u[i, j, 1] +
+                     brusselator_f(x, y, t)
         end
         for I in CartesianIndices((N, N))
             i = I[1]
@@ -36,9 +38,11 @@ function brusselator_2d_loop(du, u, p, t)
             im1 = limit(i - 1, N)
             jp1 = limit(j + 1, N)
             jm1 = limit(j - 1, N)
-            du[i, j, 2] = α * (u[im1, j, 2] + u[ip1, j, 2] + u[i, jp1, 2] + u[i, jm1, 2] -
-                           4u[i, j, 2]) +
-                          A * u[i, j, 1] - u[i, j, 1]^2 * u[i, j, 2]
+            du[i,
+                j,
+                2] = α * (u[im1, j, 2] + u[ip1, j, 2] + u[i, jp1, 2] + u[i, jm1, 2] -
+                      4u[i, j, 2]) +
+                     A * u[i, j, 1] - u[i, j, 1]^2 * u[i, j, 2]
         end
     end
 end
@@ -104,10 +108,12 @@ function brusselator_1d_loop(du, u, p, t)
     @inbounds for i in 2:(N - 1)
         x = xyd_brusselator[i]
         ip1, im1 = i + 1, i - 1
-        du[i, 1] = alpha * (u[im1, 1] + u[ip1, 1] - 2u[i, 1]) +
-                   A + u[i, 1]^2 * u[i, 2] - (B + 1) * u[i, 1]
-        du[i, 2] = alpha * (u[im1, 2] + u[ip1, 2] - 2u[i, 2]) +
-                   B * u[i, 1] - u[i, 1]^2 * u[i, 2]
+        du[i,
+            1] = alpha * (u[im1, 1] + u[ip1, 1] - 2u[i, 1]) +
+                 A + u[i, 1]^2 * u[i, 2] - (B + 1) * u[i, 1]
+        du[i,
+            2] = alpha * (u[im1, 2] + u[ip1, 2] - 2u[i, 2]) +
+                 B * u[i, 1] - u[i, 1]^2 * u[i, 2]
     end
 end
 

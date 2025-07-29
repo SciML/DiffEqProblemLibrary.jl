@@ -11,9 +11,8 @@ Cultures of Pseudomonas Putida IsoF By Use of ELISA and UHPLC/qTOF-MS-derived Me
 and Mathematical Models, Analytical and Bioanalytical Chemistry.
 """
 const prob_dde_qs = let S₀ = 1, τ = 2, D = 0.1, γₛ = 1.3e-12, Kₘ = 0.38, nₛ = 1.3, a = 0.66,
-    αₐ = 2.3e-19,
-    βₐ = 2.3e-18, C₁ = 70e-9, n₁ = 2.3, γₐ = 0.05, αC = 4e4, R = 5e-7, γ₃ = 0.08,
-    Kₑ = 1.5e-4, αₗ = 1.1e-8, C₂ = 70e-9, n₂ = 2.5, γₗ = 0.005
+    αₐ = 2.3e-19, βₐ = 2.3e-18, C₁ = 70e-9, n₁ = 2.3, γₐ = 0.05, αC = 4e4, R = 5e-7,
+    γ₃ = 0.08, Kₑ = 1.5e-4, αₗ = 1.1e-8, C₂ = 70e-9, n₂ = 2.5, γₗ = 0.005
 
     function hill_growth(x, K, n)
         if x > K
