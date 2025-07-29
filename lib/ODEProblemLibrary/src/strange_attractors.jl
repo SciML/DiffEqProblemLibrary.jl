@@ -10,7 +10,7 @@ eqs = [D(x) ~ sin(y) - b * x,
     D(y) ~ sin(z) - b * y,
     D(z) ~ sin(x) - b * z]
 
-@mtkbuild thomas = System(eqs, t)
+@mtkcompile thomas = System(eqs, t)
 
 """
 Thomas' cyclically symmetric attractor equations
@@ -33,7 +33,7 @@ eqs = [D(x) ~ σ * (y - x),
     D(y) ~ x * (ρ - z) - y,
     D(z) ~ x * y - β * z]
 
-@mtkbuild lorenz = System(eqs, t)
+@mtkcompile lorenz = System(eqs, t)
 
 """
 Lorenz equations
@@ -56,7 +56,7 @@ eqs = [D(x) ~ (z - b) * x - d * y,
     D(y) ~ d * x + (z - b) * y,
     D(z) ~ c + a * z - z^3 / 3 - (x^2 + y^2) * (1 + e * z) + f * z * x^3]
 
-@mtkbuild aizawa = System(eqs, t)
+@mtkcompile aizawa = System(eqs, t)
 
 """
 Aizawa equations
@@ -78,7 +78,7 @@ eqs = [D(x) ~ y - a * x + b * y * z,
     D(y) ~ c * y - x * z + z,
     D(z) ~ d * x * y - e * z]
 
-@mtkbuild dadras = System(eqs, t)
+@mtkcompile dadras = System(eqs, t)
 
 """
 Dadras equations
@@ -100,7 +100,7 @@ eqs = [D(x) ~ a * (y - x),
     D(y) ~ (c - a) * x - x * z + c * y,
     D(z) ~ x * y - b * z]
 
-@mtkbuild chen = System(eqs, t)
+@mtkcompile chen = System(eqs, t)
 
 """
 chen equations
@@ -122,7 +122,7 @@ eqs = [D(x) ~ -(y + z),
     D(y) ~ x + a * y,
     D(z) ~ b + z * (x - c)]
 
-@mtkbuild rossler = System(eqs, t)
+@mtkcompile rossler = System(eqs, t)
 
 """
 rossler equations
@@ -145,7 +145,7 @@ eqs = [D(x) ~ y * (z - 1 + x^2) + b * x,
     D(y) ~ x * (3 * z + 1 - x^2) + b * y,
     D(z) ~ -2 * z * (a + x * y)]
 
-@mtkbuild rabinovich_fabrikant = System(eqs, t)
+@mtkcompile rabinovich_fabrikant = System(eqs, t)
 
 """
 rabinovich_fabrikant equations
@@ -167,7 +167,7 @@ eqs = [D(x) ~ y + a * x * y + x * z,
     D(y) ~ 1 - b * x^2 + y * z,
     D(z) ~ x - x^2 - y^2]
 
-@mtkbuild sprott = System(eqs, t)
+@mtkcompile sprott = System(eqs, t)
 
 """
 sprott equations
@@ -189,7 +189,7 @@ eqs = [D(x) ~ y - a * x^3 + b * x^2 - z + i,
     D(y) ~ c - d * x^2 - y,
     D(z) ~ r * (s * (x - xr) - z)]
 
-@mtkbuild hindmarsh_rose = System(eqs, t)
+@mtkcompile hindmarsh_rose = System(eqs, t)
 
 """
 hindmarsh_rose equations
