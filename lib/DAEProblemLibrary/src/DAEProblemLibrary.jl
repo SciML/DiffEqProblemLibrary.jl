@@ -41,12 +41,12 @@ UF = 0.026
 β = 1e-6
 R0 = 1000
 R = 9000
-Ue(t) = 0.1 * sin(200 * π * t)
+Use(t) = 0.1 * sin(200 * π * t)
 g(x) = 1e-6 * (exp(x / 0.026) - 1)
 
 function transamp(out, du, u, p, t)
     y1, y2, y3, y4, y5, y6, y7, y8 = u
-    out[1] = -Ue(t) / R0 + y1 / R0 + C[1] * du[1] - C[1] * du[2]
+    out[1] = -Use(t) / R0 + y1 / R0 + C[1] * du[1] - C[1] * du[2]
     out[2] = -Ub / R + y2 * 2 / R - (α - 1) * g(y2 - y3) - C[1] * du[1] + C[1] * du[2]
     out[3] = -g(y2 - y3) + y3 / R + C[2] * du[3]
     out[4] = -Ub / R + y4 / R + α * g(y2 - y3) + C[3] * du[4] - C[3] * du[5]
