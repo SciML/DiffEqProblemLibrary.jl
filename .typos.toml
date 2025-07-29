@@ -1,4 +1,6 @@
 [default.extend-words]
+Ue = "Ue"
+
 # Julia-specific functions
 indexin = "indexin"
 findfirst = "findfirst"
