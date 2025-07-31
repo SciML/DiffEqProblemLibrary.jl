@@ -16,7 +16,7 @@ eqs = [D(x) ~ sin(y) - b * x,
 Thomas' cyclically symmetric attractor equations
 
 ```math
-$(latexify(thomas))
+$(latexify(thomas; mult_symbol=""))
 ```
 
 [Reference](https://www.worldscientific.com/doi/abs/10.1142/S0218127499001383)
@@ -39,7 +39,7 @@ eqs = [D(x) ~ σ * (y - x),
 Lorenz equations
 
 ```math
-$(latexify(lorenz))
+$(latexify(lorenz; mult_symbol=""))
 ```
 
 [Reference](https://journals.ametsoc.org/view/journals/atsc/20/2/1520-0469_1963_020_0130_dnf_2_0_co_2.xml)
@@ -62,7 +62,7 @@ eqs = [D(x) ~ (z - b) * x - d * y,
 Aizawa equations
 
 ```math
-$(latexify(aizawa))
+$(latexify(aizawa; mult_symbol=""))
 ```
 
 [Reference](https://journals.ametsoc.org/view/journals/atsc/20/2/1520-0469_1963_020_0130_dnf_2_0_co_2.xml)
@@ -84,7 +84,7 @@ eqs = [D(x) ~ y - a * x + b * y * z,
 Dadras equations
 
 ```math
-$(latexify(dadras))
+$(latexify(dadras; mult_symbol=""))
 ```
 
 [Reference](https://www.sciencedirect.com/science/article/abs/pii/S0375960109009591)
@@ -106,7 +106,7 @@ eqs = [D(x) ~ a * (y - x),
 chen equations
 
 ```math
-$(latexify(chen))
+$(latexify(chen; mult_symbol=""))
 ```
 
 [Reference](https://www.worldscientific.com/doi/abs/10.1142/S0218127499001024)
@@ -128,7 +128,7 @@ eqs = [D(x) ~ -(y + z),
 rossler equations
 
 ```math
-$(latexify(rossler))
+$(latexify(rossler; mult_symbol=""))
 ```
 
 [Reference](https://www.sciencedirect.com/science/article/abs/pii/0375960176901018)
@@ -151,7 +151,7 @@ eqs = [D(x) ~ y * (z - 1 + x^2) + b * x,
 rabinovich_fabrikant equations
 
 ```math
-$(latexify(rabinovich_fabrikant))
+$(latexify(rabinovich_fabrikant; mult_symbol=""))
 ```
 
 [Reference](https://en.wikipedia.org/wiki/Rabinovich%E2%80%93Fabrikant_equations)
@@ -173,7 +173,7 @@ eqs = [D(x) ~ y + a * x * y + x * z,
 sprott equations
 
 ```math
-$(latexify(sprott))
+$(latexify(sprott; mult_symbol=""))
 ```
 
 [Reference](https://sprott.physics.wisc.edu/pubs/paper423.pdf)
@@ -195,7 +195,7 @@ eqs = [D(x) ~ y - a * x^3 + b * x^2 - z + i,
 hindmarsh_rose equations
 
 ```math
-$(latexify(hindmarsh_rose))
+$(latexify(hindmarsh_rose; mult_symbol=""))
 ```
 
 [Reference](https://en.wikipedia.org/wiki/Hindmarsh%E2%80%93Rose_model)
