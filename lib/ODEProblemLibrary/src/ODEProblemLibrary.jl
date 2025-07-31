@@ -37,7 +37,6 @@ export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
     end
 end
 
-
 include("ode_linear_prob.jl")
 include("ode_simple_nonlinear_prob.jl")
 include("brusselator_prob.jl")

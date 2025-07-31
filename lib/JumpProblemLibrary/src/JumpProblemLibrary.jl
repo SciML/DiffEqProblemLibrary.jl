@@ -141,8 +141,13 @@ rs = @reaction_network begin
     kAdp, S8 --> S5
     kAdp, S9 --> S3
 end
-rates = [:kon, :kAon, :koff, :kAoff, :kAp, :kAdp] .=>
-    params[[rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
+rates = [:kon,
+    :kAon,
+    :koff,
+    :kAoff,
+    :kAp,
+    :kAdp] .=> params[[
+    rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
 u0 = [:S1 => params[1], :S2 => params[2], :S3 => params[3], :S4 => 0, :S5 => 0,
     :S6 => 0, :S7 => 0, :S8 => 0, :S9 => 0]
 tf = 100.0

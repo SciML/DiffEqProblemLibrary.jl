@@ -264,7 +264,7 @@ p12_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
 
 @inbounds function p13_f!(out, x, p = nothing)
     n = length(x)
-    out[1] = broyden_tridiag_kernel(x[1]) -2.0 * x[2]
+    out[1] = broyden_tridiag_kernel(x[1]) - 2.0 * x[2]
     for k in 2:(n - 1)
         out[k] = broyden_tridiag_kernel(x[k]) - x[k - 1] - 2.0 * x[k + 1]
     end

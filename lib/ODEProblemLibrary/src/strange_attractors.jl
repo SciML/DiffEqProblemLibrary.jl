@@ -23,10 +23,10 @@ $(latexify(thomas; mult_symbol=""))
 
 [Wikipedia](https://en.wikipedia.org/wiki/Thomas%27_cyclically_symmetric_attractor)
 """
-prob_ode_thomas = ODEProblem(thomas, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_thomas = ODEProblem(thomas, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
 
 # Lorenz
-@parameters σ=10 ρ=28 β=8 / 3
+@parameters σ=10 ρ=28 β=8/3
 @variables x(t)=1 y(t)=0 z(t)=0
 
 eqs = [D(x) ~ σ * (y - x),
@@ -46,7 +46,7 @@ $(latexify(lorenz; mult_symbol=""))
 
 [Wikipedia](https://en.wikipedia.org/wiki/Lorenz_system)
 """
-prob_ode_lorenz = ODEProblem(lorenz, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_lorenz = ODEProblem(lorenz, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
 
 # Aizawa
 @parameters a=0.95 b=0.7 c=0.6 d=3.5 e=0.25 f=0.1
@@ -68,7 +68,7 @@ $(latexify(aizawa; mult_symbol=""))
 [Reference](https://journals.ametsoc.org/view/journals/atsc/20/2/1520-0469_1963_020_0130_dnf_2_0_co_2.xml)
 
 """
-prob_ode_aizawa = ODEProblem(aizawa, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_aizawa = ODEProblem(aizawa, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
 
 # Dadras
 @parameters a=3 b=2.7 c=1.7 d=2 e=9
@@ -90,7 +90,7 @@ $(latexify(dadras; mult_symbol=""))
 [Reference](https://www.sciencedirect.com/science/article/abs/pii/S0375960109009591)
 
 """
-prob_ode_dadras = ODEProblem(dadras, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_dadras = ODEProblem(dadras, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
 
 # chen
 @parameters a=35 b=3 c=28
@@ -112,7 +112,7 @@ $(latexify(chen; mult_symbol=""))
 [Reference](https://www.worldscientific.com/doi/abs/10.1142/S0218127499001024)
 
 """
-prob_ode_chen = ODEProblem(chen, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_chen = ODEProblem(chen, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
 
 # rossler
 @parameters a=0.2 b=0.2 c=5.7
@@ -135,7 +135,8 @@ $(latexify(rossler; mult_symbol=""))
 [Wikipedia](https://en.wikipedia.org/wiki/R%C3%B6ssler_attractor)
 
 """
-prob_ode_rossler = ODEProblem(rossler, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_rossler = ODEProblem(
+    rossler, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
 
 # rabinovich_fabrikant
 @parameters a=0.14 b=0.10
@@ -157,7 +158,8 @@ $(latexify(rabinovich_fabrikant; mult_symbol=""))
 [Reference](https://en.wikipedia.org/wiki/Rabinovich%E2%80%93Fabrikant_equations)
 
 """
-prob_ode_rabinovich_fabrikant = ODEProblem(rabinovich_fabrikant, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_rabinovich_fabrikant = ODEProblem(
+    rabinovich_fabrikant, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
 
 # sprott
 @parameters a=2.07 b=1.79
@@ -179,10 +181,10 @@ $(latexify(sprott; mult_symbol=""))
 [Reference](https://sprott.physics.wisc.edu/pubs/paper423.pdf)
 
 """
-prob_ode_sprott = ODEProblem(sprott, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_sprott = ODEProblem(sprott, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
 
 # hindmarsh_rose
-@parameters a=1 b=3 c=1 d=5 r=1e-2 s=4 xr=-8 / 5 i=5
+@parameters a=1 b=3 c=1 d=5 r=1e-2 s=4 xr=-8/5 i=5
 @variables x(t)=1 y(t)=0 z(t)=0
 
 eqs = [D(x) ~ y - a * x^3 + b * x^2 - z + i,
@@ -201,4 +203,5 @@ $(latexify(hindmarsh_rose; mult_symbol=""))
 [Reference](https://en.wikipedia.org/wiki/Hindmarsh%E2%80%93Rose_model)
 
 """
-prob_ode_hindmarsh_rose = ODEProblem(hindmarsh_rose, [], (0.0, 1.0), jac=true, eval_module = @__MODULE__)
+prob_ode_hindmarsh_rose = ODEProblem(
+    hindmarsh_rose, [], (0.0, 1.0), jac = true, eval_module = @__MODULE__)
