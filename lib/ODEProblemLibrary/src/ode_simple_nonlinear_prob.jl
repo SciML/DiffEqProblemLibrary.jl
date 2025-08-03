@@ -68,7 +68,7 @@ Van der Pol Equations
 \\frac{dy}{dt} = μ((1-x^2)y -x)
 ```
 
-with ``μ=1.0`` and ``u_0=[x => \\sqrt{3}, y => 0]``
+with ``μ=1.0`` and ``u_0=[\\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Non-stiff parameters.
 """
@@ -84,7 +84,7 @@ Van der Pol Equations
 \\frac{dy}{dt} = μ((1-x^2)y -x)
 ```
 
-with ``μ=10^6`` and ``u_0=[x => \\sqrt{3}, y => 0]``
+with ``μ=10^6`` and ``u_0=[\\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Stiff parameters.
 """
