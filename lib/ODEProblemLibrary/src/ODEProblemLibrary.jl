@@ -1,16 +1,9 @@
 module ODEProblemLibrary
 
 using DiffEqBase
-using Latexify
-using ModelingToolkit
-using ModelingToolkit: t_nounits as t, D_nounits as D
-
 using LinearAlgebra
 using Markdown
 using Random
-
-import RuntimeGeneratedFunctions
-RuntimeGeneratedFunctions.init(@__MODULE__)
 
 Random.seed!(100)
 
@@ -30,19 +23,13 @@ export prob_ode_linear, prob_ode_bigfloatlinear, prob_ode_2Dlinear,
        prob_ode_chen, prob_ode_rossler, prob_ode_rabinovich_fabrikant, prob_ode_sprott,
        prob_ode_hindmarsh_rose
 
-# For MTKv9 compatibility
-@static if !isdefined(ModelingToolkit, :mtkcompile)
-    function mtkcompile(args...; kwargs...)
-        structural_simplify(args...; kwargs...)
-    end
-end
-
+# Include all problem definitions
 include("ode_linear_prob.jl")
+include("nonlinchem.jl")
 include("ode_simple_nonlinear_prob.jl")
 include("brusselator_prob.jl")
 include("pollution_prob.jl")
 include("filament_prob.jl")
-include("nonlinchem.jl")
 include("strange_attractors.jl")
 
 end # module
