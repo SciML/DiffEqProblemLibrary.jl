@@ -3,7 +3,6 @@ uuid = "c72e72a9-a271-4b2b-8966-303ed956772e"
 version = "0.1.7"
 
 [deps]
-Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 RuntimeGeneratedFunctions = "7e49a35a-f44a-4d26-94aa-eba1b4ca6b47"
@@ -11,7 +10,6 @@ SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
 
 [compat]
 Aqua = "0.5"
-Catalyst = "14"
 DiffEqBase = "6"
 RuntimeGeneratedFunctions = "0.5"
 SciMLBase = "2.0.1"
