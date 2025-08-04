@@ -2,7 +2,7 @@ __precompile__(false)
 
 module SDEProblemLibrary
 
-using DiffEqBase, Catalyst, Markdown
+using DiffEqBase, Markdown
 
 import RuntimeGeneratedFunctions
 RuntimeGeneratedFunctions.init(@__MODULE__)
@@ -493,24 +493,83 @@ Stochastic Brusselator
 prob_sde_bruss = SDEProblem(bruss_f, bruss_g, [3.0, 2.0], (0.0, 100.0), p,
     noise_rate_prototype = zeros(2, 4))
 
-network = @reaction_network begin
-    @parameters p1=0.01 p2=3.0 p3=3.0 p4=4.5 p5=2.0 p6=15.0 p7=20.0 p8=0.005 p9=0.01 p10=0.05
-    p1, (X, Y, Z) --> 0
-    hill(X, p2, 100.0, -4), 0 --> Y
-    hill(Y, p3, 100.0, -4), 0 --> Z
-    hill(Z, p4, 100.0, -4), 0 --> X
-    hill(X, p5, 100.0, 6), 0 --> R
-    hill(Y, p6, 100.0, 4) * 0.002, R --> 0
-    p7, 0 --> S
-    R * p8, S --> SP
-    p9, SP + SP --> SP2
-    p10, SP2 --> 0
+# Hill function helper
+hill(x, k, n, h) = h > 0 ? (x/k)^n / (1 + (x/k)^n) : 1 / (1 + (x/k)^abs(n))
+
+function oscilreact_drift(du, u, p, t)
+    X, Y, Z, R, S, SP, SP2 = u
+    p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 = p
+    
+    # Reaction rates based on the original network
+    # p1, (X, Y, Z) --> 0
+    r1 = p1
+    # hill(X, p2, 100.0, -4), 0 --> Y  
+    r2 = hill(X, p2, 100.0, -4)
+    # hill(Y, p3, 100.0, -4), 0 --> Z
+    r3 = hill(Y, p3, 100.0, -4)
+    # hill(Z, p4, 100.0, -4), 0 --> X
+    r4 = hill(Z, p4, 100.0, -4)
+    # hill(X, p5, 100.0, 6), 0 --> R
+    r5 = hill(X, p5, 100.0, 6)
+    # hill(Y, p6, 100.0, 4) * 0.002, R --> 0
+    r6 = hill(Y, p6, 100.0, 4) * 0.002
+    # p7, 0 --> S
+    r7 = p7
+    # R * p8, S --> SP
+    r8 = R * p8
+    # p9, SP + SP --> SP2
+    r9 = p9
+    # p10, SP2 --> 0
+    r10 = p10
+    
+    # Deterministic rates (drift terms)
+    du[1] = -r1 * X + r4            # X: degradation + production from Z
+    du[2] = -r1 * Y + r2            # Y: degradation + production from X
+    du[3] = -r1 * Z + r3            # Z: degradation + production from Y  
+    du[4] = r5 - r6 * R             # R: production from X - consumption
+    du[5] = r7 - r8 * S             # S: production - consumption to SP
+    du[6] = r8 * S - 2 * r9 * SP^2  # SP: production from S - dimerization
+    du[7] = r9 * SP^2 - r10 * SP2   # SP2: production from SP - degradation
+end
+
+function oscilreact_diffusion(du, u, p, t)
+    X, Y, Z, R, S, SP, SP2 = u
+    p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 = p
+    
+    # Same reaction rates as drift
+    r1 = p1
+    r2 = hill(X, p2, 100.0, -4)
+    r3 = hill(Y, p3, 100.0, -4)
+    r4 = hill(Z, p4, 100.0, -4)
+    r5 = hill(X, p5, 100.0, 6)
+    r6 = hill(Y, p6, 100.0, 4) * 0.002
+    r7 = p7
+    r8 = R * p8
+    r9 = p9
+    r10 = p10
+    
+    # Stochastic terms (square root of rates for chemical Langevin)
+    du[1] = sqrt(abs(r1 * X + r4))
+    du[2] = sqrt(abs(r1 * Y + r2))
+    du[3] = sqrt(abs(r1 * Z + r3))
+    du[4] = sqrt(abs(r5 + r6 * R))
+    du[5] = sqrt(abs(r7 + r8 * S))
+    du[6] = sqrt(abs(r8 * S + 2 * r9 * SP^2))
+    du[7] = sqrt(abs(r9 * SP^2 + r10 * SP2))
 end
 
 """
 An oscillatory chemical reaction system
+
+Chemical oscillator with hill function regulation. The system has 7 species:
+X, Y, Z (main oscillatory species), R (regulator), S (substrate), SP (single phosphorylated), 
+SP2 (double phosphorylated).
+
+Parameters: p1=0.01, p2=3.0, p3=3.0, p4=4.5, p5=2.0, p6=15.0, p7=20.0, p8=0.005, p9=0.01, p10=0.05
+Initial conditions: [X=200.0, Y=60.0, Z=120.0, R=100.0, S=50.0, SP=50.0, SP2=50.0]
 """
-prob_sde_oscilreact = SDEProblem(network, [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0],
-    (0.0, 4000.0), eval_module = @__MODULE__)
+prob_sde_oscilreact = SDEProblem(oscilreact_drift, oscilreact_diffusion, 
+    [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0], (0.0, 4000.0),
+    [0.01, 3.0, 3.0, 4.5, 2.0, 15.0, 20.0, 0.005, 0.01, 0.05])
 
 end # module
