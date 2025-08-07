@@ -58,6 +58,16 @@ function vanderpol(du, u, p, t)
     du[2] = μ * ((1 - x^2) * y - x)
 end
 
+function vanderpol_jac(J, u, p, t)
+    x = u[1]
+    y = u[2]
+    μ = p[1]
+    J[1,1] = 0
+    J[2,1] = -2μ - 1
+    J[1,2] = 1
+    J[2,2] = μ * (1 - x^2)
+end
+
 """
 Van der Pol Equations
 
@@ -72,7 +82,8 @@ with ``μ=1.0`` and ``u_0=[\\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Non-stiff parameters.
 """
-prob_ode_vanderpol = ODEProblem(vanderpol, [sqrt(3), 0.0], (0.0, 1.0), [1.0])
+prob_ode_vanderpol = ODEProblem(ODEFunction(vanderpol, jac=vanderpol_jac), 
+    [sqrt(3), 0.0], (0.0, 1.0), [1.0])
 
 """
 Van der Pol Equations
