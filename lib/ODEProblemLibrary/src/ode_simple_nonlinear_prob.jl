@@ -63,7 +63,7 @@ function vanderpol_jac(J, u, p, t)
     y = u[2]
     μ = p[1]
     J[1,1] = 0
-    J[2,1] = -2μ*x - 1
+    J[2,1] = μ * (-2*x*y - 1)
     J[1,2] = 1
     J[2,2] = μ * (1 - x^2)
 end
