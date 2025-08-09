@@ -99,7 +99,7 @@ with ``μ=10^6`` and ``u_0=[\\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Stiff parameters.
 """
-prob_ode_vanderpol_stiff = ODEProblem(vanderpol, [sqrt(3), 0.0], (0.0, 1.0), [1e6])
+prob_ode_vanderpol_stiff = ODEProblem(ODEFunction(vanderpol, jac=vanderpol_jac), [sqrt(3), 0.0], (0.0, 1.0), [1e6])
 
 ## ROBER
 
