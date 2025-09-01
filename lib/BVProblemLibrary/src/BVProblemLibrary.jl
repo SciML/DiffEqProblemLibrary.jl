@@ -143,7 +143,7 @@ Given by
 \frac{dz_3}{dt}=acc\frac{1}{|V_c|\sqrt{1+z_6^2}}
 ```
 ```math
-\frac{dz_4}{dt}=acc\frac{1}{|V_c|\sqrt{1+z_6^2}}-frac{g}{V_c}
+\frac{dz_4}{dt}=acc\frac{1}{|V_c|\sqrt{1+z_6^2}}-\frac{g}{V_c}
 ```
 ```math
 \frac{dz_5}{dt}=0
