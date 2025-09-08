@@ -26,7 +26,7 @@ for ``t \in [0, 100.5]`` with history function
 \end{align*}
 ```
 
-for ``t \leq 0``, where ``k_1 = 1.34``, ``k_2 = 1.6e9``, ``k_3 = 8000``, ``k_4 = 4e7``,
+for ``t \leq 0``, where ``k_1 = 1.34``, ``k_2 = 1.6×10^9``, ``k_3 = 8000``, ``k_4 = 4×10^7``,
 ``k_5 = 1``, ``f = 1``, ``A = 0.06``, ``B = 0.06``, and ``\tau = 0.15``.
 
 # References
@@ -82,9 +82,9 @@ by
 \end{align*}
 ```
 
-for ``t \in [0, 10e10]`` with history function ``\phi_1(0) = 1``, ``\phi_2(t) = 0`` for
+for ``t \in [0, 10^{10}]`` with history function ``\phi_1(0) = 1``, ``\phi_2(t) = 0`` for
 ``t \in [-\tau, 0]``, and ``\phi_3(0) = 0``, where ``a = 0.04``, ``b = 10_000``,
-``c = 3e7``, and ``\tau = 0.01``.
+``c = 3×10^7``, and ``\tau = 0.01``.
 
 # References
 
@@ -153,8 +153,8 @@ for ``t \in [0, 300]`` with history function
 \end{align*}
 ```
 
-for ``t \leq 0``, where ``\alpha = 1.8``, ``\beta = 20``, ``\gamma = 0.002``, ``r = 5e4``,
-``s = 1e5``, ``t_0 = 32``, ``t_1 = 119``, and ``\phi_0 = 0.75e-4``.
+for ``t \leq 0``, where ``\alpha = 1.8``, ``\beta = 20``, ``\gamma = 0.002``, ``r = 5\times10^4``,
+``s = 10^5``, ``t_0 = 32``, ``t_1 = 119``, and ``\phi_0 = 0.75×10^{-4}``.
 
 # References
 
@@ -218,7 +218,7 @@ const prob_dde_RADAR5_waltman_1 = prob_dde_RADAR5_waltman
     prob_dde_RADAR5_waltman_2
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 32``,
-``t_1 = 111``, and ``\phi_0 = 0.5e-4``.
+``t_1 = 111``, and ``\phi_0 = 0.5×10^{-4}``.
 
 # References
 
@@ -232,7 +232,7 @@ const prob_dde_RADAR5_waltman_2 = remake(prob_dde_RADAR5_waltman;
     prob_dde_RADAR5_waltman_3
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 33``,
-``t_1 = 145``, and ``\phi_0 = 1e-5``.
+``t_1 = 145``, and ``\phi_0 = 10^{-5}``.
 
 # References
 
@@ -246,7 +246,7 @@ const prob_dde_RADAR5_waltman_3 = remake(prob_dde_RADAR5_waltman;
     prob_dde_RADAR5_waltman_4
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 34``,
-``t_1 = 163``, and ``\phi_0 = 0.75e-5``.
+``t_1 = 163``, and ``\phi_0 = 0.75×10^{-5}``.
 
 # References
 
@@ -260,7 +260,7 @@ const prob_dde_RADAR5_waltman_4 = remake(prob_dde_RADAR5_waltman;
     prob_dde_RADAR5_waltman_5
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 35``,
-``t_1 = 197``, and ``\phi_0 = 0.5e-5``.
+``t_1 = 197``, and ``\phi_0 = 0.5×10^{-5}``.
 
 # References
 

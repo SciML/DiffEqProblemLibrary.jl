@@ -130,7 +130,7 @@ where ``k₁=0.04``, ``k₂=3\times10^7``, ``k₃=10^4``. For details, see:
 
 Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 
-Usually solved on ``[0,1e11]``
+Usually solved on ``[0,10^{11}]``
 """
 prob_ode_rober = ODEProblem(rober, [1.0, 0.0, 0.0], (0.0, 1e11), [0.04, 3e7, 1e4])
 
@@ -414,7 +414,7 @@ w (y_1 - y_3)
 \end{pmatrix}
 ```
 
-where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
+where ``s=77.27``, ``w=0.161`` and ``q=8.375×10^{-6}``.
 
 Reference: [demoorego.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoOrego/demoorego.pdf)
 Notebook: [Orego.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Orego.ipynb)

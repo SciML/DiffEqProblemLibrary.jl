@@ -28,7 +28,7 @@ The Robertson biochemical reactions in DAE form
 ```
 where ``k₁=0.04``, ``k₂=3\times10^7``, ``k₃=10^4``. For details, see:
 Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
-Usually solved on ``[0,1e11]``
+Usually solved on ``[0,10^{11}]``
 """
 prob_dae_resrob = DAEProblem(f, du0, u0, (0.0, 100000.0))
 

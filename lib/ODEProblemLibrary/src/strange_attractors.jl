@@ -252,7 +252,7 @@ Hindmarsh-Rose equations
 \end{align*}
 ```
 
-with parameters ``a=1, b=3, c=1, d=5, r=1e-2, s=4, x_r=-8/5, i=5`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
+with parameters ``a=1, b=3, c=1, d=5, r=10^{-2}, s=4, x_r=-8/5, i=5`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
 
 [Reference](https://en.wikipedia.org/wiki/Hindmarsh%E2%80%93Rose_model)
 """
