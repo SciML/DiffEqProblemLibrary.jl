@@ -368,7 +368,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) + \erf(t/\sqrt{2\lambda})/\erf(1/\sqrt{2\lambda}) \\
+y_1(t) &= \cos(\pi t) + \operatorname{erf}(t/\sqrt{2\lambda})/\operatorname{erf}(1/\sqrt{2\lambda}) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -440,7 +440,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) + t + \frac{t\erf(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-t^2/2\lambda)}{} \\
+y_1(t) &= \cos(\pi t) + t + \frac{t\operatorname{erf}(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-t^2/2\lambda)}{} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -621,7 +621,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= 1 + \erf(t/\sqrt{2\lambda})/\erf(1/\sqrt{2\lambda}) \\
+y_1(t) &= 1 + \operatorname{erf}(t/\sqrt{2\lambda})/\operatorname{erf}(1/\sqrt{2\lambda}) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
