@@ -816,7 +816,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(πt) + \exp(-(t+1)/\sqrt{λ})
+y_1(t) &= \cos(πt) + \exp(-(t+1)/\sqrt{λ}) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
