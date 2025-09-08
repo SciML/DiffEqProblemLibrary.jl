@@ -440,7 +440,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) + t + \frac{t\operatorname{erf}(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-t^2/2\lambda)}{} \\
+y_1(t) &= \cos(\pi t) + t + \frac{t\operatorname{erf}(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-t^2/2\lambda)}{\operatorname{erf}(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-1/2\lambda)} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
