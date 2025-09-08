@@ -14,7 +14,7 @@ Delay differential equation model of blood production, given by
 u'(t) = \frac{0.2 u(t - 14)}{1 + u(t - 14)^{10}} - 0.1 u(t)
 ```
 
-for ``t \in [0, 500]`` and history function ``\phi(t) = 0.5`` for ``t \leq 0``.
+for ``t \in [0, 500]`` and history function ``ϕ(t) = 0.5`` for ``t ≤ 0``.
 
 # References
 
@@ -45,22 +45,22 @@ const prob_dde_DDETST_A1 = DDEProblem(f_dde_DDETST_A1, h_dde_DDETST_A1, (0.0, 50
 Delay differential equation model of chronic granulocytic leukemia, given by
 
 ```math
-u_1'(t) = \frac{1.1}{1 + \sqrt{10} u_1(t - 20)^{5/4}} - \frac{10 u_1(t)}{1 + 40 u_2(t)},
-```
-```math
-u_2'(t) = \frac{100 u_1(t)}{1 + 40 u_2(t)} - 2.43 u_2(t),
+\begin{align*}
+u_1'(t) &= \frac{1.1}{1 + \sqrt{10} u_1(t - 20)^{5/4}} - \frac{10 u_1(t)}{1 + 40 u_2(t)}, \\
+u_2'(t) &= \frac{100 u_1(t)}{1 + 40 u_2(t)} - 2.43 u_2(t),
+\end{align*}
 ```
 
 for ``t \in [0, 100]`` and history function
 
 ```math
-\phi_1(t) = 1.05767027/3,
-```
-```math
-\phi_2(t) = 1.030713491/3,
+\begin{align*}
+ϕ_1(t) &= 1.05767027/3, \\
+ϕ_2(t) &= 1.030713491/3,
+\end{align*}
 ```
 
-for ``t \leq 0``.
+for ``t ≤ 0``.
 
 # References
 
@@ -105,7 +105,7 @@ Delay differential equation
 u'(t) = 1 - u(\exp(1 - 1/t))
 ```
 
-for ``t \in [0.1, 10]`` with history function ``\phi(t) = \log t`` for ``t \in (0, 0.1]``.
+for ``t \in [0.1, 10]`` with history function ``ϕ(t) = \log t`` for ``t \in (0, 0.1]``.
 
 # Solution
 
@@ -155,7 +155,7 @@ Delay differential equation
 u'(t) = - 1 - u(t) + 2 [u(t / 2) < 0]
 ```
 
-for ``t \in [0, 2 \log 66]`` with history function ``\phi(0) = 1``.
+for ``t \in [0, 2 \log 66]`` with history function ``ϕ(0) = 1``.
 
 # Solution
 
@@ -220,7 +220,7 @@ Delay differential equation
 u'(t) = - 2 u(t - 1 - |u(t)|) (1 - u(t)^2)
 ```
 
-for ``t \in [0, 30]`` with history function ``\phi(t) = 0.5`` for ``t \leq 0``.
+for ``t \in [0, 30]`` with history function ``ϕ(t) = 0.5`` for ``t ≤ 0``.
 
 # References
 
@@ -247,22 +247,22 @@ const prob_dde_DDETST_C1 = DDEProblem(f_dde_DDETST_C1, h_dde_DDETST_C1, (0.0, 30
 Delay differential equation
 
 ```math
-u_1'(t) = - 2 u_1(t - u_2(t)),
-```
-```math
-u_₂'(t) = \frac{|u_1(t - u_2(t))| - |u_1(t)|}{1 + |u_1(t - u_2(t))|},
+\begin{align*}
+u_1'(t) &= - 2 u_1(t - u_2(t)), \\
+u_₂'(t) &= \frac{|u_1(t - u_2(t))| - |u_1(t)|}{1 + |u_1(t - u_2(t))|},
+\end{align*}
 ```
 
 for ``t \in [0, 40]`` with history function
 
 ```math
-\phi_1(t) = 1,
-```
-```math
-\phi_2(t) = 0.5,
+\begin{align*}
+ϕ_1(t) &= 1, \\
+ϕ_2(t) &= 0.5,
+\end{align*}
 ```
 
-for ``t \leq 0``.
+for ``t ≤ 0``.
 
 # References
 
@@ -305,25 +305,23 @@ const prob_dde_DDETST_C2 = DDEProblem(f_dde_DDETST_C2!, h_dde_DDETST_C2, (0.0, 3
 Delay differential equation model of hematopoiesis, given by
 
 ```math
-u_1'(t) = \hat{s}_0 u_2(t - T_1) - \gamma u_1(t) - Q,
-```
-```math
-u_2'(t) = f(u_1(t)) - k u_2(t),
-```
-```math
-u_3'(t) = 1 - \frac{Q \exp(\gamma u_3(t))}{\hat{s}_0 u_2(t - T_1 - u_3(t))},
+\begin{align*}
+u_1'(t) &= \hat{s}_0 u_2(t - T_1) - γ u_1(t) - Q, \\
+u_2'(t) &= f(u_1(t)) - k u_2(t), \\
+u_3'(t) &= 1 - \frac{Q \exp(γ u_3(t))}{\hat{s}_0 u_2(t - T_1 - u_3(t))},
+\end{align*}
 ```
 
-for ``t \in [0, 300]`` with history function ``\phi_1(0) = 3.325``, ``\phi_3(0) = 120``, and
+for ``t \in [0, 300]`` with history function ``ϕ_1(0) = 3.325``, ``ϕ_3(0) = 120``, and
 
 ```math
-\phi_2(t) = \begin{cases}
-  10 & \text{if } t \in [- T_1, 0],\\
+ϕ_2(t) = \begin{cases}
+  10  & \text{if } t \in [- T_1, 0],\\
   9.5 & \text{if } t < - T_1,
 \end{cases}
 ```
 
-where ``f(y) = a / (1 + K y^r)``, ``\hat{s}_0 = 0.0031``, ``T_1 = 6``, ``\gamma = 0.001``,
+where ``f(y) = a / (1 + K y^r)``, ``\hat{s}_0 = 0.0031``, ``T_1 = 6``, ``γ = 0.001``,
 ``Q = 0.0275``, ``k = 2.8``, ``a = 6570``, ``K = 0.0382``, and ``r = 6.96``.
 
 # References
@@ -370,18 +368,16 @@ Delay differential equation model of hematopoiesis, given by the same delay diff
 equation as [`prob_dde_DDETST_C3`](@ref)
 
 ```math
-u_1'(t) = \hat{s}_0 u_2(t - T_1) - \gamma u_1(t) - Q,
-```
-```math
-u_2'(t) = f(u_1(t)) - k u_2(t),
-```
-```math
-u_3'(t) = 1 - \frac{Q \exp(\gamma u_3(t))}{\hat{s}_0 u_2(t - T_1 - u_3(t))},
+\begin{align*}
+u_1'(t) &= \hat{s}_0 u_2(t - T_1) - γ u_1(t) - Q, \\
+u_2'(t) &= f(u_1(t)) - k u_2(t), \\
+u_3'(t) &= 1 - \frac{Q \exp(γ u_3(t))}{\hat{s}_0 u_2(t - T_1 - u_3(t))},
+\end{align*}
 ```
 
 for ``t \in [0, 100]`` with history function
-``\phi_1(0) = 3.5``, ``\phi_3(0) = 50``, and ``\phi_2(t) = 10`` for ``t \leq 0``, where
-``f(y) = a / (1 + K y^r)``, ``\hat{s}_0 = 0.00372``, ``T_1 = 3``, ``\gamma = 0.1``,
+``ϕ_1(0) = 3.5``, ``ϕ_3(0) = 50``, and ``ϕ_2(t) = 10`` for ``t ≤ 0``, where
+``f(y) = a / (1 + K y^r)``, ``\hat{s}_0 = 0.00372``, ``T_1 = 3``, ``γ = 0.1``,
 ``Q = 0.00178``, ``k = 6.65``, ``a = 15600``, ``K = 0.0382``, and ``r = 6.96``.
 
 # References
@@ -427,19 +423,19 @@ end
 Delay differential equation
 
 ```math
-u_1'(t) = u_2(t), 
-```
-```math
-u_2'(t) = - u_2(\exp(1 - u_2(t))) u_2(t)^2 \exp(1 - u_2(t)),
+\begin{align*}
+u_1'(t) &= u_2(t), \\
+u_2'(t) &= - u_2(\exp(1 - u_2(t))) u_2(t)^2 \exp(1 - u_2(t)),
+\end{align*}
 ```
 
 for ``t \in [0.1, 5]`` with history function
 
 ```math
-\phi_1(t) = \log t, 
-```
-```math
-\phi_2(t) = 1 / t,
+\begin{align*}
+ϕ_1(t) &= \log t, \\
+ϕ_2(t) &= 1 / t,
+\end{align*}
 ```
 
 for ``t \in (0, 0.1]``.
@@ -449,10 +445,10 @@ for ``t \in (0, 0.1]``.
 The analytical solution for ``t \in [0.1, 5]`` is
 
 ```math
-u_1(t) = \log t, 
-```
-```math
+\begin{align*}
+u_1(t) = \log t, \\
 u_2(t) = 1 / t.
+\end{align*}
 ```
 
 # References
@@ -505,34 +501,26 @@ const prob_dde_DDETST_D1 = DDEProblem(
 Delay differential equation model of antigen antibody dynamics with fading memory, given by
 
 ```math
-u_1'(t) = - r_1 u_1(t) u_2(t) + r_2 u_3(t), 
-```
-```math
-u_2'(t) = - r_1 u_1(t) u_2(t) + \alpha r_1 u_1(t - u_4(t)) u_2(t - u_4(t)),
-```
-```math
-u_3'(t) = r_1 u_1(t) u_2(t) - r_2 u_3(t), 
-```
-```math
-u_4'(t) = 1 + \frac{3 \delta - u_1(t) u_2(t) - u_3(t)}{u_1(t - u_4(t)) u_2(t - u_4(t)) + u_3(t - u_4(t))} \exp(\delta u_4(t)),
+\begin{align*}
+u_1'(t) &= - r_1 u_1(t) u_2(t) + r_2 u_3(t), \\
+u_2'(t) &= - r_1 u_1(t) u_2(t) + α r_1 u_1(t - u_4(t)) u_2(t - u_4(t)), \\
+u_3'(t) &=   r_1 u_1(t) u_2(t) - r_2 u_3(t), \\
+u_4'(t) &= 1 + \frac{3δ - u_1(t) u_2(t) - u_3(t)}{u_1(t - u_4(t)) u_2(t - u_4(t)) + u_3(t - u_4(t))} \exp(δ u_4(t)),
+\end{align*}
 ```
 
 for ``t \in [0, 40]`` with history function
 
 ```math
-\phi_1(t) = 5, 
-```
-```math
-\phi_2(t) = 0.1, 
-```
-```math
-\phi_3(t) = 0, 
-```
-```math
-\phi_4(t) = 0,
+\begin{align*}
+ϕ_1(t) &= 5, &
+ϕ_2(t) &= 0.1, \\
+ϕ_3(t) &= 0, &
+ϕ_4(t) &= 0,
+\end{align*}
 ```
 
-for ``t \leq 0``, where ``r_1 = 0.02``, ``r_2 = 0.005``, ``\alpha = 3``, and ``\delta = 0.01``.
+for ``t ≤ 0``, where ``r_1 = 0.02``, ``r_2 = 0.005``, ``α = 3``, and ``δ = 0.01``.
 
 # References
 
@@ -577,8 +565,8 @@ Delay differential equation model of a food-limited population, given by
 u(t) = r u(t) (1 - u(t - 1) - c u'(t - 1))
 ```
 
-for ``t \in [0, 40]`` with history function ``\phi(t) = 2 + t`` for ``t \leq 0``, where
-``r = \pi / \sqrt{3} + 1/20`` and ``c = \sqrt{3} / (2 \pi) - 1 / 25``.
+for ``t \in [0, 40]`` with history function ``ϕ(t) = 2 + t`` for ``t ≤ 0``, where
+``r = π / \sqrt{3} + 1/20`` and ``c = \sqrt{3} / (2π) - 1 / 25``.
 
 # References
 
@@ -611,22 +599,22 @@ end
 Delay differential equation model of a logistic Gauss-type predator-prey system, given by
 
 ```math
-u_1'(t) = u_1(t) (1 - u_1(t - \tau) - \rho u_1'(t - \tau)) - \frac{u_2(t) u_1(t)^2}{u_1(t)^2 + 1}, 
-```
-```math
-u_2'(t) = u_2(t) \left(\frac{u_1(t)^2}{u_1(t)^2 + 1} - \alpha\right),
+\begin{align*}
+u_1'(t) &= u_1(t) (1 - u_1(t - τ) - ρ u_1'(t - τ)) - \frac{u_2(t) u_1(t)^2}{u_1(t)^2 + 1}, \\
+u_2'(t) &= u_2(t) \left(\frac{u_1(t)^2}{u_1(t)^2 + 1} - α\right),
+\end{align*}
 ```
 
 for ``t \in [0, 2]`` with history function
 
 ```math
-\phi_1(t) = 0.33 - t / 10, 
-```
-```math
-\phi_2(t) = 2.22 + t / 10,
+\begin{align*}
+ϕ_1(t) &= 0.33 - t / 10, \\
+ϕ_2(t) &= 2.22 + t / 10,
+\end{align*}
 ```
 
-for ``t \leq 0``, where ``\alpha = 0.1``, ``\rho = 2.9``, and ``\tau = 0.42``.
+for ``t ≤ 0``, where ``α = 0.1``, ``ρ = 2.9``, and ``τ = 0.42``.
 
 # References
 
@@ -685,7 +673,7 @@ Delay differential equation
 u'(t) = 2 \cos(2t) u(t / 2)^{2 \cos t} + \log(u'(t / 2)) - \log(2 \cos t) - \sin t
 ```
 
-for ``t \in [0, 1]`` with history function ``\phi(0) = 1`` and ``\phi'(0) = 2``.
+for ``t \in [0, 1]`` with history function ``ϕ(0) = 1`` and ``ϕ'(0) = 2``.
 
 # Solution
 
@@ -749,8 +737,8 @@ Delay differential equation
 u'(t) = u'(2t - 0.5)
 ```
 
-for ``t \in [0.25, 0.499]`` with history function ``\phi(t) = \exp(-t^2)`` and
-``\phi'(t) = -2t \exp(-t^2)`` for ``t \leq 0.25``.
+for ``t \in [0.25, 0.499]`` with history function ``ϕ(t) = \exp(-t^2)`` and
+``ϕ'(t) = -2t \exp(-t^2)`` for ``t ≤ 0.25``.
 
 # Solution
 
@@ -763,16 +751,12 @@ u(t) = u_i(t) = \exp(-4^i t^2 + B_i t + C_i) / 2^i + K_i
 if ``t \in [x_i, x_{i + 1}]``, where
 
 ```math
-x_i = (1 - 2^{-i}) / 2, 
-```
-```math
-B_i = 2 (4^{i-1} + B_{i-1}), 
-```
-```math
-C_i = - 4^{i-2} - B_{i-1} / 2 + C_{i-1}, 
-```
-```math
-K_i = - \exp(-4^i x_i^2 + B_i x_i + C_i) / 2^i + u_{i-1}(x_i),
+\begin{align*}
+x_i &= (1 - 2^{-i}) / 2, \\
+B_i &= 2 (4^{i-1} + B_{i-1}), \\
+C_i &= - 4^{i-2} - B_{i-1} / 2 + C_{i-1}, \\
+K_i &= - \exp(-4^i x_i^2 + B_i x_i + C_i) / 2^i + u_{i-1}(x_i),
+\end{align*}
 ```
 
 and ``B_0 = C_0 = K_0 = 0``.
@@ -837,11 +821,11 @@ const prob_dde_DDETST_F2 = DDEProblem(
 Delay differential equation
 
 ```math
-u'(t) = \exp(-u(t)) + L_3 \left[\sin(u'(\alpha(t))) - \sin\left(\frac{1}{3 + \alpha(t)}\right)\right]
+u'(t) = \exp(-u(t)) + L_3 \left[\sin(u'(α(t))) - \sin\left(\frac{1}{3 + α(t)}\right)\right]
 ```
 
-for ``t \in [0, 10]`` with history function ``\phi(0) = \log 3`` and ``\phi'(0) = 1 / 3``,
-where ``\alpha(t) = 0.5 t (1 - \cos(2 \pi t))`` and ``L_3 = 0.2``.
+for ``t \in [0, 10]`` with history function ``ϕ(0) = \log 3`` and ``ϕ'(0) = 1 / 3``,
+where ``α(t) = 0.5 t (1 - \cos(2πt))`` and ``L_3 = 0.2``.
 
 # Solution
 
@@ -938,8 +922,8 @@ Delay differential equation
 u'(t) = - u'(t - u(t)^2 / 4)
 ```
 
-for ``t \in [0, 1]`` with history function ``\phi(t) = 1 - t`` for ``t \leq 0`` and
-``\phi'(t) = -1`` for ``t < 0``.
+for ``t \in [0, 1]`` with history function ``ϕ(t) = 1 - t`` for ``t ≤ 0`` and
+``ϕ'(t) = -1`` for ``t < 0``.
 
 # Solution
 
@@ -994,8 +978,8 @@ Delay differential equation
 u'(t) = - u'(u(t) - 2)
 ```
 
-for ``t \in [0, 1]`` with history function ``\phi(t) = 1 - t`` for ``t \leq 0`` and
-``\phi'(t) = -1`` for ``t < 0``.
+for ``t \in [0, 1]`` with history function ``ϕ(t) = 1 - t`` for ``t ≤ 0`` and
+``ϕ'(t) = -1`` for ``t < 0``.
 
 # Solution
 
@@ -1048,11 +1032,11 @@ Delay differential equation
 u'(t) = - \frac{4 t u(t)^2}{4 + \log(\cos(2t))^2} + \tan(2t) + 0.5 \arctan\left(u'\left(\frac{t u(t)^2}{1 + u(t)^2}\right)\right)
 ```
 
-for ``t \in [0, 0.225 \pi]`` with history function ``\phi(0) = 0`` and ``\phi'(0) = 0``.
+for ``t \in [0, 0.225 π]`` with history function ``ϕ(0) = 0`` and ``ϕ'(0) = 0``.
 
 # Solution
 
-The analytical solution for ``t \in [0, 0.225 \pi]`` is
+The analytical solution for ``t \in [0, 0.225 π]`` is
 
 ```math
 u(t) = - \log(\cos(2t)) / 2.
@@ -1108,12 +1092,12 @@ Delay differential equation
 u'(t) = \cos(t) (1 + u(t u(t)^2)) + L_3 u(t) u'(t u(t)^2) + (1 - L_3) \sin(t) \cos(t \sin(t)^2) - \sin(t + t \sin(t)^2)
 ```
 
-for ``t \in [0, \pi]`` with history function ``\phi(0) = 0`` and ``\phi'(0) = 1``, where
+for ``t \in [0, π]`` with history function ``ϕ(0) = 0`` and ``ϕ'(0) = 1``, where
 ``L_3 = 0.1``.
 
 # Solution
 
-The analytical solution for ``t \in [0, \pi]`` is
+The analytical solution for ``t \in [0, π]`` is
 
 ```math
 u(t) = \sin(t).

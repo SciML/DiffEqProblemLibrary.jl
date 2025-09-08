@@ -23,10 +23,10 @@ prob_bvp_nonlinear_1_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = -\frac{1}{\lambda}y_2
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= -\frac{1}{λ} y_2
+\end{align*}
 ```
 
 where
@@ -38,7 +38,7 @@ f(y_2)=-y_1
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=0.1/\sqrt{\lambda+0.01}
+y_1(0)=1, y_1(1)=0.1/\sqrt{λ+0.01}
 ```
 
 # Solution
@@ -46,10 +46,10 @@ y_1(0)=1, y_1(1)=0.1/\sqrt{\lambda+0.01}
 The analytical solution for ``t \in [0, 1]`` is
 
 ```math
-y_1(t) = \exp(-t/\lambda)
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \exp(-t/λ) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -87,10 +87,10 @@ prob_bvp_nonlinear_2_tspan = (0, 1)
 Nonlinear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = -\frac{1}{\lambda}f(y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_2)
+\end{align*}
 ```
 
 where
@@ -102,7 +102,10 @@ f(y_2)=--y_2^2+1
 with boundary condition
 
 ```math
-y_1(0)=1+\lambda\ln\cosh(-0.745/\lambda), y_1(1)=1+\lambda\ln\cosh(0.255/\lambda)
+\begin{align*}
+y_1(0) &= 1 + λ \ln\cosh(-0.745/λ), \\
+y_1(1) &= 1 + λ \ln\cosh(0.255/λ)
+\end{align*}
 ```
 
 # Solution
@@ -110,10 +113,10 @@ y_1(0)=1+\lambda\ln\cosh(-0.745/\lambda), y_1(1)=1+\lambda\ln\cosh(0.255/\lambda
 The analytical solution for ``t \in [0, 1]`` is
 
 ```math
-y_1(t) = 1+\lambda\ln\cosh((t-0.745)/\lambda)
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= 1 + λ \ln\cosh((t-0.745)/λ) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -152,22 +155,22 @@ prob_bvp_nonlinear_3_tspan = (0, 1)
 Nonlinear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = -\frac{1}{\lambda}f(y, y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y, y_1)
+\end{align*}
 ```
 
 where
 
 ```math
-f(y_1)=y_1+y_1^2-\exp(-2t/\sqrt{\lambda})
+f(y_1) = y_1 + y_1^2 - \exp(-2t/\sqrt{λ})
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=\exp(-1/\sqrt{\lambda})
+y_1(0)=1, y_1(1)=\exp(-1/\sqrt{λ})
 ```
 
 # Solution
@@ -175,10 +178,10 @@ y_1(0)=1, y_1(1)=\exp(-1/\sqrt{\lambda})
 The analytical solution for ``t \in [0, 1]`` is
 
 ```math
-y_1(t) = \exp(-t/\sqrt{\lambda})
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \exp(-t/\sqrt{λ}) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -213,10 +216,10 @@ prob_bvp_nonlinear_4_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = -\frac{1}{\lambda}f(y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -267,16 +270,16 @@ prob_bvp_nonlinear_5_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = -\frac{1}{\lambda}f(y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1)
+\end{align*}
 ```
 
 where
 
 ```math
-f(y_1)=\lambda\sinh(\lambda z)
+f(y_1) = λ\sinh(λz)
 ```
 
 with boundary condition
@@ -327,22 +330,22 @@ This problem describes a shock wave in a one dimension nozzle flow.
 The steady state Navier-Stokes equations generate a second order differential equations which can be reduced to a first order system described by nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = -\frac{1}{\lambda}f(y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1)
+\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2)=(\frac{1+\gamma}{2}-\lambda A'(t))y_1y_2-\frac{y_2}{y_1}-\frac{A'(t)}{A(t)}(1-(\frac{\gamma-1}{2})y_1^2)
+f(t, y_1, y_2) = \left(\frac{1+γ}{2} - λ A'(t)\right) y_1 y_2 - \frac{y_2}{y_1} - \frac{A'(t)}{A(t)} \left(1 - \frac{γ-1}{2} y_1^2\right)
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0.9129, y_1(1)=0.375
+y_1(0)=0.9129, \;\; y_1(1)=0.375
 ```
 
 # Solution
@@ -381,22 +384,22 @@ prob_bvp_nonlinear_7_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
+\end{align*}
 ```
 
 where
 
 ```math
-f(y_1, y_2)=-y_1y_2+y_1
+f(y_1, y_2) = -y_1 y_2 + y_1
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=-1/3, y_1(1)=1/3
+y_1(0)=-1/3, \;\; y_1(1)=1/3
 ```
 
 # Solution
@@ -435,10 +438,10 @@ prob_bvp_nonlinear_8_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -450,7 +453,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=-1/3
+y_1(0)=1, \;\; y_1(1)=-1/3
 ```
 
 # Solution
@@ -489,10 +492,10 @@ prob_bvp_nonlinear_9_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2) \\
+\end{align*}
 ```
 
 where
@@ -543,10 +546,10 @@ prob_bvp_nonlinear_10_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -558,7 +561,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=3/2
+y_1(0)=1, \;\; y_1(1)=3/2
 ```
 
 # Solution
@@ -597,10 +600,10 @@ prob_bvp_nonlinear_11_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -612,7 +615,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=0, y_1(1)=3/2
+y_1(0)=0, \;\; y_1(1)=3/2
 ```
 
 # Solution
@@ -651,22 +654,22 @@ prob_bvp_nonlinear_12_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
+\end{align*}
 ```
 
 where
 
 ```math
-f(y_1, y_2)=-y_1y_2+y_1
+f(y_1, y_2) = -y_1 y_2 + y_1
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=-7/6, y_1(1)=3/2
+y_1(0)=-7/6, \;\; y_1(1)=3/2
 ```
 
 # Solution
@@ -711,28 +714,25 @@ prob_bvp_nonlinear_13_tspan = (0, 1)
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = \sin(y_2)
-```
-```math
-\frac{dy_2}{dt} = y_3
-```
-```math
-\frac{dy_3}{dt} = -y_4/\lambda
-```
-```math
-\frac{dy_4}{dt} = f(y_1, y_2, y_3, y_4)
+\begin{align*}
+\frac{dy_1}{dt} &= \sin(y_2) \\
+\frac{dy_2}{dt} &= y_3 \\
+\frac{dy_3}{dt} &= -y_4/λ \\
+\frac{dy_4}{dt} &= f(y_1, y_2, y_3, y_4)
+\end{align*}
 ```
 
 where
 
 ```math
-f(z, \theta, M, Q)=\frac{1}{\lambda}((z-1)\cos\theta-M\sec\theta)+\lambda Q\tan\theta
+f(z, θ, M, Q) = \frac{1}{λ} [(z-1) \cos θ - M \sec θ] + λ Q \tan θ
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0, y_3(0)=0, y_1(1)=0, y_3(1)=0
+y_1(0)=0, \;\; y_3(0)=0, \;\;
+y_1(1)=0, \;\; y_3(1)=0
 ```
 
 # Solution
@@ -777,28 +777,19 @@ This problem arises from fluid injection through one side of a long vertical cha
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = y_3
-```
-```math
-\frac{dy_3}{dt} = y_4
-```
-```math
-\frac{dy_4}{dt} = f(y_1, y_2, y_3, y_4)
-```
-
-where
-
-```math
-f(y_1, y_2, y_3, y_4)=\lambda(y_2y_3-y_1y_4)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= y_3 \\
+\frac{dy_3}{dt} &= y_4 \\
+\frac{dy_4}{dt} &= λ(y_2 y_3 - y_1 y_4)
+\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0, y_2(0)=0, y_1(1)=1, y_2(1)=0
+y_1(0)=0, \;\; y_2(0)=0, \;\;
+y_1(1)=1, \;\; y_2(1)=0
 ```
 
 # Solution
@@ -846,28 +837,23 @@ This problem arises from fluid injection through one side of a long vertical cha
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}y_1y_4-y_3y_2
-```
-```math
-\frac{dy_3}{dt} = y_4
-```
-```math
-\frac{dy_4}{dt} = y_5
-```
-```math
-\frac{dy_5}{dt} = y_6
-```
-```math
-\frac{dy_6}{dt} = \frac{1}{\lambda}(-y_3y_6-y_1y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2, &
+\frac{dy_2}{dt} &= \frac{1}{λ}y_1y_4 - y_3y_2, \\
+\frac{dy_3}{dt} &= y_4, &
+\frac{dy_4}{dt} &= y_5, \\
+\frac{dy_5}{dt} &= y_6, &
+\frac{dy_6}{dt} &= \frac{1}{λ}(-y_3y_6-y_1y_2)
+\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=-1, y_3(0)=0, y_4(0)=0, y_1(1)=1, y_3(1)=0, y_4(1)=0
+\begin{align*}
+y_1(0)&=-1, & y_3(0)&=0, & y_4(0)&=0, \\
+y_1(1)&= 1, & y_3(1)&=0, & y_4(1)&=0.
+\end{align*}
 ```
 
 # Solution

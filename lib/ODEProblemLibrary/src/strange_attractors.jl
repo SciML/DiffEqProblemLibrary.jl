@@ -16,11 +16,11 @@ end
 Thomas' cyclically symmetric attractor equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= \sin(y) - bx \\
 \frac{dy}{dt} &= \sin(z) - by \\
 \frac{dz}{dt} &= \sin(x) - bz
-\end{align}
+\end{align*}
 ```
 
 with parameter ``b = 0.208186`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
@@ -46,11 +46,11 @@ end
 Lorenz equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= σ(y - x) \\
 \frac{dy}{dt} &= x(ρ - z) - y \\
 \frac{dz}{dt} &= xy - βz
-\end{align}
+\end{align*}
 ```
 
 with parameters ``σ=10, ρ=28, β=8/3`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
@@ -76,11 +76,11 @@ end
 Aizawa equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= (z - b)x - dy \\
 \frac{dy}{dt} &= dx + (z - b)y \\
 \frac{dz}{dt} &= c + az - \frac{z^3}{3} - (x^2 + y^2)(1 + ez) + fzx^3
-\end{align}
+\end{align*}
 ```
 
 with parameters ``a=0.95, b=0.7, c=0.6, d=3.5, e=0.25, f=0.1`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
@@ -104,11 +104,11 @@ end
 Dadras equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= y - ax + byz \\
 \frac{dy}{dt} &= cy - xz + z \\
 \frac{dz}{dt} &= dxy - ez
-\end{align}
+\end{align*}
 ```
 
 with parameters ``a=3, b=2.7, c=1.7, d=2, e=9`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
@@ -132,11 +132,11 @@ end
 Chen equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= a(y - x) \\
 \frac{dy}{dt} &= (c - a)x - xz + cy \\
 \frac{dz}{dt} &= xy - bz
-\end{align}
+\end{align*}
 ```
 
 with parameters ``a=35, b=3, c=28`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
@@ -160,11 +160,11 @@ end
 Rössler equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= -(y + z) \\
 \frac{dy}{dt} &= x + ay \\
 \frac{dz}{dt} &= b + z(x - c)
-\end{align}
+\end{align*}
 ```
 
 with parameters ``a=0.2, b=0.2, c=5.7`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
@@ -189,11 +189,11 @@ end
 Rabinovich-Fabrikant equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= y(z - 1 + x^2) + bx \\
 \frac{dy}{dt} &= x(3z + 1 - x^2) + by \\
 \frac{dz}{dt} &= -2z(a + xy)
-\end{align}
+\end{align*}
 ```
 
 with parameters ``a=0.14, b=0.10`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
@@ -217,11 +217,11 @@ end
 Sprott equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= y + axy + xz \\
 \frac{dy}{dt} &= 1 - bx^2 + yz \\
 \frac{dz}{dt} &= x - x^2 - y^2
-\end{align}
+\end{align*}
 ```
 
 with parameters ``a=2.07, b=1.79`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
@@ -245,14 +245,14 @@ end
 Hindmarsh-Rose equations
 
 ```math
-\begin{align}
+\begin{align*}
 \frac{dx}{dt} &= y - ax^3 + bx^2 - z + i \\
 \frac{dy}{dt} &= c - dx^2 - y \\
 \frac{dz}{dt} &= r(s(x - x_r) - z)
-\end{align}
+\end{align*}
 ```
 
-with parameters ``a=1, b=3, c=1, d=5, r=1e-2, s=4, x_r=-8/5, i=5`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
+with parameters ``a=1, b=3, c=1, d=5, r=10^{-2}, s=4, x_r=-8/5, i=5`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0``
 
 [Reference](https://en.wikipedia.org/wiki/Hindmarsh%E2%80%93Rose_model)
 """
