@@ -11,7 +11,7 @@ Linear ODE
 with initial condition ``u_0=\\frac{1}{2}``, ``α=1.01``, and solution
 
 ```math
-u(t) = u_0e^{αt}
+u(t) = u_0 e^{αt}
 ```
 
 with Float64s. The parameter is ``α``
@@ -29,7 +29,7 @@ Linear ODE
 with initial condition ``u_0=\\frac{1}{2}``, ``α=1.01``, and solution
 
 ```math
-u(t) = u_0e^{αt}
+u(t) = u_0 e^{αt}
 ```
 
 with BigFloats
@@ -50,7 +50,7 @@ with initial condition ``u_0`` as all uniformly distributed random numbers,
 ``α=1.01``, and solution
 
 ```math
-u(t) = u_0e^{αt}
+u(t) = u_0 e^{αt}
 ```
 
 with Float64s
@@ -69,7 +69,7 @@ with initial condition ``u_0`` as all uniformly distributed random numbers,
 ``α=1.01``, and solution
 
 ```math
-u(t) = u_0e^{αt}
+u(t) = u_0 e^{αt}
 ```
 
 with Float64s
@@ -89,7 +89,7 @@ with initial condition ``u_0`` as all uniformly distributed random numbers,
 ``α=1.01``, and solution
 
 ```math
-u(t) = u_0e^{αt}
+u(t) = u_0 e^{αt}
 ```
 
 with BigFloats
@@ -112,7 +112,7 @@ with initial condition ``u_0`` as all uniformly distributed random numbers,
 ``α=1.01``, and solution
 
 ```math
-u(t) = u_0e^{αt}
+u(t) = u_0 e^{αt}
 ```
 
 on Float64. Purposefully not in-place as a test.

@@ -164,7 +164,7 @@ Nonlinear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(y_1)=y_1+y_1^2-\exp(-2t/\sqrt{\lambda})
+f(y_1) = y_1 + y_1^2 - \exp(-2t/\sqrt{\lambda})
 ```
 
 with boundary condition
@@ -279,7 +279,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 where
 
 ```math
-f(y_1)=\lambda\sinh(\lambda z)
+f(y_1) = \lambda\sinh(\lambda z)
 ```
 
 with boundary condition
@@ -339,13 +339,13 @@ The steady state Navier-Stokes equations generate a second order differential eq
 where
 
 ```math
-f(t, y_1, y_2)=(\frac{1+\gamma}{2}-\lambda A'(t))y_1y_2-\frac{y_2}{y_1}-\frac{A'(t)}{A(t)}(1-(\frac{\gamma-1}{2})y_1^2)
+f(t, y_1, y_2) = \left(\frac{1+\gamma}{2}-\lambda A'(t)\right) y_1y_2 - \frac{y_2}{y_1} - \frac{A'(t)}{A(t)} \left(1 - \frac{\gamma-1}{2} y_1^2\right)
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0.9129, y_1(1)=0.375
+y_1(0)=0.9129, \;\; y_1(1)=0.375
 ```
 
 # Solution
@@ -393,13 +393,13 @@ Nonlinear boundary value problem with no analytical solution, given by
 where
 
 ```math
-f(y_1, y_2)=-y_1y_2+y_1
+f(y_1, y_2) = -y_1 y_2 + y_1
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=-1/3, y_1(1)=1/3
+y_1(0)=-1/3, \;\; y_1(1)=1/3
 ```
 
 # Solution
@@ -453,7 +453,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=-1/3
+y_1(0)=1, \;\; y_1(1)=-1/3
 ```
 
 # Solution
@@ -561,7 +561,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=3/2
+y_1(0)=1, \;\; y_1(1)=3/2
 ```
 
 # Solution
@@ -615,7 +615,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=0, y_1(1)=3/2
+y_1(0)=0, \;\; y_1(1)=3/2
 ```
 
 # Solution
@@ -663,13 +663,13 @@ Nonlinear boundary value problem with no analytical solution, given by
 where
 
 ```math
-f(y_1, y_2)=-y_1y_2+y_1
+f(y_1, y_2) = -y_1y_2+y_1
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=-7/6, y_1(1)=3/2
+y_1(0)=-7/6, \;\; y_1(1)=3/2
 ```
 
 # Solution
@@ -725,13 +725,14 @@ Nonlinear boundary value problem with no analytical solution, given by
 where
 
 ```math
-f(z, \theta, M, Q)=\frac{1}{\lambda}((z-1)\cos\theta-M\sec\theta)+\lambda Q\tan\theta
+f(z, \theta, M, Q) = \frac{1}{\lambda} [(z-1)\cos\theta-M\sec\theta] + \lambda Q\tan\theta
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0, y_3(0)=0, y_1(1)=0, y_3(1)=0
+y_1(0)=0, \;\; y_3(0)=0, \;\;
+y_1(1)=0, \;\; y_3(1)=0
 ```
 
 # Solution
@@ -787,7 +788,8 @@ Nonlinear boundary value problem with no analytical solution, given by
 with boundary condition
 
 ```math
-y_1(0)=0, y_2(0)=0, y_1(1)=1, y_2(1)=0
+y_1(0)=0, \;\; y_2(0)=0, \;\;
+y_1(1)=1, \;\; y_2(1)=0
 ```
 
 # Solution

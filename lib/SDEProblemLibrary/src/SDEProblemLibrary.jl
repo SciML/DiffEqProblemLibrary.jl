@@ -23,12 +23,12 @@ linear_analytic(u0, p, t, W) = @.(u0*exp(0.63155t + 0.87W))
 
 @doc doc"""
 ```math
-du_t = αudt + βudW_t
+du_t = αu\,dt + βu\,dW_t
 ```
 where ``α=1.01``, ``β=0.87``, and initial condition ``u_0=1/2``, with solution
 
 ```math
-u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
+u(u_0,p,t,W_t) = u_0 \exp\left(\left(α - \tfrac{1}{2}β^2\right) t + βW_t\right)
 ```
 
 """
@@ -47,12 +47,12 @@ f_linear_iip(du, u, p, t) = @.(du=1.01 * u)
 8 linear SDEs (as a 4x2 matrix):
 
 ```math
-du_t = αudt + βudW_t
+du_t = αu\,dt + βu\,dW_t
 ```
 where ``α=1.01``, ``β=0.87``, and initial condition ``u_0=\frac{1}{2}`` with solution
 
 ```math
-u(u_0,p,t,W_t)=u_0\exp((α-\frac{β^2}{2})t+βW_t)
+u(u_0,p,t,W_t) = u_0 \exp\left(\left(α - \tfrac{1}{2}β^2\right) t + βW_t\right)
 ```
 """
 prob_sde_2Dlinear = SDEProblem(
@@ -70,13 +70,13 @@ cubic_analytic(u0, p, t, W) = @. ((1 + u0) * exp(W) + u0 - 1) / ((1 + u0) * exp(
 ff_cubic = SDEFunction(f_cubic, σ_cubic, analytic = cubic_analytic)
 @doc doc"""
 ```math
-du_t = \frac{1}{4}u(1-u^2)dt + \frac{1}{2}(1-u^2)dW_t
+du_t = \frac{1}{4}u(1-u^2) \, dt + \frac{1}{2}(1-u^2) \, dW_t
 ```
 
 and initial condition ``u_0=\frac{1}{2}``, with solution
 
 ```math
-u(u0,p,t,W_t)=\frac{(1+u_0)\exp(W_t)+u)0-1}{(1+u_0)\exp(W_t)+1-u_0}
+u(u0,p,t,W_t) = \frac{(1+u_0) \exp(W_t) + u_0 - 1}{(1+u_0) \exp(W_t) + 1 - u_0}
 ```
 """
 prob_sde_cubic = SDEProblem(ff_cubic, 1 / 2, (0.0, 1.0))
@@ -87,13 +87,13 @@ wave_analytic(u0, p, t, W) = @. atan(0.1 * W + tan(u0))
 ff_wave = SDEFunction(f_wave, σ_wave, analytic = wave_analytic)
 @doc doc"""
 ```math
-du_t = -\frac{1}{100}\sin(u)\cos^3(u)dt + \frac{1}{10}\cos^{2}(u_t) dW_t
+du_t = -\frac{1}{100}\sin(u)\cos^3(u)\, dt + \frac{1}{10}\cos^2(u_t)\, dW_t
 ```
 
 and initial condition ``u_0=1`` with solution
 
 ```math
-u(u_0,p,t,W_t)=\arctan(\frac{W_t}{10} + \tan(u_0))
+u(u_0,p,t,W_t) = \arctan\left(\frac{W_t}{10} + \tan(u_0)\right)
 ```
 """
 prob_sde_wave = SDEProblem(ff_wave, 1.0, (0.0, 1.0))
@@ -107,7 +107,7 @@ ff_additive = SDEFunction(f_additive, σ_additive, analytic = additive_analytic)
 Additive noise problem
 
 ```math
-u_t = (\frac{β}{\sqrt{1+t}}-\frac{1}{2(1+t)}u_t)dt + \frac{αβ}{\sqrt{1+t}}dW_t
+u_t = \left(\frac{β}{\sqrt{1+t}} - \frac{1}{2(1+t)}u_t\right) \, dt + \frac{αβ}{\sqrt{1+t}} \, dW_t
 ```
 
 and initial condition ``u_0=1`` with ``α=0.1`` and ``β=0.05``, with solution

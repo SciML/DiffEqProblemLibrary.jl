@@ -36,7 +36,7 @@ Linear boundary value problem with analytical solution, given by
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=0
+y_1(0)=1, \;\; y_1(1)=0
 ```
 
 # Solution
@@ -94,7 +94,7 @@ Linear boundary value problem with analytical solution, given by
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=0
+y_1(0)=1, \;\; y_1(1)=0
 ```
 
 # Solution
@@ -155,13 +155,13 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1, y_2) = -(2+\cos(\pi t))y_2 + y_1 -(1+\lambda \pi^2)\cos(\pi t) - (2+\cos(\pi t))\pi\sin(\pi t)
+f(t, y_1, y_2) = -[2+\cos(\pi t)]y_2 + y_1 -(1+\lambda \pi^2)\cos(\pi t) - [2+\cos(\pi t)]\pi\sin(\pi t)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=-1, y_1(1)=-1
+y_1(-1)=-1,\;\; y_1(1)=-1
 ```
 
 # Solution
@@ -219,7 +219,7 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(y_1, y_2)=-y2+(1+\lambda)y1
+f(y_1, y_2) = -y_2 + (1+\lambda) y_1
 ```
 
 with boundary condition
@@ -288,13 +288,13 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1, y_2)=ty_2+y_1-(1+\lambda\pi^2)\cos(\pi t)+\pi t\sin(\pi t)
+f(t, y_1, y_2) = ty_2 + y_1 - (1+\lambda\pi^2)\cos(\pi t) + \pi t\sin(\pi t)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=-1, y_1(1)=-1
+y_1(-1)=-1, \;\; y_1(1)=-1
 ```
 
 # Solution
@@ -353,13 +353,13 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_2)=ty_2 - \lambda\pi^2\cos(\pi t)-\pi t\sin(\pi t)
+f(t, y_2) = ty_2 - \lambda\pi^2\cos(\pi t)-\pi t\sin(\pi t)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=-2, y_1(1)=0
+y_1(-1)=-2, \;\; y_1(1)=0
 ```
 
 # Solution
@@ -425,13 +425,13 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1, y_2)=ty_2+y_1-(1+\lambda\pi^2)\cos(\pi t)+\pi t\sin(\pi t)
+f(t, y_1, y_2) = t y_2 + y_1 - (1+\lambda\pi^2)\cos(\pi t) + \pi t\sin(\pi t)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=-1, y_1(1)=1
+y_1(-1)=-1, \;\; y_1(1)=1
 ```
 
 # Solution
@@ -489,7 +489,7 @@ Linear boundary value problem with analytical solution, given by
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=2
+y_1(0)=1, \;\; y_1(1)=2
 ```
 
 # Solution
@@ -498,7 +498,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= (2 - \exp(-1/\lambda) - \exp(-t/\lambda))/(1 - \exp(-1/\lambda)) \\
+y_1(t) &= \frac{2 - \exp(-1/\lambda) - \exp(-t/\lambda)}{1 - \exp(-1/\lambda)} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -612,7 +612,7 @@ Linear boundary value problem with analytical solution, given by
 with boundary condition
 
 ```math
-y_1(-1)=0, y_1(1)=2
+y_1(-1)=0, \;\; y_1(1)=2
 ```
 
 # Solution
@@ -670,13 +670,13 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1)=y_1-(1+\lambda\pi^2)\cos(\pi t)
+f(t, y_1) = y_1 - (1+\lambda\pi^2)\cos(\pi t)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=0, y_1(1)=2
+y_1(-1)=0, \;\; y_1(1)=2
 ```
 
 # Solution
@@ -736,7 +736,7 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1)=y_1-(1+\lambda\pi^2)\cos(\pi t)
+f(t, y_1) = y_1 - (1+\lambda\pi^2)\cos(\pi t)
 ```
 
 with boundary condition
@@ -801,13 +801,13 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1)=y_1-(1+\lambda\pi^2)\cos(\pi t)
+f(t, y_1) = y_1 - (1+\lambda\pi^2)\cos(\pi t)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=0, y_1(1)=-1
+y_1(-1)=0, \;\; y_1(1)=-1
 ```
 
 # Solution
@@ -872,7 +872,8 @@ f(t, y_1)=y_1-(1+\lambda\pi^2)\cos(\pi t)
 with boundary condition
 
 ```math
-y_1(-1)=\exp(-2/\sqrt{\lambda}, y_1(1)=\exp(-2/\sqrt{\lambda})
+y_1(-1) = \exp(-2/\sqrt{\lambda}), \;\;
+y_1(1)  = \exp(-2/\sqrt{\lambda})
 ```
 
 # Solution
@@ -927,7 +928,7 @@ Linear boundary value problem with analytical solution, given by
 with boundary condition
 
 ```math
-y_1(-1)=1, y_1(1)=1
+y_1(-1)=1, \;\; y_1(1)=1
 ```
 
 # Solution
@@ -978,13 +979,13 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1)=-π^2y_1/4
+f(t, y_1) = -π^2 y_1/4
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0, y_1(1)=\sin(\pi/(2*\lambda))
+y_1(0)=0, \;\; y_1(1)=\sin(\pi/(2\lambda))
 ```
 
 # Solution
@@ -1041,13 +1042,14 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1)=-3\lambda y_1/(\lambda+t^2)^2
+f(t, y_1) = -3\lambda y_1 / (\lambda+t^2)^2
 ```
 
 with boundary condition
 
 ```math
-y_1(-0.1)=-0.1/\sqrt{\lambda+0.01}, y_1(0.1)=0.1/\sqrt{\lambda+0.01}
+y_1(-0.1) = \frac{-0.1}{\sqrt{\lambda+0.01}},
+y_1(0.1)  = \frac{ 0.1}{\sqrt{\lambda+0.01}}
 ```
 
 # Solution
@@ -1105,7 +1107,7 @@ Linear boundary value problem with analytical solution, given by
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=0.1/\sqrt{\lambda+0.01}
+y_1(0)=1, \;\; y_1(1)=\frac{0.1}{\sqrt{\lambda+0.01}}
 ```
 
 # Solution

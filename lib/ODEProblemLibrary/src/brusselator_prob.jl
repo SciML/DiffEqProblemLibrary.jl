@@ -60,8 +60,8 @@ xyd_brusselator = range(0, stop = 1, length = 32)
 
 ```math
 \begin{align*}
-\frac{\partial u}{\partial t} &= 1 + u^2v - 4.4u + \alpha(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}) + f(x, y, t) \\
-\frac{\partial v}{\partial t} &= 3.4u - u^2v + \alpha(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2})
+\frac{\partial u}{\partial t} &= 1 + u^2v - 4.4u + \alpha \left(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}\right) + f(x, y, t) \\
+\frac{\partial v}{\partial t} &= 3.4u - u^2v + \alpha \left(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}\right)
 \end{align*}
 ```
 

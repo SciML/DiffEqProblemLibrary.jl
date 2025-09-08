@@ -253,7 +253,7 @@ Pleiades Problem (Non-stiff)
 where
 
 ```math
-rᵢⱼ = ((xᵢ-xⱼ)^2 + (yᵢ-yⱼ)^2)^{3/2}
+rᵢⱼ = \left((xᵢ-xⱼ)^2 + (yᵢ-yⱼ)^2\right)^{3/2}
 ```
 
 and initial conditions are
@@ -270,7 +270,7 @@ x₇(0) &=  2, & y₇(0) &=  4
 \end{align*}
 ```
 
-and with ``\frac{dxᵢ(0)}{dt}=\frac{dyᵢ(0)}{dt}=0`` except for
+and with ``\frac{dxᵢ(0)}{dt} = \frac{dyᵢ(0)}{dt} = 0`` except for
 
 ```math
 \begin{align*}
@@ -366,7 +366,18 @@ It is in the form of
 
 where ``f`` is defined by
 
-``f(y) = \begin{pmatrix} −1.71y_1 & +0.43y_2 & +8.32y_3 & +0.0007y_4 & \\ 1.71y_1 & −8.75y_2 & & & \\ −10.03y_3 & +0.43y_4 & +0.035y_5 & & \\ 8.32y_2 & +1.71y_3 & −1.12y_4 & & \\ −1.745y_5 & +0.43y_6 & +0.43y_7 & & \\ −280y_6y_8 & +0.69y_4 & +1.71y_5 & −0.43y_6 & +0.69y_7 \\ 280y_6y_8 & −1.81y_7 & & & \\ −280y_6y_8 & +1.81y_7 & & & \end{pmatrix}``
+```math
+f(y) = \begin{pmatrix}
+−1.71y_1   + 0.43y_2 + 8.32y_3  + 0.0007y_4           \\
+ 1.71y_1   − 8.75y_2                                  \\
+−10.03y_3  + 0.43y_4 + 0.035y_5                       \\
+ 8.32y_2   + 1.71y_3 − 1.12y_4                        \\
+−1.745y_5  + 0.43y_6 + 0.43y_7                        \\
+−280y_6y_8 + 0.69y_4 + 1.71y_5  − 0.43y_6   + 0.69y_7 \\
+ 280y_6y_8 − 1.81y_7                                  \\
+−280y_6y_8 + 1.81y_7
+\end{pmatrix}
+```
 
 Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf)
 Notebook: [Hires.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
@@ -395,7 +406,13 @@ y \in ℝ^3, \quad 0 ≤ t ≤ 360
 
 where ``f`` is defined by
 
-``f(y) = \begin{pmatrix} s(y_2 - y_1(1-qy_1-y_2)) \\ (y_3 - y_2(1+y_1))/s \\ w(y_1-y_3) \end{pmatrix}``
+```math
+f(y) = \begin{pmatrix}
+s(y_2 - y_1 (1 - q y_1 - y_2)) \\
+(y_3 - y_2 (1 + y_1)) / s \\
+w (y_1 - y_3)
+\end{pmatrix}
+```
 
 where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
 
