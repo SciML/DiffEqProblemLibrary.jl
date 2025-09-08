@@ -55,27 +55,32 @@ function init_brusselator_2d(xyd)
 end
 xyd_brusselator = range(0, stop = 1, length = 32)
 
-"""
+@doc doc"""
 2D Brusselator
 
 ```math
-\\frac{\\partial u}{\\partial t} = 1 + u^2v - 4.4u + \\alpha(\\frac{\\partial^2 u}{\\partial x^2} + \\frac{\\partial^2 u}{\\partial y^2}) + f(x, y, t)
+\frac{\partial u}{\partial t} = 1 + u^2v - 4.4u + \alpha(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}) + f(x, y, t)
 ```
 ```math
-\\frac{\\partial v}{\\partial t} = 3.4u - u^2v + \\alpha(\\frac{\\partial^2 u}{\\partial x^2} + \\frac{\\partial^2 u}{\\partial y^2})
+\frac{\partial v}{\partial t} = 3.4u - u^2v + \alpha(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2})
 ```
 
 where
 
-``f(x, y, t) = \\begin{cases} 5 & \\quad \\text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \\text{ and } t ≥ 1.1 \\\\ 0 & \\quad \\text{else} \\end{cases}``
+```math
+f(x, y, t) = \begin{cases}
+    5 & \text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \text{ and } t ≥ 1.1 \\
+    0 & \text{else}
+\end{cases}
+```
 
 and the initial conditions are
 
 ```math
-u(x, y, 0) = 22\\cdot y(1-y)^{3/2}
+u(x, y, 0) = 22\cdot y(1-y)^{3/2}
 ```
 ```math
-v(x, y, 0) = 27\\cdot x(1-x)^{3/2}
+v(x, y, 0) = 27\cdot x(1-x)^{3/2}
 ```
 
 with the periodic boundary condition
@@ -121,20 +126,20 @@ function init_brusselator_1d(N)
     u
 end
 
-"""
+@doc doc"""
 1D Brusselator
 
 ```math
-\\frac{\\partial u}{\\partial t} = A + u^2v - (B+1)u + \\alpha\\frac{\\partial^2 u}{\\partial x^2}
+\frac{\partial u}{\partial t} = A + u^2v - (B+1)u + \alpha\frac{\partial^2 u}{\partial x^2}
 ```
 ```math
-\\frac{\\partial v}{\\partial t} = Bu - u^2v + \\alpha\\frac{\\partial^2 u}{\\partial x^2}
+\frac{\partial v}{\partial t} = Bu - u^2v + \alpha\frac{\partial^2 u}{\partial x^2}
 ```
 
 and the initial conditions are
 
 ```math
-u(x,0) = 1+\\sin(2π x)
+u(x,0) = 1+\sin(2π x)
 ```
 ```math
 v(x,0) = 3

@@ -7,14 +7,14 @@ function lotka(du, u, p, t)
     du[2] = -p[3] * y + p[4] * x * y
 end
 
-"""
+@doc doc"""
 Lotka-Volterra Equations (Non-stiff)
 
 ```math
-\\frac{dx}{dt} = ax - bxy
+\frac{dx}{dt} = ax - bxy
 ```
 ```math
-\\frac{dy}{dt} = -cy + dxy
+\frac{dy}{dt} = -cy + dxy
 ```
 
 with initial condition ``x=y=1``
@@ -33,14 +33,14 @@ function fitz(du, u, p, t)
     du[1] = v - v^3 / 3 - w + l
     du[2] = τinv * (v + a - b * w)
 end
-"""
+@doc doc"""
 Fitzhugh-Nagumo (Non-stiff)
 
 ```math
-\\frac{dv}{dt} = v - \\frac{v^3}{3} - w + I_{est}
+\frac{dv}{dt} = v - \frac{v^3}{3} - w + I_{est}
 ```
 ```math
-τ \\frac{dw}{dt} = v + a -bw
+τ \frac{dw}{dt} = v + a -bw
 ```
 
 with initial condition ``v=w=1``
@@ -68,34 +68,34 @@ function vanderpol_jac(J, u, p, t)
     J[2,2] = μ * (1 - x^2)
 end
 
-"""
+@doc doc"""
 Van der Pol Equations
 
 ```math
-\\frac{dx}{dt} = y
+\frac{dx}{dt} = y
 ```
 ```math
-\\frac{dy}{dt} = μ((1-x^2)y -x)
+\frac{dy}{dt} = μ ((1-x^2)y - x)
 ```
 
-with ``μ=1.0`` and ``u_0=[\\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
+with ``μ=1.0`` and ``u_0=[\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Non-stiff parameters.
 """
-prob_ode_vanderpol = ODEProblem(ODEFunction(vanderpol, jac=vanderpol_jac), 
+prob_ode_vanderpol = ODEProblem(ODEFunction(vanderpol, jac=vanderpol_jac),
     [sqrt(3), 0.0], (0.0, 1.0), [1.0])
 
-"""
+@doc doc"""
 Van der Pol Equations
 
 ```math
-\\frac{dx}{dt} = y
+\frac{dx}{dt} = y
 ```
 ```math
-\\frac{dy}{dt} = μ((1-x^2)y -x)
+\frac{dy}{dt} = μ ((1-x^2)y - x)
 ```
 
-with ``μ=10^6`` and ``u_0=[\\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
+with ``μ=10^6`` and ``u_0=[\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Stiff parameters.
 """
@@ -115,20 +115,20 @@ function rober(du, u, p, t)
     du[3] = k₂ * y₂^2
 end
 
-"""
+@doc doc"""
 The Robertson biochemical reactions: (Stiff)
 
 ```math
-\\frac{dy₁}{dt} = -k₁y₁+k₃y₂y₃
+\frac{dy₁}{dt} = -k₁y₁+k₃y₂y₃
 ```
 ```math
-\\frac{dy₂}{dt} =  k₁y₁-k₂y₂^2-k₃y₂y₃
+\frac{dy₂}{dt} =  k₁y₁-k₂y₂^2-k₃y₂y₃
 ```
 ```math
-\\frac{dy₃}{dt} =  k₂y₂^2
+\frac{dy₃}{dt} =  k₂y₂^2
 ```
 
-where ``k₁=0.04``, ``k₂=3\\times10^7``, ``k₃=10^4``. For details, see:
+where ``k₁=0.04``, ``k₂=3\times10^7``, ``k₃=10^4``. For details, see:
 
 Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 
@@ -202,17 +202,17 @@ function rigidbody(du, u, p, t)
     du[3] = I₃ * y₁ * y₂
 end
 
-"""
+@doc doc"""
 Rigid Body Equations (Non-stiff)
 
 ```math
-\\frac{dy₁}{dt}  = I₁y₂y₃
+\frac{dy₁}{dt}  = I₁y₂y₃
 ```
 ```math
-\\frac{dy₂}{dt}  = I₂y₁y₃
+\frac{dy₂}{dt}  = I₂y₁y₃
 ```
 ```math
-\\frac{dy₃}{dt}  = I₃y₁y₂
+\frac{dy₃}{dt}  = I₃y₁y₂
 ```
 
 with ``I₁=-2``, ``I₂=1.25``, and ``I₃=-1/2``.
@@ -240,7 +240,6 @@ pleiades = (du, u, p, t) -> begin
         du[i] = zero(eltype(u))
     end
     for i in 1:7, j in 1:7
-
         if i != j
             r = ((x[i] - x[j])^2 + (y[i] - y[j])^2)^(3 / 2)
             du[14 + i] += j * (x[j] - x[i]) / r
@@ -376,7 +375,7 @@ prob_ode_mm_linear = ODEProblem(mm_f, rand(4), (0.0, 1.0))
 function hires(du, u, p, t)
     y1, y2, y3, y4, y5, y6, y7, y8 = u
     p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 = p
-    
+
     du[1] = -p1 * y1 + p2 * y2 + p3 * y3 + p4
     du[2] = p1 * y1 - p5 * y2
     du[3] = -p6 * y3 + p2 * y4 + p7 * y5
@@ -393,24 +392,24 @@ u0[8] = 0.0057
 
 p = (1.71, 0.43, 8.32, 0.0007, 8.75, 10.03, 0.035, 1.12, 1.745, 280.0, 0.69, 1.81)
 
-"""
+@doc doc"""
 Hires Problem (Stiff)
 
 It is in the form of
 
 ```math
-\\frac{dy}{dt} = f(y)
+\frac{dy}{dt} = f(y)
 ```
 
  with
 
 ```math
- y(0)=y_0, \\quad y \\in ℝ^8, \\quad 0 ≤ t ≤ 321.8122
+ y(0)=y_0, \quad y \in ℝ^8, \quad 0 ≤ t ≤ 321.8122
 ```
 
 where ``f`` is defined by
 
-``f(y) = \\begin{pmatrix} −1.71y_1 & +0.43y_2 & +8.32y_3 & +0.0007y_4 & \\\\ 1.71y_1 & −8.75y_2 & & & \\\\ −10.03y_3 & +0.43y_4 & +0.035y_5 & & \\\\ 8.32y_2 & +1.71y_3 & −1.12y_4 & & \\\\ −1.745y_5 & +0.43y_6 & +0.43y_7 & & \\\\ −280y_6y_8 & +0.69y_4 & +1.71y_5 & −0.43y_6 & +0.69y_7 \\\\ 280y_6y_8 & −1.81y_7 & & & \\\\ −280y_6y_8 & +1.81y_7 & & & \\end{pmatrix}``
+``f(y) = \begin{pmatrix} −1.71y_1 & +0.43y_2 & +8.32y_3 & +0.0007y_4 & \\ 1.71y_1 & −8.75y_2 & & & \\ −10.03y_3 & +0.43y_4 & +0.035y_5 & & \\ 8.32y_2 & +1.71y_3 & −1.12y_4 & & \\ −1.745y_5 & +0.43y_6 & +0.43y_7 & & \\ −280y_6y_8 & +0.69y_4 & +1.71y_5 & −0.43y_6 & +0.69y_7 \\ 280y_6y_8 & −1.81y_7 & & & \\ −280y_6y_8 & +1.81y_7 & & & \end{pmatrix}``
 
 Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf)
 Notebook: [Hires.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Hires.ipynb)
@@ -422,24 +421,24 @@ prob_ode_hires = ODEProblem(hires, u0, (0.0, 321.8122), p)
 function orego(du, u, p, t)
     y1, y2, y3 = u
     p1, p2, p3 = p
-    
+
     du[1] = p1 * (y2 + y1 * (1 - p2 * y1 - y2))
     du[2] = (y3 - (1 + y1) * y2) / p1
     du[3] = p3 * (y1 - y3)
 end
 
-"""
+@doc doc"""
 Orego Problem (Stiff)
 
-It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y0,`` with
+It is in the form of ``\frac{dy}{dt}=f(y), \quad y(0)=y_0,`` with
 
 ```math
-y \\in ℝ^3, \\quad 0 ≤ t ≤ 360
+y \in ℝ^3, \quad 0 ≤ t ≤ 360
 ```
 
 where ``f`` is defined by
 
-``f(y) = \\begin{pmatrix} s(y_2 - y_1(1-qy_1-y_2)) \\\\ (y_3 - y_2(1+y_1))/s \\\\ w(y_1-y_3) \\end{pmatrix}``
+``f(y) = \begin{pmatrix} s(y_2 - y_1(1-qy_1-y_2)) \\ (y_3 - y_2(1+y_1))/s \\ w(y_1-y_3) \end{pmatrix}``
 
 where ``s=77.27``, ``w=0.161`` and ``q=8.375⋅10^{-6}``.
 
