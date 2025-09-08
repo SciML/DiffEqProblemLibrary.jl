@@ -15,9 +15,9 @@ export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
        prob_jump_diffnetwork
 
 """
-    General structure to hold JumpProblem info. Needed since
-    the JumpProblem constructor requires the algorithm, so we
-    don't create the JumpProblem here.
+General structure to hold JumpProblem info. Needed since
+the JumpProblem constructor requires the algorithm, so we
+don't create the JumpProblem here.
 """
 struct JumpProblemNetwork
     network::Any         # Catalyst network
@@ -49,7 +49,7 @@ Nsims = 8000
 expected_avg = 5.926553750000000e+02
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
 """
-    DNA negative feedback autoregulatory model. Protein acts as repressor.
+DNA negative feedback autoregulatory model. Protein acts as repressor.
 """
 prob_jump_dnarepressor = JumpProblemNetwork(dna_rs, rates, tf, u0, prob, prob_data)
 
@@ -65,7 +65,7 @@ Nsims = 16000
 expected_avg = t -> rates[1] / rates[2] .* (1.0 - exp.(-rates[2] * t))
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean_at_t" => expected_avg)
 """
-    Simple birth-death process with constant production and degradation.
+Simple birth-death process with constant production and degradation.
 """
 prob_jump_constproduct = JumpProblemNetwork(bd_rs, rates, tf, u0, prob, prob_data)
 
@@ -84,7 +84,7 @@ Nsims = 32000
 expected_avg = 84.876015624999994
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
 """
-    Example with a mix of nonlinear reactions, including third order
+Example with a mix of nonlinear reactions, including third order
 """
 prob_jump_nonlinrxs = JumpProblemNetwork(nonlin_rs, rates, tf, u0, prob, prob_data)
 
@@ -105,7 +105,7 @@ u0 = [:X => 200.0, :Y => 60.0, :Z => 120.0, :R => 100.0, :S => 50.0, :SP => 50.0
 tf = 4000.0
 prob = DiscreteProblem(oscil_rs, u0, (0.0, tf), eval_module = @__MODULE__)
 """
-    Oscillatory system, uses a mixture of jump types.
+Oscillatory system, uses a mixture of jump types.
 """
 prob_jump_osc_mixed_jumptypes = JumpProblemNetwork(oscil_rs, nothing, tf, u0, prob, nothing)
 
@@ -153,10 +153,10 @@ u0 = [:S1 => params[1], :S2 => params[2], :S3 => params[3], :S4 => 0, :S5 => 0,
 tf = 100.0
 prob = DiscreteProblem(rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 """
-    Multistate model from Gupta and Mendes,
-    "An Overview of Network-Based and -Free Approaches for Stochastic Simulation of Biochemical Systems",
-    Computation 2018, 6, 9; doi:10.3390/computation6010009
-    Translated from supplementary data file: Models/Multi-state/fixed_multistate.xml
+Multistate model from Gupta and Mendes,
+"An Overview of Network-Based and -Free Approaches for Stochastic Simulation of Biochemical Systems",
+Computation 2018, 6, 9; doi:10.3390/computation6010009
+Translated from supplementary data file: Models/Multi-state/fixed_multistate.xml
 """
 prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
     Dict("specs_to_sym_name" => specs_sym_to_name,
@@ -206,9 +206,9 @@ tf = 2000.0
 prob = DiscreteProblem(rs, u0, (0.0, tf), eval_module = @__MODULE__)
 
 """
-    Twenty-gene model from McCollum et al,
-    "The sorting direct method for stochastic simulation of biochemical systems with varying reaction execution behavior"
-    Comp. Bio. and Chem., 30, pg. 39-49 (2006).
+Twenty-gene model from McCollum et al,
+"The sorting direct method for stochastic simulation of biochemical systems with varying reaction execution behavior"
+Comp. Bio. and Chem., 30, pg. 39-49 (2006).
 """
 prob_jump_twentygenes = JumpProblemNetwork(rs, nothing, tf, u0, prob, nothing)
 
@@ -229,10 +229,10 @@ u0 = [:G => 1000, :M => 0, :P => 0, :P2 => 0, :P2G => 0]
 tf = 4000.0
 prob = DiscreteProblem(rn, u0, (0.0, tf), rnpar, eval_module = @__MODULE__)
 """
-    Negative feedback autoregulatory gene expression model. Dimer is the repressor.
-    Taken from Marchetti, Priami and Thanh,
-    "Simulation Algorithms for Comptuational Systems Biology",
-    Springer (2017).
+Negative feedback autoregulatory gene expression model. Dimer is the repressor.
+Taken from Marchetti, Priami and Thanh,
+"Simulation Algorithms for Comptuational Systems Biology",
+Springer (2017).
 """
 prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
     Dict("specs_names" => varlabels))
@@ -257,10 +257,10 @@ function getDiffu0(diffnetwork, N)
 end
 tf = 10.0
 """
-    Continuous time random walk (i.e. diffusion approximation) example.
-    Here the network in the JumpProblemNetwork is a function that returns a
-    network given the number of lattice sites.
-    u0 is a similar function that returns the initial condition vector.
+Continuous time random walk (i.e. diffusion approximation) example.
+Here the network in the JumpProblemNetwork is a function that returns a
+network given the number of lattice sites.
+u0 is a similar function that returns the initial condition vector.
 """
 prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing,
     nothing)
