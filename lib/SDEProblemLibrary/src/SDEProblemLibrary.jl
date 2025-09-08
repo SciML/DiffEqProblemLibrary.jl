@@ -139,13 +139,11 @@ end
 Lorenz Attractor with additive noise
 
 ```math
-dx = σ(y-x)dt + αdW_t
-```
-```math
-dy = (x(ρ-z) - y)dt + αdW_t
-```
-```math
-dz = (xy - βz)dt + αdW_t
+\begin{align*}
+dx &= σ(y-x) \, dt + α \, dW_t \\
+dy &= (x(ρ-z) - y) \, dt + α \, dW_t \\
+dz &= (xy - βz) \, dt + α \, dW_t
+\end{align*}
 ```
 
 with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and initial condition ``u_0=[1;1;1]``.

@@ -11,19 +11,19 @@ http://www.unige.ch/~hairer/radar5-v2.1.tar
 Delay differential equation model from chemical kinetics, given by
 
 ```math
-  u_1'(t) = - k_1 A u_2(t) - k_2 u_1(t) u_2(t - \tau) + k_3 B u_1(t) - 2 k_4 u_1(t)^2, 
-```
-```math
-  u_2'(t) = - k_1 A u_2(t) - k_2 u_1(t) u_2(t - \tau) + f k_3 B u_1(t),
+\begin{align*}
+  u_1'(t) &= - k_1 A u_2(t) - k_2 u_1(t) u_2(t - \tau) + k_3 B u_1(t) - 2 k_4 u_1(t)^2, \\
+  u_2'(t) &= - k_1 A u_2(t) - k_2 u_1(t) u_2(t - \tau) + f k_3 B u_1(t),
+\end{align*}
 ```
 
 for ``t \in [0, 100.5]`` with history function
 
 ```math
-  \phi_1(t) = 1e-10, 
-```
-```math
-  \phi_2(t) = 1e-5,
+\begin{align*}
+  \phi_1(t) &= 10^{-10}, \\
+  \phi_2(t) &= 10^{-5},
+\end{align*}
 ```
 
 for ``t \leq 0``, where ``k_1 = 1.34``, ``k_2 = 1.6e9``, ``k_3 = 8000``, ``k_4 = 4e7``,
@@ -75,13 +75,11 @@ Delay differential equation model of a chemical reaction with steady state solut
 by
 
 ```math
-  u_1'(t) = - a u_1(t) + b u_2(t - \tau) u_3(t), 
-```
-```math
-  u_2'(t) = a u_1(t) - b u_2(t - \tau) u_3(t) - c u_2(t)^2, 
-```
-```math
-  u_3'(t) = c u_2(t)^2,
+\begin{align*}
+  u_1'(t) &= - a u_1(t) + b u_2(t - \tau) u_3(t), \\
+  u_2'(t) &= a u_1(t) - b u_2(t - \tau) u_3(t) - c u_2(t)^2, \\
+  u_3'(t) &= c u_2(t)^2,
+\end{align*}
 ```
 
 for ``t \in [0, 10e10]`` with history function ``\phi_1(0) = 1``, ``\phi_2(t) = 0`` for
@@ -132,43 +130,27 @@ end
 Delay differential equation model of antibody production, given by
 
 ```math
-  u_1'(t) = - r u_1(t) u_2(t) - s u_1(t) u_4(t), 
-```
-```math
-  u_2'(t) = - r u_1(t) u_2(t) + \alpha r u_1(u_5(t)) u_2(u_5(t)) [t \geq t_0], 
-```
-```math
-  u_3'(t) = r u_1(t) u_2(t), 
-```
-```math
-  u_4'(t) = - s u_1(t) u_4(t) - \gamma u_4(t) + \beta r u_1(u_6(t)) u_2(u_6(t)) [t > t_1], 
-```
-```math
-  u_5'(t) = [t \geq t_0] \frac{u_1(t) u_2(t) + u_3(t)}{u_1(u_5(t)) u_2(u_5(t)) + u_3(u_5(t))}, 
-```
-```math
-  u_6'(t) = [t \geq t_1] \frac{1e-12 + u_2(t) + u_3(t)}{1e-12 + u_2(u_6(t)) + u_3(u_6(t))},
+\begin{align*}
+  u_1'(t) &= - r u_1(t) u_2(t) - s u_1(t) u_4(t), \\
+  u_2'(t) &= - r u_1(t) u_2(t) + \alpha r u_1(u_5(t)) u_2(u_5(t)) [t \geq t_0], \\
+  u_3'(t) &= r u_1(t) u_2(t), \\
+  u_4'(t) &= - s u_1(t) u_4(t) - \gamma u_4(t) + \beta r u_1(u_6(t)) u_2(u_6(t)) [t > t_1], \\
+  u_5'(t) &= [t \geq t_0] \frac{u_1(t) u_2(t) + u_3(t)}{u_1(u_5(t)) u_2(u_5(t)) + u_3(u_5(t))}, \\
+  u_6'(t) &= [t \geq t_1] \frac{10^{-12} + u_2(t) + u_3(t)}{10^{-12} + u_2(u_6(t)) + u_3(u_6(t))},
+\end{align*}
 ```
 
 for ``t \in [0, 300]`` with history function
 
 ```math
-  \phi_1(t) = \phi_0, 
-```
-```math
-  \phi_2(t) = 1e-15, 
-```
-```math
-  \phi_3(t) = 0, 
-```
-```math
-  \phi_4(t) = 0, 
-```
-```math
-  \phi_5(t) = 0, 
-```
-```math
-  \phi_6(t) = 0,
+\begin{align*}
+  \phi_1(t) &= \phi_0, &
+  \phi_2(t) &= 10^{-15}, \\
+  \phi_3(t) &= 0, &
+  \phi_4(t) &= 0, \\
+  \phi_5(t) &= 0, &
+  \phi_6(t) &= 0,
+\end{align*}
 ```
 
 for ``t \leq 0``, where ``\alpha = 1.8``, ``\beta = 20``, ``\gamma = 0.002``, ``r = 5e4``,

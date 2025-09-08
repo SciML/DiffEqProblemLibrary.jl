@@ -27,10 +27,10 @@ prob_bvp_linear_1_tspan = (0.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}y_1
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\[2pt]
+\frac{dy_2}{dt} &= \frac{1}{\lambda} y_1
+\end{align*}
 ```
 
 with boundary condition
@@ -44,10 +44,10 @@ y_1(0)=1, y_1(1)=0
 The analytical solution for ``t \in [0, 1]`` is
 
 ```math
-y_1(t) = \frac{\exp(-t/\sqrt{\lambda}) - \exp((t-2)/\sqrt{\lambda})}{1-\exp(-2/\sqrt{\lambda})}
-```
-```math
-y_2(t)=y_1'(t)
+\begin{align*}
+y_1(t) &= \frac{\exp(-t/\sqrt{\lambda}) - \exp((t-2)/\sqrt{\lambda})}{1-\exp(-2/\sqrt{\lambda})} \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -85,10 +85,10 @@ prob_bvp_linear_2_tspan = (0.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}y_2
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda}y_2
+\end{align*}
 ```
 
 with boundary condition
@@ -102,10 +102,10 @@ y_1(0)=1, y_1(1)=0
 The analytical solution for ``t \in [0, 1]`` is
 
 ```math
-y_1(t) = \frac{1-\exp((t-1)/\lambda)}{1-\exp(-1/\lambda)}
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \frac{1-\exp((t-1)/\lambda)}{1-\exp(-1/\lambda)} \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -146,10 +146,10 @@ prob_bvp_linear_3_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -169,10 +169,10 @@ y_1(-1)=-1, y_1(1)=-1
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \cos(\pi t)
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \cos(\pi t) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -210,10 +210,10 @@ prob_bvp_linear_4_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda}f(y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -225,7 +225,10 @@ f(y_1, y_2)=-y2+(1+\lambda)y1
 with boundary condition
 
 ```math
-y_1(-1)=1+\exp(-2), y_1(1)=1+\exp(-2(1+\lambda))
+\begin{align*}
+y_1(-1) &= 1 + \exp(-2), \\
+y_1(1)  &= 1 + \exp(-2(1+\lambda))
+\end{align*}
 ```
 
 # Solution
@@ -233,10 +236,10 @@ y_1(-1)=1+\exp(-2), y_1(1)=1+\exp(-2(1+\lambda))
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \exp(t-1)+\exp(-(1+\lambda)(1+t)/\lambda)
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \exp(t-1) + \exp(-(1+\lambda)(1+t)/\lambda) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -276,10 +279,10 @@ prob_bvp_linear_5_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -299,10 +302,10 @@ y_1(-1)=-1, y_1(1)=-1
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \cos(\pi t)
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \cos(\pi t) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -341,10 +344,10 @@ prob_bvp_linear_6_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_2)
+\end{align*}
 ```
 
 where
@@ -364,10 +367,10 @@ y_1(-1)=-2, y_1(1)=0
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \cos(\pi t) + \erf(t/\sqrt{2\lambda})/\erf(1/\sqrt{2\lambda})
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \cos(\pi t) + \erf(t/\sqrt{2\lambda})/\erf(1/\sqrt{2\lambda}) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -413,10 +416,10 @@ prob_bvp_linear_7_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda}f(t, y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -436,10 +439,10 @@ y_1(-1)=-1, y_1(1)=1
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \cos(\pi t) + t + \frac{t\erf(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-t^2/2\lambda)}{}
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \cos(\pi t) + t + \frac{t\erf(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-t^2/2\lambda)}{} \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -477,10 +480,10 @@ prob_bvp_linear_8_tspan = (0.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = -\frac{1}{\lambda}y_2
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= -\frac{1}{\lambda} y_2
+\end{align*}
 ```
 
 with boundary condition
@@ -494,10 +497,10 @@ y_1(0)=1, y_1(1)=2
 The analytical solution for ``t \in [0, 1]`` is
 
 ```math
-y_1(t) = (2-\exp(-1/\lambda)-\exp(-t/\lambda))/(1-\exp(-1/\lambda))
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= (2 - \exp(-1/\lambda) - \exp(-t/\lambda))/(1 - \exp(-1/\lambda)) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -535,10 +538,10 @@ prob_bvp_linear_9_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda+t^2}f(t, y_1, y_2)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda+t^2} f(t, y_1, y_2)
+\end{align*}
 ```
 
 where
@@ -558,10 +561,10 @@ y_1(-1)=1/(1+\lambda), y_1(1)=1/(1+\lambda)
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = 1/(\lambda+t^2)
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \frac{1}{\lambda + t^2} \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -600,16 +603,10 @@ prob_bvp_linear_10_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_2)
-```
-
-where
-
-```math
-f(t, y_2)=-ty_2
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= - \frac{1}{\lambda} t y_2
+\end{align*}
 ```
 
 with boundary condition
@@ -623,10 +620,10 @@ y_1(-1)=0, y_1(1)=2
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = 1+\erf(t/\sqrt{2\lambda})/\erf(1/\sqrt{2\lambda})
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= 1 + \erf(t/\sqrt{2\lambda})/\erf(1/\sqrt{2\lambda}) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -664,10 +661,10 @@ prob_bvp_linear_11_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda}f(t, y_1)
+\end{align*}
 ```
 
 where
@@ -687,10 +684,10 @@ y_1(-1)=0, y_1(1)=2
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \cos(\pi t)
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \cos(\pi t) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -730,10 +727,10 @@ prob_bvp_linear_12_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda}f(t, y_1)
+\end{align*}
 ```
 
 where
@@ -753,10 +750,10 @@ y_1(-1)=-1, y_1(1)=0
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \cos(\pi t)+\frac{\exp((t+1)/\sqrt{\lambda})-\exp((-t-1))/\sqrt{\lambda}}{\exp(2/\sqrt{\lambda})-\exp(-2/\sqrt{\lambda})}
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \cos(\pi t) + \frac{\exp((t+1)/\sqrt{\lambda}) - \exp(-(t+1))/\sqrt{\lambda}}{\exp(2/\sqrt{\lambda})-\exp(-2/\sqrt{\lambda})} \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -795,10 +792,10 @@ prob_bvp_linear_13_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_1)
+\end{align*}
 ```
 
 where
@@ -818,10 +815,10 @@ y_1(-1)=0, y_1(1)=-1
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \cos(\pi t)+\exp(-(t+1)/\sqrt{\lambda})
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \cos(\pi t) + \exp(-(t+1)/\sqrt{\lambda})
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -860,10 +857,10 @@ prob_bvp_linear_14_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2
+\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_1)
+\end{align*}
 ```
 
 where
@@ -883,10 +880,10 @@ y_1(-1)=\exp(-2/\sqrt{\lambda}, y_1(1)=\exp(-2/\sqrt{\lambda})
 The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
-y_1(t) = \cos(\pi t)+\exp((t-1)/\sqrt{\lambda})+\exp(-(t+1)/\sqrt{\lambda})
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \cos(\pi t) + \exp((t-1)/\sqrt{\lambda}) + \exp(-(t+1)/\sqrt{\lambda}) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -921,16 +918,10 @@ prob_bvp_linear_15_tspan = (-1.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda}f(t, y_1)
-```
-
-where
-
-```math
-f(t, y_1)=ty_1
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda} t y_1
+\end{align*}
 ```
 
 with boundary condition
@@ -978,10 +969,10 @@ prob_bvp_linear_16_tspan = (0.0, 1.0)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = \frac{1}{\lambda^2}f(y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= \frac{1}{\lambda^2}f(y_1)
+\end{align*}
 ```
 
 where
@@ -1001,10 +992,10 @@ y_1(0)=0, y_1(1)=\sin(\pi/(2*\lambda))
 The analytical solution for ``t \in [0, 1]`` is
 
 ```math
-y_1(t) = \sin(\pi t/2\lambda) when 1/\lambda is odd
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \sin(\pi t/2\lambda) \text{ when } 1/\lambda \text{ is odd } \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -1041,10 +1032,10 @@ prob_bvp_linear_17_tspan = (-0.1, 0.1)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = f(y_1)
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= f(y_1)
+\end{align*}
 ```
 
 where
@@ -1064,10 +1055,10 @@ y_1(-0.1)=-0.1/\sqrt{\lambda+0.01}, y_1(0.1)=0.1/\sqrt{\lambda+0.01}
 The analytical solution for ``t \in [-0.1, 0.1]`` is
 
 ```math
-y_1(t) = t/\sqrt{\lambda+t^2}
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= t/\sqrt{\lambda+t^2} \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References
@@ -1105,16 +1096,10 @@ prob_bvp_linear_18_tspan = (0, 1)
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\frac{dy_1}{dt} = y_2
-```
-```math
-\frac{dy_2}{dt} = -\frac{1}{\lambda}y_2
-```
-
-where
-
-```math
-f(y_2)=-y_1
+\begin{align*}
+\frac{dy_1}{dt} &= y_2 \\
+\frac{dy_2}{dt} &= -\frac{1}{\lambda}y_2
+\end{align*}
 ```
 
 with boundary condition
@@ -1128,10 +1113,10 @@ y_1(0)=1, y_1(1)=0.1/\sqrt{\lambda+0.01}
 The analytical solution for ``t \in [0, 1]`` is
 
 ```math
-y_1(t) = \exp(-t/\lambda)
-```
-```math
-y_2(t) = y_1'(t)
+\begin{align*}
+y_1(t) &= \exp(-t/\lambda) \\
+y_2(t) &= y_1'(t)
+\end{align*}
 ```
 
 # References

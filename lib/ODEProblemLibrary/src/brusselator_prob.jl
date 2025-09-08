@@ -59,10 +59,10 @@ xyd_brusselator = range(0, stop = 1, length = 32)
 2D Brusselator
 
 ```math
-\frac{\partial u}{\partial t} = 1 + u^2v - 4.4u + \alpha(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}) + f(x, y, t)
-```
-```math
-\frac{\partial v}{\partial t} = 3.4u - u^2v + \alpha(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2})
+\begin{align*}
+\frac{\partial u}{\partial t} &= 1 + u^2v - 4.4u + \alpha(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}) + f(x, y, t) \\
+\frac{\partial v}{\partial t} &= 3.4u - u^2v + \alpha(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2})
+\end{align*}
 ```
 
 where
@@ -77,19 +77,19 @@ f(x, y, t) = \begin{cases}
 and the initial conditions are
 
 ```math
-u(x, y, 0) = 22\cdot y(1-y)^{3/2}
-```
-```math
-v(x, y, 0) = 27\cdot x(1-x)^{3/2}
+\begin{align*}
+u(x, y, 0) &= 22\cdot y(1-y)^{3/2} \\
+v(x, y, 0) &= 27\cdot x(1-x)^{3/2}
+\end{align*}
 ```
 
 with the periodic boundary condition
 
 ```math
-u(x+1,y,t) = u(x,y,t)
-```
-```math
-u(x,y+1,t) = u(x,y,t)
+\begin{align*}
+u(x+1,y,t) &= u(x,y,t) \\
+u(x,y+1,t) &= u(x,y,t)
+\end{align*}
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 152
@@ -130,28 +130,28 @@ end
 1D Brusselator
 
 ```math
-\frac{\partial u}{\partial t} = A + u^2v - (B+1)u + \alpha\frac{\partial^2 u}{\partial x^2}
-```
-```math
-\frac{\partial v}{\partial t} = Bu - u^2v + \alpha\frac{\partial^2 u}{\partial x^2}
+\begin{align*}
+\frac{\partial u}{\partial t} &= A + u^2v - (B+1)u + \alpha\frac{\partial^2 u}{\partial x^2} \\
+\frac{\partial v}{\partial t} &= Bu - u^2v + \alpha\frac{\partial^2 u}{\partial x^2}
+\end{align*}
 ```
 
 and the initial conditions are
 
 ```math
-u(x,0) = 1+\sin(2π x)
-```
-```math
-v(x,0) = 3
+\begin{align*}
+u(x,0) &= 1 + \sin(2π x) \\
+v(x,0) &= 3
+\end{align*}
 ```
 
 with the boundary condition
 
 ```math
-u(0,t) = u(1,t) = 1
-```
-```math
+\begin{align*}
+u(0,t) = u(1,t) = 1 \\
 v(0,t) = v(1,t) = 3
+\end{align*}
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 6

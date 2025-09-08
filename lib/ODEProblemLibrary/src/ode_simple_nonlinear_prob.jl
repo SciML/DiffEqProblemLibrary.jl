@@ -11,10 +11,10 @@ end
 Lotka-Volterra Equations (Non-stiff)
 
 ```math
-\frac{dx}{dt} = ax - bxy
-```
-```math
-\frac{dy}{dt} = -cy + dxy
+\begin{align*}
+\frac{dx}{dt} &= ax - bxy \\
+\frac{dy}{dt} &= -cy + dxy \\
+\end{align*}
 ```
 
 with initial condition ``x=y=1``
@@ -37,10 +37,10 @@ end
 Fitzhugh-Nagumo (Non-stiff)
 
 ```math
-\frac{dv}{dt} = v - \frac{v^3}{3} - w + I_{est}
-```
-```math
-τ \frac{dw}{dt} = v + a -bw
+\begin{align*}
+\frac{dv}{dt} &= v - \frac{v^3}{3} - w + I_{est} \\
+τ \frac{dw}{dt} &= v + a -bw
+\end{align*}
 ```
 
 with initial condition ``v=w=1``
@@ -72,10 +72,10 @@ end
 Van der Pol Equations
 
 ```math
-\frac{dx}{dt} = y
-```
-```math
-\frac{dy}{dt} = μ ((1-x^2)y - x)
+\begin{align*}
+\frac{dx}{dt} &= y \\
+\frac{dy}{dt} &= μ \left(\left(1-x^2\right) y - x\right)
+\end{align*}
 ```
 
 with ``μ=1.0`` and ``u_0=[\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
@@ -89,10 +89,10 @@ prob_ode_vanderpol = ODEProblem(ODEFunction(vanderpol, jac=vanderpol_jac),
 Van der Pol Equations
 
 ```math
-\frac{dx}{dt} = y
-```
-```math
-\frac{dy}{dt} = μ ((1-x^2)y - x)
+\begin{align*}
+\frac{dx}{dt} &= y \\
+\frac{dy}{dt} &= μ \left(\left(1 - x^2\right) y - x\right)
+\end{align*}
 ```
 
 with ``μ=10^6`` and ``u_0=[\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
@@ -119,13 +119,11 @@ end
 The Robertson biochemical reactions: (Stiff)
 
 ```math
-\frac{dy₁}{dt} = -k₁y₁+k₃y₂y₃
-```
-```math
-\frac{dy₂}{dt} =  k₁y₁-k₂y₂^2-k₃y₂y₃
-```
-```math
-\frac{dy₃}{dt} =  k₂y₂^2
+\begin{align*}
+\frac{dy₁}{dt} &= -k₁y₁ + k₃y₂y₃ \\
+\frac{dy₂}{dt} &=  k₁y₁ - k₂y₂^2 - k₃y₂y₃ \\
+\frac{dy₃}{dt} &=  k₂y₂^2
+\end{align*}
 ```
 
 where ``k₁=0.04``, ``k₂=3\times10^7``, ``k₃=10^4``. For details, see:
@@ -161,22 +159,18 @@ end
 The ThreeBody problem as written by Hairer: (Non-stiff)
 
 ```math
-\frac{dy₁}{dt} = y₁ + 2\frac{dy₂}{dt} - \bar{μ}\frac{y₁+μ}{D₁} - μ\frac{y₁-\bar{μ}}{D₂}
+\begin{align*}
+\frac{dy₁}{dt} &= y₁ + 2\frac{dy₂}{dt} - \bar{μ}\frac{y₁+μ}{D₁} - μ\frac{y₁-\bar{μ}}{D₂} \\
+\frac{dy₂}{dt} &= y₂ - 2\frac{dy₁}{dt} - \bar{μ}\frac{y₂}{D₁} - μ\frac{y₂}{D₂}
+\end{align*}
 ```
 ```math
-\frac{dy₂}{dt} = y₂ - 2\frac{dy₁}{dt} - \bar{μ}\frac{y₂}{D₁} - μ\frac{y₂}{D₂}
-```
-```math
-D₁ = ((y₁+μ)^2 + y₂^2)^{3/2}
-```
-```math
-D₂ = ((y₁-\bar{μ})^2+y₂^2)^{3/2}
-```
-```math
-μ = 0.012277471
-```
-```math
-\bar{μ} =1-μ
+\begin{align*}
+D₁ &= \left((y₁+μ)^2 + y₂^2\right)^{3/2} \\
+D₂ &= \left((y₁-\bar{μ})^2 + y₂^2\right)^{3/2} \\
+μ &= 0.012277471 \\
+\bar{μ} &= 1-μ
+\end{align*}
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
@@ -206,13 +200,11 @@ end
 Rigid Body Equations (Non-stiff)
 
 ```math
-\frac{dy₁}{dt}  = I₁y₂y₃
-```
-```math
-\frac{dy₂}{dt}  = I₂y₁y₃
-```
-```math
-\frac{dy₃}{dt}  = I₃y₁y₂
+\begin{align*}
+\frac{dy₁}{dt} &= I₁y₂y₃ \\
+\frac{dy₂}{dt} &= I₂y₁y₃ \\
+\frac{dy₃}{dt} &= I₃y₁y₂
+\end{align*}
 ```
 
 with ``I₁=-2``, ``I₂=1.25``, and ``I₃=-1/2``.
@@ -252,10 +244,10 @@ end
 Pleiades Problem (Non-stiff)
 
 ```math
-\frac{d^2xᵢ}{dt^2} = \sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ
-```
-```math
-\frac{d^2yᵢ}{dt^2} = \sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
+\begin{align*}
+\frac{d^2xᵢ}{dt^2} &= \sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ \\
+\frac{d^2yᵢ}{dt^2} &= \sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
+\end{align*}
 ```
 
 where
@@ -267,61 +259,26 @@ rᵢⱼ = ((xᵢ-xⱼ)^2 + (yᵢ-yⱼ)^2)^{3/2}
 and initial conditions are
 
 ```math
-x₁(0) = 3
-```
-```math
-x₂(0) = 3
-```
-```math
-x₃(0) = -1
-```
-```math
-x₄(0) = -3
-```
-```math
-x₅(0) = 2
-```
-```math
-x₆(0) = -2
-```
-```math
-x₇(0) = 2
-```
-```math
-y₁(0) = 3
-```
-```math
-y₂(0) = -3
-```
-```math
-y₃(0) = 2
-```
-```math
-y₄(0) = 0
-```
-```math
-y₅(0) = 0
-```
-```math
-y₆(0) = -4
-```
-```math
-y₇(0) = 4
+\begin{align*}
+x₁(0) &=  3, & y₁(0) &=  3, \\
+x₂(0) &=  3, & y₂(0) &= -3, \\
+x₃(0) &= -1, & y₃(0) &=  2, \\
+x₄(0) &= -3, & y₄(0) &=  0, \\
+x₅(0) &=  2, & y₅(0) &=  0, \\
+x₆(0) &= -2, & y₆(0) &= -4, \\
+x₇(0) &=  2, & y₇(0) &=  4
+\end{align*}
 ```
 
 and with ``\frac{dxᵢ(0)}{dt}=\frac{dyᵢ(0)}{dt}=0`` except for
 
 ```math
-\frac{dx₆(0)}{dt} = 1.75
-```
-```math
-\frac{dx₇(0)}{dt} = -1.5
-```
-```math
-\frac{dy₄(0)}{dt} = -1.25
-```
-```math
-\frac{dy₅(0)}{dt} = 1
+\begin{align*}
+\frac{dx₆(0)}{dt} &= 1.75, &
+\frac{dx₇(0)}{dt} &= -1.5, \\
+\frac{dy₄(0)}{dt} &= -1.25, &
+\frac{dy₅(0)}{dt} &= 1
+\end{align*}
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 244
