@@ -100,7 +100,7 @@ f(t, y)=\begin{pmatrix}
 ```
 
 ## Reference
-DAE testset: https://archimede.uniba.it/~testset/problems/transamp.php
+DAE testset: <https://archimede.uniba.it/~testset/problems/transamp.php>
 """
 prob_dae_transamp = DAEProblem(transamp, du0, u0, (0.0, 0.2))
 
