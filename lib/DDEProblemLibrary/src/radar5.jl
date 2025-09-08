@@ -217,7 +217,7 @@ const prob_dde_RADAR5_waltman_1 = prob_dde_RADAR5_waltman
 @doc raw"""
     prob_dde_RADAR5_waltman_2
 
-Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 32``,
+Same delay differential equation as [`prob_dde_RADAR5_waltman`](@ref) with ``t_0 = 32``,
 ``t_1 = 111``, and ``ϕ_0 = 0.5×10^{-4}``.
 
 # References
@@ -231,7 +231,7 @@ const prob_dde_RADAR5_waltman_2 = remake(prob_dde_RADAR5_waltman;
 @doc raw"""
     prob_dde_RADAR5_waltman_3
 
-Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 33``,
+Same delay differential equation as [`prob_dde_RADAR5_waltman`](@ref) with ``t_0 = 33``,
 ``t_1 = 145``, and ``ϕ_0 = 10^{-5}``.
 
 # References
@@ -245,7 +245,7 @@ const prob_dde_RADAR5_waltman_3 = remake(prob_dde_RADAR5_waltman;
 @doc raw"""
     prob_dde_RADAR5_waltman_4
 
-Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 34``,
+Same delay differential equation as [`prob_dde_RADAR5_waltman`](@ref) with ``t_0 = 34``,
 ``t_1 = 163``, and ``ϕ_0 = 0.75×10^{-5}``.
 
 # References
@@ -259,7 +259,7 @@ const prob_dde_RADAR5_waltman_4 = remake(prob_dde_RADAR5_waltman;
 @doc raw"""
     prob_dde_RADAR5_waltman_5
 
-Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 35``,
+Same delay differential equation as [`prob_dde_RADAR5_waltman`](@ref) with ``t_0 = 35``,
 ``t_1 = 197``, and ``ϕ_0 = 0.5×10^{-5}``.
 
 # References
