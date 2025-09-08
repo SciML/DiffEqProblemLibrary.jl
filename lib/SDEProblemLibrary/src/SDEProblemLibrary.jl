@@ -44,7 +44,7 @@ prob_sde_linear_stratonovich = SDEProblem(
 f_linear_iip(du, u, p, t) = @.(du=1.01 * u)
 σ_linear_iip(du, u, p, t) = @.(du=0.87 * u)
 @doc doc"""
-8 linear SDEs (as a 4x2 matrix):
+8 linear SDEs (as a 4×2 matrix):
 
 ```math
 du_t = αu\,dt + βu\,dW_t

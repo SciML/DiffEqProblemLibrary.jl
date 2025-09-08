@@ -29,7 +29,7 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\[2pt]
-\frac{dy_2}{dt} &= \frac{1}{\lambda} y_1
+\frac{dy_2}{dt} &= \frac{1}{λ} y_1
 \end{align*}
 ```
 
@@ -45,7 +45,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \frac{\exp(-t/\sqrt{\lambda}) - \exp((t-2)/\sqrt{\lambda})}{1-\exp(-2/\sqrt{\lambda})} \\
+y_1(t) &= \frac{\exp(-t/\sqrt{λ}) - \exp((t-2)/\sqrt{λ})}{1-\exp(-2/\sqrt{λ})} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -87,7 +87,7 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}y_2
+\frac{dy_2}{dt} &= \frac{1}{λ} y_2
 \end{align*}
 ```
 
@@ -103,7 +103,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \frac{1-\exp((t-1)/\lambda)}{1-\exp(-1/\lambda)} \\
+y_1(t) &= \frac{1-\exp((t-1)/λ)}{1-\exp(-1/λ)} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -148,14 +148,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1, y_2)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2) = -[2+\cos(\pi t)]y_2 + y_1 -(1+\lambda \pi^2)\cos(\pi t) - [2+\cos(\pi t)]\pi\sin(\pi t)
+f(t, y_1, y_2) = -[2+\cos(πt)]y_2 + y_1 -(1+λπ^2)\cos(πt) - [2+\cos(πt)]π\sin(πt)
 ```
 
 with boundary condition
@@ -170,7 +170,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) \\
+y_1(t) &= \cos(πt) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -212,14 +212,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
 \end{align*}
 ```
 
 where
 
 ```math
-f(y_1, y_2) = -y_2 + (1+\lambda) y_1
+f(y_1, y_2) = -y_2 + (1+λ) y_1
 ```
 
 with boundary condition
@@ -227,7 +227,7 @@ with boundary condition
 ```math
 \begin{align*}
 y_1(-1) &= 1 + \exp(-2), \\
-y_1(1)  &= 1 + \exp(-2(1+\lambda))
+y_1(1)  &= 1 + \exp(-2(1+λ))
 \end{align*}
 ```
 
@@ -237,7 +237,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \exp(t-1) + \exp(-(1+\lambda)(1+t)/\lambda) \\
+y_1(t) &= \exp(t-1) + \exp(-(1+λ)(1+t)/λ) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -281,14 +281,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1, y_2)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2) = ty_2 + y_1 - (1+\lambda\pi^2)\cos(\pi t) + \pi t\sin(\pi t)
+f(t, y_1, y_2) = ty_2 + y_1 - (1+λπ^2)\cos(πt) + πt\sin(πt)
 ```
 
 with boundary condition
@@ -303,7 +303,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) \\
+y_1(t) &= \cos(πt) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -346,14 +346,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_2)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_2) = ty_2 - \lambda\pi^2\cos(\pi t)-\pi t\sin(\pi t)
+f(t, y_2) = ty_2 - λπ^2\cos(πt)-πt\sin(πt)
 ```
 
 with boundary condition
@@ -368,7 +368,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) + \operatorname{erf}(t/\sqrt{2\lambda})/\operatorname{erf}(1/\sqrt{2\lambda}) \\
+y_1(t) &= \cos(πt) + \operatorname{erf}(t/\sqrt{2λ})/\operatorname{erf}(1/\sqrt{2λ}) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -418,14 +418,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(t, y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1, y_2)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2) = t y_2 + y_1 - (1+\lambda\pi^2)\cos(\pi t) + \pi t\sin(\pi t)
+f(t, y_1, y_2) = t y_2 + y_1 - (1+λπ^2)\cos(πt) + π t\sin(πt)
 ```
 
 with boundary condition
@@ -440,7 +440,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) + t + \frac{t\operatorname{erf}(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-t^2/2\lambda)}{\operatorname{erf}(t/\sqrt{2\lambda}) + \sqrt{2\lambda/\pi}\exp(-1/2\lambda)} \\
+y_1(t) &= \cos(πt) + t + \frac{t\operatorname{erf}(t/\sqrt{2λ}) + \sqrt{2λ/π}\exp(-t^2/2λ)}{\operatorname{erf}(t/\sqrt{2λ}) + \sqrt{2λ/π}\exp(-1/2λ)} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -482,7 +482,7 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{\lambda} y_2
+\frac{dy_2}{dt} &= -\frac{1}{λ} y_2
 \end{align*}
 ```
 
@@ -498,7 +498,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \frac{2 - \exp(-1/\lambda) - \exp(-t/\lambda)}{1 - \exp(-1/\lambda)} \\
+y_1(t) &= \frac{2 - \exp(-1/λ) - \exp(-t/λ)}{1 - \exp(-1/λ)} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -540,7 +540,7 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda+t^2} f(t, y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ+t^2} f(t, y_1, y_2)
 \end{align*}
 ```
 
@@ -553,7 +553,7 @@ f(t, y_1, y_2)=-4ty_2 - 2y_1
 with boundary condition
 
 ```math
-y_1(-1)=1/(1+\lambda), y_1(1)=1/(1+\lambda)
+y_1(-1)=1/(1+λ), y_1(1)=1/(1+λ)
 ```
 
 # Solution
@@ -562,7 +562,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \frac{1}{\lambda + t^2} \\
+y_1(t) &= \frac{1}{λ + t^2} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -605,7 +605,7 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= - \frac{1}{\lambda} t y_2
+\frac{dy_2}{dt} &= - \frac{1}{λ} t y_2
 \end{align*}
 ```
 
@@ -621,7 +621,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= 1 + \operatorname{erf}(t/\sqrt{2\lambda})/\operatorname{erf}(1/\sqrt{2\lambda}) \\
+y_1(t) &= 1 + \operatorname{erf}(t/\sqrt{2λ})/\operatorname{erf}(1/\sqrt{2λ}) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -663,14 +663,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(t, y_1)
+\frac{dy_2}{dt} &= \frac{1}{λ}f(t, y_1)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1) = y_1 - (1+\lambda\pi^2)\cos(\pi t)
+f(t, y_1) = y_1 - (1+λπ^2)\cos(πt)
 ```
 
 with boundary condition
@@ -685,7 +685,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) \\
+y_1(t) &= \cos(πt) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -729,14 +729,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(t, y_1)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1) = y_1 - (1+\lambda\pi^2)\cos(\pi t)
+f(t, y_1) = y_1 - (1+λπ^2)\cos(πt)
 ```
 
 with boundary condition
@@ -751,7 +751,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) + \frac{\exp((t+1)/\sqrt{\lambda}) - \exp(-(t+1))/\sqrt{\lambda}}{\exp(2/\sqrt{\lambda})-\exp(-2/\sqrt{\lambda})} \\
+y_1(t) &= \cos(πt) + \frac{\exp((t+1)/\sqrt{λ}) - \exp(-(t+1))/\sqrt{λ}}{\exp(2/\sqrt{λ}) - \exp(-2/\sqrt{λ})} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -794,14 +794,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_1)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1) = y_1 - (1+\lambda\pi^2)\cos(\pi t)
+f(t, y_1) = y_1 - (1+λπ^2)\cos(πt)
 ```
 
 with boundary condition
@@ -816,7 +816,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) + \exp(-(t+1)/\sqrt{\lambda})
+y_1(t) &= \cos(πt) + \exp(-(t+1)/\sqrt{λ})
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -859,21 +859,21 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2
-\frac{dy_2}{dt} &= \frac{1}{\lambda} f(t, y_1)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1)=y_1-(1+\lambda\pi^2)\cos(\pi t)
+f(t, y_1)=y_1-(1+λπ^2)\cos(πt)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1) = \exp(-2/\sqrt{\lambda}), \;\;
-y_1(1)  = \exp(-2/\sqrt{\lambda})
+y_1(-1) = \exp(-2/\sqrt{λ}), \;\;
+y_1(1)  = \exp(-2/\sqrt{λ})
 ```
 
 # Solution
@@ -882,7 +882,7 @@ The analytical solution for ``t \in [-1, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \cos(\pi t) + \exp((t-1)/\sqrt{\lambda}) + \exp(-(t+1)/\sqrt{\lambda}) \\
+y_1(t) &= \cos(πt) + \exp((t-1)/\sqrt{λ}) + \exp(-(t+1)/\sqrt{λ}) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -921,7 +921,7 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda} t y_1
+\frac{dy_2}{dt} &= \frac{1}{λ} t y_1
 \end{align*}
 ```
 
@@ -972,7 +972,7 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda^2}f(y_1)
+\frac{dy_2}{dt} &= \frac{1}{λ^2} f(y_1)
 \end{align*}
 ```
 
@@ -985,7 +985,7 @@ f(t, y_1) = -π^2 y_1/4
 with boundary condition
 
 ```math
-y_1(0)=0, \;\; y_1(1)=\sin(\pi/(2\lambda))
+y_1(0)=0, \;\; y_1(1)=\sin(π/(2λ))
 ```
 
 # Solution
@@ -994,7 +994,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \sin(\pi t/2\lambda) \text{ when } 1/\lambda \text{ is odd } \\
+y_1(t) &= \sin(πt/2λ) \text{ when } 1/λ \text{ is odd } \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -1042,14 +1042,14 @@ Linear boundary value problem with analytical solution, given by
 where
 
 ```math
-f(t, y_1) = -3\lambda y_1 / (\lambda+t^2)^2
+f(t, y_1) = -3λ y_1 / (λ+t^2)^2
 ```
 
 with boundary condition
 
 ```math
-y_1(-0.1) = \frac{-0.1}{\sqrt{\lambda+0.01}},
-y_1(0.1)  = \frac{ 0.1}{\sqrt{\lambda+0.01}}
+y_1(-0.1) = \frac{-0.1}{\sqrt{λ+0.01}},
+y_1(0.1)  = \frac{ 0.1}{\sqrt{λ+0.01}}
 ```
 
 # Solution
@@ -1058,7 +1058,7 @@ The analytical solution for ``t \in [-0.1, 0.1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= t/\sqrt{\lambda+t^2} \\
+y_1(t) &= t/\sqrt{λ+t^2} \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -1100,14 +1100,14 @@ Linear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{\lambda}y_2
+\frac{dy_2}{dt} &= -\frac{1}{λ} y_2
 \end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=1, \;\; y_1(1)=\frac{0.1}{\sqrt{\lambda+0.01}}
+y_1(0)=1, \;\; y_1(1)=\frac{0.1}{\sqrt{λ+0.01}}
 ```
 
 # Solution
@@ -1116,7 +1116,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \exp(-t/\lambda) \\
+y_1(t) &= \exp(-t/λ) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```

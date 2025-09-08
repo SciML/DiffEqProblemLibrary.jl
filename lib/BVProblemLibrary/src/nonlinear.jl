@@ -25,7 +25,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{\lambda}y_2
+\frac{dy_2}{dt} &= -\frac{1}{λ} y_2
 \end{align*}
 ```
 
@@ -38,7 +38,7 @@ f(y_2)=-y_1
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=0.1/\sqrt{\lambda+0.01}
+y_1(0)=1, y_1(1)=0.1/\sqrt{λ+0.01}
 ```
 
 # Solution
@@ -47,7 +47,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \exp(-t/\lambda) \\
+y_1(t) &= \exp(-t/λ) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -89,7 +89,7 @@ Nonlinear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{\lambda} f(y_2)
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_2)
 \end{align*}
 ```
 
@@ -103,8 +103,8 @@ with boundary condition
 
 ```math
 \begin{align*}
-y_1(0) &= 1 + \lambda\ln\cosh(-0.745/\lambda), \\
-y_1(1) &= 1 + \lambda\ln\cosh(0.255/\lambda)
+y_1(0) &= 1 + λ \ln\cosh(-0.745/λ), \\
+y_1(1) &= 1 + λ \ln\cosh(0.255/λ)
 \end{align*}
 ```
 
@@ -114,7 +114,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= 1 + \lambda\ln\cosh((t-0.745)/\lambda) \\
+y_1(t) &= 1 + λ \ln\cosh((t-0.745)/λ) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -157,20 +157,20 @@ Nonlinear boundary value problem with analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{\lambda}f(y, y_1)
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y, y_1)
 \end{align*}
 ```
 
 where
 
 ```math
-f(y_1) = y_1 + y_1^2 - \exp(-2t/\sqrt{\lambda})
+f(y_1) = y_1 + y_1^2 - \exp(-2t/\sqrt{λ})
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=\exp(-1/\sqrt{\lambda})
+y_1(0)=1, y_1(1)=\exp(-1/\sqrt{λ})
 ```
 
 # Solution
@@ -179,7 +179,7 @@ The analytical solution for ``t \in [0, 1]`` is
 
 ```math
 \begin{align*}
-y_1(t) &= \exp(-t/\sqrt{\lambda}) \\
+y_1(t) &= \exp(-t/\sqrt{λ}) \\
 y_2(t) &= y_1'(t)
 \end{align*}
 ```
@@ -218,7 +218,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{\lambda}f(y_1, y_2)
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1, y_2)
 \end{align*}
 ```
 
@@ -272,14 +272,14 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{\lambda} f(y_1)
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1)
 \end{align*}
 ```
 
 where
 
 ```math
-f(y_1) = \lambda\sinh(\lambda z)
+f(y_1) = λ\sinh(λz)
 ```
 
 with boundary condition
@@ -332,14 +332,14 @@ The steady state Navier-Stokes equations generate a second order differential eq
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{\lambda}f(y_1)
+\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1)
 \end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2) = \left(\frac{1+\gamma}{2}-\lambda A'(t)\right) y_1y_2 - \frac{y_2}{y_1} - \frac{A'(t)}{A(t)} \left(1 - \frac{\gamma-1}{2} y_1^2\right)
+f(t, y_1, y_2) = \left(\frac{1+γ}{2} - λ A'(t)\right) y_1 y_2 - \frac{y_2}{y_1} - \frac{A'(t)}{A(t)} \left(1 - \frac{γ-1}{2} y_1^2\right)
 ```
 
 with boundary condition
@@ -386,7 +386,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
 \end{align*}
 ```
 
@@ -440,7 +440,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
 \end{align*}
 ```
 
@@ -494,7 +494,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(y_1, y_2) \\
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2) \\
 \end{align*}
 ```
 
@@ -548,7 +548,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
 \end{align*}
 ```
 
@@ -602,7 +602,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
 \end{align*}
 ```
 
@@ -656,14 +656,14 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{\lambda}f(y_1, y_2)
+\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
 \end{align*}
 ```
 
 where
 
 ```math
-f(y_1, y_2) = -y_1y_2+y_1
+f(y_1, y_2) = -y_1 y_2 + y_1
 ```
 
 with boundary condition
@@ -717,7 +717,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 \begin{align*}
 \frac{dy_1}{dt} &= \sin(y_2) \\
 \frac{dy_2}{dt} &= y_3 \\
-\frac{dy_3}{dt} &= -y_4/\lambda \\
+\frac{dy_3}{dt} &= -y_4/λ \\
 \frac{dy_4}{dt} &= f(y_1, y_2, y_3, y_4)
 \end{align*}
 ```
@@ -725,7 +725,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 where
 
 ```math
-f(z, \theta, M, Q) = \frac{1}{\lambda} [(z-1)\cos\theta-M\sec\theta] + \lambda Q\tan\theta
+f(z, θ, M, Q) = \frac{1}{λ} [(z-1) \cos θ - M \sec θ] + λ Q \tan θ
 ```
 
 with boundary condition
@@ -781,7 +781,7 @@ Nonlinear boundary value problem with no analytical solution, given by
 \frac{dy_1}{dt} &= y_2 \\
 \frac{dy_2}{dt} &= y_3 \\
 \frac{dy_3}{dt} &= y_4 \\
-\frac{dy_4}{dt} &= \lambda(y_2 y_3 - y_1 y_4)
+\frac{dy_4}{dt} &= λ(y_2 y_3 - y_1 y_4)
 \end{align*}
 ```
 
@@ -839,11 +839,11 @@ Nonlinear boundary value problem with no analytical solution, given by
 ```math
 \begin{align*}
 \frac{dy_1}{dt} &= y_2, &
-\frac{dy_2}{dt} &= \frac{1}{\lambda}y_1y_4 - y_3y_2, \\
+\frac{dy_2}{dt} &= \frac{1}{λ}y_1y_4 - y_3y_2, \\
 \frac{dy_3}{dt} &= y_4, &
 \frac{dy_4}{dt} &= y_5, \\
 \frac{dy_5}{dt} &= y_6, &
-\frac{dy_6}{dt} &= \frac{1}{\lambda}(-y_3y_6-y_1y_2)
+\frac{dy_6}{dt} &= \frac{1}{λ}(-y_3y_6-y_1y_2)
 \end{align*}
 ```
 

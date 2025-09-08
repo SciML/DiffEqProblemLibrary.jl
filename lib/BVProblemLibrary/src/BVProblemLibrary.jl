@@ -224,11 +224,11 @@ Given by
 \begin{align*}
 \frac{dz_1}{dt} &= z_3 \frac{V_c}{h} \\
 \frac{dz_2}{dt} &= z_4 \frac{V_c}{h} \\
-\frac{dz_3}{dt} &= \frac{f}{V_c} \left(-\frac{z_6}{z_6^2+z_7^2} - V_c\eta\exp(-z_2\beta)z_3\sqrt{z_3^3+z_4^2}\right)/m \\
-\frac{dz_4}{dt} &= \frac{f}{V_c} \left(-\frac{z_7}{z_6^2+z_7^2} - V_c\eta\exp(-z_2\beta)z_4\sqrt{z_3^3+z_4^2}\right)/m - g_{accel}/V_c \\
-\frac{dz_5}{dt} &= -\eta\beta \exp(-z_2\beta) (z_6z_3+z_7z_4)\sqrt{z_3^3+z_4^2}\frac{V_c}{m} \\
-\frac{dz_6}{dt} &= \eta \exp(-z_2\beta) \left(z_6(2z_3^2+z_4^2)+z_7z_3z_4\right) V_c/\sqrt{z_3^2+z_4^2}/m \\
-\frac{dz_7}{dt} &= \eta \exp(-z_2\beta) \left(z_7(z_3^2+2z_4^2)+z_6z_3z_4\right) V_c/\sqrt{z_3^2+z_4^2}/m \\
+\frac{dz_3}{dt} &= \frac{f}{V_c} \left(-\frac{z_6}{z_6^2+z_7^2} - V_c η\exp(-z_2 β) z_3\sqrt{z_3^3+z_4^2}\right)/m \\
+\frac{dz_4}{dt} &= \frac{f}{V_c} \left(-\frac{z_7}{z_6^2+z_7^2} - V_c η\exp(-z_2 β) z_4\sqrt{z_3^3+z_4^2}\right)/m - g_{accel}/V_c \\
+\frac{dz_5}{dt} &= -ηβ \exp(-z_2 β) (z_6z_3+z_7z_4)\sqrt{z_3^3+z_4^2}\frac{V_c}{m} \\
+\frac{dz_6}{dt} &= η \exp(-z_2 β) \left(z_6(2z_3^2+z_4^2)+z_7z_3z_4\right) V_c/\sqrt{z_3^2+z_4^2}/m \\
+\frac{dz_7}{dt} &= η \exp(-z_2 β) \left(z_7(z_3^2+2z_4^2)+z_6z_3z_4\right) V_c/\sqrt{z_3^2+z_4^2}/m \\
 \end{align*}
 ```
 
@@ -287,9 +287,9 @@ Given by
 
 ```math
 \begin{align*}
-\frac{dy_1}{dt} &= \mu - \beta(t) y_1 y_3 \\
-\frac{dy_2}{dt} &= \beta(t)y_1y_3 - \frac{y_2}{\lambda} \\
-\frac{dy_3}{dt} &= \frac{y_2}{\lambda} - \frac{y_3}{\eta}
+\frac{dy_1}{dt} &= μ - β(t) y_1 y_3 \\
+\frac{dy_2}{dt} &= β(t) y_1 y_3 - \frac{y_2}{λ} \\
+\frac{dy_3}{dt} &= \frac{y_2}{λ} - \frac{y_3}{η}
 \end{align*}
 ```
 

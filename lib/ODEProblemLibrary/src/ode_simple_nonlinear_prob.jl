@@ -126,7 +126,7 @@ The Robertson biochemical reactions: (Stiff)
 \end{align*}
 ```
 
-where ``k₁=0.04``, ``k₂=3\times10^7``, ``k₃=10^4``. For details, see:
+where ``k₁=0.04``, ``k₂=3×10^7``, ``k₃=10^4``. For details, see:
 
 Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 

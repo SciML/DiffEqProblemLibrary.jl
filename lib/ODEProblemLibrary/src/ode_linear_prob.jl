@@ -40,7 +40,7 @@ prob_ode_bigfloatlinear = ODEProblem(ODEFunction(linear, analytic = linear_analy
 f_2dlinear = (du, u, p, t) -> (@. du = p * u)
 f_2dlinear_analytic = (u0, p, t) -> @. u0 * exp(p * t)
 """
-4x2 version of the Linear ODE
+4×2 version of the Linear ODE
 
 ```math
 \\frac{du}{dt} = αu
@@ -59,7 +59,7 @@ prob_ode_2Dlinear = ODEProblem(ODEFunction(f_2dlinear, analytic = f_2dlinear_ana
     rand(4, 2), (0.0, 1.0), 1.01)
 
 """
-100x100 version of the Linear ODE
+100×100 version of the Linear ODE
 
 ```math
 \\frac{du}{dt} = αu
@@ -79,7 +79,7 @@ prob_ode_large2Dlinear = ODEProblem(
     rand(100, 100), (0.0, 1.0), 1.01)
 
 """
-4x2 version of the Linear ODE
+4×2 version of the Linear ODE
 
 ```math
 \\frac{du}{dt} = αu
@@ -102,7 +102,7 @@ prob_ode_bigfloat2Dlinear = ODEProblem(
 
 f_2dlinear_notinplace = (u, p, t) -> p * u
 """
-4x2 version of the Linear ODE
+4×2 version of the Linear ODE
 
 ```math
 \\frac{du}{dt} = αu

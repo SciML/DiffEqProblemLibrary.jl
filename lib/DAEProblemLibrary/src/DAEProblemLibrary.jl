@@ -26,7 +26,7 @@ The Robertson biochemical reactions in DAE form
 1 &= y₁ + y₂ + y₃
 \end{align*}
 ```
-where ``k₁=0.04``, ``k₂=3\times10^7``, ``k₃=10^4``. For details, see:
+where ``k₁=0.04``, ``k₂=3×10^7``, ``k₃=10^4``. For details, see:
 Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
 Usually solved on ``[0,10^{11}]``
 """
@@ -89,12 +89,12 @@ M = \begin{pmatrix}
 ```math
 f(t, y)=\begin{pmatrix}
 -\frac{U_e(t)}{R_0} + \frac{y_1}{R_0} \\
--\frac{U_b}{R_2} + y_2\left(\frac{1}{R_1}+\frac{1}{R_2}\right) - (\alpha-1) g\left(y_2-y_3\right) \\
+-\frac{U_b}{R_2} + y_2\left(\frac{1}{R_1}+\frac{1}{R_2}\right) - (α-1) g\left(y_2-y_3\right) \\
 -g\left(y_2-y_3\right) + \frac{y_3}{R_3} \\
--\frac{U_b}{R_4} + \frac{y_4}{R_4} + \alpha g\left(y_2-y_3\right) \\
--\frac{U_b}{R_6} + y_5\left(\frac{1}{R_5}+\frac{1}{R_6}\right) - (\alpha-1) g\left(y_5-y_6\right) \\
+-\frac{U_b}{R_4} + \frac{y_4}{R_4} + α g\left(y_2-y_3\right) \\
+-\frac{U_b}{R_6} + y_5\left(\frac{1}{R_5}+\frac{1}{R_6}\right) - (α-1) g\left(y_5-y_6\right) \\
 -g\left(y_5-y_6\right) + \frac{y_6}{R_7} \\
--\frac{U_b}{R_8} + \frac{y_7}{R_8} + \alpha g\left(y_5-y_6\right) \\
+-\frac{U_b}{R_8} + \frac{y_7}{R_8} + α g\left(y_5-y_6\right) \\
 \frac{y_8}{R_9}
 \end{pmatrix}
 ```

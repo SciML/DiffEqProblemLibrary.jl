@@ -12,8 +12,8 @@ Delay differential equation model from chemical kinetics, given by
 
 ```math
 \begin{align*}
-  u_1'(t) &= - k_1 A u_2(t) - k_2 u_1(t) u_2(t - \tau) + k_3 B u_1(t) - 2 k_4 u_1(t)^2, \\
-  u_2'(t) &= - k_1 A u_2(t) - k_2 u_1(t) u_2(t - \tau) + f k_3 B u_1(t),
+  u_1'(t) &= - k_1 A u_2(t) - k_2 u_1(t) u_2(t - τ) + k_3 B u_1(t) - 2 k_4 u_1(t)^2, \\
+  u_2'(t) &= - k_1 A u_2(t) - k_2 u_1(t) u_2(t - τ) + f k_3 B u_1(t),
 \end{align*}
 ```
 
@@ -21,13 +21,13 @@ for ``t \in [0, 100.5]`` with history function
 
 ```math
 \begin{align*}
-  \phi_1(t) &= 10^{-10}, \\
-  \phi_2(t) &= 10^{-5},
+  ϕ_1(t) &= 10^{-10}, \\
+  ϕ_2(t) &= 10^{-5},
 \end{align*}
 ```
 
-for ``t \leq 0``, where ``k_1 = 1.34``, ``k_2 = 1.6×10^9``, ``k_3 = 8000``, ``k_4 = 4×10^7``,
-``k_5 = 1``, ``f = 1``, ``A = 0.06``, ``B = 0.06``, and ``\tau = 0.15``.
+for ``t ≤ 0``, where ``k_1 = 1.34``, ``k_2 = 1.6×10^9``, ``k_3 = 8000``, ``k_4 = 4×10^7``,
+``k_5 = 1``, ``f = 1``, ``A = 0.06``, ``B = 0.06``, and ``τ = 0.15``.
 
 # References
 
@@ -76,15 +76,15 @@ by
 
 ```math
 \begin{align*}
-  u_1'(t) &= - a u_1(t) + b u_2(t - \tau) u_3(t), \\
-  u_2'(t) &= a u_1(t) - b u_2(t - \tau) u_3(t) - c u_2(t)^2, \\
+  u_1'(t) &= - a u_1(t) + b u_2(t - τ) u_3(t), \\
+  u_2'(t) &=   a u_1(t) - b u_2(t - τ) u_3(t) - c u_2(t)^2, \\
   u_3'(t) &= c u_2(t)^2,
 \end{align*}
 ```
 
-for ``t \in [0, 10^{10}]`` with history function ``\phi_1(0) = 1``, ``\phi_2(t) = 0`` for
-``t \in [-\tau, 0]``, and ``\phi_3(0) = 0``, where ``a = 0.04``, ``b = 10_000``,
-``c = 3×10^7``, and ``\tau = 0.01``.
+for ``t \in [0, 10^{10}]`` with history function ``ϕ_1(0) = 1``, ``ϕ_2(t) = 0`` for
+``t \in [-τ, 0]``, and ``ϕ_3(0) = 0``, where ``a = 0.04``, ``b = 10_000``,
+``c = 3×10^7``, and ``τ = 0.01``.
 
 # References
 
@@ -132,11 +132,11 @@ Delay differential equation model of antibody production, given by
 ```math
 \begin{align*}
   u_1'(t) &= - r u_1(t) u_2(t) - s u_1(t) u_4(t), \\
-  u_2'(t) &= - r u_1(t) u_2(t) + \alpha r u_1(u_5(t)) u_2(u_5(t)) [t \geq t_0], \\
+  u_2'(t) &= - r u_1(t) u_2(t) + α r u_1(u_5(t)) u_2(u_5(t)) & [t ≥ t_0], \\
   u_3'(t) &= r u_1(t) u_2(t), \\
-  u_4'(t) &= - s u_1(t) u_4(t) - \gamma u_4(t) + \beta r u_1(u_6(t)) u_2(u_6(t)) [t > t_1], \\
-  u_5'(t) &= [t \geq t_0] \frac{u_1(t) u_2(t) + u_3(t)}{u_1(u_5(t)) u_2(u_5(t)) + u_3(u_5(t))}, \\
-  u_6'(t) &= [t \geq t_1] \frac{10^{-12} + u_2(t) + u_3(t)}{10^{-12} + u_2(u_6(t)) + u_3(u_6(t))},
+  u_4'(t) &= - s u_1(t) u_4(t) - γ u_4(t) + β r u_1(u_6(t)) u_2(u_6(t)) & [t > t_1], \\
+  u_5'(t) &= [t ≥ t_0] \frac{u_1(t) u_2(t) + u_3(t)}{u_1(u_5(t)) u_2(u_5(t)) + u_3(u_5(t))}, \\
+  u_6'(t) &= [t ≥ t_1] \frac{10^{-12} + u_2(t) + u_3(t)}{10^{-12} + u_2(u_6(t)) + u_3(u_6(t))},
 \end{align*}
 ```
 
@@ -144,17 +144,17 @@ for ``t \in [0, 300]`` with history function
 
 ```math
 \begin{align*}
-  \phi_1(t) &= \phi_0, &
-  \phi_2(t) &= 10^{-15}, \\
-  \phi_3(t) &= 0, &
-  \phi_4(t) &= 0, \\
-  \phi_5(t) &= 0, &
-  \phi_6(t) &= 0,
+  ϕ_1(t) &= ϕ_0, &
+  ϕ_2(t) &= 10^{-15}, \\
+  ϕ_3(t) &= 0, &
+  ϕ_4(t) &= 0, \\
+  ϕ_5(t) &= 0, &
+  ϕ_6(t) &= 0,
 \end{align*}
 ```
 
-for ``t \leq 0``, where ``\alpha = 1.8``, ``\beta = 20``, ``\gamma = 0.002``, ``r = 5\times10^4``,
-``s = 10^5``, ``t_0 = 32``, ``t_1 = 119``, and ``\phi_0 = 0.75×10^{-4}``.
+for ``t ≤ 0``, where ``α = 1.8``, ``β = 20``, ``γ = 0.002``, ``r = 5×10^4``,
+``s = 10^5``, ``t_0 = 32``, ``t_1 = 119``, and ``ϕ_0 = 0.75×10^{-4}``.
 
 # References
 
@@ -218,7 +218,7 @@ const prob_dde_RADAR5_waltman_1 = prob_dde_RADAR5_waltman
     prob_dde_RADAR5_waltman_2
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 32``,
-``t_1 = 111``, and ``\phi_0 = 0.5×10^{-4}``.
+``t_1 = 111``, and ``ϕ_0 = 0.5×10^{-4}``.
 
 # References
 
@@ -232,7 +232,7 @@ const prob_dde_RADAR5_waltman_2 = remake(prob_dde_RADAR5_waltman;
     prob_dde_RADAR5_waltman_3
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 33``,
-``t_1 = 145``, and ``\phi_0 = 10^{-5}``.
+``t_1 = 145``, and ``ϕ_0 = 10^{-5}``.
 
 # References
 
@@ -246,7 +246,7 @@ const prob_dde_RADAR5_waltman_3 = remake(prob_dde_RADAR5_waltman;
     prob_dde_RADAR5_waltman_4
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 34``,
-``t_1 = 163``, and ``\phi_0 = 0.75×10^{-5}``.
+``t_1 = 163``, and ``ϕ_0 = 0.75×10^{-5}``.
 
 # References
 
@@ -260,7 +260,7 @@ const prob_dde_RADAR5_waltman_4 = remake(prob_dde_RADAR5_waltman;
     prob_dde_RADAR5_waltman_5
 
 Same delay differential equation as [`prob_dde_RADAR5_waltman`] with ``t_0 = 35``,
-``t_1 = 197``, and ``\phi_0 = 0.5×10^{-5}``.
+``t_1 = 197``, and ``ϕ_0 = 0.5×10^{-5}``.
 
 # References
 
