@@ -39,7 +39,7 @@ export
 # RADAR5 problems
 export prob_dde_RADAR5_oregonator, prob_dde_RADAR5_robertson, prob_dde_RADAR5_waltman
 
-# QS exaple
+# QS example
 export prob_dde_qs
 
 include("constant_delays.jl")

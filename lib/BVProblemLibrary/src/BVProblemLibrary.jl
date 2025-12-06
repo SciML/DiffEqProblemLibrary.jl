@@ -216,7 +216,7 @@ flat_earth_drag_tspan = (0, 100)
 @doc raw"""
     flat_earth_drag
 
-Launch into circular orbit from a flat Earth including athmosferic drag.
+Launch into circular orbit from a flat Earth including atmospheric drag.
 
 Given by
 

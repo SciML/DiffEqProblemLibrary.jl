@@ -241,13 +241,13 @@ function oval2ModelExample(; largeFluctuations = false, useBigs = false, noiseLe
     kd_tgfR = 1.0
     kd_zeb = 0.1
     kd_Op = 10.0
-    lamda1 = 0.5
-    lamda2 = 0.5
-    lamda3 = 0.5
-    lamda4 = 0.5
-    lamda5 = 0.5
-    lamdas = 0.5
-    lamdatgfR = 0.8
+    lambda1 = 0.5
+    lambda2 = 0.5
+    lambda3 = 0.5
+    lambda4 = 0.5
+    lambda5 = 0.5
+    lambdas = 0.5
+    lambdatgfR = 0.8
     nO = 6.0
     nSO = 2.0
     nzo = 2.0
@@ -279,7 +279,7 @@ function oval2ModelExample(; largeFluctuations = false, useBigs = false, noiseLe
                 (1 + y[2] / J_snail1) - kd_snail * (y[1] - y[4]) - kd_SR1 * y[4]
         dy[2] = k_SNAIL * (y[1] - y[4]) - kd_SNAIL * y[2]
         dy[3] = k0_34 + k_34 / (1 + ((y[2] / J1_34))^2 + ((y[6] / J2_34))^2) -
-                kd_34 * (y[3] - y[4]) - kd_SR1 * y[4] + lamdas * kd_SR1 * y[4]
+                kd_34 * (y[3] - y[4]) - kd_SR1 * y[4] + lambdas * kd_SR1 * y[4]
         dy[4] = Timescale * (Ks * (y[1] - y[4]) * (y[3] - y[4]) - y[4])
         dy[5] = k0_zeb +
                 k_zeb * ((y[2] / J_zeb))^2 /
@@ -294,9 +294,9 @@ function oval2ModelExample(; largeFluctuations = false, useBigs = false, noiseLe
                  (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
                  y[15]) - dk_ZR1 * 5 * y[8] - dk_ZR2 * 2 * 10 * y[9] -
                 dk_ZR3 * 3 * 10 * y[10] - dk_ZR4 * 4 * 5 * y[11] - dk_ZR5 * 5 * y[12] +
-                lamda1 * dk_ZR1 * 5 * y[8] + lamda2 * dk_ZR2 * 2 * 10 * y[9] +
-                lamda3 * dk_ZR3 * 3 * 10 * y[10] + lamda4 * dk_ZR4 * 4 * 5 * y[11] +
-                lamda5 * dk_ZR5 * 5 * y[12] - kd_tgfR * y[15] + lamdatgfR * kd_tgfR * y[15]
+                lambda1 * dk_ZR1 * 5 * y[8] + lambda2 * dk_ZR2 * 2 * 10 * y[9] +
+                lambda3 * dk_ZR3 * 3 * 10 * y[10] + lambda4 * dk_ZR4 * 4 * 5 * y[11] +
+                lambda5 * dk_ZR5 * 5 * y[12] - kd_tgfR * y[15] + lambdatgfR * kd_tgfR * y[15]
         dy[8] = Timescale * (K1 *
                  (y[7] -
                   (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -

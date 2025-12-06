@@ -9,7 +9,7 @@ RuntimeGeneratedFunctions.init(@__MODULE__)
 export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
 # examples mixing mass action and constant rate jumps
        prob_jump_osc_mixed_jumptypes,
-# examples used in published benchmarks / comparisions
+# examples used in published benchmarks / comparisons
        prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor,
 # examples approximating diffusion by continuous time random walks
        prob_jump_diffnetwork
@@ -231,7 +231,7 @@ prob = DiscreteProblem(rn, u0, (0.0, tf), rnpar, eval_module = @__MODULE__)
 """
 Negative feedback autoregulatory gene expression model. Dimer is the repressor.
 Taken from Marchetti, Priami and Thanh,
-"Simulation Algorithms for Comptuational Systems Biology",
+"Simulation Algorithms for Computational Systems Biology",
 Springer (2017).
 """
 prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
