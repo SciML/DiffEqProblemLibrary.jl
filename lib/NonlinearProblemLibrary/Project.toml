@@ -1,6 +1,6 @@
 name = "NonlinearProblemLibrary"
 uuid = "b7050fa9-e91f-4b37-bcee-a89a063da141"
-version = "0.1.3"
+version = "0.1.4"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
