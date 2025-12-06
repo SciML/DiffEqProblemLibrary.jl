@@ -38,6 +38,7 @@ sde = "sde"
 dde = "dde"
 bvp = "bvp"
 ivp = "ivp"
+strat = "strat"
 
 # Common abbreviations
 tol = "tol"
