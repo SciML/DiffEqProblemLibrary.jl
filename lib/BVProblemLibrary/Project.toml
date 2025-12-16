@@ -1,6 +1,6 @@
 name = "BVProblemLibrary"
 uuid = "ded0fc24-dfea-4565-b1d9-79c027d14d84"
-version = "0.1.7"
+version = "0.1.8"
 
 [deps]
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
