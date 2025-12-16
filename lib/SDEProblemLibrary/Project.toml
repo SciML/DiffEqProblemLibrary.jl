@@ -1,6 +1,6 @@
 name = "SDEProblemLibrary"
 uuid = "c72e72a9-a271-4b2b-8966-303ed956772e"
-version = "1.0.1"
+version = "1.1.0"
 
 [deps]
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
