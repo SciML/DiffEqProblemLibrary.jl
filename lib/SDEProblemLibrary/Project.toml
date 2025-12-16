@@ -9,7 +9,7 @@ RuntimeGeneratedFunctions = "7e49a35a-f44a-4d26-94aa-eba1b4ca6b47"
 SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
 
 [compat]
-Aqua = "0.5"
+Aqua = "0.8"
 DiffEqBase = "6"
 RuntimeGeneratedFunctions = "0.5"
 SciMLBase = "2.0.1"
