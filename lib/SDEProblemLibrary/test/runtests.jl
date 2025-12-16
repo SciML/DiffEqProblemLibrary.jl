@@ -5,4 +5,4 @@ using SDEProblemLibrary
 # Ambiguity checks are disabled since tests fail due to ambiguities
 # in dependencies
 using Aqua
-Aqua.test_all(SDEProblemLibrary; ambiguities = false)
+Aqua.test_all(SDEProblemLibrary; ambiguities = false, persistent_tasks = false)

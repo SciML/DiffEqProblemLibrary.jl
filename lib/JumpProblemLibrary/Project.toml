@@ -8,7 +8,7 @@ DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
 RuntimeGeneratedFunctions = "7e49a35a-f44a-4d26-94aa-eba1b4ca6b47"
 
 [compat]
-Aqua = "0.5"
+Aqua = "0.8"
 Catalyst = "15"
 DiffEqBase = "6"
 RuntimeGeneratedFunctions = "0.5"

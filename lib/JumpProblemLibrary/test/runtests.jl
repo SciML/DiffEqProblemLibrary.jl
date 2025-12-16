@@ -5,4 +5,4 @@ using JumpProblemLibrary
 # Ambiguity checks are disabled since tests fail due to ambiguities
 # in dependencies
 using Aqua
-Aqua.test_all(JumpProblemLibrary; ambiguities = false)
+Aqua.test_all(JumpProblemLibrary; ambiguities = false, persistent_tasks = false)
