@@ -429,16 +429,17 @@ p22_dict = Dict("n" => n, "start" => x_start, "sol" => x_sol,
 
 # ------------------------------------- Problem 23 -----------------------------------------
 @inbounds function p23_f!(out, x, p = nothing)
+    n = length(x)
     c = 0.9
-    out[1:n] = x[1:n]
-    μ = zeros(n)
-    for i in 1:n
-        μ[i] = (2 * i) / (2 * n)
+    @simd for i in 1:n
+        out[i] = x[i]
     end
     for i in 1:n
+        μi = i / n  # μ[i] = (2*i)/(2*n) = i/n
         s = 0.0
         for j in 1:n
-            s = s + (μ[i] * x[j]) / (μ[i] + μ[j])
+            μj = j / n
+            s = s + (μi * x[j]) / (μi + μj)
         end
         term = 1.0 - c * s / (2 * n)
         out[i] -= 1.0 / term
