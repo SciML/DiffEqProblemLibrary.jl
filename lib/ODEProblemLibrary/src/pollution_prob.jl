@@ -52,7 +52,7 @@ function pollution(dy, y, p, t)
     r25 = k25 * y[20]
 
     dy[1] = -r1 - r10 - r14 - r23 - r24 +
-            r2 + r3 + r9 + r11 + r12 + r22 + r25
+        r2 + r3 + r9 + r11 + r12 + r22 + r25
     dy[2] = -r2 - r3 - r9 - r12 + r1 + r21
     dy[3] = -r15 + r1 + r17 + r19 + r22
     dy[4] = -r2 - r16 - r17 - r23 + r15
@@ -71,7 +71,7 @@ function pollution(dy, y, p, t)
     dy[17] = -r20
     dy[18] = r20
     dy[19] = -r21 - r22 - r24 + r23 + r25
-    dy[20] = -r25 + r24
+    return dy[20] = -r25 + r24
 end
 
 function pollution_jac(J, y, p, t)
@@ -241,5 +241,7 @@ Analytical Jacobian is included.
 Reference: [pollu.pdf](https://archimede.dm.uniba.it/~testset/report/pollu.pdf)
 Notebook: [Pollution.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Pollution.ipynb)
 """
-prob_ode_pollution = ODEProblem(ODEFunction(pollution, jac = pollution_jac),
-    u0, (0.0, 60.0))
+prob_ode_pollution = ODEProblem(
+    ODEFunction(pollution, jac = pollution_jac),
+    u0, (0.0, 60.0)
+)

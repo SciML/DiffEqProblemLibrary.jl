@@ -26,17 +26,19 @@ prob_dde_DDETST_A1
 function f_dde_DDETST_A1(u, h, p, t)
     z = h(p, t - 14)
 
-    0.2 * z / (1 + z^10) - 0.1 * u
+    return 0.2 * z / (1 + z^10) - 0.1 * u
 end
 
 function h_dde_DDETST_A1(p, t)
     t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-    0.5
+    return 0.5
 end
 
-const prob_dde_DDETST_A1 = DDEProblem(f_dde_DDETST_A1, h_dde_DDETST_A1, (0.0, 500.0);
-    constant_lags = [14])
+const prob_dde_DDETST_A1 = DDEProblem(
+    f_dde_DDETST_A1, h_dde_DDETST_A1, (0.0, 500.0);
+    constant_lags = [14]
+)
 
 # Problem A2
 @doc raw"""
@@ -75,13 +77,13 @@ function f_dde_DDETST_A2!(du, u, h, p, t)
     du[1] = 1.1 / (1 + sqrt(10) * (h(p, t - 20; idxs = 1)^(5 / 4))) - z
     du[2] = 10 * z - 2.43 * u[2]
 
-    nothing
+    return nothing
 end
 
 function h_dde_DDETST_A2(p, t; idxs::Union{Nothing, Int} = nothing)
     t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-    if idxs === nothing
+    return if idxs === nothing
         [1.05767027 / 3, 1.030713491 / 3]
     elseif idxs == 1
         1.05767027 / 3
@@ -92,8 +94,10 @@ function h_dde_DDETST_A2(p, t; idxs::Union{Nothing, Int} = nothing)
     end
 end
 
-const prob_dde_DDETST_A2 = DDEProblem(f_dde_DDETST_A2!, h_dde_DDETST_A2, (0.0, 100.0);
-    constant_lags = [20])
+const prob_dde_DDETST_A2 = DDEProblem(
+    f_dde_DDETST_A2!, h_dde_DDETST_A2, (0.0, 100.0);
+    constant_lags = [20]
+)
 
 # Problem B2
 @doc raw"""
@@ -123,27 +127,30 @@ approach, ACM Trans. Math. Soft. (1), pp. 357-368.
 prob_dde_DDETST_B1
 
 function f_dde_DDETST_B1(u, h, p, t)
-    1 - h(p, exp(1 - 1 / t))
+    return 1 - h(p, exp(1 - 1 / t))
 end
 
 function h_dde_DDETST_B1(p, t)
     0 < t ≤ 0.1 || error("history function is only implemented for t ∈ (0, 0.1]")
 
-    log(t)
+    return log(t)
 end
 
 function fanalytic_dde_DDETST_B1(u₀, ::typeof(h_dde_DDETST_B1), p, t)
     0.1 ≤ t ≤ 10 && u₀ == log(0.1) ||
         error("analytical solution is only implemented for t ∈ [0.1, 10] and u(0) = log 0.1")
 
-    log(t)
+    return log(t)
 end
 
 const prob_dde_DDETST_B1 = DDEProblem(
-    DDEFunction(f_dde_DDETST_B1;
-        analytic = fanalytic_dde_DDETST_B1),
+    DDEFunction(
+        f_dde_DDETST_B1;
+        analytic = fanalytic_dde_DDETST_B1
+    ),
     h_dde_DDETST_B1, (0.1, 10.0);
-    dependent_lags = ((u, p, t) -> t - exp(1 - 1 / t),))
+    dependent_lags = ((u, p, t) -> t - exp(1 - 1 / t),)
+)
 
 # Problem B2
 @doc raw"""
@@ -178,7 +185,7 @@ Radford University.
 prob_dde_DDETST_B2
 
 function f_dde_DDETST_B2(u, h, p, t)
-    if h(p, t / 2) < 0
+    return if h(p, t / 2) < 0
         1 - u
     else
         -1 - u
@@ -188,14 +195,14 @@ end
 function h_dde_DDETST_B2(p, t)
     t == 0 || error("history function is only implemented for t = 0")
 
-    1.0
+    return 1.0
 end
 
 function fanalytic_dde_DDETST_B2(u₀, ::typeof(h_dde_DDETST_B2), p, t)
     0 ≤ t ≤ 2 * log(66) && u₀ == 1 ||
         error("analytical solution is only implemented for t ∈ [0, 2 log(66)] and u(0) = 1")
 
-    if t ≤ 2 * log(2)
+    return if t ≤ 2 * log(2)
         2 * exp(-t) - 1
     elseif t ≤ 2 * log(6)
         1 - 6 * exp(-t)
@@ -205,10 +212,13 @@ function fanalytic_dde_DDETST_B2(u₀, ::typeof(h_dde_DDETST_B2), p, t)
 end
 
 const prob_dde_DDETST_B2 = DDEProblem(
-    DDEFunction(f_dde_DDETST_B2;
-        analytic = fanalytic_dde_DDETST_B2),
+    DDEFunction(
+        f_dde_DDETST_B2;
+        analytic = fanalytic_dde_DDETST_B2
+    ),
     h_dde_DDETST_B2, (0.0, 2 * log(66));
-    dependent_lags = ((u, p, t) -> t / 2,))
+    dependent_lags = ((u, p, t) -> t / 2,)
+)
 
 # Problem C1
 @doc raw"""
@@ -234,11 +244,13 @@ f_dde_DDETST_C1(u, h, p, t) = -2 * h(p, t - 1 - abs(u)) * (1 - u^2)
 function h_dde_DDETST_C1(p, t)
     t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-    0.5
+    return 0.5
 end
 
-const prob_dde_DDETST_C1 = DDEProblem(f_dde_DDETST_C1, h_dde_DDETST_C1, (0.0, 30.0);
-    dependent_lags = ((u, p, t) -> 1 + abs(u),))
+const prob_dde_DDETST_C1 = DDEProblem(
+    f_dde_DDETST_C1, h_dde_DDETST_C1, (0.0, 30.0);
+    dependent_lags = ((u, p, t) -> 1 + abs(u),)
+)
 
 # Problem C2
 @doc raw"""
@@ -278,13 +290,13 @@ function f_dde_DDETST_C2!(du, u, h, p, t)
     du[1] = -2 * z
     du[2] = (absz - abs(u[1])) / (1 + absz)
 
-    nothing
+    return nothing
 end
 
 function h_dde_DDETST_C2(p, t; idxs::Union{Nothing, Int} = nothing)
     t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-    if idxs === nothing
+    return if idxs === nothing
         [1.0, 0.5]
     elseif idxs == 1
         1.0
@@ -295,8 +307,10 @@ function h_dde_DDETST_C2(p, t; idxs::Union{Nothing, Int} = nothing)
     end
 end
 
-const prob_dde_DDETST_C2 = DDEProblem(f_dde_DDETST_C2!, h_dde_DDETST_C2, (0.0, 30.0);
-    dependent_lags = ((u, p, t) -> u[2],))
+const prob_dde_DDETST_C2 = DDEProblem(
+    f_dde_DDETST_C2!, h_dde_DDETST_C2, (0.0, 30.0);
+    dependent_lags = ((u, p, t) -> u[2],)
+)
 
 # Problem C3
 @doc raw"""
@@ -330,20 +344,20 @@ Mahaffy, J. M., Belair, J. and Mackey, M. C. (1996). Hematopoietic model with mo
 boundary condition and state dependent delay, Private communication.
 """
 const prob_dde_DDETST_C3 = let s₀ = 0.0031, T₁ = 6, γ = 0.001, Q = 0.0275, k = 2.8,
-    a = 6570, K = 0.0382, r = 6.96
+        a = 6570, K = 0.0382, r = 6.96
 
     global function f_dde_DDETST_C3!(du, u, h, p, t)
         du[1] = s₀ * h(p, t - T₁; idxs = 2) - γ * u[1] - Q
         du[2] = a / (1 + K * u[1]^r) - k * u[2]
         du[3] = 1 - Q * exp(γ * u[3]) / (s₀ * h(p, t - T₁ - u[3]; idxs = 2))
 
-        nothing
+        return nothing
     end
 
     global function h_dde_DDETST_C3(p, t; idxs::Union{Nothing, Int} = nothing)
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        if idxs === nothing
+        return if idxs === nothing
             [3.325, t < -T₁ ? 9.5 : 10.0, 120.0]
         elseif idxs == 1
             3.325
@@ -356,8 +370,10 @@ const prob_dde_DDETST_C3 = let s₀ = 0.0031, T₁ = 6, γ = 0.001, Q = 0.0275, 
         end
     end
 
-    DDEProblem(f_dde_DDETST_C3!, h_dde_DDETST_C3, (0.0, 300.0);
-        constant_lags = [T₁], dependent_lags = ((u, p, t) -> T₁ + u[3],))
+    DDEProblem(
+        f_dde_DDETST_C3!, h_dde_DDETST_C3, (0.0, 300.0);
+        constant_lags = [T₁], dependent_lags = ((u, p, t) -> T₁ + u[3],)
+    )
 end
 
 # Problem C4
@@ -386,20 +402,20 @@ Mahaffy, J. M., Belair, J. and Mackey, M. C. (1996). Hematopoietic model with mo
 boundary condition and state dependent delay, Private communication.
 """
 const prob_dde_DDETST_C4 = let s₀ = 0.00372, T₁ = 3, γ = 0.01, Q = 0.00178, k = 6.65,
-    a = 15600, K = 0.0382, r = 6.96
+        a = 15600, K = 0.0382, r = 6.96
 
     global function f_dde_DDETST_C4!(du, u, h, p, t)
         du[1] = s₀ * h(p, t - T₁; idxs = 2) - γ * u[1] - Q
         du[2] = a / (1 + K * u[1]^r) - k * u[2]
         du[3] = 1 - Q * exp(γ * u[3]) / (s₀ * h(p, t - T₁ - u[3]; idxs = 2))
 
-        nothing
+        return nothing
     end
 
     global function h_dde_DDETST_C4(p, t; idxs::Union{Nothing, Int} = nothing)
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        if idxs === nothing
+        return if idxs === nothing
             [3.5, 10.0, 50.0]
         elseif idxs == 1
             3.5
@@ -412,8 +428,10 @@ const prob_dde_DDETST_C4 = let s₀ = 0.00372, T₁ = 3, γ = 0.01, Q = 0.00178,
         end
     end
 
-    DDEProblem(f_dde_DDETST_C4!, [3.5, 10.0, 50.0], h_dde_DDETST_C4, (0.0, 100.0);
-        constant_lags = [T₁], dependent_lags = ((u, p, t) -> T₁ + u[3],))
+    DDEProblem(
+        f_dde_DDETST_C4!, [3.5, 10.0, 50.0], h_dde_DDETST_C4, (0.0, 100.0);
+        constant_lags = [T₁], dependent_lags = ((u, p, t) -> T₁ + u[3],)
+    )
 end
 
 # Problem D1
@@ -464,13 +482,13 @@ function f_dde_DDETST_D1!(du, u, h, p, t)
     du[1] = u[2]
     du[2] = -h(p, s; idxs = 2) * u[2]^2 * s
 
-    nothing
+    return nothing
 end
 
 function h_dde_DDETST_D1(p, t; idxs::Union{Nothing, Int} = nothing)
     0 < t ≤ 0.1 || error("history function is only implemented for 0 < t ≤ 0.1")
 
-    if idxs === nothing
+    return if idxs === nothing
         [log(t), 1 / t]
     elseif idxs == 1
         log(t)
@@ -485,14 +503,17 @@ function fanalytic_dde_DDETST_D1(u₀, ::typeof(h_dde_DDETST_D1), p, t)
     0.1 ≤ t ≤ 5 && u₀ == [log(0.1), 10] ||
         error("analytical solution is only implemented for t ∈ [0.1, 5] and u(0.1) = [log 0.1, 10]")
 
-    [log(t), 1 / t]
+    return [log(t), 1 / t]
 end
 
 const prob_dde_DDETST_D1 = DDEProblem(
-    DDEFunction(f_dde_DDETST_D1!;
-        analytic = fanalytic_dde_DDETST_D1),
+    DDEFunction(
+        f_dde_DDETST_D1!;
+        analytic = fanalytic_dde_DDETST_D1
+    ),
     h_dde_DDETST_D1, (0.1, 5.0);
-    dependent_lags = ((u, p, t) -> t - exp(1 - u[2]),))
+    dependent_lags = ((u, p, t) -> t - exp(1 - u[2]),)
+)
 
 # Problem D2
 @doc raw"""
@@ -542,17 +563,19 @@ const prob_dde_DDETST_D2 = let r₁ = 0.02, r₂ = 0.005, α = 3, δ = 0.01
         du[3] = -du[1]
         du[4] = 1 + (3 * δ - u₁u₂ - u[3]) * exp(δ * u[4]) / (v₁v₂ + v[3])
 
-        nothing
+        return nothing
     end
 
     global function h_dde_DDETST_D2(p, t)
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        [5.0, 0.1, 0.0, 0.0]
+        return [5.0, 0.1, 0.0, 0.0]
     end
 
-    DDEProblem(f_dde_DDETST_D2!, h_dde_DDETST_D2, (0.0, 40.0);
-        dependent_lags = ((u, p, t) -> u[4],))
+    DDEProblem(
+        f_dde_DDETST_D2!, h_dde_DDETST_D2, (0.0, 40.0);
+        dependent_lags = ((u, p, t) -> u[4],)
+    )
 end
 
 # Problem E1
@@ -579,17 +602,19 @@ const prob_dde_DDETST_E1 = let r = π / sqrt(3) + 1 / 20, c = sqrt(3) / (2 * π)
     global function h_dde_DDETST_E1(p, t)
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        2 + t
+        return 2 + t
     end
 
     global function h_dde_DDETST_E1(p, t, ::Type{Val{1}})
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        1.0
+        return 1.0
     end
 
-    DDEProblem(f_dde_DDETST_E1, h_dde_DDETST_E1, (0.0, 40.0);
-        constant_lags = [1], neutral = true)
+    DDEProblem(
+        f_dde_DDETST_E1, h_dde_DDETST_E1, (0.0, 40.0);
+        constant_lags = [1], neutral = true
+    )
 end
 
 # Problem E2
@@ -629,13 +654,13 @@ const prob_dde_DDETST_E2 = let α = 0.1, ρ = 2.9, τ = 0.42
         du[1] = u[1] * (1 - h(p, t - τ; idxs = 1) - ρ * h(p, t - 1, Val{1}; idxs = 1)) - z
         du[2] = z - α * u[2]
 
-        nothing
+        return nothing
     end
 
     global function h_dde_DDETST_E2(p, t; idxs::Union{Nothing, Int} = nothing)
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        if idxs === nothing
+        return if idxs === nothing
             [0.33 - 0.1 * t, 2.22 + 0.1 * t]
         elseif idxs == 1
             0.33 - 0.1 * t
@@ -646,11 +671,13 @@ const prob_dde_DDETST_E2 = let α = 0.1, ρ = 2.9, τ = 0.42
         end
     end
 
-    global function h_dde_DDETST_E2(p, t, ::Type{Val{1}};
-            idxs::Union{Nothing, Int} = nothing)
+    global function h_dde_DDETST_E2(
+            p, t, ::Type{Val{1}};
+            idxs::Union{Nothing, Int} = nothing
+        )
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        if idxs === nothing
+        return if idxs === nothing
             [-0.1, -0.1]
         elseif idxs == 1 || idxs == 2
             -0.1
@@ -659,8 +686,10 @@ const prob_dde_DDETST_E2 = let α = 0.1, ρ = 2.9, τ = 0.42
         end
     end
 
-    DDEProblem(f_dde_DDETST_E2!, h_dde_DDETST_E2, (0.0, 2.0);
-        constant_lags = [τ], neutral = true)
+    DDEProblem(
+        f_dde_DDETST_E2!, h_dde_DDETST_E2, (0.0, 2.0);
+        constant_lags = [τ], neutral = true
+    )
 end
 
 # Problem F1
@@ -698,34 +727,37 @@ function f_dde_DDETST_F1(u, h, p, t)
     h0 = h(p, to2)
     h1 = h(p, to2, Val{1})
 
-    2 * cos(2 * t) * h0^c2 + log(h1) - log(c2) - s
+    return 2 * cos(2 * t) * h0^c2 + log(h1) - log(c2) - s
 end
 
 function h_dde_DDETST_F1(p, t)
     iszero(t) || error("history function is only implemented for t = 0")
 
-    1.0
+    return 1.0
 end
 
 function h_dde_DDETST_F1(p, t, ::Type{Val{1}})
     iszero(t) || error("history function is only implemented for t = 0")
 
-    2.0
+    return 2.0
 end
 
 function fanalytic_dde_DDETST_F1(u₀, ::typeof(h_dde_DDETST_F1), p, t)
     0 ≤ t ≤ 1 && u₀ == 1 ||
         error("analytical solution is only implemented for t ∈ [0, 1] and u(0) = 1")
 
-    exp(sin(2 * t))
+    return exp(sin(2 * t))
 end
 
 const prob_dde_DDETST_F1 = DDEProblem(
-    DDEFunction(f_dde_DDETST_F1;
-        analytic = fanalytic_dde_DDETST_F1),
+    DDEFunction(
+        f_dde_DDETST_F1;
+        analytic = fanalytic_dde_DDETST_F1
+    ),
     h_dde_DDETST_F1, (0.0, 0.1);
     dependent_lags = ((u, p, t) -> t / 2,),
-    neutral = true)
+    neutral = true
+)
 
 # Problem F2
 @doc raw"""
@@ -774,13 +806,13 @@ f_dde_DDETST_F2(u, h, p, t) = h(p, 2 * t - 0.5, Val{1})
 function h_dde_DDETST_F2(p, t)
     t ≤ 0.25 || error("history function is only implemented for t ≤ 0.25")
 
-    exp(-t^2)
+    return exp(-t^2)
 end
 
 function h_dde_DDETST_F2(p, t, ::Type{Val{1}})
     t ≤ 0.25 || error("history function is only implemented for t ≤ 0.25")
 
-    -2 * t * exp(-t^2)
+    return -2 * t * exp(-t^2)
 end
 
 function fanalytic_dde_DDETST_F2(u₀, ::typeof(h_dde_DDETST_F2), p, t)
@@ -805,14 +837,18 @@ function fanalytic_dde_DDETST_F2(u₀, ::typeof(h_dde_DDETST_F2), p, t)
             x = y
         end
     end
+    return
 end
 
 const prob_dde_DDETST_F2 = DDEProblem(
-    DDEFunction(f_dde_DDETST_F2;
-        analytic = fanalytic_dde_DDETST_F2),
+    DDEFunction(
+        f_dde_DDETST_F2;
+        analytic = fanalytic_dde_DDETST_F2
+    ),
     h_dde_DDETST_F2, (0.25, 0.499);
     dependent_lags = ((u, p, t) -> 1 / 2 - t,),
-    neutral = true)
+    neutral = true
+)
 
 # Problem F3
 @doc raw"""
@@ -841,36 +877,41 @@ let L₃ = 0.2
     global function f_dde_DDETST_F3(u, h, p, t)
         α = 0.5 * t * (1 - cos(2 * π * t))
 
-        exp(-u) + L₃ * (sin(h(p, α, Val{1})) - sin(inv(3 + α)))
+        return exp(-u) + L₃ * (sin(h(p, α, Val{1})) - sin(inv(3 + α)))
     end
 end
 
 function h_dde_DDETST_F345(p, t)
     iszero(t) || error("history function is only implemented for t = 0")
 
-    log(3)
+    return log(3)
 end
 
 function h_dde_DDETST_F345(p, t, ::Type{Val{1}})
     iszero(t) || error("history function is only implemented for t = 0")
 
-    inv(3)
+    return inv(3)
 end
 
 function fanalytic_dde_DDETST_F345(u₀, ::typeof(h_dde_DDETST_F345), p, t)
     0 ≤ t ≤ 10 && u₀ == log(3) ||
         error("analytical solution is only implemented for t ∈ [0, 10] and u(0) = log 3")
 
-    log(t + 3)
+    return log(t + 3)
 end
 
 const prob_dde_DDETST_F3 = DDEProblem(
-    DDEFunction(f_dde_DDETST_F3;
-        analytic = fanalytic_dde_DDETST_F345),
+    DDEFunction(
+        f_dde_DDETST_F3;
+        analytic = fanalytic_dde_DDETST_F345
+    ),
     h_dde_DDETST_F345, (0.0, 10.0);
-    dependent_lags = ((u, p, t) -> 0.5 * t *
-                                   (1 + cos(2 * π * t)),),
-    neutral = true)
+    dependent_lags = (
+        (u, p, t) -> 0.5 * t *
+            (1 + cos(2 * π * t)),
+    ),
+    neutral = true
+)
 
 # Problem F4
 """
@@ -884,13 +925,17 @@ let L₃ = 0.4
     global function f_dde_DDETST_F4(u, h, p, t)
         α = 0.5 * t * (1 - cos(2 * π * t))
 
-        exp(-u) + L₃ * (sin(h(p, α, Val{1})) - sin(inv(3 + α)))
+        return exp(-u) + L₃ * (sin(h(p, α, Val{1})) - sin(inv(3 + α)))
     end
 end
 
-const prob_dde_DDETST_F4 = remake(prob_dde_DDETST_F3;
-    f = DDEFunction(f_dde_DDETST_F4;
-        analytic = fanalytic_dde_DDETST_F345))
+const prob_dde_DDETST_F4 = remake(
+    prob_dde_DDETST_F3;
+    f = DDEFunction(
+        f_dde_DDETST_F4;
+        analytic = fanalytic_dde_DDETST_F345
+    )
+)
 
 # Problem F5
 """
@@ -904,13 +949,17 @@ let L₃ = 0.6
     global function f_dde_DDETST_F5(u, h, p, t)
         α = 0.5 * t * (1 - cos(2 * π * t))
 
-        exp(-u) + L₃ * (sin(h(p, α, Val{1})) - sin(inv(3 + α)))
+        return exp(-u) + L₃ * (sin(h(p, α, Val{1})) - sin(inv(3 + α)))
     end
 end
 
-const prob_dde_DDETST_F5 = remake(prob_dde_DDETST_F3;
-    f = DDEFunction(f_dde_DDETST_F5;
-        analytic = fanalytic_dde_DDETST_F345))
+const prob_dde_DDETST_F5 = remake(
+    prob_dde_DDETST_F3;
+    f = DDEFunction(
+        f_dde_DDETST_F5;
+        analytic = fanalytic_dde_DDETST_F345
+    )
+)
 
 # Problem G1
 @doc raw"""
@@ -945,28 +994,31 @@ f_dde_DDETST_G1(u, h, p, t) = -h(p, t - u^2 / 4, Val{1})
 function h_dde_DDETST_G1(p, t)
     t ≤ zero(t) || error("history function is only implemented for t ≤ 0")
 
-    1 - t
+    return 1 - t
 end
 
 function h_dde_DDETST_G1(p, t, ::Type{Val{1}})
     t < zero(t) || error("history function is only implemented for t < 0")
 
-    -1.0
+    return -1.0
 end
 
 function fanalytic_dde_DDETST_G1(u₀, ::typeof(h_dde_DDETST_G1), p, t)
     0 ≤ t ≤ 1 && u₀ == 1 ||
         error("analytical solution is only implemented for t ∈ [0, 1] and u(0) = 1")
 
-    t + 1
+    return t + 1
 end
 
 const prob_dde_DDETST_G1 = DDEProblem(
-    DDEFunction(f_dde_DDETST_G1;
-        analytic = fanalytic_dde_DDETST_G1),
+    DDEFunction(
+        f_dde_DDETST_G1;
+        analytic = fanalytic_dde_DDETST_G1
+    ),
     h_dde_DDETST_G1, (0.0, 1.0);
     dependent_lags = ((u, p, t) -> u^2 / 4,),
-    neutral = true)
+    neutral = true
+)
 
 # Problem G2
 @doc raw"""
@@ -999,28 +1051,31 @@ f_dde_DDETST_G2(u, h, p, t) = -h(p, u - 2, Val{1})
 function h_dde_DDETST_G2(p, t)
     t ≤ zero(t) || error("history function is only implemented for t ≤ 0")
 
-    1 - t
+    return 1 - t
 end
 
 function h_dde_DDETST_G2(p, t, ::Type{Val{1}})
     t < zero(t) || error("history function is only implemented for t < 0")
 
-    -1.0
+    return -1.0
 end
 
 function fanalytic_dde_DDETST_G2(u₀, ::typeof(h_dde_DDETST_G2), p, t)
     0 ≤ t ≤ 1 && u₀ == 1.0 ||
         error("analytical solution is only implemented for t ∈ [0, 1] and u(0) = 1")
 
-    t + 1
+    return t + 1
 end
 
 const prob_dde_DDETST_G2 = DDEProblem(
-    DDEFunction(f_dde_DDETST_G2;
-        analytic = fanalytic_dde_DDETST_G2),
+    DDEFunction(
+        f_dde_DDETST_G2;
+        analytic = fanalytic_dde_DDETST_G2
+    ),
     h_dde_DDETST_G2, (0.0, 1.0);
     dependent_lags = ((u, p, t) -> t + 2 - u,),
-    neutral = true)
+    neutral = true
+)
 
 # Problem H1
 @doc raw"""
@@ -1053,34 +1108,37 @@ function f_dde_DDETST_H1(u, h, p, t)
     v = u^2
     z = t * v
 
-    -4 * z / (4 + log(cos(2 * t))^2) + tan(2 * t) + 0.5 * atan(h(p, z / (1 + v), Val{1}))
+    return -4 * z / (4 + log(cos(2 * t))^2) + tan(2 * t) + 0.5 * atan(h(p, z / (1 + v), Val{1}))
 end
 
 function h_dde_DDETST_H1(p, t)
     iszero(t) || error("history function is only implemented for t = 0")
 
-    0.0
+    return 0.0
 end
 
 function h_dde_DDETST_H1(p, t, ::Type{Val{1}})
     iszero(t) || error("history function is only implemented for t = 0")
 
-    0.0
+    return 0.0
 end
 
 function fanalytic_dde_DDETST_H1(u₀, ::typeof(h_dde_DDETST_H1), p, t)
     0 ≤ t ≤ 0.225 * π && iszero(u₀) ||
         error("analytical solution is only implemented for t ∈ [0, 0.225π] and u(0) = 0")
 
-    -log(cos(2 * t)) / 2
+    return -log(cos(2 * t)) / 2
 end
 
 const prob_dde_DDETST_H1 = DDEProblem(
-    DDEFunction(f_dde_DDETST_H1;
-        analytic = fanalytic_dde_DDETST_H1),
+    DDEFunction(
+        f_dde_DDETST_H1;
+        analytic = fanalytic_dde_DDETST_H1
+    ),
     h_dde_DDETST_H1, (0.0, 0.225 * π);
     dependent_lags = ((u, p, t) -> t / (1 + u^2),),
-    neutral = true)
+    neutral = true
+)
 
 # Problem H2
 @doc raw"""
@@ -1118,35 +1176,38 @@ let L₃ = 0.1
 
         z = t * u^2
 
-        c * (1 + h(p, z)) + L₃ * u * h(p, z, Val{1}) + (1 - L₃) * s * cos(a) - sin(t + a)
+        return c * (1 + h(p, z)) + L₃ * u * h(p, z, Val{1}) + (1 - L₃) * s * cos(a) - sin(t + a)
     end
 end
 
 function h_dde_DDETST_H234(p, t)
     iszero(t) || error("history function is only implemented for t = 0")
 
-    0.0
+    return 0.0
 end
 
 function h_dde_DDETST_H234(p, t, ::Type{Val{1}})
     iszero(t) || error("history function is only implemented for t = 0")
 
-    1.0
+    return 1.0
 end
 
 function fanalytic_dde_DDETST_H234(u₀, ::typeof(h_dde_DDETST_H234), p, t)
     0 ≤ t ≤ π && iszero(u₀) ||
         error("analytical solution is only implemented for t ∈ [0, π] and u(0) = 0")
 
-    sin(t)
+    return sin(t)
 end
 
 const prob_dde_DDETST_H2 = DDEProblem(
-    DDEFunction(f_dde_DDETST_H2;
-        analytic = fanalytic_dde_DDETST_H234),
+    DDEFunction(
+        f_dde_DDETST_H2;
+        analytic = fanalytic_dde_DDETST_H234
+    ),
     h_dde_DDETST_H234, (0.0, π);
     dependent_lags = ((u, p, t) -> t * (1 - u^2),),
-    neutral = true)
+    neutral = true
+)
 
 # Problem H3
 """
@@ -1169,13 +1230,17 @@ let L₃ = 0.3
 
         z = t * u^2
 
-        c * (1 + h(p, z)) + L₃ * u * h(p, z, Val{1}) + (1 - L₃) * s * cos(a) - sin(t + a)
+        return c * (1 + h(p, z)) + L₃ * u * h(p, z, Val{1}) + (1 - L₃) * s * cos(a) - sin(t + a)
     end
 end
 
-const prob_dde_DDETST_H3 = remake(prob_dde_DDETST_H2;
-    f = DDEFunction(f_dde_DDETST_H3;
-        analytic = fanalytic_dde_DDETST_H234))
+const prob_dde_DDETST_H3 = remake(
+    prob_dde_DDETST_H2;
+    f = DDEFunction(
+        f_dde_DDETST_H3;
+        analytic = fanalytic_dde_DDETST_H234
+    )
+)
 
 # Problem H4
 """
@@ -1198,10 +1263,14 @@ let L₃ = 0.5
 
         z = t * u^2
 
-        c * (1 + h(p, z)) + L₃ * u * h(p, z, Val{1}) + (1 - L₃) * s * cos(a) - sin(t + a)
+        return c * (1 + h(p, z)) + L₃ * u * h(p, z, Val{1}) + (1 - L₃) * s * cos(a) - sin(t + a)
     end
 end
 
-const prob_dde_DDETST_H4 = remake(prob_dde_DDETST_H2;
-    f = DDEFunction(f_dde_DDETST_H4;
-        analytic = fanalytic_dde_DDETST_H234))
+const prob_dde_DDETST_H4 = remake(
+    prob_dde_DDETST_H2;
+    f = DDEFunction(
+        f_dde_DDETST_H4;
+        analytic = fanalytic_dde_DDETST_H234
+    )
+)

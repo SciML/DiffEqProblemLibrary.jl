@@ -7,12 +7,12 @@ RuntimeGeneratedFunctions.init(@__MODULE__)
 
 # Jump Example Problems
 export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
-# examples mixing mass action and constant rate jumps
-       prob_jump_osc_mixed_jumptypes,
-# examples used in published benchmarks / comparisons
-       prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor,
-# examples approximating diffusion by continuous time random walks
-       prob_jump_diffnetwork
+    # examples mixing mass action and constant rate jumps
+    prob_jump_osc_mixed_jumptypes,
+    # examples used in published benchmarks / comparisons
+    prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor,
+    # examples approximating diffusion by continuous time random walks
+    prob_jump_diffnetwork
 
 """
 General structure to hold JumpProblem info. Needed since
@@ -36,17 +36,19 @@ dna_rs = @reaction_network begin
     k5, DNA + P --> DNAR
     k6, DNAR --> DNA + P
 end
-rates = [:k1 => 0.5,
+rates = [
+    :k1 => 0.5,
     :k2 => (20 * log(2.0) / 120.0),
     :k3 => (log(2.0) / 120.0),
     :k4 => (log(2.0) / 600.0),
     :k5 => 0.025,
-    :k6 => 1.0]
+    :k6 => 1.0,
+]
 tf = 1000.0
 u0 = [:DNA => 1, :mRNA => 0, :P => 0, :DNAR => 0]
 prob = DiscreteProblem(dna_rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 Nsims = 8000
-expected_avg = 5.926553750000000e+02
+expected_avg = 5.92655375e+2
 prob_data = Dict("num_sims_for_mean" => Nsims, "expected_mean" => expected_avg)
 """
 DNA negative feedback autoregulatory model. Protein acts as repressor.
@@ -100,8 +102,10 @@ oscil_rs = @reaction_network begin
     0.01, SP + SP --> SP2
     0.05, SP2 --> 0
 end
-u0 = [:X => 200.0, :Y => 60.0, :Z => 120.0, :R => 100.0, :S => 50.0, :SP => 50.0,
-    :SP2 => 50.0]  # Hill equations force use of floats!
+u0 = [
+    :X => 200.0, :Y => 60.0, :Z => 120.0, :R => 100.0, :S => 50.0, :SP => 50.0,
+    :SP2 => 50.0,
+]  # Hill equations force use of floats!
 tf = 4000.0
 prob = DiscreteProblem(oscil_rs, u0, (0.0, tf), eval_module = @__MODULE__)
 """
@@ -109,7 +113,8 @@ Oscillatory system, uses a mixture of jump types.
 """
 prob_jump_osc_mixed_jumptypes = JumpProblemNetwork(oscil_rs, nothing, tf, u0, prob, nothing)
 
-specs_sym_to_name = Dict(:S1 => "R(a,l)",
+specs_sym_to_name = Dict(
+    :S1 => "R(a,l)",
     :S2 => "L(r)",
     :S3 => "A(Y~U,r)",
     :S4 => "L(r!1).R(a,l!1)",
@@ -117,9 +122,12 @@ specs_sym_to_name = Dict(:S1 => "R(a,l)",
     :S6 => "A(Y~U,r!1).L(r!2).R(a!1,l!2)",
     :S7 => "A(Y~P,r!1).L(r!2).R(a!1,l!2)",
     :S8 => "A(Y~P,r!1).R(a!1,l)",
-    :S9 => "A(Y~P,r)")
-rsi = Dict(:R0 => 1, :L0 => 2, :A0 => 3, :kon => 4, :koff => 5,
-    :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9)
+    :S9 => "A(Y~P,r)"
+)
+rsi = Dict(
+    :R0 => 1, :L0 => 2, :A0 => 3, :kon => 4, :koff => 5,
+    :kAon => 6, :kAoff => 7, :kAp => 8, :kAdp => 9
+)
 params = (5360, 1160, 5360, 0.01, 0.1, 0.01, 0.1, 0.01, 0.1)
 rs = @reaction_network begin
     kon, S1 + S2 --> S4
@@ -141,15 +149,22 @@ rs = @reaction_network begin
     kAdp, S8 --> S5
     kAdp, S9 --> S3
 end
-rates = [:kon,
+rates = [
+    :kon,
     :kAon,
     :koff,
     :kAoff,
     :kAp,
-    :kAdp] .=> params[[
-    rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp]]]
-u0 = [:S1 => params[1], :S2 => params[2], :S3 => params[3], :S4 => 0, :S5 => 0,
-    :S6 => 0, :S7 => 0, :S8 => 0, :S9 => 0]
+    :kAdp,
+] .=> params[
+    [
+        rsi[:kon], rsi[:kAon], rsi[:koff], rsi[:kAoff], rsi[:kAp], rsi[:kAdp],
+    ],
+]
+u0 = [
+    :S1 => params[1], :S2 => params[2], :S3 => params[3], :S4 => 0, :S5 => 0,
+    :S6 => 0, :S7 => 0, :S8 => 0, :S9 => 0,
+]
 tf = 100.0
 prob = DiscreteProblem(rs, u0, (0.0, tf), rates, eval_module = @__MODULE__)
 """
@@ -158,9 +173,13 @@ Multistate model from Gupta and Mendes,
 Computation 2018, 6, 9; doi:10.3390/computation6010009
 Translated from supplementary data file: Models/Multi-state/fixed_multistate.xml
 """
-prob_jump_multistate = JumpProblemNetwork(rs, rates, tf, u0, prob,
-    Dict("specs_to_sym_name" => specs_sym_to_name,
-        "rates_sym_to_idx" => rsi, "params" => params))
+prob_jump_multistate = JumpProblemNetwork(
+    rs, rates, tf, u0, prob,
+    Dict(
+        "specs_to_sym_name" => specs_sym_to_name,
+        "rates_sym_to_idx" => rsi, "params" => params
+    )
+)
 
 # generate the network
 N = 10  # number of genes
@@ -195,7 +214,7 @@ function construct_genenetwork(N)
     end
     spcs = reduce(vcat, collect.((G, M, P, G_ind)))
     @named genenetwork = ReactionSystem(rxs, t, spcs, [])
-    complete(genenetwork)
+    return complete(genenetwork)
 end
 rs = construct_genenetwork(N)
 u0 = Num.(unknowns(rs)) .=> zeros(Int, length(unknowns(rs)))
@@ -222,8 +241,10 @@ rn = @reaction_network begin
     c7, P2 + G --> P2G
     c8, P2G --> P2 + G
 end
-rnpar = [:c1 => 0.09, :c2 => 0.05, :c3 => 0.001, :c4 => 0.0009, :c5 => 0.00001,
-    :c6 => 0.0005, :c7 => 0.005, :c8 => 0.9]
+rnpar = [
+    :c1 => 0.09, :c2 => 0.05, :c3 => 0.001, :c4 => 0.0009, :c5 => 0.00001,
+    :c6 => 0.0005, :c7 => 0.005, :c8 => 0.9,
+]
 varlabels = ["G", "M", "P", "P2", "P2G"]
 u0 = [:G => 1000, :M => 0, :P => 0, :P2 => 0, :P2G => 0]
 tf = 4000.0
@@ -234,8 +255,10 @@ Taken from Marchetti, Priami and Thanh,
 "Simulation Algorithms for Computational Systems Biology",
 Springer (2017).
 """
-prob_jump_dnadimer_repressor = JumpProblemNetwork(rn, rnpar, tf, u0, prob,
-    Dict("specs_names" => varlabels))
+prob_jump_dnadimer_repressor = JumpProblemNetwork(
+    rn, rnpar, tf, u0, prob,
+    Dict("specs_names" => varlabels)
+)
 
 # diffusion model
 function getDiffNetwork(N)
@@ -249,11 +272,11 @@ function getDiffNetwork(N)
         push!(rxs, Reaction(K, [X[i + 1]], [X[i]]))
     end
     @named diffnetwork = ReactionSystem(rxs, t, collect(X), [K])
-    complete(diffnetwork)
+    return complete(diffnetwork)
 end
 params = [:K => 1.0]
 function getDiffu0(diffnetwork, N)
-    species(diffnetwork) .=> (10 * ones(Int64, N))
+    return species(diffnetwork) .=> (10 * ones(Int64, N))
 end
 tf = 10.0
 """
@@ -262,7 +285,9 @@ Here the network in the JumpProblemNetwork is a function that returns a
 network given the number of lattice sites.
 u0 is a similar function that returns the initial condition vector.
 """
-prob_jump_diffnetwork = JumpProblemNetwork(getDiffNetwork, params, tf, getDiffu0, nothing,
-    nothing)
+prob_jump_diffnetwork = JumpProblemNetwork(
+    getDiffNetwork, params, tf, getDiffu0, nothing,
+    nothing
+)
 
 end # module

@@ -7,9 +7,9 @@ RuntimeGeneratedFunctions.init(@__MODULE__)
 
 #SDE Example Problems
 export prob_sde_wave, prob_sde_linear, prob_sde_cubic, prob_sde_2Dlinear,
-       prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
-       prob_sde_additivesystem, oval2ModelExample, prob_sde_bistable,
-       prob_sde_bruss, prob_sde_oscilreact
+    prob_sde_lorenz, prob_sde_2Dlinear, prob_sde_additive,
+    prob_sde_additivesystem, oval2ModelExample, prob_sde_bistable,
+    prob_sde_bruss, prob_sde_oscilreact
 #SDE Stratonovich Example Problems
 export prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
 
@@ -17,7 +17,7 @@ export prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
 
 f_linear(u, p, t) = 1.01u
 σ_linear(u, p, t) = 0.87u
-linear_analytic(u0, p, t, W) = @.(u0*exp(0.63155t + 0.87W))
+linear_analytic(u0, p, t, W) = @.(u0 * exp(0.63155t + 0.87W))
 
 @doc doc"""
 ```math
@@ -31,16 +31,22 @@ u(u_0,p,t,W_t) = u_0 \exp\left(\left(α - \tfrac{1}{2}β^2\right) t + βW_t\righ
 
 """
 prob_sde_linear = SDEProblem(
-    SDEFunction(f_linear, σ_linear,
-        analytic = linear_analytic), 1 / 2,
-    (0.0, 1.0))
+    SDEFunction(
+        f_linear, σ_linear,
+        analytic = linear_analytic
+    ), 1 / 2,
+    (0.0, 1.0)
+)
 
-linear_analytic_strat(u0, p, t, W) = @.(u0*exp(1.01t + 0.87W))
+linear_analytic_strat(u0, p, t, W) = @.(u0 * exp(1.01t + 0.87W))
 prob_sde_linear_stratonovich = SDEProblem(
-    SDEFunction(f_linear, σ_linear,
-        analytic = linear_analytic_strat), 1 / 2, (0.0, 1.0))
-f_linear_iip(du, u, p, t) = @.(du=1.01 * u)
-σ_linear_iip(du, u, p, t) = @.(du=0.87 * u)
+    SDEFunction(
+        f_linear, σ_linear,
+        analytic = linear_analytic_strat
+    ), 1 / 2, (0.0, 1.0)
+)
+f_linear_iip(du, u, p, t) = @.(du = 1.01 * u)
+σ_linear_iip(du, u, p, t) = @.(du = 0.87 * u)
 @doc doc"""
 8 linear SDEs (as a 4×2 matrix):
 
@@ -54,13 +60,19 @@ u(u_0,p,t,W_t) = u_0 \exp\left(\left(α - \tfrac{1}{2}β^2\right) t + βW_t\righ
 ```
 """
 prob_sde_2Dlinear = SDEProblem(
-    SDEFunction(f_linear_iip, σ_linear_iip,
-        analytic = linear_analytic),
-    ones(4, 2) / 2, (0.0, 1.0))
+    SDEFunction(
+        f_linear_iip, σ_linear_iip,
+        analytic = linear_analytic
+    ),
+    ones(4, 2) / 2, (0.0, 1.0)
+)
 prob_sde_2Dlinear_stratonovich = SDEProblem(
-    SDEFunction(f_linear_iip, σ_linear_iip,
-        analytic = linear_analytic_strat),
-    ones(4, 2) / 2, (0.0, 1.0))
+    SDEFunction(
+        f_linear_iip, σ_linear_iip,
+        analytic = linear_analytic_strat
+    ),
+    ones(4, 2) / 2, (0.0, 1.0)
+)
 
 f_cubic(u, p, t) = -0.25 * u * (1 - u^2)
 σ_cubic(u, p, t) = 0.5 * (1 - u^2)
@@ -116,23 +128,25 @@ u(u_0,p,t,W_t)=\frac{u_0}{\sqrt{1+t}} + \frac{β(t+αW_t)}{\sqrt{1+t}}
 """
 prob_sde_additive = SDEProblem(ff_additive, 1.0, (0.0, 1.0), p)
 
-f_additive_iip(du, u, p, t) = @.(du=p[2] / sqrt(1 + t) - u / (2 * (1 + t)))
-σ_additive_iip(du, u, p, t) = @.(du=p[1] * p[2] / sqrt(1 + t))
+f_additive_iip(du, u, p, t) = @.(du = p[2] / sqrt(1 + t) - u / (2 * (1 + t)))
+σ_additive_iip(du, u, p, t) = @.(du = p[1] * p[2] / sqrt(1 + t))
 ff_additive_iip = SDEFunction(f_additive_iip, σ_additive_iip, analytic = additive_analytic)
 p = ([0.1; 0.1; 0.1; 0.1], [0.5; 0.25; 0.125; 0.1115])
 @doc doc"""
 A multiple dimension extension of `additiveSDEExample`
 
 """
-prob_sde_additivesystem = SDEProblem(ff_additive_iip, [1.0; 1.0; 1.0; 1.0],
-    (0.0, 1.0), p)
+prob_sde_additivesystem = SDEProblem(
+    ff_additive_iip, [1.0; 1.0; 1.0; 1.0],
+    (0.0, 1.0), p
+)
 
 function f_lorenz(du, u, p, t)
     du[1] = p[1] * (u[2] - u[1])
     du[2] = u[1] * (p[2] - u[3]) - u[2]
-    du[3] = u[1] * u[2] - p[3] * u[3]
+    return du[3] = u[1] * u[2] - p[3] * u[3]
 end
-σ_lorenz(du, u, p, t) = @.(du=3.0)
+σ_lorenz(du, u, p, t) = @.(du = 3.0)
 @doc doc"""
 Lorenz Attractor with additive noise
 
@@ -272,76 +286,104 @@ function oval2ModelExample(; largeFluctuations = false, useBigs = false, noiseLe
         TGF0 = 0.5(t > 100)
         #ODEs
         dy[1] = k0_snail +
-                k_snail * (((y[14] + TGF0) / J_snail0))^2 /
-                (1 + (((y[14] + TGF0) / J_snail0))^2 + (y[19] / J_SO)^nSO) /
-                (1 + y[2] / J_snail1) - kd_snail * (y[1] - y[4]) - kd_SR1 * y[4]
+            k_snail * (((y[14] + TGF0) / J_snail0))^2 /
+            (1 + (((y[14] + TGF0) / J_snail0))^2 + (y[19] / J_SO)^nSO) /
+            (1 + y[2] / J_snail1) - kd_snail * (y[1] - y[4]) - kd_SR1 * y[4]
         dy[2] = k_SNAIL * (y[1] - y[4]) - kd_SNAIL * y[2]
         dy[3] = k0_34 + k_34 / (1 + ((y[2] / J1_34))^2 + ((y[6] / J2_34))^2) -
-                kd_34 * (y[3] - y[4]) - kd_SR1 * y[4] + lambdas * kd_SR1 * y[4]
+            kd_34 * (y[3] - y[4]) - kd_SR1 * y[4] + lambdas * kd_SR1 * y[4]
         dy[4] = Timescale * (Ks * (y[1] - y[4]) * (y[3] - y[4]) - y[4])
         dy[5] = k0_zeb +
-                k_zeb * ((y[2] / J_zeb))^2 /
-                (1 + ((y[2] / J_zeb))^2 + ((y[19] / J_2z))^nO) -
-                kd_zeb * (y[5] - (5 * y[8] + 10 * y[9] + 10 * y[10] + 5 * y[11] + y[12])) -
-                dk_ZR1 * 5 * y[8] - dk_ZR2 * 10 * y[9] - dk_ZR3 * 10 * y[10] -
-                dk_ZR4 * 5 * y[11] - dk_ZR5 * y[12]
+            k_zeb * ((y[2] / J_zeb))^2 /
+            (1 + ((y[2] / J_zeb))^2 + ((y[19] / J_2z))^nO) -
+            kd_zeb * (y[5] - (5 * y[8] + 10 * y[9] + 10 * y[10] + 5 * y[11] + y[12])) -
+            dk_ZR1 * 5 * y[8] - dk_ZR2 * 10 * y[9] - dk_ZR3 * 10 * y[10] -
+            dk_ZR4 * 5 * y[11] - dk_ZR5 * y[12]
         dy[6] = k_ZEB * (y[5] - (5 * y[8] + 10 * y[9] + 10 * y[10] + 5 * y[11] + y[12])) -
-                kd_ZEB * y[6]
+            kd_ZEB * y[6]
         dy[7] = k0_200 + k_200 / (1 + ((y[2] / J1_200))^3 + ((y[6] / J2_200))^2) -
-                kd_200 * (y[7] -
-                 (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
-                 y[15]) - dk_ZR1 * 5 * y[8] - dk_ZR2 * 2 * 10 * y[9] -
-                dk_ZR3 * 3 * 10 * y[10] - dk_ZR4 * 4 * 5 * y[11] - dk_ZR5 * 5 * y[12] +
-                lambda1 * dk_ZR1 * 5 * y[8] + lambda2 * dk_ZR2 * 2 * 10 * y[9] +
-                lambda3 * dk_ZR3 * 3 * 10 * y[10] + lambda4 * dk_ZR4 * 4 * 5 * y[11] +
-                lambda5 * dk_ZR5 * 5 * y[12] - kd_tgfR * y[15] + lambdatgfR * kd_tgfR * y[15]
-        dy[8] = Timescale * (K1 *
-                 (y[7] -
-                  (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
-                  y[15]) *
-                 (y[5] - (5 * y[8] + 10 * y[9] + 10 * y[10] + 5 * y[11] + y[12])) - y[8])
-        dy[9] = Timescale * (K2 *
-                 (y[7] -
-                  (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
-                  y[15]) * y[8] - y[9])
-        dy[10] = Timescale * (K3 *
-                  (y[7] -
-                   (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
-                   y[15]) * y[9] - y[10])
-        dy[11] = Timescale * (K4 *
-                  (y[7] -
-                   (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
-                   y[15]) * y[10] - y[11])
-        dy[12] = Timescale * (K5 *
-                  (y[7] -
-                   (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
-                   y[15]) * y[11] - y[12])
+            kd_200 * (
+            y[7] -
+                (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
+                y[15]
+        ) - dk_ZR1 * 5 * y[8] - dk_ZR2 * 2 * 10 * y[9] -
+            dk_ZR3 * 3 * 10 * y[10] - dk_ZR4 * 4 * 5 * y[11] - dk_ZR5 * 5 * y[12] +
+            lambda1 * dk_ZR1 * 5 * y[8] + lambda2 * dk_ZR2 * 2 * 10 * y[9] +
+            lambda3 * dk_ZR3 * 3 * 10 * y[10] + lambda4 * dk_ZR4 * 4 * 5 * y[11] +
+            lambda5 * dk_ZR5 * 5 * y[12] - kd_tgfR * y[15] + lambdatgfR * kd_tgfR * y[15]
+        dy[8] = Timescale * (
+            K1 *
+                (
+                y[7] -
+                    (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
+                    y[15]
+            ) *
+                (y[5] - (5 * y[8] + 10 * y[9] + 10 * y[10] + 5 * y[11] + y[12])) - y[8]
+        )
+        dy[9] = Timescale * (
+            K2 *
+                (
+                y[7] -
+                    (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
+                    y[15]
+            ) * y[8] - y[9]
+        )
+        dy[10] = Timescale * (
+            K3 *
+                (
+                y[7] -
+                    (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
+                    y[15]
+            ) * y[9] - y[10]
+        )
+        dy[11] = Timescale * (
+            K4 *
+                (
+                y[7] -
+                    (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
+                    y[15]
+            ) * y[10] - y[11]
+        )
+        dy[12] = Timescale * (
+            K5 *
+                (
+                y[7] -
+                    (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
+                    y[15]
+            ) * y[11] - y[12]
+        )
         dy[13] = k_tgf - kd_tgf * (y[13] - y[15]) - kd_tgfR * y[15]
         dy[14] = k_OT + k_TGF * (y[13] - y[15]) - kd_TGF * y[14]
-        dy[15] = Timescale * (TGF_flg +
-                  KTGF *
-                  (y[7] -
-                   (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
-                   y[15]) * (y[13] - y[15]) - y[15])
-        dy[16] = GE * (k_ecad0 + k_ecad1 / (((y[2] / J_ecad1))^2 + 1) +
-                  k_ecad2 / (((y[6] / J_ecad2))^2 + 1) - kd_ecad * y[16])
+        dy[15] = Timescale * (
+            TGF_flg +
+                KTGF *
+                (
+                y[7] -
+                    (5 * y[8] + 2 * 10 * y[9] + 3 * 10 * y[10] + 4 * 5 * y[11] + 5 * y[12]) -
+                    y[15]
+            ) * (y[13] - y[15]) - y[15]
+        )
+        dy[16] = GE * (
+            k_ecad0 + k_ecad1 / (((y[2] / J_ecad1))^2 + 1) +
+                k_ecad2 / (((y[6] / J_ecad2))^2 + 1) - kd_ecad * y[16]
+        )
         dy[17] = k_ncad0 + k_ncad1 * (((y[2] / J_ncad1))^2) / (((y[2] / J_ncad1))^2 + 1) +
-                 k_ncad2 * (((y[6] / J_ncad2))^2) /
-                 (((y[6] / J_ncad2)^2 + 1) * (1 + y[19] / J_ncad3)) - kd_ncad * y[17]
+            k_ncad2 * (((y[6] / J_ncad2))^2) /
+            (((y[6] / J_ncad2)^2 + 1) * (1 + y[19] / J_ncad3)) - kd_ncad * y[17]
         dy[18] = k0O + kO / (1 + ((y[6] / J_O))^nzo) - kdO * y[18]
-        dy[19] = kOp * y[18] - kd_Op * y[19]
+        return dy[19] = kOp * y[18] - kd_Op * y[19]
     end
 
     σ1 = function (dσ, y, p, t)
         dσ[1] = noiseLevel * 1.5y[1]
-        dσ[18] = noiseLevel * 6y[18]
+        return dσ[18] = noiseLevel * 6y[18]
     end
 
     σ2 = function (dσ, y, p, t)
         dσ[1] = 0.02y[1]
         dσ[16] = 0.02y[16]
         dσ[18] = 0.2y[18]
-        dσ[17] = 0.02y[17]
+        return dσ[17] = 0.02y[17]
     end
 
     if largeFluctuations
@@ -350,14 +392,16 @@ function oval2ModelExample(; largeFluctuations = false, useBigs = false, noiseLe
         σ = σ2
     end
 
-    u0 = [0.128483, 1.256853, 0.0030203, 0.0027977, 0.0101511, 0.0422942, 0.2391346,
-        0.0008014, 0.0001464, 2.67e-05, 4.8e-6, 9e-7, 0.0619917, 1.2444292, 0.0486676,
-        199.9383546, 137.4267984, 1.5180203, 1.5180203] #Fig 9B
+    u0 = [
+        0.128483, 1.256853, 0.0030203, 0.0027977, 0.0101511, 0.0422942, 0.2391346,
+        0.0008014, 0.0001464, 2.67e-5, 4.8e-6, 9.0e-7, 0.0619917, 1.2444292, 0.0486676,
+        199.9383546, 137.4267984, 1.5180203, 1.5180203,
+    ] #Fig 9B
     if useBigs
         u0 = big.(u0)
     end
     #u0 =  [0.1701;1.6758;0.0027;0.0025;0.0141;0.0811;0.1642;0.0009;0.0001;0.0000;0.0000;0.0000;0.0697;1.2586;0.0478;194.2496;140.0758;1.5407;1.5407] #Fig 9A
-    SDEProblem(f, σ, u0, (0.0, 500.0))
+    return SDEProblem(f, σ, u0, (0.0, 500.0))
 end
 
 stiff_quad_f_ito(u, p, t) = -(p[1] + (p[2]^2) * u) * (1 - u^2)
@@ -369,22 +413,26 @@ function stiff_quad_f_ito_analytic(u0, p, t, W)
     β = p[2]
     exp_tmp = exp(-2 * α * t + 2 * β * W)
     tmp = 1 + u0
-    (tmp * exp_tmp + u0 - 1) / (tmp * exp_tmp - u0 + 1)
+    return (tmp * exp_tmp + u0 - 1) / (tmp * exp_tmp - u0 + 1)
 end
 
-ff_stiff_quad_ito = SDEFunction(stiff_quad_f_ito, stiff_quad_g,
-    analytic = stiff_quad_f_ito_analytic)
+ff_stiff_quad_ito = SDEFunction(
+    stiff_quad_f_ito, stiff_quad_g,
+    analytic = stiff_quad_f_ito_analytic
+)
 
 function stiff_quad_f_strat_analytic(u0, p, t, W)
     α = p[1]
     β = p[2]
     exp_tmp = exp(-2 * α * t + 2 * β * W)
     tmp = 1 + u0
-    (tmp * exp_tmp + u0 - 1) / (tmp * exp_tmp - u0 + 1)
+    return (tmp * exp_tmp + u0 - 1) / (tmp * exp_tmp - u0 + 1)
 end
 
-ff_stiff_quad_strat = SDEFunction(stiff_quad_f_strat, stiff_quad_g,
-    analytic = stiff_quad_f_strat_analytic)
+ff_stiff_quad_strat = SDEFunction(
+    stiff_quad_f_strat, stiff_quad_g,
+    analytic = stiff_quad_f_strat_analytic
+)
 
 @doc doc"""
 The composite Euler method for stiff stochastic
@@ -403,8 +451,10 @@ Stiffness of Euler is determined by α+β²<1
 Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
-prob_sde_stiffquadito = SDEProblem(ff_stiff_quad_ito, 0.5, (0.0, 3.0),
-    (1.0, 1.0))
+prob_sde_stiffquadito = SDEProblem(
+    ff_stiff_quad_ito, 0.5, (0.0, 3.0),
+    (1.0, 1.0)
+)
 
 @doc doc"""
 The composite Euler method for stiff stochastic
@@ -423,8 +473,10 @@ Stiffness of Euler is determined by α+β²<1
 Higher α or β is stiff, with α being deterministic stiffness and
 β being noise stiffness (and grows by square).
 """
-prob_sde_stiffquadstrat = SDEProblem(ff_stiff_quad_strat, 0.5, (0.0, 3.0),
-    (1.0, 1.0))
+prob_sde_stiffquadstrat = SDEProblem(
+    ff_stiff_quad_strat, 0.5, (0.0, 3.0),
+    (1.0, 1.0)
+)
 
 @doc doc"""
 Stochastic Heat Equation with scalar multiplicative noise
@@ -437,12 +489,16 @@ ASSYR ABDULLE AND STEPHANE CIRILLI
 Raising D or k increases stiffness
 """
 function generate_stiff_stoch_heat(D = 1, k = 1; N = 100)
-    A = full(Tridiagonal([1.0 for i in 1:(N - 1)], [-2.0 for i in 1:N],
-        [1.0 for i in 1:(N - 1)]))
+    A = full(
+        Tridiagonal(
+            [1.0 for i in 1:(N - 1)], [-2.0 for i in 1:N],
+            [1.0 for i in 1:(N - 1)]
+        )
+    )
     dx = 1 / N
     A = D / (dx^2) * A
     function f(du, u, p, t)
-        mul!(du, A, u)
+        return mul!(du, A, u)
     end
     #=
     function f(::Type{Val{:analytic}},u0,p,t,W)
@@ -450,27 +506,31 @@ function generate_stiff_stoch_heat(D = 1, k = 1; N = 100)
     end
     =#
     function g(du, u, p, t)
-        @. du = k * u
+        return @. du = k * u
     end
-    SDEProblem(f, g, ones(N), (0.0, 3.0),
-        noise = WienerProcess(0.0, 0.0, 0.0, rswm = RSWM(adaptivealg = :RSwM3)))
+    return SDEProblem(
+        f, g, ones(N), (0.0, 3.0),
+        noise = WienerProcess(0.0, 0.0, 0.0, rswm = RSWM(adaptivealg = :RSwM3))
+    )
 end
 
 bistable_f(du, u, p, t) = du[1] = p[1] + p[2] * u[1]^4 / (u[1]^4 + 11.9^4) - p[3] * u[1]
 function bistable_g(du, u, p, t)
     du[1, 1] = 0.1 * sqrt(p[1] + p[2] * u[1]^4 / (u[1]^4 + 11.9^4))
-    du[1, 2] = -0.1 * sqrt(p[3] * u[1])
+    return du[1, 2] = -0.1 * sqrt(p[3] * u[1])
 end
 p = (5.0, 18.0, 1.0)
 """
 Bistable chemical reaction network with a semi-stable lower state.
 """
-prob_sde_bistable = SDEProblem(bistable_f, bistable_g, [3.0], (0.0, 300.0), p,
-    noise_rate_prototype = zeros(1, 2))
+prob_sde_bistable = SDEProblem(
+    bistable_f, bistable_g, [3.0], (0.0, 300.0), p,
+    noise_rate_prototype = zeros(1, 2)
+)
 
 function bruss_f(du, u, p, t)
     du[1] = p[1] + p[2] * u[1] * u[1] * u[2] - p[3] * u[1] - p[4] * u[1]
-    du[2] = p[3] * u[1] - p[2] * u[1] * u[1] * u[2]
+    return du[2] = p[3] * u[1] - p[2] * u[1] * u[1] * u[2]
 end
 function bruss_g(du, u, p, t)
     du[1, 1] = 0.15 * sqrt(p[1])
@@ -480,26 +540,28 @@ function bruss_g(du, u, p, t)
     du[2, 1] = 0
     du[2, 2] = -0.15 * sqrt(p[2] * u[1] * u[1] * u[2])
     du[2, 3] = 0.15 * sqrt(p[3] * 2.5 * u[1])
-    du[2, 4] = 0
+    return du[2, 4] = 0
 end
 p = (1.0, 1.0, 2.5, 1.0)
 """
 Stochastic Brusselator
 """
-prob_sde_bruss = SDEProblem(bruss_f, bruss_g, [3.0, 2.0], (0.0, 100.0), p,
-    noise_rate_prototype = zeros(2, 4))
+prob_sde_bruss = SDEProblem(
+    bruss_f, bruss_g, [3.0, 2.0], (0.0, 100.0), p,
+    noise_rate_prototype = zeros(2, 4)
+)
 
 # Hill function helper
-hill(x, k, n, h) = h > 0 ? (x/k)^n / (1 + (x/k)^n) : 1 / (1 + (x/k)^abs(n))
+hill(x, k, n, h) = h > 0 ? (x / k)^n / (1 + (x / k)^n) : 1 / (1 + (x / k)^abs(n))
 
 function oscilreact_drift(du, u, p, t)
     X, Y, Z, R, S, SP, SP2 = u
     p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 = p
-    
+
     # Reaction rates based on the original network
     # p1, (X, Y, Z) --> 0
     r1 = p1
-    # hill(X, p2, 100.0, -4), 0 --> Y  
+    # hill(X, p2, 100.0, -4), 0 --> Y
     r2 = hill(X, p2, 100.0, -4)
     # hill(Y, p3, 100.0, -4), 0 --> Z
     r3 = hill(Y, p3, 100.0, -4)
@@ -517,21 +579,21 @@ function oscilreact_drift(du, u, p, t)
     r9 = p9
     # p10, SP2 --> 0
     r10 = p10
-    
+
     # Deterministic rates (drift terms)
     du[1] = -r1 * X + r4            # X: degradation + production from Z
     du[2] = -r1 * Y + r2            # Y: degradation + production from X
-    du[3] = -r1 * Z + r3            # Z: degradation + production from Y  
+    du[3] = -r1 * Z + r3            # Z: degradation + production from Y
     du[4] = r5 - r6 * R             # R: production from X - consumption
     du[5] = r7 - r8 * S             # S: production - consumption to SP
     du[6] = r8 * S - 2 * r9 * SP^2  # SP: production from S - dimerization
-    du[7] = r9 * SP^2 - r10 * SP2   # SP2: production from SP - degradation
+    return du[7] = r9 * SP^2 - r10 * SP2   # SP2: production from SP - degradation
 end
 
 function oscilreact_diffusion(du, u, p, t)
     X, Y, Z, R, S, SP, SP2 = u
     p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 = p
-    
+
     # Same reaction rates as drift
     r1 = p1
     r2 = hill(X, p2, 100.0, -4)
@@ -543,7 +605,7 @@ function oscilreact_diffusion(du, u, p, t)
     r8 = R * p8
     r9 = p9
     r10 = p10
-    
+
     # Stochastic terms (square root of rates for chemical Langevin)
     du[1] = sqrt(abs(r1 * X + r4))
     du[2] = sqrt(abs(r1 * Y + r2))
@@ -551,7 +613,7 @@ function oscilreact_diffusion(du, u, p, t)
     du[4] = sqrt(abs(r5 + r6 * R))
     du[5] = sqrt(abs(r7 + r8 * S))
     du[6] = sqrt(abs(r8 * S + 2 * r9 * SP^2))
-    du[7] = sqrt(abs(r9 * SP^2 + r10 * SP2))
+    return du[7] = sqrt(abs(r9 * SP^2 + r10 * SP2))
 end
 
 """
@@ -564,8 +626,10 @@ SP2 (double phosphorylated).
 Parameters: p1=0.01, p2=3.0, p3=3.0, p4=4.5, p5=2.0, p6=15.0, p7=20.0, p8=0.005, p9=0.01, p10=0.05
 Initial conditions: [X=200.0, Y=60.0, Z=120.0, R=100.0, S=50.0, SP=50.0, SP2=50.0]
 """
-prob_sde_oscilreact = SDEProblem(oscilreact_drift, oscilreact_diffusion, 
+prob_sde_oscilreact = SDEProblem(
+    oscilreact_drift, oscilreact_diffusion,
     [200.0, 60.0, 120.0, 100.0, 50.0, 50.0, 50.0], (0.0, 4000.0),
-    [0.01, 3.0, 3.0, 4.5, 2.0, 15.0, 20.0, 0.005, 0.01, 0.05])
+    [0.01, 3.0, 3.0, 4.5, 2.0, 15.0, 20.0, 0.005, 0.01, 0.05]
+)
 
 end # module
