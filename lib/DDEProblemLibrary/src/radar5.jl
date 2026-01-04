@@ -34,8 +34,8 @@ for ``t ≤ 0``, where ``k_1 = 1.34``, ``k_2 = 1.6×10^9``, ``k_3 = 8000``, ``k_
 Epstein, I. and Luo, Y. (1991). Differential delay equations in chemical kinetics. Nonlinear
 models, Journal of Chemical Physics (95), pp. 244-254.
 """
-const prob_dde_RADAR5_oregonator = let k₁ = 1.34, k₂ = 1.6e9, k₃ = 8_000, k₄ = 4e7, f = 1,
-    A = 0.06, B = 0.06, τ = 0.15
+const prob_dde_RADAR5_oregonator = let k₁ = 1.34, k₂ = 1.6e9, k₃ = 8_000, k₄ = 4.0e7, f = 1,
+        A = 0.06, B = 0.06, τ = 0.15
 
     global function f_dde_RADAR5_oregonator!(du, u, h, p, t)
         # past value of the second component
@@ -48,23 +48,25 @@ const prob_dde_RADAR5_oregonator = let k₁ = 1.34, k₂ = 1.6e9, k₃ = 8_000, 
         du[1] = a + b - 2 * k₄ * u[1]^2
         du[2] = a + f * b
 
-        nothing
+        return nothing
     end
 
     global function h_dde_RADAR5_oregonator(p, t; idxs::Union{Nothing, Int} = nothing)
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        if idxs === nothing
-            [1e-10, 1e-5]
+        return if idxs === nothing
+            [1.0e-10, 1.0e-5]
         elseif idxs == 2
-            1e-5
+            1.0e-5
         else
             error("history function is only implemented for the second component")
         end
     end
 
-    DDEProblem(f_dde_RADAR5_oregonator!, h_dde_RADAR5_oregonator, (0.0, 100.5);
-        constant_lags = [τ])
+    DDEProblem(
+        f_dde_RADAR5_oregonator!, h_dde_RADAR5_oregonator, (0.0, 100.5);
+        constant_lags = [τ]
+    )
 end
 
 # ROBERTSON example
@@ -91,7 +93,7 @@ for ``t \in [0, 10^{10}]`` with history function ``ϕ_1(0) = 1``, ``ϕ_2(t) = 0`
 Guglielmi, N. and Hairer, E. (2001). Implementing Radau IIA methods for stiff delay
 differential equations, Computing (67), pp. 1-12.
 """
-const prob_dde_RADAR5_robertson = let a = 0.04, b = 10_000, c = 3e7, τ = 0.01
+const prob_dde_RADAR5_robertson = let a = 0.04, b = 10_000, c = 3.0e7, τ = 0.01
     global function f_dde_RADAR5_robertson!(du, u, h, p, t)
         # past value of the second component
         v = h(p, t - τ; idxs = 2)
@@ -104,13 +106,13 @@ const prob_dde_RADAR5_robertson = let a = 0.04, b = 10_000, c = 3e7, τ = 0.01
         du[2] = x - y
         du[3] = y
 
-        nothing
+        return nothing
     end
 
     global function h_dde_RADAR5_robertson(p, t; idxs::Union{Nothing, Int} = nothing)
         -τ ≤ t ≤ 0 || error("history function is only implemented for t ∈ [-τ, 0]")
 
-        if idxs === nothing
+        return if idxs === nothing
             [1.0, 0.0, 0.0]
         elseif idxs == 2
             0.0
@@ -119,8 +121,10 @@ const prob_dde_RADAR5_robertson = let a = 0.04, b = 10_000, c = 3e7, τ = 0.01
         end
     end
 
-    DDEProblem(f_dde_RADAR5_robertson!, h_dde_RADAR5_robertson, (0.0, 1e10);
-        constant_lags = [τ])
+    DDEProblem(
+        f_dde_RADAR5_robertson!, h_dde_RADAR5_robertson, (0.0, 1.0e10);
+        constant_lags = [τ]
+    )
 end
 
 # WALTMAN example
@@ -192,26 +196,30 @@ let α = 1.8, β = 20, γ = 0.002, r = 50_000, s = 100_000
         else
             w = h(p, u[6])
             du[4] = -b - γ * u[4] + β * r * w[1] * w[2]
-            du[6] = (1e-12 + u[2] + u[3]) / (1e-12 + w[2] + w[3])
+            du[6] = (1.0e-12 + u[2] + u[3]) / (1.0e-12 + w[2] + w[3])
         end
 
-        nothing
+        return nothing
     end
 end
 
 function h_dde_RADAR5_waltman(p, t)
     t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-    [p.ϕ₀, 1e-15, 0.0, 0.0, 0.0, 0.0]
+    return [p.ϕ₀, 1.0e-15, 0.0, 0.0, 0.0, 0.0]
 end
 
-const prob_dde_RADAR5_waltman = DDEProblem(f_dde_RADAR5_waltman!,
+const prob_dde_RADAR5_waltman = DDEProblem(
+    f_dde_RADAR5_waltman!,
     (p, t) -> h_dde_RADAR5_waltman(p, 0.0),
     h_dde_RADAR5_waltman, (0.0, 300.0),
     (ϕ₀ = 0.75e-4, t₀ = 32, t₁ = 119);
-    dependent_lags = ((u, p, t) -> t - u[5],
-        (u, p, t) -> t - u[6]),
-    order_discontinuity_t0 = 1)
+    dependent_lags = (
+        (u, p, t) -> t - u[5],
+        (u, p, t) -> t - u[6],
+    ),
+    order_discontinuity_t0 = 1
+)
 const prob_dde_RADAR5_waltman_1 = prob_dde_RADAR5_waltman
 
 @doc raw"""
@@ -225,8 +233,10 @@ Same delay differential equation as [`prob_dde_RADAR5_waltman`](@ref) with ``t_0
 Waltman, P. (1978). A threshold model of antigen-stimulated antibody production, Theoretical
 Immunology (8), pp. 437-453.
 """
-const prob_dde_RADAR5_waltman_2 = remake(prob_dde_RADAR5_waltman;
-    p = (ϕ₀ = 0.5e-4, t₀ = 32, t₁ = 111))
+const prob_dde_RADAR5_waltman_2 = remake(
+    prob_dde_RADAR5_waltman;
+    p = (ϕ₀ = 0.5e-4, t₀ = 32, t₁ = 111)
+)
 
 @doc raw"""
     prob_dde_RADAR5_waltman_3
@@ -239,8 +249,10 @@ Same delay differential equation as [`prob_dde_RADAR5_waltman`](@ref) with ``t_0
 Waltman, P. (1978). A threshold model of antigen-stimulated antibody production, Theoretical
 Immunology (8), pp. 437-453.
 """
-const prob_dde_RADAR5_waltman_3 = remake(prob_dde_RADAR5_waltman;
-    p = (ϕ₀ = 1e-5, t₀ = 33, t₁ = 145))
+const prob_dde_RADAR5_waltman_3 = remake(
+    prob_dde_RADAR5_waltman;
+    p = (ϕ₀ = 1.0e-5, t₀ = 33, t₁ = 145)
+)
 
 @doc raw"""
     prob_dde_RADAR5_waltman_4
@@ -253,8 +265,10 @@ Same delay differential equation as [`prob_dde_RADAR5_waltman`](@ref) with ``t_0
 Waltman, P. (1978). A threshold model of antigen-stimulated antibody production, Theoretical
 Immunology (8), pp. 437-453.
 """
-const prob_dde_RADAR5_waltman_4 = remake(prob_dde_RADAR5_waltman;
-    p = (ϕ₀ = 0.75e-5, t₀ = 34, t₁ = 163))
+const prob_dde_RADAR5_waltman_4 = remake(
+    prob_dde_RADAR5_waltman;
+    p = (ϕ₀ = 0.75e-5, t₀ = 34, t₁ = 163)
+)
 
 @doc raw"""
     prob_dde_RADAR5_waltman_5
@@ -267,5 +281,7 @@ Same delay differential equation as [`prob_dde_RADAR5_waltman`](@ref) with ``t_0
 Waltman, P. (1978). A threshold model of antigen-stimulated antibody production, Theoretical
 Immunology (8), pp. 437-453.
 """
-const prob_dde_RADAR5_waltman_5 = remake(prob_dde_RADAR5_waltman;
-    p = (ϕ₀ = 0.5e-5, t₀ = 35, t₁ = 197))
+const prob_dde_RADAR5_waltman_5 = remake(
+    prob_dde_RADAR5_waltman;
+    p = (ϕ₀ = 0.5e-5, t₀ = 35, t₁ = 197)
+)

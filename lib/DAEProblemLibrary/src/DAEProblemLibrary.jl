@@ -11,7 +11,7 @@ f = function (r, yp, y, p, tres)
     r[1] = -0.04 * y[1] + 1.0e4 * y[2] * y[3]
     r[2] = -r[1] - 3.0e7 * y[2] * y[2] - yp[2]
     r[1] -= yp[1]
-    r[3] = y[1] + y[2] + y[3] - 1.0
+    return r[3] = y[1] + y[2] + y[3] - 1.0
 end
 u0 = [1.0, 0, 0]
 du0 = [-0.04, 0.04, 0.0]
@@ -32,15 +32,15 @@ Usually solved on ``[0,10^{11}]``
 """
 prob_dae_resrob = DAEProblem(f, du0, u0, (0.0, 100000.0))
 
-C = [k * 1e-6 for k in 1:5]
+C = [k * 1.0e-6 for k in 1:5]
 Ub = 6
 UF = 0.026
 α = 0.99
-β = 1e-6
+β = 1.0e-6
 R0 = 1000
 R = 9000
 Ue(t) = 0.1 * sin(200 * π * t)
-g(x) = 1e-6 * (exp(x / 0.026) - 1)
+g(x) = 1.0e-6 * (exp(x / 0.026) - 1)
 
 function transamp(out, du, u, p, t)
     y1, y2, y3, y4, y5, y6, y7, y8 = u
@@ -51,7 +51,7 @@ function transamp(out, du, u, p, t)
     out[5] = -Ub / R + y5 * 2 / R - (α - 1) * g(y5 - y6) - C[3] * du[4] + C[3] * du[5]
     out[6] = -g(y5 - y6) + y6 / R + C[4] * du[6]
     out[7] = -Ub / R + y7 / R + α * g(y5 - y6) + C[5] * du[7] - C[5] * du[8]
-    out[8] = y8 / R - C[5] * du[7] + C[5] * du[8]
+    return out[8] = y8 / R - C[5] * du[7] + C[5] * du[8]
 end
 
 u0 = [0, Ub / 2, Ub / 2, Ub, Ub / 2, Ub / 2, Ub, 0]
@@ -63,7 +63,7 @@ du0 = [
     -24.9757667,
     -Ub / (2 * (C[4] * R)),
     -10.00564453,
-    -10.00564453
+    -10.00564453,
 ]
 
 @doc doc"""

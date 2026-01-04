@@ -10,10 +10,10 @@ struct FerromagneticContinuous <: AbstractMagneticForce
 end
 
 mutable struct FilamentCache{
-    MagneticForce <: AbstractMagneticForce,
-    InextensibilityCache <: AbstractInextensibilityCache,
-    SolverCache <: AbstractSolverCache
-} <: AbstractFilamentCache
+        MagneticForce <: AbstractMagneticForce,
+        InextensibilityCache <: AbstractInextensibilityCache,
+        SolverCache <: AbstractSolverCache,
+    } <: AbstractFilamentCache
     N::Int
     μ::T
     Cm::T
@@ -33,12 +33,18 @@ struct NoHydroProjectionCache <: AbstractInextensibilityCache
     P0::Matrix{T}
 
     function NoHydroProjectionCache(N::Int)
-        new(zeros(N, 3 * (N + 1)),          # J
+        return new(
+            zeros(N, 3 * (N + 1)),          # J
             zeros(3 * (N + 1), 3 * (N + 1)),    # P
             zeros(N, N),                 # J_JT
-            LinearAlgebra.LDLt{T, SymTridiagonal{T}}(SymTridiagonal(zeros(N),
-                zeros(N - 1))),
-            zeros(N, 3 * (N + 1)))
+            LinearAlgebra.LDLt{T, SymTridiagonal{T}}(
+                SymTridiagonal(
+                    zeros(N),
+                    zeros(N - 1)
+                )
+            ),
+            zeros(N, 3 * (N + 1))
+        )
     end
 end
 struct DiffEqSolverCache <: AbstractSolverCache
@@ -51,23 +57,39 @@ function FilamentCache(N = 20; Cm = 32, ω = 200, Solver = SolverDiffEq)
     InextensibilityCache = NoHydroProjectionCache
     SolverCache = DiffEqSolverCache
     tmp = zeros(3 * (N + 1))
-    FilamentCache{FerromagneticContinuous, InextensibilityCache, SolverCache}(N, N + 1, Cm,
-        view(tmp,
-            1:3:(3 * (N + 1))),
-        view(tmp,
-            2:3:(3 * (N + 1))),
-        view(tmp,
-            3:3:(3 * (N + 1))),
-        zeros(3 *
-              (N + 1),
+    return FilamentCache{FerromagneticContinuous, InextensibilityCache, SolverCache}(
+        N, N + 1, Cm,
+        view(
+            tmp,
+            1:3:(3 * (N + 1))
+        ),
+        view(
+            tmp,
+            2:3:(3 * (N + 1))
+        ),
+        view(
+            tmp,
+            3:3:(3 * (N + 1))
+        ),
+        zeros(
             3 *
-            (N + 1)), # A
+                (N + 1),
+            3 *
+                (N + 1)
+        ), # A
         InextensibilityCache(N), # P
-        FerromagneticContinuous(ω,
-            zeros(3 *
-                  (N +
-                   1))),
-        SolverCache(N))
+        FerromagneticContinuous(
+            ω,
+            zeros(
+                3 *
+                    (
+                    N +
+                        1
+                )
+            )
+        ),
+        SolverCache(N)
+    )
 end
 function stiffness_matrix!(f::AbstractFilamentCache)
     N, μ, A = f.N, f.μ, f.A
@@ -100,7 +122,7 @@ function stiffness_matrix!(f::AbstractFilamentCache)
         end
     end
     rmul!(A, -μ^4)
-    nothing
+    return nothing
 end
 function update_separate_coordinates!(f::AbstractFilamentCache, r)
     N, x, y, z = f.N, f.x, f.y, f.z
@@ -109,7 +131,7 @@ function update_separate_coordinates!(f::AbstractFilamentCache, r)
         y[i] = r[3 * i - 1]
         z[i] = r[3 * i]
     end
-    nothing
+    return nothing
 end
 
 function update_united_coordinates!(f::AbstractFilamentCache, r)
@@ -119,13 +141,13 @@ function update_united_coordinates!(f::AbstractFilamentCache, r)
         r[3 * i - 1] = y[i]
         r[3 * i] = z[i]
     end
-    nothing
+    return nothing
 end
 
 function update_united_coordinates(f::AbstractFilamentCache)
     r = zeros(T, 3 * length(f.x))
     update_united_coordinates!(f, r)
-    r
+    return r
 end
 
 function initialize!(initial_conf_type::Symbol, f::AbstractFilamentCache)
@@ -137,7 +159,7 @@ function initialize!(initial_conf_type::Symbol, f::AbstractFilamentCache)
     else
         error("Unknown initial configuration requested.")
     end
-    update_united_coordinates(f)
+    return update_united_coordinates(f)
 end
 
 function magnetic_force!(::FerromagneticContinuous, f::AbstractFilamentCache, t)
@@ -147,7 +169,7 @@ function magnetic_force!(::FerromagneticContinuous, f::AbstractFilamentCache, t)
     F[2] = -μ * Cm * sin(ω * t)
     F[3 * (N + 1) - 2] = μ * Cm * cos(ω * t)
     F[3 * (N + 1) - 1] = μ * Cm * sin(ω * t)
-    nothing
+    return nothing
 end
 
 struct SolverDiffEq <: AbstractSolver end
@@ -169,7 +191,7 @@ end
 
 function (f::FilamentCache)(::Type{Val{:jac}}, J, r, p, t)
     mul!(J, f.P.P, f.A)
-    nothing
+    return nothing
 end
 
 function jacobian!(f::FilamentCache)
@@ -182,7 +204,7 @@ function jacobian!(f::FilamentCache)
         J[i, 3 * (i + 1) - 1] = 2 * (y[i + 1] - y[i])
         J[i, 3 * (i + 1)] = 2 * (z[i + 1] - z[i])
     end
-    nothing
+    return nothing
 end
 
 function projection!(f::FilamentCache)
@@ -193,7 +215,7 @@ function projection!(f::FilamentCache)
     ldiv!(P0, J_JT_LDLT, J)
     mul!(P', P0, J)
     subtract_from_identity!(P)
-    nothing
+    return nothing
 end
 
 function subtract_from_identity!(A)
@@ -201,11 +223,13 @@ function subtract_from_identity!(A)
     @inbounds for i in 1:size(A, 1)
         A[i, i] += 1
     end
-    nothing
+    return nothing
 end
 
-function LDLt_inplace!(L::LinearAlgebra.LDLt{T, SymTridiagonal{T}},
-        A::Matrix{T}) where {T <: Real}
+function LDLt_inplace!(
+        L::LinearAlgebra.LDLt{T, SymTridiagonal{T}},
+        A::Matrix{T}
+    ) where {T <: Real}
     n = size(A, 1)
     dv, ev = L.data.dv, L.data.ev
     @inbounds for (i, d) in enumerate(diagind(A))
@@ -218,7 +242,7 @@ function LDLt_inplace!(L::LinearAlgebra.LDLt{T, SymTridiagonal{T}},
         ev[i] /= dv[i]
         dv[i + 1] -= abs2(ev[i]) * dv[i]
     end
-    L
+    return L
 end
 
 function filament_prob(::SolverDiffEq; N = 20, Cm = 32, ω = 200, time_end = 1.0)
@@ -226,7 +250,7 @@ function filament_prob(::SolverDiffEq; N = 20, Cm = 32, ω = 200, time_end = 1.0
     jac = (J, r, p, t) -> f(Val{:jac}, J, r, p, t)
     r0 = initialize!(:StraightX, f)
     stiffness_matrix!(f)
-    prob = ODEProblem(ODEFunction(f, jac = jac), r0, (0.0, time_end))
+    return prob = ODEProblem(ODEFunction(f, jac = jac), r0, (0.0, time_end))
 end
 """
 Filament PDE Discretization

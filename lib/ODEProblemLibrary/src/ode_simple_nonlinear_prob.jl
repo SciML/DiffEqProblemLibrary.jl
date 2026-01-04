@@ -4,7 +4,7 @@ function lotka(du, u, p, t)
     x = u[1]
     y = u[2]
     du[1] = p[1] * x - p[2] * x * y
-    du[2] = -p[3] * y + p[4] * x * y
+    return du[2] = -p[3] * y + p[4] * x * y
 end
 
 @doc doc"""
@@ -31,7 +31,7 @@ function fitz(du, u, p, t)
     τinv = p[3]
     l = p[4]
     du[1] = v - v^3 / 3 - w + l
-    du[2] = τinv * (v + a - b * w)
+    return du[2] = τinv * (v + a - b * w)
 end
 @doc doc"""
 Fitzhugh-Nagumo (Non-stiff)
@@ -45,8 +45,10 @@ Fitzhugh-Nagumo (Non-stiff)
 
 with initial condition ``v=w=1``
 """
-prob_ode_fitzhughnagumo = ODEProblem(fitz, [1.0; 1.0], (0.0, 1.0),
-    (0.7, 0.8, 1 / 12.5, 0.5))
+prob_ode_fitzhughnagumo = ODEProblem(
+    fitz, [1.0; 1.0], (0.0, 1.0),
+    (0.7, 0.8, 1 / 12.5, 0.5)
+)
 
 ## Van der Pol Equations
 
@@ -55,17 +57,17 @@ function vanderpol(du, u, p, t)
     y = u[2]
     μ = p[1]
     du[1] = y
-    du[2] = μ * ((1 - x^2) * y - x)
+    return du[2] = μ * ((1 - x^2) * y - x)
 end
 
 function vanderpol_jac(J, u, p, t)
     x = u[1]
     y = u[2]
     μ = p[1]
-    J[1,1] = 0
-    J[2,1] = μ * (-2*x*y - 1)
-    J[1,2] = 1
-    J[2,2] = μ * (1 - x^2)
+    J[1, 1] = 0
+    J[2, 1] = μ * (-2 * x * y - 1)
+    J[1, 2] = 1
+    return J[2, 2] = μ * (1 - x^2)
 end
 
 @doc doc"""
@@ -82,8 +84,10 @@ with ``μ=1.0`` and ``u_0=[\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Non-stiff parameters.
 """
-prob_ode_vanderpol = ODEProblem(ODEFunction(vanderpol, jac=vanderpol_jac),
-    [sqrt(3), 0.0], (0.0, 1.0), [1.0])
+prob_ode_vanderpol = ODEProblem(
+    ODEFunction(vanderpol, jac = vanderpol_jac),
+    [sqrt(3), 0.0], (0.0, 1.0), [1.0]
+)
 
 @doc doc"""
 Van der Pol Equations
@@ -99,7 +103,7 @@ with ``μ=10^6`` and ``u_0=[\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Stiff parameters.
 """
-prob_ode_vanderpol_stiff = ODEProblem(ODEFunction(vanderpol, jac=vanderpol_jac), [sqrt(3), 0.0], (0.0, 1.0), [1e6])
+prob_ode_vanderpol_stiff = ODEProblem(ODEFunction(vanderpol, jac = vanderpol_jac), [sqrt(3), 0.0], (0.0, 1.0), [1.0e6])
 
 ## ROBER
 
@@ -112,7 +116,7 @@ function rober(du, u, p, t)
     k₃ = p[3]
     du[1] = -k₁ * y₁ + k₃ * y₂ * y₃
     du[2] = k₁ * y₁ - k₂ * y₂^2 - k₃ * y₂ * y₃
-    du[3] = k₂ * y₂^2
+    return du[3] = k₂ * y₂^2
 end
 
 @doc doc"""
@@ -132,16 +136,18 @@ Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Probl
 
 Usually solved on ``[0,10^{11}]``
 """
-prob_ode_rober = ODEProblem(rober, [1.0, 0.0, 0.0], (0.0, 1e11), [0.04, 3e7, 1e4])
+prob_ode_rober = ODEProblem(rober, [1.0, 0.0, 0.0], (0.0, 1.0e11), [0.04, 3.0e7, 1.0e4])
 
 # Three Body
 const threebody_μ = big(0.012277471);
 const threebody_μ′ = 1 - threebody_μ;
 
-threebody = (du,
+threebody = (
+    du,
     u,
     p,
-    t) -> begin
+    t,
+) -> begin
     # 1 = y₁
     # 2 = y₂
     # 3 = y₁'
@@ -151,7 +157,7 @@ threebody = (du,
     du[1] = u[3]
     du[2] = u[4]
     du[3] = u[1] + 2u[4] - threebody_μ′ * (u[1] + threebody_μ) / D₁ -
-            threebody_μ * (u[1] - threebody_μ′) / D₂
+        threebody_μ * (u[1] - threebody_μ′) / D₂
     du[4] = u[2] - 2u[3] - threebody_μ′ * u[2] / D₁ - threebody_μ * u[2] / D₂
 end
 
@@ -178,9 +184,11 @@ From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff 
 Usually solved on ``t₀ = 0.0`` and ``T = 17.0652165601579625588917206249``
 Periodic with that setup.
 """
-prob_ode_threebody = ODEProblem(threebody,
+prob_ode_threebody = ODEProblem(
+    threebody,
     [0.994, 0.0, 0.0, big(-2.00158510637908252240537862224)],
-    (big(0.0), big(17.0652165601579625588917206249)))
+    (big(0.0), big(17.0652165601579625588917206249))
+)
 
 ## Rigid Body Equations
 
@@ -193,7 +201,7 @@ function rigidbody(du, u, p, t)
     I₃ = p[3]
     du[1] = I₁ * y₂ * y₃
     du[2] = I₂ * y₁ * y₃
-    du[3] = I₃ * y₁ * y₂
+    return du[3] = I₃ * y₁ * y₂
 end
 
 @doc doc"""
@@ -285,7 +293,8 @@ From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff 
 
 Usually solved from 0 to 3.
 """
-prob_ode_pleiades = ODEProblem(pleiades,
+prob_ode_pleiades = ODEProblem(
+    pleiades,
     [
         3.0,
         3.0,
@@ -314,17 +323,20 @@ prob_ode_pleiades = ODEProblem(pleiades,
         -1.25,
         1,
         0,
-        0
-    ], (0.0, 3.0))
+        0,
+    ], (0.0, 3.0)
+)
 
 Random.seed!(100)
 const mm_A = rand(4, 4)
 mm_linear = function (du, u, p, t)
-    mul!(du, mm_A, u)
+    return mul!(du, mm_A, u)
 end
 const MM_linear = Matrix(Diagonal(0.5ones(4)))
-mm_f = ODEFunction(mm_linear; analytic = (u0, p, t) -> exp(inv(MM_linear) * mm_A * t) * u0,
-    mass_matrix = MM_linear)
+mm_f = ODEFunction(
+    mm_linear; analytic = (u0, p, t) -> exp(inv(MM_linear) * mm_A * t) * u0,
+    mass_matrix = MM_linear
+)
 prob_ode_mm_linear = ODEProblem(mm_f, rand(4), (0.0, 1.0))
 
 ## Hires Problem
@@ -340,7 +352,7 @@ function hires(du, u, p, t)
     du[5] = -p9 * y5 + p2 * y6 + p2 * y7
     du[6] = -p10 * y6 * y8 + p11 * y4 + p1 * y5 - p2 * y6 + p11 * y7
     du[7] = p10 * y6 * y8 - p12 * y7
-    du[8] = -p10 * y6 * y8 + p12 * y7
+    return du[8] = -p10 * y6 * y8 + p12 * y7
 end
 
 u0 = zeros(8)
@@ -392,7 +404,7 @@ function orego(du, u, p, t)
 
     du[1] = p1 * (y2 + y1 * (1 - p2 * y1 - y2))
     du[2] = (y3 - (1 + y1) * y2) / p1
-    du[3] = p3 * (y1 - y3)
+    return du[3] = p3 * (y1 - y3)
 end
 
 @doc doc"""

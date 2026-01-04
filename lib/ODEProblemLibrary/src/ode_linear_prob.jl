@@ -16,8 +16,10 @@ u(t) = u_0 e^{αt}
 
 with Float64s. The parameter is ``α``
 """
-prob_ode_linear = ODEProblem(ODEFunction(linear, analytic = linear_analytic),
-    1 / 2, (0.0, 1.0), 1.01)
+prob_ode_linear = ODEProblem(
+    ODEFunction(linear, analytic = linear_analytic),
+    1 / 2, (0.0, 1.0), 1.01
+)
 
 @doc doc"""
 Linear ODE
@@ -34,8 +36,10 @@ u(t) = u_0 e^{αt}
 
 with BigFloats
 """
-prob_ode_bigfloatlinear = ODEProblem(ODEFunction(linear, analytic = linear_analytic),
-    big(0.5), (0.0, 1.0), big(1.01))
+prob_ode_bigfloatlinear = ODEProblem(
+    ODEFunction(linear, analytic = linear_analytic),
+    big(0.5), (0.0, 1.0), big(1.01)
+)
 
 f_2dlinear = (du, u, p, t) -> (@. du = p * u)
 f_2dlinear_analytic = (u0, p, t) -> @. u0 * exp(p * t)
@@ -55,8 +59,10 @@ u(t) = u_0 e^{αt}
 
 with Float64s
 """
-prob_ode_2Dlinear = ODEProblem(ODEFunction(f_2dlinear, analytic = f_2dlinear_analytic),
-    rand(4, 2), (0.0, 1.0), 1.01)
+prob_ode_2Dlinear = ODEProblem(
+    ODEFunction(f_2dlinear, analytic = f_2dlinear_analytic),
+    rand(4, 2), (0.0, 1.0), 1.01
+)
 
 @doc doc"""
 100×100 version of the Linear ODE
@@ -76,7 +82,8 @@ with Float64s
 """
 prob_ode_large2Dlinear = ODEProblem(
     ODEFunction(f_2dlinear, analytic = f_2dlinear_analytic),
-    rand(100, 100), (0.0, 1.0), 1.01)
+    rand(100, 100), (0.0, 1.0), 1.01
+)
 
 @doc doc"""
 4×2 version of the Linear ODE
@@ -95,10 +102,13 @@ u(t) = u_0 e^{αt}
 with BigFloats
 """
 prob_ode_bigfloat2Dlinear = ODEProblem(
-    ODEFunction(f_2dlinear,
-        analytic = f_2dlinear_analytic),
+    ODEFunction(
+        f_2dlinear,
+        analytic = f_2dlinear_analytic
+    ),
     BigFloat.(rand(4, 2)) .* ones(4, 2) / 2, (0.0, 1.0),
-    big(1.01))
+    big(1.01)
+)
 
 f_2dlinear_notinplace = (u, p, t) -> p * u
 @doc doc"""
@@ -118,6 +128,9 @@ u(t) = u_0 e^{αt}
 on Float64. Purposefully not in-place as a test.
 """
 prob_ode_2Dlinear_notinplace = ODEProblem(
-    ODEFunction(f_2dlinear_notinplace,
-        analytic = f_2dlinear_analytic),
-    rand(4, 2), (0.0, 1.0), 1.01)
+    ODEFunction(
+        f_2dlinear_notinplace,
+        analytic = f_2dlinear_analytic
+    ),
+    rand(4, 2), (0.0, 1.0), 1.01
+)

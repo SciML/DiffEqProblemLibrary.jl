@@ -9,7 +9,7 @@ function thomas_eqs(du, u, p, t)
     b = p[1]
     du[1] = sin(y) - b * x
     du[2] = sin(z) - b * y
-    du[3] = sin(x) - b * z
+    return du[3] = sin(x) - b * z
 end
 
 @doc doc"""
@@ -39,7 +39,7 @@ function lorenz_eqs(du, u, p, t)
     σ, ρ, β = p
     du[1] = σ * (y - x)
     du[2] = x * (ρ - z) - y
-    du[3] = x * y - β * z
+    return du[3] = x * y - β * z
 end
 
 @doc doc"""
@@ -60,7 +60,7 @@ with parameters ``σ=10, ρ=28, β=8/3`` and initial conditions ``x(0)=1, y(0)=0
 [Wikipedia](https://en.wikipedia.org/wiki/Lorenz_system)
 """
 lorenz = ODEFunction(lorenz_eqs)
-prob_ode_lorenz = ODEProblem(lorenz, [1.0, 0.0, 0.0], (0.0, 1.0), [10.0, 28.0, 8/3])
+prob_ode_lorenz = ODEProblem(lorenz, [1.0, 0.0, 0.0], (0.0, 1.0), [10.0, 28.0, 8 / 3])
 
 ## Aizawa
 
@@ -69,7 +69,7 @@ function aizawa_eqs(du, u, p, t)
     a, b, c, d, e, f = p
     du[1] = (z - b) * x - d * y
     du[2] = d * x + (z - b) * y
-    du[3] = c + a * z - z^3 / 3 - (x^2 + y^2) * (1 + e * z) + f * z * x^3
+    return du[3] = c + a * z - z^3 / 3 - (x^2 + y^2) * (1 + e * z) + f * z * x^3
 end
 
 @doc doc"""
@@ -97,7 +97,7 @@ function dadras_eqs(du, u, p, t)
     a, b, c, d, e = p
     du[1] = y - a * x + b * y * z
     du[2] = c * y - x * z + z
-    du[3] = d * x * y - e * z
+    return du[3] = d * x * y - e * z
 end
 
 @doc doc"""
@@ -125,7 +125,7 @@ function chen_eqs(du, u, p, t)
     a, b, c = p
     du[1] = a * (y - x)
     du[2] = (c - a) * x - x * z + c * y
-    du[3] = x * y - b * z
+    return du[3] = x * y - b * z
 end
 
 @doc doc"""
@@ -153,7 +153,7 @@ function rossler_eqs(du, u, p, t)
     a, b, c = p
     du[1] = -(y + z)
     du[2] = x + a * y
-    du[3] = b + z * (x - c)
+    return du[3] = b + z * (x - c)
 end
 
 @doc doc"""
@@ -182,7 +182,7 @@ function rabinovich_fabrikant_eqs(du, u, p, t)
     a, b = p
     du[1] = y * (z - 1 + x^2) + b * x
     du[2] = x * (3 * z + 1 - x^2) + b * y
-    du[3] = -2 * z * (a + x * y)
+    return du[3] = -2 * z * (a + x * y)
 end
 
 @doc doc"""
@@ -201,7 +201,7 @@ with parameters ``a=0.14, b=0.10`` and initial conditions ``x(0)=1, y(0)=0, z(0)
 [Reference](https://en.wikipedia.org/wiki/Rabinovich%E2%80%93Fabrikant_equations)
 """
 rabinovich_fabrikant = ODEFunction(rabinovich_fabrikant_eqs)
-prob_ode_rabinovich_fabrikant = ODEProblem(rabinovich_fabrikant, [1.0, 0.0, 0.0], (0.0, 1.0), [0.14, 0.10])
+prob_ode_rabinovich_fabrikant = ODEProblem(rabinovich_fabrikant, [1.0, 0.0, 0.0], (0.0, 1.0), [0.14, 0.1])
 
 ## Sprott
 
@@ -210,7 +210,7 @@ function sprott_eqs(du, u, p, t)
     a, b = p
     du[1] = y + a * x * y + x * z
     du[2] = 1 - b * x^2 + y * z
-    du[3] = x - x^2 - y^2
+    return du[3] = x - x^2 - y^2
 end
 
 @doc doc"""
@@ -238,7 +238,7 @@ function hindmarsh_rose_eqs(du, u, p, t)
     a, b, c, d, r, s, xr, i = p
     du[1] = y - a * x^3 + b * x^2 - z + i
     du[2] = c - d * x^2 - y
-    du[3] = r * (s * (x - xr) - z)
+    return du[3] = r * (s * (x - xr) - z)
 end
 
 @doc doc"""
@@ -257,4 +257,4 @@ with parameters ``a=1, b=3, c=1, d=5, r=10^{-2}, s=4, x_r=-8/5, i=5`` and initia
 [Reference](https://en.wikipedia.org/wiki/Hindmarsh%E2%80%93Rose_model)
 """
 hindmarsh_rose = ODEFunction(hindmarsh_rose_eqs)
-prob_ode_hindmarsh_rose = ODEProblem(hindmarsh_rose, [1.0, 0.0, 0.0], (0.0, 1.0), [1.0, 3.0, 1.0, 5.0, 1e-2, 4.0, -8/5, 5.0])
+prob_ode_hindmarsh_rose = ODEProblem(hindmarsh_rose, [1.0, 0.0, 0.0], (0.0, 1.0), [1.0, 3.0, 1.0, 5.0, 1.0e-2, 4.0, -8 / 5, 5.0])
