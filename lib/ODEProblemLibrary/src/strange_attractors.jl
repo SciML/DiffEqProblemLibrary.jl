@@ -12,6 +12,7 @@ function thomas_eqs(du, u, p, t)
     return du[3] = sin(x) - b * z
 end
 
+thomas = ODEFunction(thomas_eqs)
 @doc doc"""
 Thomas' cyclically symmetric attractor equations
 
@@ -29,7 +30,6 @@ with parameter ``b = 0.208186`` and initial conditions ``x(0)=1, y(0)=0, z(0)=0`
 
 [Wikipedia](https://en.wikipedia.org/wiki/Thomas%27_cyclically_symmetric_attractor)
 """
-thomas = ODEFunction(thomas_eqs)
 prob_ode_thomas = ODEProblem(thomas, [1.0, 0.0, 0.0], (0.0, 1.0), [0.208186])
 
 ## Lorenz
@@ -42,6 +42,7 @@ function lorenz_eqs(du, u, p, t)
     return du[3] = x * y - β * z
 end
 
+lorenz = ODEFunction(lorenz_eqs)
 @doc doc"""
 Lorenz equations
 
@@ -59,7 +60,6 @@ with parameters ``σ=10, ρ=28, β=8/3`` and initial conditions ``x(0)=1, y(0)=0
 
 [Wikipedia](https://en.wikipedia.org/wiki/Lorenz_system)
 """
-lorenz = ODEFunction(lorenz_eqs)
 prob_ode_lorenz = ODEProblem(lorenz, [1.0, 0.0, 0.0], (0.0, 1.0), [10.0, 28.0, 8 / 3])
 
 ## Aizawa
@@ -72,6 +72,7 @@ function aizawa_eqs(du, u, p, t)
     return du[3] = c + a * z - z^3 / 3 - (x^2 + y^2) * (1 + e * z) + f * z * x^3
 end
 
+aizawa = ODEFunction(aizawa_eqs)
 @doc doc"""
 Aizawa equations
 
@@ -87,7 +88,6 @@ with parameters ``a=0.95, b=0.7, c=0.6, d=3.5, e=0.25, f=0.1`` and initial condi
 
 [Reference](https://journals.ametsoc.org/view/journals/atsc/20/2/1520-0469_1963_020_0130_dnf_2_0_co_2.xml)
 """
-aizawa = ODEFunction(aizawa_eqs)
 prob_ode_aizawa = ODEProblem(aizawa, [1.0, 0.0, 0.0], (0.0, 1.0), [0.95, 0.7, 0.6, 3.5, 0.25, 0.1])
 
 ## Dadras
@@ -100,6 +100,7 @@ function dadras_eqs(du, u, p, t)
     return du[3] = d * x * y - e * z
 end
 
+dadras = ODEFunction(dadras_eqs)
 @doc doc"""
 Dadras equations
 
@@ -115,7 +116,6 @@ with parameters ``a=3, b=2.7, c=1.7, d=2, e=9`` and initial conditions ``x(0)=1,
 
 [Reference](https://www.sciencedirect.com/science/article/abs/pii/S0375960109009591)
 """
-dadras = ODEFunction(dadras_eqs)
 prob_ode_dadras = ODEProblem(dadras, [1.0, 0.0, 0.0], (0.0, 1.0), [3.0, 2.7, 1.7, 2.0, 9.0])
 
 ## Chen
@@ -128,6 +128,7 @@ function chen_eqs(du, u, p, t)
     return du[3] = x * y - b * z
 end
 
+chen = ODEFunction(chen_eqs)
 @doc doc"""
 Chen equations
 
@@ -143,7 +144,6 @@ with parameters ``a=35, b=3, c=28`` and initial conditions ``x(0)=1, y(0)=0, z(0
 
 [Reference](https://www.worldscientific.com/doi/abs/10.1142/S0218127499001024)
 """
-chen = ODEFunction(chen_eqs)
 prob_ode_chen = ODEProblem(chen, [1.0, 0.0, 0.0], (0.0, 1.0), [35.0, 3.0, 28.0])
 
 ## Rössler
@@ -156,6 +156,7 @@ function rossler_eqs(du, u, p, t)
     return du[3] = b + z * (x - c)
 end
 
+rossler = ODEFunction(rossler_eqs)
 @doc doc"""
 Rössler equations
 
@@ -172,7 +173,6 @@ with parameters ``a=0.2, b=0.2, c=5.7`` and initial conditions ``x(0)=1, y(0)=0,
 [Reference](https://www.sciencedirect.com/science/article/abs/pii/0375960176901018)
 [Wikipedia](https://en.wikipedia.org/wiki/R%C3%B6ssler_attractor)
 """
-rossler = ODEFunction(rossler_eqs)
 prob_ode_rossler = ODEProblem(rossler, [1.0, 0.0, 0.0], (0.0, 1.0), [0.2, 0.2, 5.7])
 
 ## Rabinovich-Fabrikant
@@ -185,6 +185,7 @@ function rabinovich_fabrikant_eqs(du, u, p, t)
     return du[3] = -2 * z * (a + x * y)
 end
 
+rabinovich_fabrikant = ODEFunction(rabinovich_fabrikant_eqs)
 @doc doc"""
 Rabinovich-Fabrikant equations
 
@@ -200,7 +201,6 @@ with parameters ``a=0.14, b=0.10`` and initial conditions ``x(0)=1, y(0)=0, z(0)
 
 [Reference](https://en.wikipedia.org/wiki/Rabinovich%E2%80%93Fabrikant_equations)
 """
-rabinovich_fabrikant = ODEFunction(rabinovich_fabrikant_eqs)
 prob_ode_rabinovich_fabrikant = ODEProblem(rabinovich_fabrikant, [1.0, 0.0, 0.0], (0.0, 1.0), [0.14, 0.1])
 
 ## Sprott
@@ -213,6 +213,7 @@ function sprott_eqs(du, u, p, t)
     return du[3] = x - x^2 - y^2
 end
 
+sprott = ODEFunction(sprott_eqs)
 @doc doc"""
 Sprott equations
 
@@ -228,7 +229,6 @@ with parameters ``a=2.07, b=1.79`` and initial conditions ``x(0)=1, y(0)=0, z(0)
 
 [Reference](https://sprott.physics.wisc.edu/pubs/paper423.pdf)
 """
-sprott = ODEFunction(sprott_eqs)
 prob_ode_sprott = ODEProblem(sprott, [1.0, 0.0, 0.0], (0.0, 1.0), [2.07, 1.79])
 
 ## Hindmarsh-Rose
@@ -241,6 +241,7 @@ function hindmarsh_rose_eqs(du, u, p, t)
     return du[3] = r * (s * (x - xr) - z)
 end
 
+hindmarsh_rose = ODEFunction(hindmarsh_rose_eqs)
 @doc doc"""
 Hindmarsh-Rose equations
 
@@ -256,5 +257,4 @@ with parameters ``a=1, b=3, c=1, d=5, r=10^{-2}, s=4, x_r=-8/5, i=5`` and initia
 
 [Reference](https://en.wikipedia.org/wiki/Hindmarsh%E2%80%93Rose_model)
 """
-hindmarsh_rose = ODEFunction(hindmarsh_rose_eqs)
 prob_ode_hindmarsh_rose = ODEProblem(hindmarsh_rose, [1.0, 0.0, 0.0], (0.0, 1.0), [1.0, 3.0, 1.0, 5.0, 1.0e-2, 4.0, -8 / 5, 5.0])
