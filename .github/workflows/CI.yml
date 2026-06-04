@@ -21,17 +21,7 @@ jobs:
         version:
           - "1"
           - "lts"
-        project:
-          - '.'
-          - 'lib/DAEProblemLibrary'
-          - 'lib/DDEProblemLibrary'
-          - 'lib/JumpProblemLibrary'
-          - 'lib/ODEProblemLibrary'
-          - 'lib/SDEProblemLibrary'
-          - 'lib/BVProblemLibrary'
-          - 'lib/NonlinearProblemLibrary'
     uses: "SciML/.github/.github/workflows/tests.yml@v1"
     with:
       julia-version: "${{ matrix.version }}"
-      project: "${{ matrix.project }}"
     secrets: "inherit"
