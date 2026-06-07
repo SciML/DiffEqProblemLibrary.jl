@@ -117,7 +117,7 @@ function brusselator_1d_loop(du, u, p, t)
     A, B, alpha, dx = p
     alpha = alpha / dx^2
     N = N_brusselator_1d
-    @inbounds for i in 1:N
+    return @inbounds for i in 1:N
         ip1 = limit(i + 1, N)
         im1 = limit(i - 1, N)
         du[i, 1] = alpha * (u[im1, 1] + u[ip1, 1] - 2u[i, 1]) +
