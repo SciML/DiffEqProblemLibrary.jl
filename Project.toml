@@ -12,6 +12,15 @@ NonlinearProblemLibrary = "b7050fa9-e91f-4b37-bcee-a89a063da141"
 ODEProblemLibrary = "fdc4e326-1af4-4b90-96e7-779fcce2daa5"
 SDEProblemLibrary = "c72e72a9-a271-4b2b-8966-303ed956772e"
 
+[sources]
+BVProblemLibrary = {path = "lib/BVProblemLibrary"}
+DAEProblemLibrary = {path = "lib/DAEProblemLibrary"}
+DDEProblemLibrary = {path = "lib/DDEProblemLibrary"}
+JumpProblemLibrary = {path = "lib/JumpProblemLibrary"}
+NonlinearProblemLibrary = {path = "lib/NonlinearProblemLibrary"}
+ODEProblemLibrary = {path = "lib/ODEProblemLibrary"}
+SDEProblemLibrary = {path = "lib/SDEProblemLibrary"}
+
 [compat]
 BVProblemLibrary = "0.1"
 DAEProblemLibrary = "0.1"
@@ -19,12 +28,16 @@ DDEProblemLibrary = "0.1"
 JumpProblemLibrary = "1, 2.0"
 NonlinearProblemLibrary = "0.1"
 ODEProblemLibrary = "1"
+SafeTestsets = "0.1"
 SDEProblemLibrary = "1"
+Test = "1.10"
 julia = "1.10"
 
 [extras]
 ExplicitImports = "7d51a73a-1435-4ff3-83d9-f097790105c7"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["ExplicitImports", "Test"]
+test = ["ExplicitImports", "Pkg", "SafeTestsets", "Test"]

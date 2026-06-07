@@ -19,4 +19,7 @@ jobs:
     secrets: "inherit"
     with:
       julia-version: "lts"
-      skip: "Pkg,TOML,Statistics,LinearAlgebra,SparseArrays,InteractiveUtils,Random,Test,Markdown"
+      skip: "Pkg,TOML,Statistics,LinearAlgebra,SparseArrays,InteractiveUtils,Random,Test,Markdown,BVProblemLibrary,DAEProblemLibrary,DDEProblemLibrary,JumpProblemLibrary,NonlinearProblemLibrary,ODEProblemLibrary,SDEProblemLibrary"
+      group-env-name: "DIFFEQPROBLEMLIBRARY_TEST_GROUP"
+      group-env-value: "Core"
+      # Every lib/* sublibrary is downgrade-tested (projects auto-discovered, no exclusions).
