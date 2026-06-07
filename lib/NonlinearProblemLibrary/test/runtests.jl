@@ -1,9 +1,9 @@
 using NonlinearProblemLibrary
 using Test
 
-const TEST_GROUP = get(ENV, "DIFFEQPROBLEMLIBRARY_TEST_GROUP", "ALL")
+const TEST_GROUP = get(ENV, "DIFFEQPROBLEMLIBRARY_TEST_GROUP", "All")
 
-if TEST_GROUP == "Core" || TEST_GROUP == "ALL"
+if TEST_GROUP == "Core" || TEST_GROUP == "All"
     @time @testset "Load Tests" begin
         @test NonlinearProblemLibrary isa Module
     end
@@ -45,7 +45,7 @@ end
 
 # Quality assurance: no undefined exports, stale dependencies, etc.
 # Ambiguity checks are disabled since tests fail due to ambiguities in dependencies.
-if TEST_GROUP == "QA" || TEST_GROUP == "ALL"
+if TEST_GROUP == "QA" || TEST_GROUP == "All"
     using Aqua
     @time @testset "Aqua" begin
         Aqua.test_all(NonlinearProblemLibrary; ambiguities = false)
