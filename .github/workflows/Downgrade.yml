@@ -16,14 +16,7 @@ concurrency:
 jobs:
   downgrade:
     name: "Downgrade"
-    strategy:
-      matrix:
-        julia-version: ['1.10']
     uses: "SciML/.github/.github/workflows/downgrade.yml@v1"
     with:
-      julia-version: "${{ matrix.julia-version }}"
       group: "Core"
-      # Skip the in-repo sublibraries (developed via the root's [sources]) so
-      # downgrade-compat does not try to pin them to old registered versions.
-      skip: "Pkg,TOML,BVProblemLibrary,DAEProblemLibrary,DDEProblemLibrary,JumpProblemLibrary,NonlinearProblemLibrary,ODEProblemLibrary,SDEProblemLibrary"
     secrets: "inherit"
