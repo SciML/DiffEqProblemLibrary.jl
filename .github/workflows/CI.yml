@@ -14,26 +14,5 @@ concurrency:
 
 jobs:
   tests:
-    name: "Tests"
-    strategy:
-      fail-fast: false
-      matrix:
-        # Only the root umbrella package's own test groups are listed here.
-        # The lib/* sublibraries are covered by SublibraryCI.yml (project model);
-        # they are intentionally not re-tested through the root matrix.
-        group:
-          - Core
-          - QA
-        version:
-          - "lts"
-          - "1"
-          - "pre"
-        exclude:
-          # QA (explicit-imports check) does not need the pre-release Julia.
-          - group: QA
-            version: "pre"
-    uses: "SciML/.github/.github/workflows/tests.yml@v1"
-    with:
-      julia-version: "${{ matrix.version }}"
-      group: "${{ matrix.group }}"
+    uses: "SciML/.github/.github/workflows/grouped-tests.yml@v1"
     secrets: "inherit"
