@@ -25,12 +25,13 @@ jobs:
           - Core
           - QA
         version:
-          - "1"
           - "lts"
+          - "1"
+          - "pre"
         exclude:
-          # QA (Aqua-style explicit-imports check) only needs one Julia version.
+          # QA (explicit-imports check) does not need the pre-release Julia.
           - group: QA
-            version: "lts"
+            version: "pre"
     uses: "SciML/.github/.github/workflows/tests.yml@v1"
     with:
       julia-version: "${{ matrix.version }}"
