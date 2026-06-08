@@ -3,6 +3,11 @@ using SafeTestsets, Test
 
 const GROUP = get(ENV, "GROUP", "All")
 
+function activate_qa_env()
+    Pkg.activate(joinpath(@__DIR__, "qa"))
+    return Pkg.instantiate()
+end
+
 @time begin
     # Detect sublibrary test groups.
     # GROUP can be a bare sublibrary name (Core test group) or
@@ -61,12 +66,7 @@ const GROUP = get(ENV, "GROUP", "All")
         # The root umbrella package's own test: it re-exports each sublibrary,
         # so the test is that the whole thing builds with no implicit or stale
         # explicit imports.
-        @time @safetestset "ExplicitImports" begin
-            using DiffEqProblemLibrary
-            using ExplicitImports
-            using Test
-            @test check_no_implicit_imports(DiffEqProblemLibrary) === nothing
-            @test check_no_stale_explicit_imports(DiffEqProblemLibrary) === nothing
-        end
+        activate_qa_env()
+        @time @safetestset "ExplicitImports" include("qa/qa.jl")
     end
 end # @time

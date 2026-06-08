@@ -1,0 +1,13 @@
+[deps]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+JumpProblemLibrary = "faf0f6d7-8cee-47cb-b27c-1eb80cef534e"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[sources]
+JumpProblemLibrary = {path = "../.."}
+
+[compat]
+Aqua = "0.8"
+JumpProblemLibrary = "2"
+Test = "1.10"
+julia = "1.10"
