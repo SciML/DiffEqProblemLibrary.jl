@@ -1,0 +1,53 @@
+name: IntegrationTest
+on:
+  push:
+    branches: [master]
+    tags: [v*]
+  pull_request:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+jobs:
+  test:
+    name: ${{ matrix.package.repo }}/${{ matrix.package.group }}/${{ matrix.julia-version }}
+    runs-on: ${{ matrix.os }}
+    env:
+      GROUP: ${{ matrix.package.group }}
+    strategy:
+      fail-fast: false
+      matrix:
+        julia-version: ['1.10']
+        os: [ubuntu-latest]
+        package:
+          - {user: SciML, repo: DiffEqDevTools.jl, group: All}
+          - {user: SciML, repo: OrdinaryDiffEq.jl, group: Regression_I}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: ${{ matrix.julia-version }}
+          arch: x64
+      - name: Clone Downstream
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ matrix.package.user }}/${{ matrix.package.repo }}
+          path: downstream
+      - name: Load this and run the downstream tests
+        shell: julia --color=yes --project=downstream {0}
+        run: |
+          using Pkg
+          try
+            Pkg.develop(map(path ->Pkg.PackageSpec.(;path="lib/$(path)"), readdir("./lib")));
+            Pkg.test(coverage=true)
+          catch err
+            err isa Pkg.Resolve.ResolverError || rethrow()
+            @info "Not compatible with this release. No problem." exception=err
+            exit(0)
+          end
+      - uses: julia-actions/julia-processcoverage@v1
+      - uses: codecov/codecov-action@v6
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: lcov.info
+          fail_ci_if_error: false
+          disable_safe_directory: true
