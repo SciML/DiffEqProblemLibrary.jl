@@ -1,0 +1,8 @@
+# Root umbrella package's own test groups (group x version matrix).
+# The lib/* sublibraries are covered by SublibraryCI.yml (project model) and are
+# intentionally not re-tested through this root matrix.
+[Core]
+versions = ["lts", "1", "pre"]
+
+[QA]
+versions = ["lts", "1"]
