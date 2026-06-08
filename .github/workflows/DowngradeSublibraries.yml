@@ -18,5 +18,6 @@ jobs:
     uses: "SciML/.github/.github/workflows/sublibrary-downgrade.yml@v1"
     secrets: "inherit"
     with:
-      julia-version: "lts"
-      skip: "Pkg,TOML,Statistics,LinearAlgebra,SparseArrays,InteractiveUtils,Random,Test,Markdown"
+      group-env-name: "DIFFEQPROBLEMLIBRARY_TEST_GROUP"
+      group-env-value: "Core"
+      # Every lib/* sublibrary is downgrade-tested (projects auto-discovered, no exclusions).

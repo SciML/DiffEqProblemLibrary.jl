@@ -1,0 +1,20 @@
+[deps]
+DiffEqProblemLibrary = "a077e3f3-b75c-5d7f-a0c6-6bc4c8ec64a9"
+ExplicitImports = "7d51a73a-1435-4ff3-83d9-f097790105c7"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[sources]
+BVProblemLibrary = {path = "../../lib/BVProblemLibrary"}
+DAEProblemLibrary = {path = "../../lib/DAEProblemLibrary"}
+DDEProblemLibrary = {path = "../../lib/DDEProblemLibrary"}
+DiffEqProblemLibrary = {path = "../.."}
+JumpProblemLibrary = {path = "../../lib/JumpProblemLibrary"}
+NonlinearProblemLibrary = {path = "../../lib/NonlinearProblemLibrary"}
+ODEProblemLibrary = {path = "../../lib/ODEProblemLibrary"}
+SDEProblemLibrary = {path = "../../lib/SDEProblemLibrary"}
+
+[compat]
+DiffEqProblemLibrary = "5"
+ExplicitImports = "1"
+Test = "1.10"
+julia = "1.10"

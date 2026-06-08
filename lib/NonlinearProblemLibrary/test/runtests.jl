@@ -1,45 +1,26 @@
-# The test is simply that all of the examples build!
+using Pkg
 using NonlinearProblemLibrary
-using Test
+using SafeTestsets, Test
 
-# Check that there are no undefined exports, stale dependencies, etc.
-# Ambiguity checks are disabled since tests fail due to ambiguities
-# in dependencies
-using Aqua
-Aqua.test_all(NonlinearProblemLibrary; ambiguities = false)
+const TEST_GROUP = get(ENV, "DIFFEQPROBLEMLIBRARY_TEST_GROUP", "All")
 
-# Allocation tests - ensure key functions don't allocate
-if get(ENV, "GROUP", "all") == "all" || get(ENV, "GROUP", "all") == "nopre"
-    @testset "Allocation Tests" begin
-        using AllocCheck
+function activate_qa_env()
+    Pkg.activate(joinpath(@__DIR__, "qa"))
+    return Pkg.instantiate()
+end
 
-        # Test p23_f! (Chandrasekhar function) - the fixed function
-        @testset "p23_f! zero allocations" begin
-            x = ones(10)
-            out = zeros(10)
-            # Warmup
-            NonlinearProblemLibrary.p23_f!(out, x)
-            # Test
-            allocs = @allocated NonlinearProblemLibrary.p23_f!(out, x)
-            @test allocs == 0
-        end
-
-        # Test other key functions
-        @testset "p1_f! zero allocations" begin
-            x = ones(10)
-            x[1] = -1.2
-            out = zeros(10)
-            NonlinearProblemLibrary.p1_f!(out, x)
-            allocs = @allocated NonlinearProblemLibrary.p1_f!(out, x)
-            @test allocs == 0
-        end
-
-        @testset "p2_f! zero allocations" begin
-            x = [3.0, -1.0, 0.0, 1.0]
-            out = zeros(4)
-            NonlinearProblemLibrary.p2_f!(out, x)
-            allocs = @allocated NonlinearProblemLibrary.p2_f!(out, x)
-            @test allocs == 0
-        end
+if TEST_GROUP == "Core" || TEST_GROUP == "All"
+    @time @testset "Load Tests" begin
+        @test NonlinearProblemLibrary isa Module
     end
+end
+
+# Quality assurance: allocation checks (AllocCheck), then no undefined exports,
+# stale dependencies, etc. (Aqua). These run in the isolated test/qa environment
+# so the heavy tooling stays out of the main test env. Ambiguity checks are
+# disabled since tests fail due to ambiguities in dependencies.
+if TEST_GROUP == "QA" || TEST_GROUP == "All"
+    activate_qa_env()
+    @time @safetestset "Allocation Tests" include("qa/allocation_tests.jl")
+    @time @safetestset "Aqua" include("qa/qa.jl")
 end

@@ -8,14 +8,17 @@ Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 
 [compat]
-Aqua = "0.8"
 DiffEqBase = "6, 7"
 Markdown = "1.10"
+SafeTestsets = "0.1"
 SpecialFunctions = "2.3"
+Test = "1.10"
 julia = "1.10"
 
 [extras]
-Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Aqua"]
+test = ["Pkg", "SafeTestsets", "Test"]
