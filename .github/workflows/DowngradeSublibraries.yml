@@ -18,6 +18,11 @@ jobs:
     uses: "SciML/.github/.github/workflows/sublibrary-downgrade.yml@v1"
     secrets: "inherit"
     with:
+      # Numeric LTS floor: the reusable workflow forwards julia-version into
+      # julia-downgrade-compat@v2 as a registry compat spec (--julia=), which
+      # rejects channel aliases like "lts". Every sublibrary's compat floor is
+      # julia = "1.10", so pin the numeric value here.
+      julia-version: "1.10"
       group-env-name: "DIFFEQPROBLEMLIBRARY_TEST_GROUP"
       group-env-value: "Core"
       # Every lib/* sublibrary is downgrade-tested (projects auto-discovered, no exclusions).
