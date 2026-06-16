@@ -75,3 +75,7 @@ MTK = "MTK"
 ODE = "ODE"
 PDE = "PDE"
 SDE = "SDE"
+
+# Citation false-positives
+Comput = "Comput"  # "Math. Comput." journal abbreviation
+Collum = "Collum"  # surname "McCollum" (paper author)
