@@ -6,14 +6,7 @@ SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [sources]
-BVProblemLibrary = {path = "../../lib/BVProblemLibrary"}
-DAEProblemLibrary = {path = "../../lib/DAEProblemLibrary"}
-DDEProblemLibrary = {path = "../../lib/DDEProblemLibrary"}
 DiffEqProblemLibrary = {path = "../.."}
-JumpProblemLibrary = {path = "../../lib/JumpProblemLibrary"}
-NonlinearProblemLibrary = {path = "../../lib/NonlinearProblemLibrary"}
-ODEProblemLibrary = {path = "../../lib/ODEProblemLibrary"}
-SDEProblemLibrary = {path = "../../lib/SDEProblemLibrary"}
 
 [compat]
 DiffEqProblemLibrary = "5"
