@@ -1,6 +1,3 @@
-using ODEProblemLibrary
-using Aqua
+using SciMLTesting, ODEProblemLibrary, Test
 
-@testset "Aqua" begin
-    Aqua.test_all(ODEProblemLibrary; ambiguities = false)
-end
+run_qa(ODEProblemLibrary; explicit_imports = true, aqua_kwargs = (; ambiguities = false))

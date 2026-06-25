@@ -1,6 +1,3 @@
-using DDEProblemLibrary
-using Aqua
+using SciMLTesting, DDEProblemLibrary, Test
 
-@testset "Aqua" begin
-    Aqua.test_all(DDEProblemLibrary; ambiguities = false)
-end
+run_qa(DDEProblemLibrary; explicit_imports = true, aqua_kwargs = (; ambiguities = false))

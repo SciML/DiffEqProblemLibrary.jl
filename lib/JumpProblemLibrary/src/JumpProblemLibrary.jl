@@ -1,6 +1,8 @@
 module JumpProblemLibrary
 
-using Catalyst
+using Catalyst: Catalyst, @named, @parameters, @reaction_network, @species, Num,
+    Reaction, ReactionSystem, complete, default_t, hill, make_empty_network,
+    species, unknowns
 
 import RuntimeGeneratedFunctions
 RuntimeGeneratedFunctions.init(@__MODULE__)

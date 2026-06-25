@@ -2,6 +2,7 @@
 AllocCheck = "9b6a8646-10ed-4001-bbdc-1d2f46dfbb1a"
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 NonlinearProblemLibrary = "b7050fa9-e91f-4b37-bcee-a89a063da141"
+SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [sources]
@@ -11,5 +12,6 @@ NonlinearProblemLibrary = {path = "../.."}
 AllocCheck = "0.2"
 Aqua = "0.8"
 NonlinearProblemLibrary = "0.1"
+SciMLTesting = "1.6"
 Test = "1"
 julia = "1.10"

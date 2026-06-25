@@ -1,6 +1,3 @@
-using NonlinearProblemLibrary
-using Aqua
+using SciMLTesting, NonlinearProblemLibrary, Test
 
-@testset "Aqua" begin
-    Aqua.test_all(NonlinearProblemLibrary; ambiguities = false)
-end
+run_qa(NonlinearProblemLibrary; explicit_imports = true, aqua_kwargs = (; ambiguities = false))
