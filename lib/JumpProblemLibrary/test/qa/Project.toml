@@ -10,6 +10,6 @@ JumpProblemLibrary = {path = "../.."}
 [compat]
 Aqua = "0.8"
 JumpProblemLibrary = "2"
-SciMLTesting = "1.6"
+SciMLTesting = "1.7"
 Test = "1.10"
 julia = "1.10"

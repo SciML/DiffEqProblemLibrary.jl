@@ -8,6 +8,7 @@ RuntimeGeneratedFunctions = "7e49a35a-f44a-4d26-94aa-eba1b4ca6b47"
 
 [compat]
 Catalyst = "16"
+Pkg = "1.10"
 RuntimeGeneratedFunctions = "0.5"
 SafeTestsets = "0.1"
 Test = "1.10"
