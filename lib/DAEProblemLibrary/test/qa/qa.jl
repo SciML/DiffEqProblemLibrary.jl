@@ -1,6 +1,3 @@
-using DAEProblemLibrary
-using Aqua
+using SciMLTesting, DAEProblemLibrary, Test
 
-@testset "Aqua" begin
-    Aqua.test_all(DAEProblemLibrary; ambiguities = false)
-end
+run_qa(DAEProblemLibrary; explicit_imports = true, aqua_kwargs = (; ambiguities = false))

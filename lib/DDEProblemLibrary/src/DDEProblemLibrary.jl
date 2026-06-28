@@ -1,6 +1,6 @@
 module DDEProblemLibrary
 
-using DiffEqBase
+using DiffEqBase: DiffEqBase, DDEFunction, DDEProblem, remake
 # DDE Example Problems
 
 # examples with constant delays

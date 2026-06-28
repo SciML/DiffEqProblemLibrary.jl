@@ -1,6 +1,8 @@
 module BVProblemLibrary
 
-using DiffEqBase, Markdown, SpecialFunctions
+using DiffEqBase: DiffEqBase, BVPFunction, BVProblem
+using Markdown: Markdown
+using SpecialFunctions: SpecialFunctions, erf
 
 include("linear.jl")
 include("nonlinear.jl")

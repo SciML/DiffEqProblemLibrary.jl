@@ -1,6 +1,6 @@
-using JumpProblemLibrary
-using Aqua
+using SciMLTesting, JumpProblemLibrary, Test
 
-@testset "Aqua" begin
-    Aqua.test_all(JumpProblemLibrary; ambiguities = false, persistent_tasks = false)
-end
+run_qa(
+    JumpProblemLibrary; explicit_imports = true,
+    aqua_kwargs = (; ambiguities = false, persistent_tasks = false)
+)

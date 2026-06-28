@@ -11,6 +11,7 @@ SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
 [compat]
 DiffEqBase = "6, 7"
 Markdown = "1.10"
+Pkg = "1.10"
 RuntimeGeneratedFunctions = "0.5"
 SafeTestsets = "0.1"
 SciMLBase = "2.0.1, 3"

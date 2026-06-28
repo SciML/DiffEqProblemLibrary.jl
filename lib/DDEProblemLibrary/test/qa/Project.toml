@@ -1,6 +1,7 @@
 [deps]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 DDEProblemLibrary = "f42792ee-6ffc-4e2a-ae83-8ee2f22de800"
+SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [sources]
@@ -9,5 +10,6 @@ DDEProblemLibrary = {path = "../.."}
 [compat]
 Aqua = "0.8"
 DDEProblemLibrary = "0.1"
+SciMLTesting = "1.7"
 Test = "1.10"
 julia = "1.10"
