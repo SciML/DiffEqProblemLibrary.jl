@@ -1,6 +1,7 @@
 module DAEProblemLibrary
 
-using DiffEqBase, Markdown
+using DiffEqBase: DiffEqBase, DAEProblem
+using Markdown: Markdown, @doc_str
 
 #DAE Example Problems
 export prob_dae_resrob, prob_dae_transamp

@@ -1,6 +1,5 @@
 [deps]
 DiffEqProblemLibrary = "a077e3f3-b75c-5d7f-a0c6-6bc4c8ec64a9"
-ExplicitImports = "7d51a73a-1435-4ff3-83d9-f097790105c7"
 SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
@@ -10,8 +9,7 @@ DiffEqProblemLibrary = {path = "../.."}
 
 [compat]
 DiffEqProblemLibrary = "5"
-ExplicitImports = "1"
 SafeTestsets = "0.0.1, 0.1"
-SciMLTesting = "1"
+SciMLTesting = "1.7"
 Test = "1.10"
 julia = "1.10"

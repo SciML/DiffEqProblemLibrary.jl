@@ -1,6 +1,6 @@
-using SDEProblemLibrary
-using Aqua
+using SciMLTesting, SDEProblemLibrary, Test
 
-@testset "Aqua" begin
-    Aqua.test_all(SDEProblemLibrary; ambiguities = false, persistent_tasks = false)
-end
+run_qa(
+    SDEProblemLibrary; explicit_imports = true,
+    aqua_kwargs = (; ambiguities = false, persistent_tasks = false)
+)

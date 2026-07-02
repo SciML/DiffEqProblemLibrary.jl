@@ -1,6 +1,3 @@
-using BVProblemLibrary
-using Aqua
+using SciMLTesting, BVProblemLibrary, Test
 
-@testset "Aqua" begin
-    Aqua.test_all(BVProblemLibrary; ambiguities = false)
-end
+run_qa(BVProblemLibrary; explicit_imports = true, aqua_kwargs = (; ambiguities = false))

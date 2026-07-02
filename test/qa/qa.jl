@@ -1,11 +1,6 @@
-# The root umbrella package's own test: it re-exports each sublibrary,
-# so the test is that the whole thing builds with no implicit or stale
-# explicit imports.
-using DiffEqProblemLibrary
-using ExplicitImports
-using Test
+using SciMLTesting, DiffEqProblemLibrary, Test
 
-@testset "ExplicitImports" begin
-    @test check_no_implicit_imports(DiffEqProblemLibrary) === nothing
-    @test check_no_stale_explicit_imports(DiffEqProblemLibrary) === nothing
-end
+# The root umbrella package re-exports each sublibrary; it owns no methods of its own,
+# so the reported method ambiguities all come from the imported dependency tree
+# (DiffEqBase / SciMLBase / Catalyst), matching the `ambiguities = false` each sublib uses.
+run_qa(DiffEqProblemLibrary; explicit_imports = true, aqua_kwargs = (; ambiguities = false))

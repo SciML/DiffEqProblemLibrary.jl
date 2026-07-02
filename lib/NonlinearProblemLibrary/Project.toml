@@ -8,6 +8,7 @@ SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
 
 [compat]
 LinearAlgebra = "1.6"
+Pkg = "1.10"
 SafeTestsets = "0.1"
 SciMLBase = "2, 3"
 Test = "1"

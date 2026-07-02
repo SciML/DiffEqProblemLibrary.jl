@@ -1,6 +1,7 @@
 module SDEProblemLibrary
 
-using DiffEqBase, Markdown
+using DiffEqBase: DiffEqBase, SDEFunction, SDEProblem
+using Markdown: Markdown, @doc_str
 
 import RuntimeGeneratedFunctions
 RuntimeGeneratedFunctions.init(@__MODULE__)

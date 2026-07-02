@@ -1,6 +1,7 @@
 module NonlinearProblemLibrary
 
-using SciMLBase, LinearAlgebra
+using SciMLBase: SciMLBase, NonlinearProblem
+using LinearAlgebra: LinearAlgebra
 
 # Implementation of the 23 test problems in
 # [test_nonlin](https://people.sc.fsu.edu/~jburkardt/m_src/test_nonlin/test_nonlin.html)
