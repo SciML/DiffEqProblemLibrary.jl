@@ -40,6 +40,20 @@ prob_sde_linear = SDEProblem(
 )
 
 linear_analytic_strat(u0, p, t, W) = @.(u0 * exp(1.01t + 0.87W))
+"""
+    prob_sde_linear_stratonovich
+
+Scalar Stratonovich linear SDE with drift `1.01u`, diffusion `0.87u`, initial
+condition `u0 = 1 / 2`, and time span `(0.0, 1.0)`.
+
+# Example
+
+```julia
+using SDEProblemLibrary
+
+prob = prob_sde_linear_stratonovich
+```
+"""
 prob_sde_linear_stratonovich = SDEProblem(
     SDEFunction(
         f_linear, σ_linear,
@@ -67,6 +81,20 @@ prob_sde_2Dlinear = SDEProblem(
     ),
     ones(4, 2) / 2, (0.0, 1.0)
 )
+"""
+    prob_sde_2Dlinear_stratonovich
+
+Matrix-valued Stratonovich linear SDE with in-place drift and diffusion
+definitions, initial condition `ones(4, 2) / 2`, and time span `(0.0, 1.0)`.
+
+# Example
+
+```julia
+using SDEProblemLibrary
+
+prob = prob_sde_2Dlinear_stratonovich
+```
+"""
 prob_sde_2Dlinear_stratonovich = SDEProblem(
     SDEFunction(
         f_linear_iip, σ_linear_iip,

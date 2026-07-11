@@ -337,6 +337,20 @@ mm_f = ODEFunction(
     mm_linear; analytic = (u0, p, t) -> exp(inv(MM_linear) * mm_A * t) * u0,
     mass_matrix = MM_linear
 )
+"""
+    prob_ode_mm_linear
+
+Linear ODE problem with a constant mass matrix. This is useful for testing ODE
+solvers on mass-matrix systems with an analytic solution.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+prob = prob_ode_mm_linear
+```
+"""
 prob_ode_mm_linear = ODEProblem(mm_f, rand(4), (0.0, 1.0))
 
 ## Hires Problem

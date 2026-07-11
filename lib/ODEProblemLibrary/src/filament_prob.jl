@@ -172,6 +172,20 @@ function magnetic_force!(::FerromagneticContinuous, f::AbstractFilamentCache, t)
     return nothing
 end
 
+"""
+    SolverDiffEq
+
+Solver marker for constructing the filament benchmark as a DiffEq
+`ODEProblem`.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+prob = filament_prob(SolverDiffEq())
+```
+"""
 struct SolverDiffEq <: AbstractSolver end
 
 function (f::FilamentCache)(dr, r, p, t)
@@ -245,6 +259,22 @@ function LDLt_inplace!(
     return L
 end
 
+"""
+    filament_prob(::SolverDiffEq; N = 20, Cm = 32, ω = 200, time_end = 1.0)
+
+Construct the filament PDE discretization benchmark as an `ODEProblem`.
+
+`N` controls the number of filament segments, `Cm` and `ω` control the magnetic
+forcing, and `time_end` sets the final time.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+prob = filament_prob(SolverDiffEq(); N = 10, time_end = 0.5)
+```
+"""
 function filament_prob(::SolverDiffEq; N = 20, Cm = 32, ω = 200, time_end = 1.0)
     f = FilamentCache(N, Solver = SolverDiffEq, Cm = Cm, ω = ω)
     jac = (J, r, p, t) -> f(Val{:jac}, J, r, p, t)

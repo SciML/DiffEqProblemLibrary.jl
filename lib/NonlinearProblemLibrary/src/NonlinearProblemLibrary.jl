@@ -508,6 +508,24 @@ dicts = (
     p18_dict, p19_dict, p20_dict, p21_dict, p22_dict, p23_dict,
 )
 
+"""
+    nlprob_23_testcases
+
+Dictionary of twenty-three named nonlinear benchmark problems.
+
+Each entry maps a problem title to a named tuple with fields `prob`, a
+`NonlinearProblem`, and `true_sol`, which is either a reference solution or
+`nothing` when no reference solution is provided.
+
+# Example
+
+```julia
+using NonlinearProblemLibrary
+
+case = nlprob_23_testcases["Generalized Rosenbrock function"]
+prob = case.prob
+```
+"""
 const nlprob_23_testcases = Dict()
 
 for (problem, dict) in zip(problems, dicts)
