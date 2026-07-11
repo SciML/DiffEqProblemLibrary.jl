@@ -12,6 +12,20 @@ function thomas_eqs(du, u, p, t)
     return du[3] = sin(x) - b * z
 end
 
+"""
+    thomas
+
+`ODEFunction` for Thomas' cyclically symmetric attractor.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = thomas
+prob = prob_ode_thomas
+```
+"""
 thomas = ODEFunction(thomas_eqs)
 @doc doc"""
 Thomas' cyclically symmetric attractor equations
@@ -42,6 +56,20 @@ function lorenz_eqs(du, u, p, t)
     return du[3] = x * y - β * z
 end
 
+"""
+    lorenz
+
+`ODEFunction` for the Lorenz system.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = lorenz
+prob = prob_ode_lorenz
+```
+"""
 lorenz = ODEFunction(lorenz_eqs)
 @doc doc"""
 Lorenz equations
@@ -72,6 +100,20 @@ function aizawa_eqs(du, u, p, t)
     return du[3] = c + a * z - z^3 / 3 - (x^2 + y^2) * (1 + e * z) + f * z * x^3
 end
 
+"""
+    aizawa
+
+`ODEFunction` for the Aizawa attractor.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = aizawa
+prob = prob_ode_aizawa
+```
+"""
 aizawa = ODEFunction(aizawa_eqs)
 @doc doc"""
 Aizawa equations
@@ -100,6 +142,20 @@ function dadras_eqs(du, u, p, t)
     return du[3] = d * x * y - e * z
 end
 
+"""
+    dadras
+
+`ODEFunction` for the Dadras attractor.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = dadras
+prob = prob_ode_dadras
+```
+"""
 dadras = ODEFunction(dadras_eqs)
 @doc doc"""
 Dadras equations
@@ -128,6 +184,20 @@ function chen_eqs(du, u, p, t)
     return du[3] = x * y - b * z
 end
 
+"""
+    chen
+
+`ODEFunction` for the Chen system.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = chen
+prob = prob_ode_chen
+```
+"""
 chen = ODEFunction(chen_eqs)
 @doc doc"""
 Chen equations
@@ -156,6 +226,20 @@ function rossler_eqs(du, u, p, t)
     return du[3] = b + z * (x - c)
 end
 
+"""
+    rossler
+
+`ODEFunction` for the Rossler attractor.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = rossler
+prob = prob_ode_rossler
+```
+"""
 rossler = ODEFunction(rossler_eqs)
 @doc doc"""
 Rössler equations
@@ -185,6 +269,20 @@ function rabinovich_fabrikant_eqs(du, u, p, t)
     return du[3] = -2 * z * (a + x * y)
 end
 
+"""
+    rabinovich_fabrikant
+
+`ODEFunction` for the Rabinovich-Fabrikant system.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = rabinovich_fabrikant
+prob = prob_ode_rabinovich_fabrikant
+```
+"""
 rabinovich_fabrikant = ODEFunction(rabinovich_fabrikant_eqs)
 @doc doc"""
 Rabinovich-Fabrikant equations
@@ -213,6 +311,20 @@ function sprott_eqs(du, u, p, t)
     return du[3] = x - x^2 - y^2
 end
 
+"""
+    sprott
+
+`ODEFunction` for the Sprott attractor.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = sprott
+prob = prob_ode_sprott
+```
+"""
 sprott = ODEFunction(sprott_eqs)
 @doc doc"""
 Sprott equations
@@ -241,6 +353,20 @@ function hindmarsh_rose_eqs(du, u, p, t)
     return du[3] = r * (s * (x - xr) - z)
 end
 
+"""
+    hindmarsh_rose
+
+`ODEFunction` for the Hindmarsh-Rose neuron model.
+
+# Example
+
+```julia
+using ODEProblemLibrary
+
+f = hindmarsh_rose
+prob = prob_ode_hindmarsh_rose
+```
+"""
 hindmarsh_rose = ODEFunction(hindmarsh_rose_eqs)
 @doc doc"""
 Hindmarsh-Rose equations
