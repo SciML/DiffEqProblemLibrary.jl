@@ -5,27 +5,9 @@ using SciMLTesting
 const GROUP = current_group()
 const LIB_DIR = joinpath(dirname(@__DIR__), "lib")
 
-# The root umbrella package's own QA env activation. On Julia < 1.11 the env's
-# `[sources]` table is ignored by Pkg, so `DiffEqProblemLibrary = {path = "../.."}`
-# would silently resolve to the registered release instead of the working copy —
-# meaning the QA checks (Aqua.test_all etc.) run against the registry version, not
-# the branch under CI. Develop the env's local path sources first, mirroring the
-# sublibrary branch below, so the checks test the working tree.
 function activate_qa_env()
     qa_dir = joinpath(@__DIR__, "qa")
-    Pkg.activate(qa_dir)
-    if VERSION < v"1.11.0-DEV.0"
-        toml = Pkg.TOML.parsefile(joinpath(qa_dir, "Project.toml"))
-        specs = Pkg.PackageSpec[]
-        for (_, source_spec) in get(toml, "sources", Dict())
-            if source_spec isa Dict && haskey(source_spec, "path")
-                dep_path = normpath(joinpath(qa_dir, source_spec["path"]))
-                isdir(dep_path) && push!(specs, Pkg.PackageSpec(path = dep_path))
-            end
-        end
-        isempty(specs) || Pkg.develop(specs)
-    end
-    return Pkg.instantiate()
+    return activate_group_env(qa_dir; parent = dirname(@__DIR__))
 end
 
 # The root umbrella package's own test: it re-exports each sublibrary, so the test

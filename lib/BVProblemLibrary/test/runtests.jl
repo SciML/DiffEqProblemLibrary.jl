@@ -6,6 +6,7 @@ const TEST_GROUP = get(ENV, "DIFFEQPROBLEMLIBRARY_TEST_GROUP", "All")
 
 function activate_qa_env()
     Pkg.activate(joinpath(@__DIR__, "qa"))
+    Pkg.develop(Pkg.PackageSpec(path = dirname(@__DIR__)))
     return Pkg.instantiate()
 end
 

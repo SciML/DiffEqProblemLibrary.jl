@@ -4,9 +4,6 @@ BVProblemLibrary = "ded0fc24-dfea-4565-b1d9-79c027d14d84"
 SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
-[sources]
-BVProblemLibrary = {path = "../.."}
-
 [compat]
 Aqua = "0.8"
 BVProblemLibrary = "0.1"
