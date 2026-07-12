@@ -5,9 +5,6 @@ NonlinearProblemLibrary = "b7050fa9-e91f-4b37-bcee-a89a063da141"
 SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
-[sources]
-NonlinearProblemLibrary = {path = "../.."}
-
 [compat]
 AllocCheck = "0.2"
 Aqua = "0.8"
