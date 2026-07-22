@@ -18,16 +18,16 @@ prob_bvp_nonlinear_1_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_1_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_1
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{λ} y_2
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= -\\frac{1}{λ} y_2
+\\end{align*}
 ```
 
 where
@@ -39,18 +39,18 @@ f(y_2)=-y_1
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=0.1/\sqrt{λ+0.01}
+y_1(0)=1, y_1(1)=0.1/\\sqrt{λ+0.01}
 ```
 
 # Solution
 
-The analytical solution for ``t \in [0, 1]`` is
+The analytical solution for ``t \\in [0, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \exp(-t/λ) \\
+\\begin{align*}
+y_1(t) &= \\exp(-t/λ) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -87,16 +87,16 @@ prob_bvp_nonlinear_2_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_nonlinear_2_analytic, twopoint = Val(true)
 )
 prob_bvp_nonlinear_2_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_2
 
 Nonlinear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= -\\frac{1}{λ} f(y_2)
+\\end{align*}
 ```
 
 where
@@ -108,21 +108,21 @@ f(y_2)=--y_2^2+1
 with boundary condition
 
 ```math
-\begin{align*}
-y_1(0) &= 1 + λ \ln\cosh(-0.745/λ), \\
-y_1(1) &= 1 + λ \ln\cosh(0.255/λ)
-\end{align*}
+\\begin{align*}
+y_1(0) &= 1 + λ \\ln\\cosh(-0.745/λ), \\\\
+y_1(1) &= 1 + λ \\ln\\cosh(0.255/λ)
+\\end{align*}
 ```
 
 # Solution
 
-The analytical solution for ``t \in [0, 1]`` is
+The analytical solution for ``t \\in [0, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= 1 + λ \ln\cosh((t-0.745)/λ) \\
+\\begin{align*}
+y_1(t) &= 1 + λ \\ln\\cosh((t-0.745)/λ) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -160,39 +160,39 @@ prob_bvp_nonlinear_3_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_nonlinear_3_analytic, twopoint = Val(true)
 )
 prob_bvp_nonlinear_3_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_3
 
 Nonlinear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{λ} f(y, y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= -\\frac{1}{λ} f(y, y_1)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(y_1) = y_1 + y_1^2 - \exp(-2t/\sqrt{λ})
+f(y_1) = y_1 + y_1^2 - \\exp(-2t/\\sqrt{λ})
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=1, y_1(1)=\exp(-1/\sqrt{λ})
+y_1(0)=1, y_1(1)=\\exp(-1/\\sqrt{λ})
 ```
 
 # Solution
 
-The analytical solution for ``t \in [0, 1]`` is
+The analytical solution for ``t \\in [0, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \exp(-t/\sqrt{λ}) \\
+\\begin{align*}
+y_1(t) &= \\exp(-t/\\sqrt{λ}) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -224,16 +224,16 @@ prob_bvp_nonlinear_4_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_4_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_4
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= -\\frac{1}{λ} f(y_1, y_2)
+\\end{align*}
 ```
 
 where
@@ -281,22 +281,22 @@ prob_bvp_nonlinear_5_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_5_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_5
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= -\\frac{1}{λ} f(y_1)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(y_1) = λ\sinh(λz)
+f(y_1) = λ\\sinh(λz)
 ```
 
 with boundary condition
@@ -342,7 +342,7 @@ prob_bvp_nonlinear_6_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_6_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_6
 
 This problem describes a shock wave in a one dimension nozzle flow.
@@ -350,22 +350,22 @@ This problem describes a shock wave in a one dimension nozzle flow.
 The steady state Navier-Stokes equations generate a second order differential equations which can be reduced to a first order system described by nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{λ} f(y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= -\\frac{1}{λ} f(y_1)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2) = \left(\frac{1+γ}{2} - λ A'(t)\right) y_1 y_2 - \frac{y_2}{y_1} - \frac{A'(t)}{A(t)} \left(1 - \frac{γ-1}{2} y_1^2\right)
+f(t, y_1, y_2) = \\left(\\frac{1+γ}{2} - λ A'(t)\\right) y_1 y_2 - \\frac{y_2}{y_1} - \\frac{A'(t)}{A(t)} \\left(1 - \\frac{γ-1}{2} y_1^2\\right)
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0.9129, \;\; y_1(1)=0.375
+y_1(0)=0.9129, \\;\\; y_1(1)=0.375
 ```
 
 # Solution
@@ -401,16 +401,16 @@ prob_bvp_nonlinear_7_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_7_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_7
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(y_1, y_2)
+\\end{align*}
 ```
 
 where
@@ -422,7 +422,7 @@ f(y_1, y_2) = -y_1 y_2 + y_1
 with boundary condition
 
 ```math
-y_1(0)=-1/3, \;\; y_1(1)=1/3
+y_1(0)=-1/3, \\;\\; y_1(1)=1/3
 ```
 
 # Solution
@@ -458,16 +458,16 @@ prob_bvp_nonlinear_8_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_8_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_8
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(y_1, y_2)
+\\end{align*}
 ```
 
 where
@@ -479,7 +479,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=1, \;\; y_1(1)=-1/3
+y_1(0)=1, \\;\\; y_1(1)=-1/3
 ```
 
 # Solution
@@ -515,16 +515,16 @@ prob_bvp_nonlinear_9_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_9_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_9
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2) \\
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(y_1, y_2) \\\\
+\\end{align*}
 ```
 
 where
@@ -572,16 +572,16 @@ prob_bvp_nonlinear_10_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_10_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_10
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(y_1, y_2)
+\\end{align*}
 ```
 
 where
@@ -593,7 +593,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=1, \;\; y_1(1)=3/2
+y_1(0)=1, \\;\\; y_1(1)=3/2
 ```
 
 # Solution
@@ -629,16 +629,16 @@ prob_bvp_nonlinear_11_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_11_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_11
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(y_1, y_2)
+\\end{align*}
 ```
 
 where
@@ -650,7 +650,7 @@ f(y_1, y_2)=-y_1y_2+y_1
 with boundary condition
 
 ```math
-y_1(0)=0, \;\; y_1(1)=3/2
+y_1(0)=0, \\;\\; y_1(1)=3/2
 ```
 
 # Solution
@@ -686,16 +686,16 @@ prob_bvp_nonlinear_12_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_12_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_12
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(y_1, y_2)
+\\end{align*}
 ```
 
 where
@@ -707,7 +707,7 @@ f(y_1, y_2) = -y_1 y_2 + y_1
 with boundary condition
 
 ```math
-y_1(0)=-7/6, \;\; y_1(1)=3/2
+y_1(0)=-7/6, \\;\\; y_1(1)=3/2
 ```
 
 # Solution
@@ -749,31 +749,31 @@ prob_bvp_nonlinear_13_function = BVPFunction(
     bcresid_prototype = (zeros(2), zeros(2)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_13_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_13
 
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= \sin(y_2) \\
-\frac{dy_2}{dt} &= y_3 \\
-\frac{dy_3}{dt} &= -y_4/λ \\
-\frac{dy_4}{dt} &= f(y_1, y_2, y_3, y_4)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= \\sin(y_2) \\\\
+\\frac{dy_2}{dt} &= y_3 \\\\
+\\frac{dy_3}{dt} &= -y_4/λ \\\\
+\\frac{dy_4}{dt} &= f(y_1, y_2, y_3, y_4)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(z, θ, M, Q) = \frac{1}{λ} [(z-1) \cos θ - M \sec θ] + λ Q \tan θ
+f(z, θ, M, Q) = \\frac{1}{λ} [(z-1) \\cos θ - M \\sec θ] + λ Q \\tan θ
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0, \;\; y_3(0)=0, \;\;
-y_1(1)=0, \;\; y_3(1)=0
+y_1(0)=0, \\;\\; y_3(0)=0, \\;\\;
+y_1(1)=0, \\;\\; y_3(1)=0
 ```
 
 # Solution
@@ -813,7 +813,7 @@ prob_bvp_nonlinear_14_function = BVPFunction(
     bcresid_prototype = (zeros(2), zeros(2)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_14_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_14
 
 This problem arises from fluid injection through one side of a long vertical channel
@@ -821,19 +821,19 @@ This problem arises from fluid injection through one side of a long vertical cha
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= y_3 \\
-\frac{dy_3}{dt} &= y_4 \\
-\frac{dy_4}{dt} &= λ(y_2 y_3 - y_1 y_4)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= y_3 \\\\
+\\frac{dy_3}{dt} &= y_4 \\\\
+\\frac{dy_4}{dt} &= λ(y_2 y_3 - y_1 y_4)
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=0, \;\; y_2(0)=0, \;\;
-y_1(1)=1, \;\; y_2(1)=0
+y_1(0)=0, \\;\\; y_2(0)=0, \\;\\;
+y_1(1)=1, \\;\\; y_2(1)=0
 ```
 
 # Solution
@@ -876,7 +876,7 @@ prob_bvp_nonlinear_15_function = BVPFunction(
     bcresid_prototype = (zeros(3), zeros(3)), twopoint = Val(true)
 )
 prob_bvp_nonlinear_15_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_nonlinear_15
 
 This problem arises from fluid injection through one side of a long vertical channel
@@ -884,23 +884,23 @@ This problem arises from fluid injection through one side of a long vertical cha
 Nonlinear boundary value problem with no analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2, &
-\frac{dy_2}{dt} &= \frac{1}{λ}y_1y_4 - y_3y_2, \\
-\frac{dy_3}{dt} &= y_4, &
-\frac{dy_4}{dt} &= y_5, \\
-\frac{dy_5}{dt} &= y_6, &
-\frac{dy_6}{dt} &= \frac{1}{λ}(-y_3y_6-y_1y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2, &
+\\frac{dy_2}{dt} &= \\frac{1}{λ}y_1y_4 - y_3y_2, \\\\
+\\frac{dy_3}{dt} &= y_4, &
+\\frac{dy_4}{dt} &= y_5, \\\\
+\\frac{dy_5}{dt} &= y_6, &
+\\frac{dy_6}{dt} &= \\frac{1}{λ}(-y_3y_6-y_1y_2)
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-\begin{align*}
-y_1(0)&=-1, & y_3(0)&=0, & y_4(0)&=0, \\
+\\begin{align*}
+y_1(0)&=-1, & y_3(0)&=0, & y_4(0)&=0, \\\\
 y_1(1)&= 1, & y_3(1)&=0, & y_4(1)&=0.
-\end{align*}
+\\end{align*}
 ```
 
 # Solution

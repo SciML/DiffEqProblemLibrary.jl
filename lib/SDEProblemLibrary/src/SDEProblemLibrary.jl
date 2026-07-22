@@ -1,7 +1,6 @@
 module SDEProblemLibrary
 
 using DiffEqBase: DiffEqBase, SDEFunction, SDEProblem
-using Markdown: Markdown, @doc_str
 
 import RuntimeGeneratedFunctions
 RuntimeGeneratedFunctions.init(@__MODULE__)
@@ -20,14 +19,14 @@ f_linear(u, p, t) = 1.01u
 σ_linear(u, p, t) = 0.87u
 linear_analytic(u0, p, t, W) = @.(u0 * exp(0.63155t + 0.87W))
 
-@doc doc"""
+"""
 ```math
-du_t = αu\,dt + βu\,dW_t
+du_t = αu\\,dt + βu\\,dW_t
 ```
 where ``α=1.01``, ``β=0.87``, and initial condition ``u_0=1/2``, with solution
 
 ```math
-u(u_0,p,t,W_t) = u_0 \exp\left(\left(α - \tfrac{1}{2}β^2\right) t + βW_t\right)
+u(u_0,p,t,W_t) = u_0 \\exp\\left(\\left(α - \\tfrac{1}{2}β^2\\right) t + βW_t\\right)
 ```
 
 """
@@ -62,16 +61,16 @@ prob_sde_linear_stratonovich = SDEProblem(
 )
 f_linear_iip(du, u, p, t) = @.(du = 1.01 * u)
 σ_linear_iip(du, u, p, t) = @.(du = 0.87 * u)
-@doc doc"""
+"""
 8 linear SDEs (as a 4×2 matrix):
 
 ```math
-du_t = αu\,dt + βu\,dW_t
+du_t = αu\\,dt + βu\\,dW_t
 ```
-where ``α=1.01``, ``β=0.87``, and initial condition ``u_0=\frac{1}{2}`` with solution
+where ``α=1.01``, ``β=0.87``, and initial condition ``u_0=\\frac{1}{2}`` with solution
 
 ```math
-u(u_0,p,t,W_t) = u_0 \exp\left(\left(α - \tfrac{1}{2}β^2\right) t + βW_t\right)
+u(u_0,p,t,W_t) = u_0 \\exp\\left(\\left(α - \\tfrac{1}{2}β^2\\right) t + βW_t\\right)
 ```
 """
 prob_sde_2Dlinear = SDEProblem(
@@ -107,15 +106,15 @@ f_cubic(u, p, t) = -0.25 * u * (1 - u^2)
 σ_cubic(u, p, t) = 0.5 * (1 - u^2)
 cubic_analytic(u0, p, t, W) = @. ((1 + u0) * exp(W) + u0 - 1) / ((1 + u0) * exp(W) + 1 - u0)
 ff_cubic = SDEFunction(f_cubic, σ_cubic, analytic = cubic_analytic)
-@doc doc"""
+"""
 ```math
-du_t = \frac{1}{4}u(1-u^2) \, dt + \frac{1}{2}(1-u^2) \, dW_t
+du_t = \\frac{1}{4}u(1-u^2) \\, dt + \\frac{1}{2}(1-u^2) \\, dW_t
 ```
 
-and initial condition ``u_0=\frac{1}{2}``, with solution
+and initial condition ``u_0=\\frac{1}{2}``, with solution
 
 ```math
-u(u0,p,t,W_t) = \frac{(1+u_0) \exp(W_t) + u_0 - 1}{(1+u_0) \exp(W_t) + 1 - u_0}
+u(u0,p,t,W_t) = \\frac{(1+u_0) \\exp(W_t) + u_0 - 1}{(1+u_0) \\exp(W_t) + 1 - u_0}
 ```
 """
 prob_sde_cubic = SDEProblem(ff_cubic, 1 / 2, (0.0, 1.0))
@@ -124,15 +123,15 @@ f_wave(u, p, t) = @. -0.01 * sin(u) * cos(u)^3
 σ_wave(u, p, t) = @. 0.1 * cos(u)^2
 wave_analytic(u0, p, t, W) = @. atan(0.1 * W + tan(u0))
 ff_wave = SDEFunction(f_wave, σ_wave, analytic = wave_analytic)
-@doc doc"""
+"""
 ```math
-du_t = -\frac{1}{100}\sin(u)\cos^3(u)\, dt + \frac{1}{10}\cos^2(u_t)\, dW_t
+du_t = -\\frac{1}{100}\\sin(u)\\cos^3(u)\\, dt + \\frac{1}{10}\\cos^2(u_t)\\, dW_t
 ```
 
 and initial condition ``u_0=1`` with solution
 
 ```math
-u(u_0,p,t,W_t) = \arctan\left(\frac{W_t}{10} + \tan(u_0)\right)
+u(u_0,p,t,W_t) = \\arctan\\left(\\frac{W_t}{10} + \\tan(u_0)\\right)
 ```
 """
 prob_sde_wave = SDEProblem(ff_wave, 1.0, (0.0, 1.0))
@@ -142,17 +141,17 @@ f_additive(u, p, t) = @. p[2] / sqrt(1 + t) - u / (2 * (1 + t))
 p = (0.1, 0.05)
 additive_analytic(u0, p, t, W) = @. u0 / sqrt(1 + t) + p[2] * (t + p[1] * W) / sqrt(1 + t)
 ff_additive = SDEFunction(f_additive, σ_additive, analytic = additive_analytic)
-@doc doc"""
+"""
 Additive noise problem
 
 ```math
-u_t = \left(\frac{β}{\sqrt{1+t}} - \frac{1}{2(1+t)}u_t\right) \, dt + \frac{αβ}{\sqrt{1+t}} \, dW_t
+u_t = \\left(\\frac{β}{\\sqrt{1+t}} - \\frac{1}{2(1+t)}u_t\\right) \\, dt + \\frac{αβ}{\\sqrt{1+t}} \\, dW_t
 ```
 
 and initial condition ``u_0=1`` with ``α=0.1`` and ``β=0.05``, with solution
 
 ```math
-u(u_0,p,t,W_t)=\frac{u_0}{\sqrt{1+t}} + \frac{β(t+αW_t)}{\sqrt{1+t}}
+u(u_0,p,t,W_t)=\\frac{u_0}{\\sqrt{1+t}} + \\frac{β(t+αW_t)}{\\sqrt{1+t}}
 ```
 """
 prob_sde_additive = SDEProblem(ff_additive, 1.0, (0.0, 1.0), p)
@@ -161,7 +160,7 @@ f_additive_iip(du, u, p, t) = @.(du = p[2] / sqrt(1 + t) - u / (2 * (1 + t)))
 σ_additive_iip(du, u, p, t) = @.(du = p[1] * p[2] / sqrt(1 + t))
 ff_additive_iip = SDEFunction(f_additive_iip, σ_additive_iip, analytic = additive_analytic)
 p = ([0.1; 0.1; 0.1; 0.1], [0.5; 0.25; 0.125; 0.1115])
-@doc doc"""
+"""
 A multiple dimension extension of `additiveSDEExample`
 
 """
@@ -176,15 +175,15 @@ function f_lorenz(du, u, p, t)
     return du[3] = u[1] * u[2] - p[3] * u[3]
 end
 σ_lorenz(du, u, p, t) = @.(du = 3.0)
-@doc doc"""
+"""
 Lorenz Attractor with additive noise
 
 ```math
-\begin{align*}
-dx &= σ(y-x) \, dt + α \, dW_t \\
-dy &= (x(ρ-z) - y) \, dt + α \, dW_t \\
-dz &= (xy - βz) \, dt + α \, dW_t
-\end{align*}
+\\begin{align*}
+dx &= σ(y-x) \\, dt + α \\, dW_t \\\\
+dy &= (x(ρ-z) - y) \\, dt + α \\, dW_t \\\\
+dz &= (xy - βz) \\, dt + α \\, dW_t
+\\end{align*}
 ```
 
 with ``σ=10``, ``ρ=28``, ``β=8/3``, ``α=3.0`` and initial condition ``u_0=[1;1;1]``.
@@ -195,13 +194,13 @@ f_nltest(u, p, t) = (1 / 3) * u^(1 / 3) + 6 * u^(2 / 3)
 σ_nltest(u, p, t) = u^(2 / 3)
 analytic_nltest(u0, p, t, W) = (2t + 1 + W / 3)^3
 ff_nltest = SDEFunction(f_nltest, σ_nltest, analytic = analytic_nltest)
-@doc doc"""
+"""
 Runge–Kutta methods for numerical solution of stochastic differential equations
 Tocino and Ardanuy
 """
 prob_sde_nltest = SDEProblem(ff_nltest, 1.0, (0.0, 10.0))
 
-@doc doc"""
+"""
 oval2ModelExample(;largeFluctuations=false,useBigs=false,noiseLevel=1)
 
 A function which generates the Oval2 Epithelial-Mesenchymal Transition model
@@ -463,7 +462,7 @@ ff_stiff_quad_strat = SDEFunction(
     analytic = stiff_quad_f_strat_analytic
 )
 
-@doc doc"""
+"""
 The composite Euler method for stiff stochastic
 differential equations
 
@@ -485,7 +484,7 @@ prob_sde_stiffquadito = SDEProblem(
     (1.0, 1.0)
 )
 
-@doc doc"""
+"""
 The composite Euler method for stiff stochastic
 differential equations
 
@@ -507,7 +506,7 @@ prob_sde_stiffquadstrat = SDEProblem(
     (1.0, 1.0)
 )
 
-@doc doc"""
+"""
 Stochastic Heat Equation with scalar multiplicative noise
 
 S-ROCK: CHEBYSHEV METHODS FOR STIFF STOCHASTIC

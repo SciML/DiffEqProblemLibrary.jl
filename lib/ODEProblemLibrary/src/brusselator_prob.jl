@@ -61,41 +61,41 @@ function init_brusselator_2d(xyd)
 end
 xyd_brusselator = range(0, stop = 1, length = 32)
 
-@doc doc"""
+"""
 2D Brusselator
 
 ```math
-\begin{align*}
-\frac{∂u}{∂t} &= 1 + u^2v - 4.4u + α\left(\frac{∂^2 u}{∂x^2} + \frac{∂^2 u}{∂y^2}\right) + f(x, y, t) \\
-\frac{∂v}{∂t} &=     3.4u - u^2v + α\left(\frac{∂^2 u}{∂x^2} + \frac{∂^2 u}{∂y^2}\right)
-\end{align*}
+\\begin{align*}
+\\frac{∂u}{∂t} &= 1 + u^2v - 4.4u + α\\left(\\frac{∂^2 u}{∂x^2} + \\frac{∂^2 u}{∂y^2}\\right) + f(x, y, t) \\\\
+\\frac{∂v}{∂t} &=     3.4u - u^2v + α\\left(\\frac{∂^2 u}{∂x^2} + \\frac{∂^2 u}{∂y^2}\\right)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(x, y, t) = \begin{cases}
-    5 & \text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \text{ and } t ≥ 1.1 \\
-    0 & \text{else}
-\end{cases}
+f(x, y, t) = \\begin{cases}
+    5 & \\text{if } (x-0.3)^2+(y-0.6)^2 ≤ 0.1^2 \\text{ and } t ≥ 1.1 \\\\
+    0 & \\text{else}
+\\end{cases}
 ```
 
 and the initial conditions are
 
 ```math
-\begin{align*}
-u(x, y, 0) &= 22 ⋅ y(1-y)^{3/2} \\
+\\begin{align*}
+u(x, y, 0) &= 22 ⋅ y(1-y)^{3/2} \\\\
 v(x, y, 0) &= 27 ⋅ x(1-x)^{3/2}
-\end{align*}
+\\end{align*}
 ```
 
 with the periodic boundary condition
 
 ```math
-\begin{align*}
-u(x+1,y,t) &= u(x,y,t) \\
+\\begin{align*}
+u(x+1,y,t) &= u(x,y,t) \\\\
 u(x,y+1,t) &= u(x,y,t)
-\end{align*}
+\\end{align*}
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 152
@@ -137,32 +137,32 @@ function init_brusselator_1d(N)
     return u
 end
 
-@doc doc"""
+"""
 1D Brusselator
 
 ```math
-\begin{align*}
-\frac{∂u}{∂t} &= A - (B+1) u + u^2 v + α \frac{∂^2 u}{∂x^2} \\
-\frac{∂v}{∂t} &=      B    u - u^2 v + α \frac{∂^2 u}{∂x^2}
-\end{align*}
+\\begin{align*}
+\\frac{∂u}{∂t} &= A - (B+1) u + u^2 v + α \\frac{∂^2 u}{∂x^2} \\\\
+\\frac{∂v}{∂t} &=      B    u - u^2 v + α \\frac{∂^2 u}{∂x^2}
+\\end{align*}
 ```
 
 and the initial conditions are
 
 ```math
-\begin{align*}
-u(x,0) &= 1 + \sin(2πx) \\
+\\begin{align*}
+u(x,0) &= 1 + \\sin(2πx) \\\\
 v(x,0) &= 3
-\end{align*}
+\\end{align*}
 ```
 
 with periodic boundary conditions
 
 ```math
-\begin{align*}
-u(0,t) &= u(1,t) \\
+\\begin{align*}
+u(0,t) &= u(1,t) \\\\
 v(0,t) &= v(1,t)
-\end{align*}
+\\end{align*}
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations II - Stiff and Differential-Algebraic Problems Page 6

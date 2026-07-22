@@ -18,7 +18,6 @@ if TEST_GROUP == "Core" || TEST_GROUP == "All"
 end
 
 # Quality assurance: no undefined exports, stale dependencies, etc.
-# Ambiguity checks are disabled since tests fail due to ambiguities in dependencies.
 if TEST_GROUP == "QA" || TEST_GROUP == "All"
     activate_qa_env()
     @time @safetestset "Aqua" include("qa/qa.jl")
