@@ -24,33 +24,33 @@ prob_bvp_linear_1_function = BVPFunction(
     analytic = prob_bvp_linear_1_analytic, bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_linear_1_tspan = (0.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_1
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\[2pt]
-\frac{dy_2}{dt} &= \frac{1}{λ} y_1
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\[2pt]
+\\frac{dy_2}{dt} &= \\frac{1}{λ} y_1
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=1, \;\; y_1(1)=0
+y_1(0)=1, \\;\\; y_1(1)=0
 ```
 
 # Solution
 
-The analytical solution for ``t \in [0, 1]`` is
+The analytical solution for ``t \\in [0, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \frac{\exp(-t/\sqrt{λ}) - \exp((t-2)/\sqrt{λ})}{1-\exp(-2/\sqrt{λ})} \\
+\\begin{align*}
+y_1(t) &= \\frac{\\exp(-t/\\sqrt{λ}) - \\exp((t-2)/\\sqrt{λ})}{1-\\exp(-2/\\sqrt{λ})} \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -87,33 +87,33 @@ prob_bvp_linear_2_function = BVPFunction(
     analytic = prob_bvp_linear_2_analytic, bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_linear_2_tspan = (0.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_2
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} y_2
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} y_2
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=1, \;\; y_1(1)=0
+y_1(0)=1, \\;\\; y_1(1)=0
 ```
 
 # Solution
 
-The analytical solution for ``t \in [0, 1]`` is
+The analytical solution for ``t \\in [0, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \frac{1-\exp((t-1)/λ)}{1-\exp(-1/λ)} \\
+\\begin{align*}
+y_1(t) &= \\frac{1-\\exp((t-1)/λ)}{1-\\exp(-1/λ)} \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -153,39 +153,39 @@ prob_bvp_linear_3_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_3_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_3_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_3
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(t, y_1, y_2)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2) = -[2+\cos(πt)]y_2 + y_1 -(1+λπ^2)\cos(πt) - [2+\cos(πt)]π\sin(πt)
+f(t, y_1, y_2) = -[2+\\cos(πt)]y_2 + y_1 -(1+λπ^2)\\cos(πt) - [2+\\cos(πt)]π\\sin(πt)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=-1,\;\; y_1(1)=-1
+y_1(-1)=-1,\\;\\; y_1(1)=-1
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \cos(πt) \\
+\\begin{align*}
+y_1(t) &= \\cos(πt) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -222,16 +222,16 @@ prob_bvp_linear_4_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_4_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_4_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_4
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(y_1, y_2)
+\\end{align*}
 ```
 
 where
@@ -243,21 +243,21 @@ f(y_1, y_2) = -y_2 + (1+λ) y_1
 with boundary condition
 
 ```math
-\begin{align*}
-y_1(-1) &= 1 + \exp(-2), \\
-y_1(1)  &= 1 + \exp(-2(1+λ))
-\end{align*}
+\\begin{align*}
+y_1(-1) &= 1 + \\exp(-2), \\\\
+y_1(1)  &= 1 + \\exp(-2(1+λ))
+\\end{align*}
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \exp(t-1) + \exp(-(1+λ)(1+t)/λ) \\
+\\begin{align*}
+y_1(t) &= \\exp(t-1) + \\exp(-(1+λ)(1+t)/λ) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -296,39 +296,39 @@ prob_bvp_linear_5_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_5_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_5_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_5
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(t, y_1, y_2)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2) = ty_2 + y_1 - (1+λπ^2)\cos(πt) + πt\sin(πt)
+f(t, y_1, y_2) = ty_2 + y_1 - (1+λπ^2)\\cos(πt) + πt\\sin(πt)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=-1, \;\; y_1(1)=-1
+y_1(-1)=-1, \\;\\; y_1(1)=-1
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \cos(πt) \\
+\\begin{align*}
+y_1(t) &= \\cos(πt) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -366,39 +366,39 @@ prob_bvp_linear_6_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_6_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_6_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_6
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(t, y_2)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_2) = ty_2 - λπ^2\cos(πt)-πt\sin(πt)
+f(t, y_2) = ty_2 - λπ^2\\cos(πt)-πt\\sin(πt)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=-2, \;\; y_1(1)=0
+y_1(-1)=-2, \\;\\; y_1(1)=0
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \cos(πt) + \operatorname{erf}(t/\sqrt{2λ})/\operatorname{erf}(1/\sqrt{2λ}) \\
+\\begin{align*}
+y_1(t) &= \\cos(πt) + \\operatorname{erf}(t/\\sqrt{2λ})/\\operatorname{erf}(1/\\sqrt{2λ}) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -444,39 +444,39 @@ prob_bvp_linear_7_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_7_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_7_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_7
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(t, y_1, y_2)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1, y_2) = t y_2 + y_1 - (1+λπ^2)\cos(πt) + π t\sin(πt)
+f(t, y_1, y_2) = t y_2 + y_1 - (1+λπ^2)\\cos(πt) + π t\\sin(πt)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=-1, \;\; y_1(1)=1
+y_1(-1)=-1, \\;\\; y_1(1)=1
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \cos(πt) + t + \frac{t\operatorname{erf}(t/\sqrt{2λ}) + \sqrt{2λ/π}\exp(-t^2/2λ)}{\operatorname{erf}(t/\sqrt{2λ}) + \sqrt{2λ/π}\exp(-1/2λ)} \\
+\\begin{align*}
+y_1(t) &= \\cos(πt) + t + \\frac{t\\operatorname{erf}(t/\\sqrt{2λ}) + \\sqrt{2λ/π}\\exp(-t^2/2λ)}{\\operatorname{erf}(t/\\sqrt{2λ}) + \\sqrt{2λ/π}\\exp(-1/2λ)} \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -513,33 +513,33 @@ prob_bvp_linear_8_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_8_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_8_tspan = (0.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_8
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{λ} y_2
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= -\\frac{1}{λ} y_2
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=1, \;\; y_1(1)=2
+y_1(0)=1, \\;\\; y_1(1)=2
 ```
 
 # Solution
 
-The analytical solution for ``t \in [0, 1]`` is
+The analytical solution for ``t \\in [0, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \frac{2 - \exp(-1/λ) - \exp(-t/λ)}{1 - \exp(-1/λ)} \\
+\\begin{align*}
+y_1(t) &= \\frac{2 - \\exp(-1/λ) - \\exp(-t/λ)}{1 - \\exp(-1/λ)} \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -576,16 +576,16 @@ prob_bvp_linear_9_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_9_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_9_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_9
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ+t^2} f(t, y_1, y_2)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ+t^2} f(t, y_1, y_2)
+\\end{align*}
 ```
 
 where
@@ -602,13 +602,13 @@ y_1(-1)=1/(1+λ), y_1(1)=1/(1+λ)
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \frac{1}{λ + t^2} \\
+\\begin{align*}
+y_1(t) &= \\frac{1}{λ + t^2} \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -646,33 +646,33 @@ prob_bvp_linear_10_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_10_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_10_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_10
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= - \frac{1}{λ} t y_2
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= - \\frac{1}{λ} t y_2
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=0, \;\; y_1(1)=2
+y_1(-1)=0, \\;\\; y_1(1)=2
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= 1 + \operatorname{erf}(t/\sqrt{2λ})/\operatorname{erf}(1/\sqrt{2λ}) \\
+\\begin{align*}
+y_1(t) &= 1 + \\operatorname{erf}(t/\\sqrt{2λ})/\\operatorname{erf}(1/\\sqrt{2λ}) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -709,39 +709,39 @@ prob_bvp_linear_11_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_11_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_11_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_11
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ}f(t, y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ}f(t, y_1)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1) = y_1 - (1+λπ^2)\cos(πt)
+f(t, y_1) = y_1 - (1+λπ^2)\\cos(πt)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=0, \;\; y_1(1)=2
+y_1(-1)=0, \\;\\; y_1(1)=2
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \cos(πt) \\
+\\begin{align*}
+y_1(t) &= \\cos(πt) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -780,22 +780,22 @@ prob_bvp_linear_12_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_12_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_12_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_12
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(t, y_1)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1) = y_1 - (1+λπ^2)\cos(πt)
+f(t, y_1) = y_1 - (1+λπ^2)\\cos(πt)
 ```
 
 with boundary condition
@@ -806,13 +806,13 @@ y_1(-1)=-1, y_1(1)=0
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \cos(πt) + \frac{\exp((t+1)/\sqrt{λ}) - \exp(-(t+1))/\sqrt{λ}}{\exp(2/\sqrt{λ}) - \exp(-2/\sqrt{λ})} \\
+\\begin{align*}
+y_1(t) &= \\cos(πt) + \\frac{\\exp((t+1)/\\sqrt{λ}) - \\exp(-(t+1))/\\sqrt{λ}}{\\exp(2/\\sqrt{λ}) - \\exp(-2/\\sqrt{λ})} \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -850,39 +850,39 @@ prob_bvp_linear_13_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_13_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_13_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_13
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(t, y_1)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1) = y_1 - (1+λπ^2)\cos(πt)
+f(t, y_1) = y_1 - (1+λπ^2)\\cos(πt)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=0, \;\; y_1(1)=-1
+y_1(-1)=0, \\;\\; y_1(1)=-1
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \cos(πt) + \exp(-(t+1)/\sqrt{λ}) \\
+\\begin{align*}
+y_1(t) &= \\cos(πt) + \\exp(-(t+1)/\\sqrt{λ}) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -920,40 +920,40 @@ prob_bvp_linear_14_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_14_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_14_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_14
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2
-\frac{dy_2}{dt} &= \frac{1}{λ} f(t, y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2
+\\frac{dy_2}{dt} &= \\frac{1}{λ} f(t, y_1)
+\\end{align*}
 ```
 
 where
 
 ```math
-f(t, y_1)=y_1-(1+λπ^2)\cos(πt)
+f(t, y_1)=y_1-(1+λπ^2)\\cos(πt)
 ```
 
 with boundary condition
 
 ```math
-y_1(-1) = \exp(-2/\sqrt{λ}), \;\;
-y_1(1)  = \exp(-2/\sqrt{λ})
+y_1(-1) = \\exp(-2/\\sqrt{λ}), \\;\\;
+y_1(1)  = \\exp(-2/\\sqrt{λ})
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-1, 1]`` is
+The analytical solution for ``t \\in [-1, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \cos(πt) + \exp((t-1)/\sqrt{λ}) + \exp(-(t+1)/\sqrt{λ}) \\
+\\begin{align*}
+y_1(t) &= \\cos(πt) + \\exp((t-1)/\\sqrt{λ}) + \\exp(-(t+1)/\\sqrt{λ}) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -985,22 +985,22 @@ prob_bvp_linear_15_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), twopoint = Val(true)
 )
 prob_bvp_linear_15_tspan = (-1.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_15
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ} t y_1
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ} t y_1
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(-1)=1, \;\; y_1(1)=1
+y_1(-1)=1, \\;\\; y_1(1)=1
 ```
 
 # Solution
@@ -1041,16 +1041,16 @@ prob_bvp_linear_16_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_16_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_16_tspan = (0.0, 1.0)
-@doc raw"""
+"""
     prob_bvp_linear_16
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= \frac{1}{λ^2} f(y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= \\frac{1}{λ^2} f(y_1)
+\\end{align*}
 ```
 
 where
@@ -1062,18 +1062,18 @@ f(t, y_1) = -π^2 y_1/4
 with boundary condition
 
 ```math
-y_1(0)=0, \;\; y_1(1)=\sin(π/(2λ))
+y_1(0)=0, \\;\\; y_1(1)=\\sin(π/(2λ))
 ```
 
 # Solution
 
-The analytical solution for ``t \in [0, 1]`` is
+The analytical solution for ``t \\in [0, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \sin(πt/2λ) \text{ when } 1/λ \text{ is odd } \\
+\\begin{align*}
+y_1(t) &= \\sin(πt/2λ) \\text{ when } 1/λ \\text{ is odd } \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -1109,16 +1109,16 @@ prob_bvp_linear_17_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_17_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_17_tspan = (-0.1, 0.1)
-@doc raw"""
+"""
     prob_bvp_linear_17
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= f(y_1)
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= f(y_1)
+\\end{align*}
 ```
 
 where
@@ -1130,19 +1130,19 @@ f(t, y_1) = -3λ y_1 / (λ+t^2)^2
 with boundary condition
 
 ```math
-y_1(-0.1) = \frac{-0.1}{\sqrt{λ+0.01}},
-y_1(0.1)  = \frac{ 0.1}{\sqrt{λ+0.01}}
+y_1(-0.1) = \\frac{-0.1}{\\sqrt{λ+0.01}},
+y_1(0.1)  = \\frac{ 0.1}{\\sqrt{λ+0.01}}
 ```
 
 # Solution
 
-The analytical solution for ``t \in [-0.1, 0.1]`` is
+The analytical solution for ``t \\in [-0.1, 0.1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= t/\sqrt{λ+t^2} \\
+\\begin{align*}
+y_1(t) &= t/\\sqrt{λ+t^2} \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References
@@ -1179,33 +1179,33 @@ prob_bvp_linear_18_function = BVPFunction(
     bcresid_prototype = (zeros(1), zeros(1)), analytic = prob_bvp_linear_18_analytic, twopoint = Val(true)
 )
 prob_bvp_linear_18_tspan = (0, 1)
-@doc raw"""
+"""
     prob_bvp_linear_18
 
 Linear boundary value problem with analytical solution, given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= y_2 \\
-\frac{dy_2}{dt} &= -\frac{1}{λ} y_2
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= y_2 \\\\
+\\frac{dy_2}{dt} &= -\\frac{1}{λ} y_2
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-y_1(0)=1, \;\; y_1(1)=\frac{0.1}{\sqrt{λ+0.01}}
+y_1(0)=1, \\;\\; y_1(1)=\\frac{0.1}{\\sqrt{λ+0.01}}
 ```
 
 # Solution
 
-The analytical solution for ``t \in [0, 1]`` is
+The analytical solution for ``t \\in [0, 1]`` is
 
 ```math
-\begin{align*}
-y_1(t) &= \exp(-t/λ) \\
+\\begin{align*}
+y_1(t) &= \\exp(-t/λ) \\\\
 y_2(t) &= y_1'(t)
-\end{align*}
+\\end{align*}
 ```
 
 # References

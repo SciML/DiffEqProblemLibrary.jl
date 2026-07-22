@@ -2,7 +2,6 @@ module ODEProblemLibrary
 
 using DiffEqBase: DiffEqBase, ODEFunction, ODEProblem
 using LinearAlgebra: LinearAlgebra, Diagonal, I, SymTridiagonal, diagind, ldiv!, mul!, rmul!
-using Markdown: Markdown, @doc_str
 using Random: Random
 
 Random.seed!(100)

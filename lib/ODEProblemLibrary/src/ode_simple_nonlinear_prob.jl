@@ -7,14 +7,14 @@ function lotka(du, u, p, t)
     return du[2] = -p[3] * y + p[4] * x * y
 end
 
-@doc doc"""
+"""
 Lotka-Volterra Equations (Non-stiff)
 
 ```math
-\begin{align*}
-\frac{dx}{dt} &= ax - bxy \\
-\frac{dy}{dt} &= -cy + dxy \\
-\end{align*}
+\\begin{align*}
+\\frac{dx}{dt} &= ax - bxy \\\\
+\\frac{dy}{dt} &= -cy + dxy \\\\
+\\end{align*}
 ```
 
 with initial condition ``x=y=1``
@@ -33,14 +33,14 @@ function fitz(du, u, p, t)
     du[1] = v - v^3 / 3 - w + l
     return du[2] = τinv * (v + a - b * w)
 end
-@doc doc"""
+"""
 Fitzhugh-Nagumo (Non-stiff)
 
 ```math
-\begin{align*}
-\frac{dv}{dt} &= v - \frac{v^3}{3} - w + I_{est} \\
-τ \frac{dw}{dt} &= v + a -bw
-\end{align*}
+\\begin{align*}
+\\frac{dv}{dt} &= v - \\frac{v^3}{3} - w + I_{est} \\\\
+τ \\frac{dw}{dt} &= v + a -bw
+\\end{align*}
 ```
 
 with initial condition ``v=w=1``
@@ -70,17 +70,17 @@ function vanderpol_jac(J, u, p, t)
     return J[2, 2] = μ * (1 - x^2)
 end
 
-@doc doc"""
+"""
 Van der Pol Equations
 
 ```math
-\begin{align*}
-\frac{dx}{dt} &= y \\
-\frac{dy}{dt} &= μ \left(\left(1-x^2\right) y - x\right)
-\end{align*}
+\\begin{align*}
+\\frac{dx}{dt} &= y \\\\
+\\frac{dy}{dt} &= μ \\left(\\left(1-x^2\\right) y - x\\right)
+\\end{align*}
 ```
 
-with ``μ=1.0`` and ``u_0=[\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
+with ``μ=1.0`` and ``u_0=[\\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Non-stiff parameters.
 """
@@ -89,17 +89,17 @@ prob_ode_vanderpol = ODEProblem(
     [sqrt(3), 0.0], (0.0, 1.0), [1.0]
 )
 
-@doc doc"""
+"""
 Van der Pol Equations
 
 ```math
-\begin{align*}
-\frac{dx}{dt} &= y \\
-\frac{dy}{dt} &= μ \left(\left(1 - x^2\right) y - x\right)
-\end{align*}
+\\begin{align*}
+\\frac{dx}{dt} &= y \\\\
+\\frac{dy}{dt} &= μ \\left(\\left(1 - x^2\\right) y - x\\right)
+\\end{align*}
 ```
 
-with ``μ=10^6`` and ``u_0=[\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
+with ``μ=10^6`` and ``u_0=[\\sqrt{3}, 0]`` (where ``u[1] = x``, ``u[2] = y``)
 
 Stiff parameters.
 """
@@ -119,15 +119,15 @@ function rober(du, u, p, t)
     return du[3] = k₂ * y₂^2
 end
 
-@doc doc"""
+"""
 The Robertson biochemical reactions: (Stiff)
 
 ```math
-\begin{align*}
-\frac{dy₁}{dt} &= -k₁y₁ + k₃y₂y₃ \\
-\frac{dy₂}{dt} &=  k₁y₁ - k₂y₂^2 - k₃y₂y₃ \\
-\frac{dy₃}{dt} &=  k₂y₂^2
-\end{align*}
+\\begin{align*}
+\\frac{dy₁}{dt} &= -k₁y₁ + k₃y₂y₃ \\\\
+\\frac{dy₂}{dt} &=  k₁y₁ - k₂y₂^2 - k₃y₂y₃ \\\\
+\\frac{dy₃}{dt} &=  k₂y₂^2
+\\end{align*}
 ```
 
 where ``k₁=0.04``, ``k₂=3×10^7``, ``k₃=10^4``. For details, see:
@@ -161,22 +161,22 @@ threebody = (
     du[4] = u[2] - 2u[3] - threebody_μ′ * u[2] / D₁ - threebody_μ * u[2] / D₂
 end
 
-@doc doc"""
+"""
 The ThreeBody problem as written by Hairer: (Non-stiff)
 
 ```math
-\begin{align*}
-\frac{dy₁}{dt} &= y₁ + 2\frac{dy₂}{dt} - \bar{μ}\frac{y₁+μ}{D₁} - μ\frac{y₁-\bar{μ}}{D₂} \\
-\frac{dy₂}{dt} &= y₂ - 2\frac{dy₁}{dt} - \bar{μ}\frac{y₂}{D₁} - μ\frac{y₂}{D₂}
-\end{align*}
+\\begin{align*}
+\\frac{dy₁}{dt} &= y₁ + 2\\frac{dy₂}{dt} - \\bar{μ}\\frac{y₁+μ}{D₁} - μ\\frac{y₁-\\bar{μ}}{D₂} \\\\
+\\frac{dy₂}{dt} &= y₂ - 2\\frac{dy₁}{dt} - \\bar{μ}\\frac{y₂}{D₁} - μ\\frac{y₂}{D₂}
+\\end{align*}
 ```
 ```math
-\begin{align*}
-D₁ &= \left((y₁+μ)^2 + y₂^2\right)^{3/2} \\
-D₂ &= \left((y₁-\bar{μ})^2 + y₂^2\right)^{3/2} \\
-μ &= 0.012277471 \\
-\bar{μ} &= 1-μ
-\end{align*}
+\\begin{align*}
+D₁ &= \\left((y₁+μ)^2 + y₂^2\\right)^{3/2} \\\\
+D₂ &= \\left((y₁-\\bar{μ})^2 + y₂^2\\right)^{3/2} \\\\
+μ &= 0.012277471 \\\\
+\\bar{μ} &= 1-μ
+\\end{align*}
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
@@ -204,15 +204,15 @@ function rigidbody(du, u, p, t)
     return du[3] = I₃ * y₁ * y₂
 end
 
-@doc doc"""
+"""
 Rigid Body Equations (Non-stiff)
 
 ```math
-\begin{align*}
-\frac{dy₁}{dt} &= I₁y₂y₃ \\
-\frac{dy₂}{dt} &= I₂y₁y₃ \\
-\frac{dy₃}{dt} &= I₃y₁y₂
-\end{align*}
+\\begin{align*}
+\\frac{dy₁}{dt} &= I₁y₂y₃ \\\\
+\\frac{dy₂}{dt} &= I₂y₁y₃ \\\\
+\\frac{dy₃}{dt} &= I₃y₁y₂
+\\end{align*}
 ```
 
 with ``I₁=-2``, ``I₂=1.25``, and ``I₃=-1/2``.
@@ -248,45 +248,45 @@ pleiades = (du, u, p, t) -> begin
     end
 end
 
-@doc doc"""
+"""
 Pleiades Problem (Non-stiff)
 
 ```math
-\begin{align*}
-\frac{d^2xᵢ}{dt^2} &= \sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ \\
-\frac{d^2yᵢ}{dt^2} &= \sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
-\end{align*}
+\\begin{align*}
+\\frac{d^2xᵢ}{dt^2} &= \\sum_{j≠i} mⱼ(xⱼ-xᵢ)/rᵢⱼ \\\\
+\\frac{d^2yᵢ}{dt^2} &= \\sum_{j≠i} mⱼ(yⱼ-yᵢ)/rᵢⱼ
+\\end{align*}
 ```
 
 where
 
 ```math
-rᵢⱼ = \left((xᵢ-xⱼ)^2 + (yᵢ-yⱼ)^2\right)^{3/2}
+rᵢⱼ = \\left((xᵢ-xⱼ)^2 + (yᵢ-yⱼ)^2\\right)^{3/2}
 ```
 
 and initial conditions are
 
 ```math
-\begin{align*}
-x₁(0) &=  3, & y₁(0) &=  3, \\
-x₂(0) &=  3, & y₂(0) &= -3, \\
-x₃(0) &= -1, & y₃(0) &=  2, \\
-x₄(0) &= -3, & y₄(0) &=  0, \\
-x₅(0) &=  2, & y₅(0) &=  0, \\
-x₆(0) &= -2, & y₆(0) &= -4, \\
+\\begin{align*}
+x₁(0) &=  3, & y₁(0) &=  3, \\\\
+x₂(0) &=  3, & y₂(0) &= -3, \\\\
+x₃(0) &= -1, & y₃(0) &=  2, \\\\
+x₄(0) &= -3, & y₄(0) &=  0, \\\\
+x₅(0) &=  2, & y₅(0) &=  0, \\\\
+x₆(0) &= -2, & y₆(0) &= -4, \\\\
 x₇(0) &=  2, & y₇(0) &=  4
-\end{align*}
+\\end{align*}
 ```
 
-and with ``\frac{dxᵢ(0)}{dt} = \frac{dyᵢ(0)}{dt} = 0`` except for
+and with ``\\frac{dxᵢ(0)}{dt} = \\frac{dyᵢ(0)}{dt} = 0`` except for
 
 ```math
-\begin{align*}
-\frac{dx₆(0)}{dt} &= 1.75, &
-\frac{dx₇(0)}{dt} &= -1.5, \\
-\frac{dy₄(0)}{dt} &= -1.25, &
-\frac{dy₅(0)}{dt} &= 1
-\end{align*}
+\\begin{align*}
+\\frac{dx₆(0)}{dt} &= 1.75, &
+\\frac{dx₇(0)}{dt} &= -1.5, \\\\
+\\frac{dy₄(0)}{dt} &= -1.25, &
+\\frac{dy₅(0)}{dt} &= 1
+\\end{align*}
 ```
 
 From Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 244
@@ -375,34 +375,34 @@ u0[8] = 0.0057
 
 p = (1.71, 0.43, 8.32, 0.0007, 8.75, 10.03, 0.035, 1.12, 1.745, 280.0, 0.69, 1.81)
 
-@doc doc"""
+"""
 Hires Problem (Stiff)
 
 It is in the form of
 
 ```math
-\frac{dy}{dt} = f(y)
+\\frac{dy}{dt} = f(y)
 ```
 
  with
 
 ```math
- y(0)=y_0, \quad y \in ℝ^8, \quad 0 ≤ t ≤ 321.8122
+ y(0)=y_0, \\quad y \\in ℝ^8, \\quad 0 ≤ t ≤ 321.8122
 ```
 
 where ``f`` is defined by
 
 ```math
-f(y) = \begin{pmatrix}
-−1.71y_1   + 0.43y_2 + 8.32y_3  + 0.0007y_4           \\
- 1.71y_1   − 8.75y_2                                  \\
-−10.03y_3  + 0.43y_4 + 0.035y_5                       \\
- 8.32y_2   + 1.71y_3 − 1.12y_4                        \\
-−1.745y_5  + 0.43y_6 + 0.43y_7                        \\
-−280y_6y_8 + 0.69y_4 + 1.71y_5  − 0.43y_6   + 0.69y_7 \\
- 280y_6y_8 − 1.81y_7                                  \\
+f(y) = \\begin{pmatrix}
+−1.71y_1   + 0.43y_2 + 8.32y_3  + 0.0007y_4           \\\\
+ 1.71y_1   − 8.75y_2                                  \\\\
+−10.03y_3  + 0.43y_4 + 0.035y_5                       \\\\
+ 8.32y_2   + 1.71y_3 − 1.12y_4                        \\\\
+−1.745y_5  + 0.43y_6 + 0.43y_7                        \\\\
+−280y_6y_8 + 0.69y_4 + 1.71y_5  − 0.43y_6   + 0.69y_7 \\\\
+ 280y_6y_8 − 1.81y_7                                  \\\\
 −280y_6y_8 + 1.81y_7
-\end{pmatrix}
+\\end{pmatrix}
 ```
 
 Reference: [demohires.pdf](http://www.radford.edu/~thompson/vodef90web/problems/demosnodislin/Demos_Pitagora/DemoHires/demohires.pdf)
@@ -421,23 +421,23 @@ function orego(du, u, p, t)
     return du[3] = p3 * (y1 - y3)
 end
 
-@doc doc"""
+"""
 Orego Problem (Stiff)
 
-It is in the form of ``\frac{dy}{dt}=f(y), \quad y(0)=y_0,`` with
+It is in the form of ``\\frac{dy}{dt}=f(y), \\quad y(0)=y_0,`` with
 
 ```math
-y \in ℝ^3, \quad 0 ≤ t ≤ 360
+y \\in ℝ^3, \\quad 0 ≤ t ≤ 360
 ```
 
 where ``f`` is defined by
 
 ```math
-f(y) = \begin{pmatrix}
-s(y_2 - y_1 (1 - q y_1 - y_2)) \\
-(y_3 - y_2 (1 + y_1)) / s \\
+f(y) = \\begin{pmatrix}
+s(y_2 - y_1 (1 - q y_1 - y_2)) \\\\
+(y_3 - y_2 (1 + y_1)) / s \\\\
 w (y_1 - y_3)
-\end{pmatrix}
+\\end{pmatrix}
 ```
 
 where ``s=77.27``, ``w=0.161`` and ``q=8.375×10^{-6}``.

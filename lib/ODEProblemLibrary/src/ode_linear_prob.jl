@@ -1,14 +1,14 @@
 # Linear ODE
 linear = (u, p, t) -> (p * u)
 linear_analytic = (u0, p, t) -> u0 * exp(p * t)
-@doc doc"""
+"""
 Linear ODE
 
 ```math
-\frac{du}{dt} = αu
+\\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=\frac{1}{2}``, ``α=1.01``, and solution
+with initial condition ``u_0=\\frac{1}{2}``, ``α=1.01``, and solution
 
 ```math
 u(t) = u_0 e^{αt}
@@ -21,14 +21,14 @@ prob_ode_linear = ODEProblem(
     1 / 2, (0.0, 1.0), 1.01
 )
 
-@doc doc"""
+"""
 Linear ODE
 
 ```math
-\frac{du}{dt} = αu
+\\frac{du}{dt} = αu
 ```
 
-with initial condition ``u_0=\frac{1}{2}``, ``α=1.01``, and solution
+with initial condition ``u_0=\\frac{1}{2}``, ``α=1.01``, and solution
 
 ```math
 u(t) = u_0 e^{αt}
@@ -43,11 +43,11 @@ prob_ode_bigfloatlinear = ODEProblem(
 
 f_2dlinear = (du, u, p, t) -> (@. du = p * u)
 f_2dlinear_analytic = (u0, p, t) -> @. u0 * exp(p * t)
-@doc doc"""
+"""
 4×2 version of the Linear ODE
 
 ```math
-\frac{du}{dt} = αu
+\\frac{du}{dt} = αu
 ```
 
 with initial condition ``u_0`` as all uniformly distributed random numbers,
@@ -64,11 +64,11 @@ prob_ode_2Dlinear = ODEProblem(
     rand(4, 2), (0.0, 1.0), 1.01
 )
 
-@doc doc"""
+"""
 100×100 version of the Linear ODE
 
 ```math
-\frac{du}{dt} = αu
+\\frac{du}{dt} = αu
 ```
 
 with initial condition ``u_0`` as all uniformly distributed random numbers,
@@ -85,11 +85,11 @@ prob_ode_large2Dlinear = ODEProblem(
     rand(100, 100), (0.0, 1.0), 1.01
 )
 
-@doc doc"""
+"""
 4×2 version of the Linear ODE
 
 ```math
-\frac{du}{dt} = αu
+\\frac{du}{dt} = αu
 ```
 
 with initial condition ``u_0`` as all uniformly distributed random numbers,
@@ -111,11 +111,11 @@ prob_ode_bigfloat2Dlinear = ODEProblem(
 )
 
 f_2dlinear_notinplace = (u, p, t) -> p * u
-@doc doc"""
+"""
 4×2 version of the Linear ODE
 
 ```math
-\frac{du}{dt} = αu
+\\frac{du}{dt} = αu
 ```
 
 with initial condition ``u_0`` as all uniformly distributed random numbers,

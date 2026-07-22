@@ -48,24 +48,6 @@ end
 
 ### In-place function
 
-@doc raw"""
-    prob_dde_constant_1delay_ip
-
-Delay differential equation
-
-```math
-u'(t) = -u(t - 1)
-```
-
-for ``t \in [0, 1]`` with history function ``ϕ(t) = 0`` if ``t < 0`` and ``ϕ(0) = 1``.
-
-# Solution
-
-The analytical solution for ``t \in [0, 10]`` can be obtained by the method of steps and
-is provided in this implementation.
-"""
-prob_dde_constant_1delay_ip
-
 function f_dde_constant_1delay_ip!(du, u, h, p, t)
     e = oneunit(t)
     du[1] = -h(p, t - e; idxs = 1) / e
@@ -122,6 +104,22 @@ function fanalytic_dde_constant_1delay(
     end
 end
 
+"""
+    prob_dde_constant_1delay_ip
+
+Delay differential equation
+
+```math
+u'(t) = -u(t - 1)
+```
+
+for ``t \\in [0, 1]`` with history function ``ϕ(t) = 0`` if ``t < 0`` and ``ϕ(0) = 1``.
+
+# Solution
+
+The analytical solution for ``t \\in [0, 10]`` can be obtained by the method of steps and
+is provided in this implementation.
+"""
 const prob_dde_constant_1delay_ip = DDEProblem(
     DDEFunction(
         f_dde_constant_1delay_ip!;
@@ -134,19 +132,17 @@ const prob_dde_constant_1delay_ip = DDEProblem(
 
 ### Out-of-place function
 
+function f_dde_constant_1delay_oop(u, h, p, t)
+    e = oneunit(t)
+    return h(p, t - e) ./ (-e)
+end
+
 """
     prob_dde_constant_1delay_oop
 
 Same delay differential equation as [`prob_dde_constant_1delay_ip`](@ref), but purposefully
 implemented with an out-of-place function.
 """
-prob_dde_constant_1delay_oop
-
-function f_dde_constant_1delay_oop(u, h, p, t)
-    e = oneunit(t)
-    return h(p, t - e) ./ (-e)
-end
-
 const prob_dde_constant_1delay_oop = DDEProblem(
     DDEFunction(
         f_dde_constant_1delay_oop;
@@ -159,19 +155,17 @@ const prob_dde_constant_1delay_oop = DDEProblem(
 
 ### Scalar function
 
+function f_dde_constant_1delay_scalar(u, h, p, t)
+    e = oneunit(t)
+    return -h(p, t - e) / e
+end
+
 """
     prob_dde_constant_1delay_scalar
 
 Same delay differential equation as [`prob_dde_constant_1delay_ip`](@ref), but purposefully
 implemented with a scalar function.
 """
-prob_dde_constant_1delay_scalar
-
-function f_dde_constant_1delay_scalar(u, h, p, t)
-    e = oneunit(t)
-    return -h(p, t - e) / e
-end
-
 const prob_dde_constant_1delay_scalar = DDEProblem(
     DDEFunction(
         f_dde_constant_1delay_scalar;
@@ -186,7 +180,14 @@ const prob_dde_constant_1delay_scalar = DDEProblem(
 
 ### In-place function
 
-@doc raw"""
+function f_dde_constant_1delay_long_ip!(du, u, h, p, t)
+    T = typeof(t)
+    du[1] = (u[1] - h(p, t - T(1 / 5); idxs = 1)) / oneunit(t)
+
+    return nothing
+end
+
+"""
     prob_dde_constant_1delay_long_ip
 
 Delay differential equation
@@ -195,18 +196,9 @@ Delay differential equation
 u'(t) = u(t) - u(t - 1/5)
 ```
 
-for ``t \in [0, 100]`` with history function ``ϕ(t) = 0`` if ``t < 0`` and
+for ``t \\in [0, 100]`` with history function ``ϕ(t) = 0`` if ``t < 0`` and
 ``ϕ(0) = 1``.
 """
-prob_dde_constant_1delay_long_ip
-
-function f_dde_constant_1delay_long_ip!(du, u, h, p, t)
-    T = typeof(t)
-    du[1] = (u[1] - h(p, t - T(1 / 5); idxs = 1)) / oneunit(t)
-
-    return nothing
-end
-
 const prob_dde_constant_1delay_long_ip = DDEProblem(
     f_dde_constant_1delay_long_ip!, [1.0],
     h_dde_constant_ip, (0.0, 100.0),
@@ -216,19 +208,17 @@ const prob_dde_constant_1delay_long_ip = DDEProblem(
 
 ### Out-of-place function
 
+function f_dde_constant_1delay_long_oop(u, h, p, t)
+    T = typeof(t)
+    return (u .- h(p, t - T(1 / 5))) ./ oneunit(t)
+end
+
 """
     prob_dde_constant_1delay_long_oop
 
 Same delay differential equation as [`prob_dde_constant_1delay_long_ip`](@ref), but
 purposefully implemented with an out-of-place function.
 """
-prob_dde_constant_1delay_long_oop
-
-function f_dde_constant_1delay_long_oop(u, h, p, t)
-    T = typeof(t)
-    return (u .- h(p, t - T(1 / 5))) ./ oneunit(t)
-end
-
 const prob_dde_constant_1delay_long_oop = DDEProblem(
     f_dde_constant_1delay_long_oop, [1.0],
     h_dde_constant_oop, (0.0, 100.0),
@@ -238,19 +228,17 @@ const prob_dde_constant_1delay_long_oop = DDEProblem(
 
 ### Scalar function
 
+function f_dde_constant_1delay_long_scalar(u, h, p, t)
+    T = typeof(t)
+    return (u - h(p, t - T(1 / 5))) / oneunit(t)
+end
+
 """
     prob_dde_constant_1delay_long_scalar
 
 Same delay differential equation as [`prob_dde_constant_1delay_long_ip`](@ref), but
 purposefully implemented with a scalar function.
 """
-prob_dde_constant_1delay_long_scalar
-
-function f_dde_constant_1delay_long_scalar(u, h, p, t)
-    T = typeof(t)
-    return (u - h(p, t - T(1 / 5))) / oneunit(t)
-end
-
 const prob_dde_constant_1delay_long_scalar = DDEProblem(
     f_dde_constant_1delay_long_scalar,
     1.0, h_dde_constant_scalar,
@@ -264,24 +252,6 @@ const prob_dde_constant_1delay_long_scalar = DDEProblem(
 ## Short time span
 
 ### In-place function
-
-@doc raw"""
-    prob_dde_constant_2delays_ip
-
-Delay differential equation
-
-```math
-u'(t) = -u(t - 1/3) - u(t - 1/5)
-```
-
-for ``t \in [0, 1]`` with history function ``ϕ(t) = 0`` if ``t < 0`` and ``ϕ(0) = 1``.
-
-# Solution
-
-The analytical solution for ``t \in [0, 10]`` can be obtained by the method of steps and
-is provided in this implementation.
-"""
-prob_dde_constant_2delays_ip
 
 function f_dde_constant_2delays_ip!(du, u, h, p, t)
     T = typeof(t)
@@ -331,6 +301,22 @@ function fanalytic_dde_constant_2delays(
     end
 end
 
+"""
+    prob_dde_constant_2delays_ip
+
+Delay differential equation
+
+```math
+u'(t) = -u(t - 1/3) - u(t - 1/5)
+```
+
+for ``t \\in [0, 1]`` with history function ``ϕ(t) = 0`` if ``t < 0`` and ``ϕ(0) = 1``.
+
+# Solution
+
+The analytical solution for ``t \\in [0, 10]`` can be obtained by the method of steps and
+is provided in this implementation.
+"""
 const prob_dde_constant_2delays_ip = DDEProblem(
     DDEFunction(
         f_dde_constant_2delays_ip!;
@@ -343,19 +329,17 @@ const prob_dde_constant_2delays_ip = DDEProblem(
 
 ### Out-of-place function
 
+function f_dde_constant_2delays_oop(u, h, p, t)
+    T = typeof(t)
+    return (h(p, t - T(1 / 3)) .+ h(p, t - T(1 / 5))) ./ (-oneunit(t))
+end
+
 """
     prob_dde_constant_2delays_oop
 
 Same delay differential equation as [`prob_dde_constant_2delays_ip`](@ref), but purposefully
 implemented with an out-of-place function.
 """
-prob_dde_constant_2delays_oop
-
-function f_dde_constant_2delays_oop(u, h, p, t)
-    T = typeof(t)
-    return (h(p, t - T(1 / 3)) .+ h(p, t - T(1 / 5))) ./ (-oneunit(t))
-end
-
 const prob_dde_constant_2delays_oop = DDEProblem(
     DDEFunction(
         f_dde_constant_2delays_oop;
@@ -368,19 +352,17 @@ const prob_dde_constant_2delays_oop = DDEProblem(
 
 ### Scalar function
 
+function f_dde_constant_2delays_scalar(u, h, p, t)
+    T = typeof(t)
+    return -(h(p, t - T(1 / 3)) + h(p, t - T(1 / 5))) / oneunit(t)
+end
+
 """
     prob_dde_constant_2delays_scalar
 
 Same delay differential equation as [`prob_dde_constant_2delays_ip`](@ref), but purposefully
 implemented with a scalar function.
 """
-prob_dde_constant_2delays_scalar
-
-function f_dde_constant_2delays_scalar(u, h, p, t)
-    T = typeof(t)
-    return -(h(p, t - T(1 / 3)) + h(p, t - T(1 / 5))) / oneunit(t)
-end
-
 const prob_dde_constant_2delays_scalar = DDEProblem(
     DDEFunction(
         f_dde_constant_2delays_scalar;
@@ -395,7 +377,13 @@ const prob_dde_constant_2delays_scalar = DDEProblem(
 
 ### In-place function
 
-@doc raw"""
+function f_dde_constant_2delays_long_ip!(du, u, h, p, t)
+    T = typeof(t)
+    du[1] = -(h(p, t - T(1 / 3); idxs = 1) + h(p, t - T(1 / 5); idxs = 1)) / oneunit(t)
+    return nothing
+end
+
+"""
     prob_dde_constant_2delays_long_ip
 
 Delay differential equation
@@ -404,17 +392,9 @@ Delay differential equation
 u'(t) = - u(t - 1/3) - u(t - 1/5)
 ```
 
-for ``t \in [0, 100]`` with history function ``ϕ(t) = 0`` if ``t < 0`` and
+for ``t \\in [0, 100]`` with history function ``ϕ(t) = 0`` if ``t < 0`` and
 ``ϕ(0) = 1``.
 """
-prob_dde_constant_2delays_long_ip
-
-function f_dde_constant_2delays_long_ip!(du, u, h, p, t)
-    T = typeof(t)
-    du[1] = -(h(p, t - T(1 / 3); idxs = 1) + h(p, t - T(1 / 5); idxs = 1)) / oneunit(t)
-    return nothing
-end
-
 const prob_dde_constant_2delays_long_ip = DDEProblem(
     f_dde_constant_2delays_long_ip!, [1.0],
     h_dde_constant_ip, (0.0, 100.0),
@@ -424,19 +404,17 @@ const prob_dde_constant_2delays_long_ip = DDEProblem(
 
 ### Out-of-place function
 
+function f_dde_constant_2delays_long_oop(u, h, p, t)
+    T = typeof(t)
+    return (h(p, t - T(1 / 3)) .+ h(p, t - T(1 / 5))) ./ (-oneunit(t))
+end
+
 """
     prob_dde_constant_2delays_long_oop
 
 Same delay differential equation as [`prob_dde_constant_2delays_long_ip`](@ref), but
 purposefully implemented with an out-of-place function.
 """
-prob_dde_constant_2delays_long_oop
-
-function f_dde_constant_2delays_long_oop(u, h, p, t)
-    T = typeof(t)
-    return (h(p, t - T(1 / 3)) .+ h(p, t - T(1 / 5))) ./ (-oneunit(t))
-end
-
 const prob_dde_constant_2delays_long_oop = DDEProblem(
     f_dde_constant_2delays_long_oop,
     [1.0], h_dde_constant_oop,
@@ -447,19 +425,17 @@ const prob_dde_constant_2delays_long_oop = DDEProblem(
 
 #### Scalar function
 
+function f_dde_constant_2delays_long_scalar(u, h, p, t)
+    T = typeof(t)
+    return -(h(p, t - T(1 / 3)) + h(p, t - T(1 / 5))) / oneunit(t)
+end
+
 """
     prob_dde_constant_2delays_long_scalar
 
 Same delay differential equation as [`prob_dde_constant_2delays_long_ip`](@ref), but
 purposefully implemented with a scalar function.
 """
-prob_dde_constant_2delays_long_scalar
-
-function f_dde_constant_2delays_long_scalar(u, h, p, t)
-    T = typeof(t)
-    return -(h(p, t - T(1 / 3)) + h(p, t - T(1 / 5))) / oneunit(t)
-end
-
 const prob_dde_constant_2delays_long_scalar = DDEProblem(
     f_dde_constant_2delays_long_scalar,
     1.0, h_dde_constant_scalar,

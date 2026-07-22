@@ -1,7 +1,6 @@
 module BVProblemLibrary
 
 using DiffEqBase: DiffEqBase, BVPFunction, BVProblem
-using Markdown: Markdown
 using SpecialFunctions: SpecialFunctions, erf
 
 include("linear.jl")
@@ -37,7 +36,7 @@ flat_moon_function = BVPFunction(
     flat_moon_f!, (flat_moon_bca!, flat_moon_bcb!),
     bcresid_prototype = (zeros(4), zeros(3)), twopoint = Val(true)
 )
-@doc raw"""
+"""
     flat_moon
 
 This test problem is about the optimal-time launching of a satellite into orbit from flat moon without atmospheric drag.
@@ -45,29 +44,29 @@ This test problem is about the optimal-time launching of a satellite into orbit 
 Given by
 
 ```math
-\begin{align*}
-\frac{dz_1}{dt} &= z_3 t_f, &
-\frac{dz_2}{dt} &= z_4 t_f, \\
-\frac{dz_3}{dt} &= A\cos(z_5) t_f, &
-\frac{dz_4}{dt} &= (A\sin(z_5)-g) t_f, \\
-\frac{dz_5}{dt} &= -z_6\cos(z_5) t_F, &
-\frac{dz_6}{dt} &= z_6^2\sin(z_5) t_f, \\
-\frac{dz_7}{dt} &= 0,
-\end{align*}
+\\begin{align*}
+\\frac{dz_1}{dt} &= z_3 t_f, &
+\\frac{dz_2}{dt} &= z_4 t_f, \\\\
+\\frac{dz_3}{dt} &= A\\cos(z_5) t_f, &
+\\frac{dz_4}{dt} &= (A\\sin(z_5)-g) t_f, \\\\
+\\frac{dz_5}{dt} &= -z_6\\cos(z_5) t_F, &
+\\frac{dz_6}{dt} &= z_6^2\\sin(z_5) t_f, \\\\
+\\frac{dz_7}{dt} &= 0,
+\\end{align*}
 ```
 
 with boundary condition
 
 ```math
-\begin{align*}
+\\begin{align*}
 z_1(0) &= 0, &
-z_2(0) &= 0, \\
+z_2(0) &= 0, \\\\
 z_3(0) &= 0, &
-z_4(0) &= 0, \\
+z_4(0) &= 0, \\\\
 z_5(1) &= h, &
-z_6(1) &= V_c, \\
+z_6(1) &= V_c, \\\\
 z_7(1) &= 0.
-\end{align*}
+\\end{align*}
 ```
 
 # Solution
@@ -112,7 +111,7 @@ flat_earth_function = BVPFunction(
     bcresid_prototype = (zeros(4), zeros(3)), twopoint = Val(true)
 )
 flat_earth_tspan = (0, 700)
-@doc raw"""
+"""
     flat_earth
 
 Launch of a satellite into circular orbit from a flat Earth where we assume a uniform gravitational field ``g``.
@@ -120,29 +119,29 @@ Launch of a satellite into circular orbit from a flat Earth where we assume a un
 Given by
 
 ```math
-\begin{align*}
-\frac{dz_1}{dt} &= z_3 \frac{V_c}{h}, \\[2pt]
-\frac{dz_2}{dt} &= z_4 \frac{V_c}{h}, \\[2pt]
-\frac{dz_3}{dt} &= acc \frac{1}{|V_c|\sqrt{1+z_6^2}}, \\[2pt]
-\frac{dz_4}{dt} &= acc \frac{1}{|V_c|\sqrt{1+z_6^2}}-\frac{g}{V_c}, \\[2pt]
-\frac{dz_5}{dt} &= 0, \\[2pt]
-\frac{dz_6}{dt} &= -z_5 \frac{V_c}{h}, \\[2pt]
-\frac{dz_7}{dt} &= 0,
-\end{align*}
+\\begin{align*}
+\\frac{dz_1}{dt} &= z_3 \\frac{V_c}{h}, \\\\[2pt]
+\\frac{dz_2}{dt} &= z_4 \\frac{V_c}{h}, \\\\[2pt]
+\\frac{dz_3}{dt} &= acc \\frac{1}{|V_c|\\sqrt{1+z_6^2}}, \\\\[2pt]
+\\frac{dz_4}{dt} &= acc \\frac{1}{|V_c|\\sqrt{1+z_6^2}}-\\frac{g}{V_c}, \\\\[2pt]
+\\frac{dz_5}{dt} &= 0, \\\\[2pt]
+\\frac{dz_6}{dt} &= -z_5 \\frac{V_c}{h}, \\\\[2pt]
+\\frac{dz_7}{dt} &= 0,
+\\end{align*}
 ```
 
 with boundary conditions
 
 ```math
-\begin{align*}
+\\begin{align*}
 z_1(0) &= 0, &
-z_2(0) &= 0, \\
+z_2(0) &= 0, \\\\
 z_3(0) &= 0, &
-z_4(0) &= 0, \\
+z_4(0) &= 0, \\\\
 z_5(1) &= h, &
-z_6(1) &= V_c, \\
+z_6(1) &= V_c, \\\\
 z_7(1) &= 0.
-\end{align*}
+\\end{align*}
 ```
 
 # Solution
@@ -226,7 +225,7 @@ flat_earth_drag_function = BVPFunction(
     bcresid_prototype = (zeros(4), zeros(4)), twopoint = Val(true)
 )
 flat_earth_drag_tspan = (0, 100)
-@doc raw"""
+"""
     flat_earth_drag
 
 Launch into circular orbit from a flat Earth including atmospheric drag.
@@ -234,29 +233,29 @@ Launch into circular orbit from a flat Earth including atmospheric drag.
 Given by
 
 ```math
-\begin{align*}
-\frac{dz_1}{dt} &= z_3 \frac{V_c}{h} \\
-\frac{dz_2}{dt} &= z_4 \frac{V_c}{h} \\
-\frac{dz_3}{dt} &= \frac{f}{V_c} \left(-\frac{z_6}{z_6^2+z_7^2} - V_c η\exp(-z_2 β) z_3\sqrt{z_3^3+z_4^2}\right)/m \\
-\frac{dz_4}{dt} &= \frac{f}{V_c} \left(-\frac{z_7}{z_6^2+z_7^2} - V_c η\exp(-z_2 β) z_4\sqrt{z_3^3+z_4^2}\right)/m - g_{accel}/V_c \\
-\frac{dz_5}{dt} &= -ηβ \exp(-z_2 β) (z_6z_3+z_7z_4)\sqrt{z_3^3+z_4^2}\frac{V_c}{m} \\
-\frac{dz_6}{dt} &= η \exp(-z_2 β) \left(z_6(2z_3^2+z_4^2)+z_7z_3z_4\right) V_c/\sqrt{z_3^2+z_4^2}/m \\
-\frac{dz_7}{dt} &= η \exp(-z_2 β) \left(z_7(z_3^2+2z_4^2)+z_6z_3z_4\right) V_c/\sqrt{z_3^2+z_4^2}/m \\
-\end{align*}
+\\begin{align*}
+\\frac{dz_1}{dt} &= z_3 \\frac{V_c}{h} \\\\
+\\frac{dz_2}{dt} &= z_4 \\frac{V_c}{h} \\\\
+\\frac{dz_3}{dt} &= \\frac{f}{V_c} \\left(-\\frac{z_6}{z_6^2+z_7^2} - V_c η\\exp(-z_2 β) z_3\\sqrt{z_3^3+z_4^2}\\right)/m \\\\
+\\frac{dz_4}{dt} &= \\frac{f}{V_c} \\left(-\\frac{z_7}{z_6^2+z_7^2} - V_c η\\exp(-z_2 β) z_4\\sqrt{z_3^3+z_4^2}\\right)/m - g_{accel}/V_c \\\\
+\\frac{dz_5}{dt} &= -ηβ \\exp(-z_2 β) (z_6z_3+z_7z_4)\\sqrt{z_3^3+z_4^2}\\frac{V_c}{m} \\\\
+\\frac{dz_6}{dt} &= η \\exp(-z_2 β) \\left(z_6(2z_3^2+z_4^2)+z_7z_3z_4\\right) V_c/\\sqrt{z_3^2+z_4^2}/m \\\\
+\\frac{dz_7}{dt} &= η \\exp(-z_2 β) \\left(z_7(z_3^2+2z_4^2)+z_6z_3z_4\\right) V_c/\\sqrt{z_3^2+z_4^2}/m \\\\
+\\end{align*}
 ```
 
 with boundary conditions
 
 ```math
-\begin{align*}
+\\begin{align*}
 z_1(0) &= 0, &
-z_2(0) &= 0, \\
+z_2(0) &= 0, \\\\
 z_3(0) &= 0, &
-z_4(0) &= 0, \\
+z_4(0) &= 0, \\\\
 z_5(1) &= h, &
-z_6(1) &= V_c, \\
+z_6(1) &= V_c, \\\\
 z_7(1) &= 0.
-\end{align*}
+\\end{align*}
 ```
 
 # Solution
@@ -293,7 +292,7 @@ function measles_bc!(res, u, p, t)
 end
 measles_function = BVPFunction(measles_f!, measles_bc!)
 measles_tspan = (0, 1)
-@doc raw"""
+"""
     measles
 
 This is an epidemiology model, about the spread of diseases.
@@ -301,11 +300,11 @@ This is an epidemiology model, about the spread of diseases.
 Given by
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= μ - β(t) y_1 y_3 \\
-\frac{dy_2}{dt} &= β(t) y_1 y_3 - \frac{y_2}{λ} \\
-\frac{dy_3}{dt} &= \frac{y_2}{λ} - \frac{y_3}{η}
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= μ - β(t) y_1 y_3 \\\\
+\\frac{dy_2}{dt} &= β(t) y_1 y_3 - \\frac{y_2}{λ} \\\\
+\\frac{dy_3}{dt} &= \\frac{y_2}{λ} - \\frac{y_3}{η}
+\\end{align*}
 ```
 
 with boundary condition

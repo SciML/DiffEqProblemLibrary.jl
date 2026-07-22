@@ -29,18 +29,18 @@ function nlc_analytic(u0, p, t)
 end
 nonLinChem_f = ODEFunction(nonLinChem, analytic = nlc_analytic)
 
-@doc doc"""
+"""
 Nonlinear system of reactions with an analytical solution
 
 ```math
-\begin{align*}
-\frac{dy_1}{dt} &= -y_1 \\
-\frac{dy_2}{dt} &= y_1 - y_2^2 \\
-\frac{dy_3}{dt} &= y_2^2
-\end{align*}
+\\begin{align*}
+\\frac{dy_1}{dt} &= -y_1 \\\\
+\\frac{dy_2}{dt} &= y_1 - y_2^2 \\\\
+\\frac{dy_3}{dt} &= y_2^2
+\\end{align*}
 ```
 
-with initial condition ``y=[1;0;0]`` on a time span of ``t \in (0,20)``
+with initial condition ``y=[1;0;0]`` on a time span of ``t \\in (0,20)``
 
 From
 

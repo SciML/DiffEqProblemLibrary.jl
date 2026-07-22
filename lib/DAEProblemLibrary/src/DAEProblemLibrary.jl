@@ -1,7 +1,6 @@
 module DAEProblemLibrary
 
 using DiffEqBase: DiffEqBase, DAEProblem
-using Markdown: Markdown, @doc_str
 
 #DAE Example Problems
 export prob_dae_resrob, prob_dae_transamp
@@ -17,15 +16,15 @@ end
 u0 = [1.0, 0, 0]
 du0 = [-0.04, 0.04, 0.0]
 
-@doc doc"""
+"""
 The Robertson biochemical reactions in DAE form
 
 ```math
-\begin{align*}
-\frac{dy₁}{dt} &= -k₁y₁+k₃y₂y₃ \\
-\frac{dy₂}{dt} &=  k₁y₁-k₂y₂^2-k₃y₂y₃ \\
+\\begin{align*}
+\\frac{dy₁}{dt} &= -k₁y₁+k₃y₂y₃ \\\\
+\\frac{dy₂}{dt} &=  k₁y₁-k₂y₂^2-k₃y₂y₃ \\\\
 1 &= y₁ + y₂ + y₃
-\end{align*}
+\\end{align*}
 ```
 where ``k₁=0.04``, ``k₂=3×10^7``, ``k₃=10^4``. For details, see:
 Hairer Norsett Wanner Solving Ordinary Differential Equations I - Nonstiff Problems Page 129
@@ -67,37 +66,37 @@ du0 = [
     -10.00564453,
 ]
 
-@doc doc"""
+"""
 The Transistor Amplifier model
 
 ```math
-M\frac{dy}{dt} = f(t,y), \quad y(0)=y_0,\quad y'(0)=y_0'
+M\\frac{dy}{dt} = f(t,y), \\quad y(0)=y_0,\\quad y'(0)=y_0'
 ```
 
 ```math
-M = \begin{pmatrix}
--C_1 &  C_1 &    0 &    0 &    0 &    0 &    0 &    0 \\
- C_1 & -C_1 &    0 &    0 &    0 &    0 &    0 &    0 \\
-   0 &    0 & -C_2 &    0 &    0 &    0 &    0 &    0 \\
-   0 &    0 &    0 & -C_3 &  C_3 &    0 &    0 &    0 \\
-   0 &    0 &    0 &  C_3 & -C_3 &    0 &    0 &    0 \\
-   0 &    0 &    0 &    0 &    0 & -C_4 &    0 &    0 \\
-   0 &    0 &    0 &    0 &    0 &    0 & -C_5 &  C_5 \\
+M = \\begin{pmatrix}
+-C_1 &  C_1 &    0 &    0 &    0 &    0 &    0 &    0 \\\\
+ C_1 & -C_1 &    0 &    0 &    0 &    0 &    0 &    0 \\\\
+   0 &    0 & -C_2 &    0 &    0 &    0 &    0 &    0 \\\\
+   0 &    0 &    0 & -C_3 &  C_3 &    0 &    0 &    0 \\\\
+   0 &    0 &    0 &  C_3 & -C_3 &    0 &    0 &    0 \\\\
+   0 &    0 &    0 &    0 &    0 & -C_4 &    0 &    0 \\\\
+   0 &    0 &    0 &    0 &    0 &    0 & -C_5 &  C_5 \\\\
    0 &    0 &    0 &    0 &    0 &    0 &  C_5 & -C_5
-\end{pmatrix}
+\\end{pmatrix}
 ```
 
 ```math
-f(t, y)=\begin{pmatrix}
--\frac{U_e(t)}{R_0} + \frac{y_1}{R_0} \\
--\frac{U_b}{R_2} + y_2\left(\frac{1}{R_1}+\frac{1}{R_2}\right) - (α-1) g\left(y_2-y_3\right) \\
--g\left(y_2-y_3\right) + \frac{y_3}{R_3} \\
--\frac{U_b}{R_4} + \frac{y_4}{R_4} + α g\left(y_2-y_3\right) \\
--\frac{U_b}{R_6} + y_5\left(\frac{1}{R_5}+\frac{1}{R_6}\right) - (α-1) g\left(y_5-y_6\right) \\
--g\left(y_5-y_6\right) + \frac{y_6}{R_7} \\
--\frac{U_b}{R_8} + \frac{y_7}{R_8} + α g\left(y_5-y_6\right) \\
-\frac{y_8}{R_9}
-\end{pmatrix}
+f(t, y)=\\begin{pmatrix}
+-\\frac{U_e(t)}{R_0} + \\frac{y_1}{R_0} \\\\
+-\\frac{U_b}{R_2} + y_2\\left(\\frac{1}{R_1}+\\frac{1}{R_2}\\right) - (α-1) g\\left(y_2-y_3\\right) \\\\
+-g\\left(y_2-y_3\\right) + \\frac{y_3}{R_3} \\\\
+-\\frac{U_b}{R_4} + \\frac{y_4}{R_4} + α g\\left(y_2-y_3\\right) \\\\
+-\\frac{U_b}{R_6} + y_5\\left(\\frac{1}{R_5}+\\frac{1}{R_6}\\right) - (α-1) g\\left(y_5-y_6\\right) \\\\
+-g\\left(y_5-y_6\\right) + \\frac{y_6}{R_7} \\\\
+-\\frac{U_b}{R_8} + \\frac{y_7}{R_8} + α g\\left(y_5-y_6\\right) \\\\
+\\frac{y_8}{R_9}
+\\end{pmatrix}
 ```
 
 ## Reference
