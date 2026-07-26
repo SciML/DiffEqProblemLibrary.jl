@@ -12,14 +12,15 @@ jobs:
     name: ${{ matrix.package.repo }}/${{ matrix.package.group }}/${{ matrix.julia-version }}
     runs-on: ${{ matrix.os }}
     env:
-      GROUP: ${{ matrix.package.group }}
+      ODEDIFFEQ_TEST_GROUP: ${{ matrix.package.group }}
+      DOWNSTREAM_SUBDIR: ${{ matrix.package.subdir }}
     strategy:
       fail-fast: false
       matrix:
         julia-version: ['1.10']
         os: [ubuntu-latest]
         package:
-          - {user: SciML, repo: DiffEqDevTools.jl, group: All}
+          - {user: SciML, repo: OrdinaryDiffEq.jl, subdir: lib/DiffEqDevTools, group: Core}
           - {user: SciML, repo: OrdinaryDiffEq.jl, group: Regression_I}
     steps:
       - uses: actions/checkout@v7
@@ -33,17 +34,16 @@ jobs:
           repository: ${{ matrix.package.user }}/${{ matrix.package.repo }}
           path: downstream
       - name: Load this and run the downstream tests
-        shell: julia --color=yes --project=downstream {0}
+        shell: julia --color=yes {0}
         run: |
           using Pkg
-          try
-            Pkg.develop(map(path ->Pkg.PackageSpec.(;path="lib/$(path)"), readdir("./lib")));
-            Pkg.test(coverage=true)
-          catch err
-            err isa Pkg.Resolve.ResolverError || rethrow()
-            @info "Not compatible with this release. No problem." exception=err
-            exit(0)
-          end
+          downstream_project = normpath(joinpath("downstream", ENV["DOWNSTREAM_SUBDIR"]))
+          isfile(joinpath(downstream_project, "Project.toml")) ||
+            error("No downstream Project.toml found at $(downstream_project)")
+          Pkg.activate(downstream_project)
+          Pkg.develop(map(path -> Pkg.PackageSpec(; path = joinpath(pwd(), "lib", path)), readdir("lib")))
+          Pkg.update()
+          Pkg.test(coverage=true)
       - uses: julia-actions/julia-processcoverage@v1
       - uses: codecov/codecov-action@v7
         with:
