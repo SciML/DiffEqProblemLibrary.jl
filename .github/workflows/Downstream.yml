@@ -12,7 +12,7 @@ jobs:
     name: ${{ matrix.package.repo }}/${{ matrix.package.group }}/${{ matrix.julia-version }}
     runs-on: ${{ matrix.os }}
     env:
-      ODEDIFFEQ_TEST_GROUP: ${{ matrix.package.group }}
+      GROUP: ${{ matrix.package.group }}
       DOWNSTREAM_SUBDIR: ${{ matrix.package.subdir }}
     strategy:
       fail-fast: false

@@ -25,7 +25,7 @@ end
 
     if !isempty(base_group) && isdir(joinpath(LIB_DIR, base_group))
         Pkg.activate(joinpath(LIB_DIR, base_group))
-        withenv("DIFFEQPROBLEMLIBRARY_TEST_GROUP" => test_group) do
+        withenv("GROUP" => test_group) do
             Pkg.test(base_group, julia_args = ["--check-bounds=auto", "--compiled-modules=yes", "--depwarn=yes"], force_latest_compatible_version = false, allow_reresolve = true)
         end
     else

@@ -2,7 +2,7 @@ using Pkg
 using DDEProblemLibrary
 using SafeTestsets, Test
 
-const TEST_GROUP = get(ENV, "DIFFEQPROBLEMLIBRARY_TEST_GROUP", "All")
+const TEST_GROUP = get(ENV, "GROUP", "All")
 
 function activate_qa_env()
     Pkg.activate(joinpath(@__DIR__, "qa"))
