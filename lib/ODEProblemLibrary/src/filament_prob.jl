@@ -227,13 +227,13 @@ function projection!(f::FilamentCache)
     mul!(J_JT, J, J')
     LDLt_inplace!(J_JT_LDLT, J_JT)
     ldiv!(P0, J_JT_LDLT, J)
-    mul!(P', P0, J)
+    mul!(P, P0', J)
     subtract_from_identity!(P)
     return nothing
 end
 
 function subtract_from_identity!(A)
-    rmul!(-1, A)
+    lmul!(-1, A)
     @inbounds for i in 1:size(A, 1)
         A[i, i] += 1
     end
