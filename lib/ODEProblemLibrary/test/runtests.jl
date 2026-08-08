@@ -15,6 +15,7 @@ if TEST_GROUP == "Core" || TEST_GROUP == "All"
     @time @testset "Load Tests" begin
         @test ODEProblemLibrary isa Module
     end
+    @time @safetestset "Filament" include("filament.jl")
 end
 
 # Quality assurance: no undefined exports, stale dependencies, etc.

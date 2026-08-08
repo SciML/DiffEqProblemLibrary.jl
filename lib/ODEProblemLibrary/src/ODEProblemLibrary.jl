@@ -1,7 +1,8 @@
 module ODEProblemLibrary
 
 using DiffEqBase: DiffEqBase, ODEFunction, ODEProblem
-using LinearAlgebra: LinearAlgebra, Diagonal, I, SymTridiagonal, diagind, ldiv!, mul!, rmul!
+using LinearAlgebra: LinearAlgebra, Diagonal, I, SymTridiagonal, diagind, ldiv!, lmul!, mul!,
+    rmul!
 using Random: Random
 
 Random.seed!(100)
