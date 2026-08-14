@@ -6,7 +6,7 @@ version = "0.1.8"
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
 
 [compat]
-DiffEqBase = "6, 7"
+DiffEqBase = "7"
 Pkg = "1.10"
 SafeTestsets = "0.1"
 Test = "1.10"
