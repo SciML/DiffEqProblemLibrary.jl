@@ -1,3 +1,7 @@
 using SciMLTesting, DiffEqProblemLibrary, Test
 
-run_qa(DiffEqProblemLibrary)
+# extras-only harness deps; Aqua sees them after Pkg.test extras-merge
+run_qa(
+    DiffEqProblemLibrary;
+    aqua_kwargs = (; stale_deps = (; ignore = [:SafeTestsets, :SciMLTesting])),
+)
