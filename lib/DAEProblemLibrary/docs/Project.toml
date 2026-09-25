@@ -1,0 +1,8 @@
+[deps]
+DAEProblemLibrary = "dfb8ca35-80a1-48ba-a605-84916a45b4f8"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+
+[compat]
+DAEProblemLibrary = "0.1"
+Documenter = "1"
+julia = "1.10"

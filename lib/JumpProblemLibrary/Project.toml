@@ -1,19 +1,25 @@
 name = "JumpProblemLibrary"
 uuid = "faf0f6d7-8cee-47cb-b27c-1eb80cef534e"
-version = "1.1.0"
+version = "2.0.3"
 
 [deps]
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
 RuntimeGeneratedFunctions = "7e49a35a-f44a-4d26-94aa-eba1b4ca6b47"
 
 [compat]
-Aqua = "0.5"
-DiffEqBase = "6"
+DiffEqBase = "7"
+Pkg = "1.10"
 RuntimeGeneratedFunctions = "0.5"
+SafeTestsets = "0.1"
+Test = "1.10"
+SciMLTesting = "2.10"
 julia = "1.10"
 
 [extras]
-Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Aqua"]
+test = ["Pkg", "SafeTestsets", "Test"]

@@ -11,8 +11,8 @@ Cultures of Pseudomonas Putida IsoF By Use of ELISA and UHPLC/qTOF-MS-derived Me
 and Mathematical Models, Analytical and Bioanalytical Chemistry.
 """
 const prob_dde_qs = let S₀ = 1, τ = 2, D = 0.1, γₛ = 1.3e-12, Kₘ = 0.38, nₛ = 1.3, a = 0.66,
-    αₐ = 2.3e-19, βₐ = 2.3e-18, C₁ = 70e-9, n₁ = 2.3, γₐ = 0.05, αC = 4e4, R = 5e-7,
-    γ₃ = 0.08, Kₑ = 1.5e-4, αₗ = 1.1e-8, C₂ = 70e-9, n₂ = 2.5, γₗ = 0.005
+        αₐ = 2.3e-19, βₐ = 2.3e-18, C₁ = 70.0e-9, n₁ = 2.3, γₐ = 0.05, αC = 4.0e4, R = 5.0e-7,
+        γ₃ = 0.08, Kₑ = 1.5e-4, αₗ = 1.1e-8, C₂ = 70.0e-9, n₂ = 2.5, γₗ = 0.005
 
     function hill_growth(x, K, n)
         if x > K
@@ -44,8 +44,8 @@ const prob_dde_qs = let S₀ = 1, τ = 2, D = 0.1, γₛ = 1.3e-12, Kₘ = 0.38,
             du[4] = max(0, αC * (R - u[4]) * u[3] - γ₃ * u[4])
         else
             du[3] = (αₐ + βₐ * hill_growth(u[4], C₁, n₁)) * u[2] -
-                    (γₐ + D) * u[3] - αC * (R - u[4]) * u[3] + γ₃ * u[4] -
-                    Kₑ * u[3] * u[5]
+                (γₐ + D) * u[3] - αC * (R - u[4]) * u[3] + γ₃ * u[4] -
+                Kₑ * u[3] * u[5]
             du[4] = αC * (R - u[4]) * u[3] - γ₃ * u[4]
         end
 
@@ -57,14 +57,14 @@ const prob_dde_qs = let S₀ = 1, τ = 2, D = 0.1, γₛ = 1.3e-12, Kₘ = 0.38,
             du[5] = αₗ * hill_growth(Cₜ, C₂, n₂) * u[2] - (γₗ + D) * u[5]
         end
 
-        nothing
+        return nothing
     end
 
     function h_dde_qs(p, t; idxs::Union{Nothing, Int} = nothing)
         t ≤ 0 || error("history function is only implemented for t ≤ 0")
 
-        if idxs === nothing
-            [1.0, 8.4e8, 2.5e-9, 7.6e-8, 5e-15]
+        return if idxs === nothing
+            [1.0, 8.4e8, 2.5e-9, 7.6e-8, 5.0e-15]
         elseif idxs == 1
             1.0
         elseif idxs == 2
@@ -74,7 +74,7 @@ const prob_dde_qs = let S₀ = 1, τ = 2, D = 0.1, γₛ = 1.3e-12, Kₘ = 0.38,
         elseif idxs == 4
             7.6e-8
         elseif idxs == 5
-            5e-15
+            5.0e-15
         else
             error("delay differential equation consists of five components")
         end

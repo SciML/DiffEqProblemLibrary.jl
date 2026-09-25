@@ -1,0 +1,8 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+SDEProblemLibrary = "c72e72a9-a271-4b2b-8966-303ed956772e"
+
+[compat]
+Documenter = "1"
+SDEProblemLibrary = "1"
+julia = "1.10"

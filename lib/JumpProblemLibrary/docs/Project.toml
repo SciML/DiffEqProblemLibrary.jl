@@ -1,0 +1,8 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+JumpProblemLibrary = "faf0f6d7-8cee-47cb-b27c-1eb80cef534e"
+
+[compat]
+Documenter = "1"
+JumpProblemLibrary = "2"
+julia = "1.10"

@@ -1,23 +1,28 @@
 module JumpProblemLibrary
 
-using DiffEqBase
+using DiffEqBase: DiffEqBase, DiscreteProblem
 
 import RuntimeGeneratedFunctions
 RuntimeGeneratedFunctions.init(@__MODULE__)
 
 # Jump Example Problems
 export prob_jump_dnarepressor, prob_jump_constproduct, prob_jump_nonlinrxs,
-# examples mixing mass action and constant rate jumps
-       prob_jump_osc_mixed_jumptypes,
-# examples used in published benchmarks / comparisons
-       prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor,
-# examples approximating diffusion by continuous time random walks
-       prob_jump_diffnetwork
+    # examples mixing mass action and constant rate jumps
+    prob_jump_osc_mixed_jumptypes,
+    # examples used in published benchmarks / comparisons
+    prob_jump_multistate, prob_jump_twentygenes, prob_jump_dnadimer_repressor,
+    # examples approximating diffusion by continuous time random walks
+    prob_jump_diffnetwork
 
 """
     General structure to hold JumpProblem info. Needed since
     the JumpProblem constructor requires the algorithm, so we
     don't create the JumpProblem here.
+
+Jump rates are given by direct functions of `(u, p, t)`, stored in
+`prob_data["jumps"]` with the corresponding state change vectors in
+`prob_data["nu"]` (or returned by the function in `prob_data["network_func"]`
+for parameterized networks).
 """
 struct JumpProblemNetwork
     rates::Any           # vector of rate constants or jumps
@@ -487,7 +492,7 @@ prob = DiscreteProblem(u0, (0.0, tf), dnadimer_rates)
 """
     Negative feedback autoregulatory gene expression model. Dimer is the repressor.
     Taken from Marchetti, Priami and Thanh,
-    "Simulation Algorithms for Comptuational Systems Biology",
+    "Simulation Algorithms for Computational Systems Biology",
     Springer (2017).
     
     Reactions:

@@ -40,10 +40,6 @@ bvp = "bvp"
 ivp = "ivp"
 strat = "strat"
 OT = "OT"
-lamda = "lamda"
-lamdas = "lamdas"
-exaple = "exaple"
-Comput = "Comput"
 
 # Common abbreviations
 tol = "tol"
@@ -79,3 +75,7 @@ MTK = "MTK"
 ODE = "ODE"
 PDE = "PDE"
 SDE = "SDE"
+
+# Citation false-positives
+Comput = "Comput"  # "Math. Comput." journal abbreviation
+Collum = "Collum"  # surname "McCollum" (paper author)

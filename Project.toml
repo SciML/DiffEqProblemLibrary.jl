@@ -1,7 +1,7 @@
 name = "DiffEqProblemLibrary"
 uuid = "a077e3f3-b75c-5d7f-a0c6-6bc4c8ec64a9"
 authors = ["Chris Rackauckas <accounts@chrisrackauckas.com>"]
-version = "5.0.0"
+version = "5.3.0"
 
 [deps]
 BVProblemLibrary = "ded0fc24-dfea-4565-b1d9-79c027d14d84"
@@ -10,14 +10,29 @@ DDEProblemLibrary = "f42792ee-6ffc-4e2a-ae83-8ee2f22de800"
 JumpProblemLibrary = "faf0f6d7-8cee-47cb-b27c-1eb80cef534e"
 NonlinearProblemLibrary = "b7050fa9-e91f-4b37-bcee-a89a063da141"
 ODEProblemLibrary = "fdc4e326-1af4-4b90-96e7-779fcce2daa5"
+PrecompileTools = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
 SDEProblemLibrary = "c72e72a9-a271-4b2b-8966-303ed956772e"
 
 [compat]
 BVProblemLibrary = "0.1"
 DAEProblemLibrary = "0.1"
 DDEProblemLibrary = "0.1"
-JumpProblemLibrary = "0.1"
+JumpProblemLibrary = "2.0"
 NonlinearProblemLibrary = "0.1"
-ODEProblemLibrary = "0.1"
-SDEProblemLibrary = "0.1"
+ODEProblemLibrary = "1"
+PrecompileTools = "1.2"
+Pkg = "1.10"
+SafeTestsets = "0.1"
+SciMLTesting = "2.4"
+SDEProblemLibrary = "1"
+Test = "1.10"
 julia = "1.10"
+
+[extras]
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
+SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Pkg", "SafeTestsets", "SciMLTesting", "Test"]

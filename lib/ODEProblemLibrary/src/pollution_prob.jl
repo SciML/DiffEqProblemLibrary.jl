@@ -52,7 +52,7 @@ function pollution(dy, y, p, t)
     r25 = k25 * y[20]
 
     dy[1] = -r1 - r10 - r14 - r23 - r24 +
-            r2 + r3 + r9 + r11 + r12 + r22 + r25
+        r2 + r3 + r9 + r11 + r12 + r22 + r25
     dy[2] = -r2 - r3 - r9 - r12 + r1 + r21
     dy[3] = -r15 + r1 + r17 + r19 + r22
     dy[4] = -r2 - r16 - r17 - r23 + r15
@@ -71,7 +71,7 @@ function pollution(dy, y, p, t)
     dy[17] = -r20
     dy[18] = r20
     dy[19] = -r21 - r22 - r24 + r23 + r25
-    dy[20] = -r25 + r24
+    return dy[20] = -r25 + r24
 end
 
 function pollution_jac(J, y, p, t)
@@ -191,7 +191,7 @@ u0[17] = 0.007
 """
 Pollution Problem (Stiff)
 
-This IVP is a stiff system of 20 non-linear Ordinary Differential Equations. It is in the form of 
+This IVP is a stiff system of 20 non-linear Ordinary Differential Equations. It is in the form of
 
 ```math
 \\frac{dy}{dt}=f(y)
@@ -200,12 +200,35 @@ This IVP is a stiff system of 20 non-linear Ordinary Differential Equations. It 
 with
 
 ```math
-y(0)=y0, \\quad y \\in ℝ^20, \\quad 0 ≤ t ≤ 60
+y(0)=y_0, \\quad y \\in ℝ^{20}, \\quad 0 ≤ t ≤ 60
 ```
 
 where ``f`` is defined by
 
-``f(y) = \\begin{pmatrix} -\\sum_{j∈{1,10,14,23,24}} r_j + \\sum_{j∈{2,3,9,11,12,22,25}} r_j \\\\ -r_2 - r_3 - r_9 - r_12 + r_1 + r_{21} \\\\ -r_{15} + r_1 + r_{17} + r_{19} + r_{22} \\\\ -r_2 - r_{16} - r_{17} - r_{23} + r_{15} \\\\ -r_3 + 2r_4 + r_6 + r_7 + r_{13} + r_{20} \\\\ -r_6 - r_8 - r_{14} - r_{20} + r_3 + 2r_{18} \\\\ -r_4 - r_5 - r_6 + r_{13} \\\\ r_4 + r_5 + r_6 + r_7 \\\\ -r_7 - r_8 \\\\ -r_{12} + r_7 + r_9 \\\\ -r_9 - r_{10} + r_8 + r_{11} \\\\ r_9 \\\\ -r_{11} + r_{10} \\\\ -r_{13} + r_{12} \\\\ r_{14} \\\\ -r_{18} - r_{19} + r_{16} \\\\ -r_{20} \\\\ r_{20} \\\\ -r{21} - r_{22} - r_{24} + r_{23} + r_{25} \\\\ -r_{25} + r_{24} \\end{pmatrix}``
+```math
+f(y) = \\begin{pmatrix}
+-\\sum_{j\\in{1,10,14,23,24}} r_j + \\sum_{j\\in{2,3,9,11,12,22,25}} r_j \\\\
+-r_2 - r_3 - r_9 - r_12 + r_1 + r_{21} \\\\
+-r_{15} + r_1 + r_{17} + r_{19} + r_{22} \\\\
+-r_2 - r_{16} - r_{17} - r_{23} + r_{15} \\\\
+-r_3 + 2r_4 + r_6 + r_7 + r_{13} + r_{20} \\\\
+-r_6 - r_8 - r_{14} - r_{20} + r_3 + 2r_{18} \\\\
+-r_4 - r_5 - r_6 + r_{13} \\\\
+r_4 + r_5 + r_6 + r_7 \\\\
+-r_7 - r_8 \\\\
+-r_{12} + r_7 + r_9 \\\\
+-r_9 - r_{10} + r_8 + r_{11} \\\\
+r_9 \\\\
+-r_{11} + r_{10} \\\\
+-r_{13} + r_{12} \\\\
+r_{14} \\\\
+-r_{18} - r_{19} + r_{16} \\\\
+-r_{20} \\\\
+r_{20} \\\\
+-r_{21} - r_{22} - r_{24} + r_{23} + r_{25} \\\\
+-r_{25} + r_{24}
+\\end{pmatrix}
+```
 
 with the initial condition of
 
@@ -218,5 +241,7 @@ Analytical Jacobian is included.
 Reference: [pollu.pdf](https://archimede.dm.uniba.it/~testset/report/pollu.pdf)
 Notebook: [Pollution.ipynb](http://nbviewer.jupyter.org/github/JuliaDiffEq/DiffEqBenchmarks.jl/blob/master/StiffODE/Pollution.ipynb)
 """
-prob_ode_pollution = ODEProblem(ODEFunction(pollution, jac = pollution_jac),
-    u0, (0.0, 60.0))
+prob_ode_pollution = ODEProblem(
+    ODEFunction(pollution, jac = pollution_jac),
+    u0, (0.0, 60.0)
+)

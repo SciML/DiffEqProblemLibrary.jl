@@ -1,40 +1,46 @@
 function nonLinChem(dy, y, p, t)
     dy[1] = -y[1]
     dy[2] = y[1] - (y[2])^2
-    dy[3] = (y[2])^2
+    return dy[3] = (y[2])^2
 end
 y0 = [1.0; 0.0; 0.0]
 tspan = (0.0, 20.0)
 function nlc_analytic(u0, p, t)
-    [exp(-t);
-     (2sqrt(exp(-t))besselk(1, 2sqrt(exp(-t))) -
-      2besselk(1, 2) / besseli(1, 2) * sqrt(exp(-t))besseli(1, 2sqrt(exp(-t)))) /
-     (2besselk(0, 2sqrt(exp(-t))) +
-      (2besselk(1, 2) / besseli(1, 2))besseli(0, 2sqrt(exp(-t))))
-     -exp(-t) + 1 +
-     (-2sqrt(exp(-t)) * besselk(1, 2sqrt(exp(-t))) +
-      sqrt(exp(-t)) * besseli(1, 2sqrt(exp(-t))) * 2besselk(1, 2) / besseli(1, 2)) /
-     (2besselk(0, 2sqrt(exp(-t))) +
-      2besselk(1, 2) / besseli(1, 2) * besseli(0, 2sqrt(exp(-t))))]
+    return [
+        exp(-t);
+        (
+            2sqrt(exp(-t))besselk(1, 2sqrt(exp(-t))) -
+                2besselk(1, 2) / besseli(1, 2) * sqrt(exp(-t))besseli(1, 2sqrt(exp(-t)))
+        ) /
+            (
+            2besselk(0, 2sqrt(exp(-t))) +
+                (2besselk(1, 2) / besseli(1, 2))besseli(0, 2sqrt(exp(-t)))
+        )
+        -exp(-t) + 1 +
+            (
+            -2sqrt(exp(-t)) * besselk(1, 2sqrt(exp(-t))) +
+                sqrt(exp(-t)) * besseli(1, 2sqrt(exp(-t))) * 2besselk(1, 2) / besseli(1, 2)
+        ) /
+            (
+            2besselk(0, 2sqrt(exp(-t))) +
+                2besselk(1, 2) / besseli(1, 2) * besseli(0, 2sqrt(exp(-t)))
+        )
+    ]
 end
 nonLinChem_f = ODEFunction(nonLinChem, analytic = nlc_analytic)
 
-@doc doc"""
+"""
 Nonlinear system of reactions with an analytical solution
 
 ```math
-\frac{dy_1}{dt} = -y_1
+\\begin{align*}
+\\frac{dy_1}{dt} &= -y_1 \\\\
+\\frac{dy_2}{dt} &= y_1 - y_2^2 \\\\
+\\frac{dy_3}{dt} &= y_2^2
+\\end{align*}
 ```
 
-```math
-\frac{dy_2}{dt} = y_1 - y_2^2
-```
-
-```math
-\frac{dy_3}{dt} = y_2^2
-```
-
-with initial condition ``y=[1;0;0]`` on a time span of ``t \in (0,20)``
+with initial condition ``y=[1;0;0]`` on a time span of ``t \\in (0,20)``
 
 From
 
