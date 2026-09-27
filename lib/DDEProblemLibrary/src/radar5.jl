@@ -54,7 +54,7 @@ Delay differential equation model from chemical kinetics, given by
 
 ```math
 \\begin{align*}
-  u_1'(t) &= - k_1 A u_2(t) - k_2 u_1(t) u_2(t - τ) + k_3 B u_1(t) - 2 k_4 u_1(t)^2, \\\\
+  u_1'(t) &= k_1 A u_2(t) - k_2 u_1(t) u_2(t - τ) + k_3 B u_1(t) - 2 k_4 u_1(t)^2, \\\\
   u_2'(t) &= - k_1 A u_2(t) - k_2 u_1(t) u_2(t - τ) + f k_3 B u_1(t),
 \\end{align*}
 ```
@@ -84,11 +84,12 @@ const prob_dde_RADAR5_oregonator = let k₁ = 1.34, k₂ = 1.6e9, k₃ = 8_000, 
         v = h(p, t - τ; idxs = 2)
 
         # precalculations
-        a = -k₁ * A * u[2] - k₂ * u[1] * v
+        a = k₁ * A * u[2]
+        c = k₂ * u[1] * v
         b = k₃ * B * u[1]
 
-        du[1] = a + b - 2 * k₄ * u[1]^2
-        du[2] = a + f * b
+        du[1] = a - c + b - 2 * k₄ * u[1]^2
+        du[2] = -a - c + f * b
 
         return nothing
     end
