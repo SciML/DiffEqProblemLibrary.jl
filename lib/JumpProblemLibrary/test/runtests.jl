@@ -10,11 +10,11 @@ function activate_qa_env()
     return Pkg.instantiate()
 end
 
-# The Core test is simply that all of the examples build (load the module).
 if TEST_GROUP == "Core" || TEST_GROUP == "All"
     @time @testset "Load Tests" begin
         @test JumpProblemLibrary isa Module
     end
+    @time @safetestset "Network data" include("network_tests.jl")
 end
 
 # Quality assurance: no undefined exports, stale dependencies, etc.
