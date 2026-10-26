@@ -7,7 +7,7 @@ Catalyst = "479239e8-5488-4da2-87a7-35f2df7eef83"
 RuntimeGeneratedFunctions = "7e49a35a-f44a-4d26-94aa-eba1b4ca6b47"
 
 [compat]
-Catalyst = "16"
+Catalyst = "16, 17"
 Pkg = "1.10"
 RuntimeGeneratedFunctions = "0.5"
 SafeTestsets = "0.1"
